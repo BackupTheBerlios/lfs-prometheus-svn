@@ -1,3 +1,8 @@
+2004-09-19 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* testsuite/libprometheus/get_installed_version: Added vtab &
+	  get_installed_version.
+
 2004-09-18 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* scripts/libprometheus.bash.in: Re-ordered logging functions.
@@ -398,7 +403,7 @@
 
 	* Makefile.defs: Added VERSION & RELEASE variables.
 	* man/Makefile: Added preprocessing for man pages.
-	* scripts/Makefile:	Added VERSION & RELEASE to preprocessing.
+	* scripts/Makefile: Added VERSION & RELEASE to preprocessing.
 
 2004-06-29 Gareth Jones <gareth_jones@users.berlios.de>
 
