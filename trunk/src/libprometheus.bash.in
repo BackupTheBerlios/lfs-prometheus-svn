@@ -162,9 +162,9 @@ function setup_logging {
 # disabled, output the log file's tail.  Preserve return value of the logged
 # command.
 function logged_failure {
-	[[ -z "$1" ]] && usage_error "logged_failure" "<command>" "$*"
-
 	local -i retval=$?
+
+	[[ -z "$1" ]] && usage_error "logged_failure" "<command>" "$*"
 
 	# If terminal output enabled do nothing, the user has already seen the
 	# error.
