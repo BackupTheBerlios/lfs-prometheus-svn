@@ -1,5 +1,3 @@
-* Restoring scripts from prometheus 0.1.
-
 * x86stepping: Support 2.6 kernels.
 
 * Use $DESTDIR instead of install-log?  Emulate $DESTDIR with chroot for
@@ -15,3 +13,8 @@
   `check-lfs' to give people a warm fuzzy feeling.
 
 * Profiles.
+
+* we're not keeping track of installed patches. Try to find a solution.
+
+* online profile updates. A profile tarball gets generated nightly from SVN,
+  and we'd need a command to update the local profiles from there.

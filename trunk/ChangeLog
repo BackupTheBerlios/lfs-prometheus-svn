@@ -1,3 +1,7 @@
+2004-11-06 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* man/pkginfo.1.in: Written.
+
 2004-10-22 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* scripts/pkginfo.in: Written.

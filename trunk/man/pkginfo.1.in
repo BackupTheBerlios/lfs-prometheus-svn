@@ -1,0 +1,148 @@
+.TH PKGINFO 1 %RELEASE% "" "Linux User's Manual"
+
+.SH NAME
+
+pkginfo \- Display information on installed and available software packages
+
+.SH SYNOPSIS
+
+.BI "pkginfo [ " options " ] [ " package_list " ]"
+
+.SH DESCRIPTION
+
+.B pkginfo
+displays information on installed and available software packages. It gathers
+.RI "the information from the package profiles in " %CONFDIR% ,
+.RI "from the log files in " /var/log/install-logs ,
+and from the filesystem.
+
+Various switches exist with which you can control the kind of information that
+.BR pkginfo " presents. See below for details."
+
+.RB "If there is none of those switches specified, " pkginfo
+.RI "queries each package in " package_list " for the current version and date
+of installation. This is called the default query.
+
+.SH OPTIONS
+
+All options must precede
+.IR package_list .
+When options conflict or are repeated, the last on the command line is used.
+
+.BR -c ", " --config
+.I config_file
+.RS
+Specify alternative configuration file.
+.RE
+
+.BR -v ", " --verbose
+.RS
+Be verbose where appropriate. Currently, the default query as well as the
+.IR --query-all ", " --query-installed ", " --patches " and " --which
+switches provide verbose output if requested.
+.RE
+
+.BR -a ", " --query-all
+.RS
+List all, installed as well as available, packages. In verbose mode, using the
+.IR --verbose " switch, also print additional information such as homepage and"
+package size.
+.RE
+
+.BR -i ", " --query-installed
+.RS
+List only installed packages.  In verbose mode, using the
+.IR --verbose " switch, also print additional information such as homepage"
+and package size.
+.RE
+
+.BR -d ", " --dependencies
+.I package
+.RS
+.RI "List all packages " package " depends on, one per line."
+.RE
+
+.BR -p ", " --patches
+.I package
+.RS
+.RI "Show which patches would be applied to " package " if it was to be"
+installed now. This does _not_ show which patches have been applied to the
+.RI "current install of " package ", if any. In verbose mode, using the"
+.IR --verbose " switch, print the patch header as well."
+.RE
+
+.BR -l ", " --list
+.I package
+.RS
+.RI "List all files that belong to " package .
+.RE
+
+.BR -w ", " --which
+.I file
+.RS
+.RI "Print the name of the package that " file " belongs to. " file " may be"
+specified either relative or absolute. In verbose mode, using the
+.IR --verbose " switch, print the version of " package " as well."
+.RE
+
+.BR -h ", " -? ", " --help
+.RS
+Display the help screen.
+.RE
+
+.BR -V ", " --version
+.RS
+Display version information.
+.RE
+
+.B --
+.RS
+Treat all remaining arguments as packages.
+.RE
+
+.SH FILES
+
+.I "%CONFDIR%/%CONFIG%"
+.RS
+The global prometheus configuration file.
+.RE
+
+.I "%CONFDIR%/profiles/*.pkg"
+.RS
+The package profiles used to store information on packages and their
+installation.
+.RE
+
+.I /var/log/install-logs/*
+.RS
+The package installation log files.
+.RE
+
+.I /var/log/install-logs/.vtab
+.RS
+Version database of installed packages.
+.RE
+
+.SH BUGS
+
+-- Doing a query on all packages (ie. using the
+.IR -a " or " --query-all " switch) does only report on those packages for"
+which there is a profile. If you install a package and afterwards remove the
+corresponding profile, it will only be listed by the
+.IR --query-installed " or default query."
+
+.SH AUTHOR
+
+.RI "-- Oliver Brakmann <" oliverbrakmann@users.berlios.de >
+
+.SH SEE ALSO
+
+.BR install-log (1),
+.BR pkgadd (8),
+.BR pkgbuild (1),
+.BR pkgcheck (1),
+.BR pkgget (1),
+.BR pkginstall (8),
+.BR pkgrm (8),
+.BR pkgunpack (1),
+.BR prometheus.conf (5)
