@@ -1,5 +1,5 @@
 # Which profile set to install (see contents of the profiles directory).
-PROFILES = lfs-6.0
+PROFILES = lfs-6.1
 
 # Installation prefix.
 PREFIX = /usr
