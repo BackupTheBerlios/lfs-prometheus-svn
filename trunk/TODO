@@ -1,0 +1,31 @@
+* Build logging handled in pkgadd.  If file, run tail if error.  Remove `no' as
+  option, better let user set log destination file.
+
+* Restoring scripts from prometheus 0.1.
+
+* x86stepping: Support 2.6 kernels.
+
+* Implement dependency checking between packages.
+
+* Have pkgrm check for breaking dependencies if a package is removed.
+
+* If an *install* fails, still run install-log to find out what *was* installed,
+  so it can be cleanly removed.  Give user a choice to clean up after a failed
+  install.
+
+* Use a lock file for pkginstall so that no two installs may run concurrently.
+  This will prevent confusing install-log.
+
+* Use $DESTDIR instead of install-log?  Emulate $DESTDIR with chroot for
+  packages that don't support it?
+
+* compressdoc based on compact.
+
+* Option to cross-compile according to the cross-compilation hint
+  (ie. using a kernel module).
+
+* `lfs-install' script may return as a wrapper for `pkgget (all packages)',
+  optional pkgcompress, and finally `pkgadd lfs'.  Maybe a final run of Gerard's
+  `check-lfs' to give people a warm fuzzy feeling.
+
+* Profiles.

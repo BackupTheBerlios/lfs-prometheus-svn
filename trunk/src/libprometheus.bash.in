@@ -1,0 +1,533 @@
+# Prometheus package management tool set
+# Copyright (C) 2003-2004 Oliver Brakmann <obrakmann@gmx.net> &
+# Gareth Jones <moderob@lineone.net>
+#
+# This program is free software; you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation; either version 2 of the License, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+# details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+# Place, Suite 330, Boston, MA  02111-1307  USA
+
+# ----------------------------- GLOBAL VARIABLES ----------------------------- #
+
+# Prevent environmental contamination.
+unset archives archive_dirs builddir cc cflags check config cxx cxxflags deps
+unset directory failures homepage install_as_root lc_all ldflags leavefiles
+unset linguas logfile log_install name optimize package patches patch_cmds
+unset profile profiles profile_list srcdir stage temp_files version
+unset ${!stage0*} ${!stage1*}
+
+# Location of configuration file.  Scripts may redefine this value in response
+# to `-c' or `--config' options.
+config="%CONFFILE%"
+
+# Scripts should return this value.
+declare -i failures=0
+
+# Build stage: 0, 1 or 2.  Scripts may redefine this value in response to `-s'
+# or `--stage' options.
+declare -i stage=2
+
+# ------------------------------ EXIT HANDLING ------------------------------  #
+
+# Usage: finish
+# Clean-up, exit & return number of failures.
+function finish {
+	remove_temp_files
+	exit $failures
+}
+
+# Usage: terminated
+# Called in response to HUP, INT or QUIT signals.  Call finish & ensure exit
+# value is non-zero.
+function terminated {
+	(( ++failures ))
+	finish
+}
+
+# Trap exit signals HUP, INT (C-c) & QUIT (C-\), & call terminated.  ABRT, TERM
+# & KILL will still exit without cleanup.
+trap terminated HUP INT QUIT
+
+# ----------------------------- ERROR REPORTING ------------------------------ #
+
+# Usage: warning <message>
+# Print <message> to stderr.
+function warning {
+	echo "${0##*/}: $*" >&2
+}
+
+# Usage: failure <message>
+# Print <message> to stderr.  Increment failures.
+function failure {
+	warning "$@"
+	(( ++failures ))
+}
+
+# Usage: error <message>
+# Print <message> to stderr & exit.
+function error {
+	failure "$@"
+	finish
+}
+
+# Usage: usage_err <function> <correct usage> [<invalid usage>]
+# Print an error about <function> usage, where <correct usage> is correct usage,
+# & <invalid usage> is the usage that caused the error.  Exit.
+function usage_error {
+	if (( $# > 3 )) || [[ -z "$1" || -z "$2" ]]; then
+		usage_error "usage_err" \
+			    "<function> <correct usage> [<invalid usage>]" "$*"
+	fi
+
+	warning "usage: $1 $3"
+	error "correct usage: $1 $2"
+}
+
+# Usage: script_usage_err <message>
+# Report bad usage of a script & exit.
+function script_usage_err {
+	[[ -z "$*" ]] && usage_error "script_usage_err" "<message>"
+
+	failure "$@"
+	warning "help text follows"
+	echo >&2
+
+	# Script must provide a usage function.
+	usage >&2
+}
+
+# ---------------------------- VERSION REPORTING ----------------------------- #
+
+# Usage: version
+# Report version information.
+function version {
+	cat <<-EOF
+${0##*/} (Prometheus) %VERSION%
+Released: %RELEASE%
+
+Copyright (C) 2003-2004 Oliver Brakmann <obrakmann@gmx.net> &
+Gareth Jones <moderob@lineone.net>.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  This is free software, and you are welcome to redistribute
+it under certain conditions.  See the GNU General Public License for more
+details.
+	EOF
+	finish
+}
+
+# ------------------------------ FILE SOURCING ------------------------------- #
+
+# Usage: source_file <file> <description>
+# Source file if it exists, else report error & exit.
+function source_file {
+	if (( $# != 2 )) || [[ -z "$1" || -z "$2" ]]; then
+		usage_error "source_file" "<file> <description>" "$*"
+	fi
+
+	source "$1" || error "cannot source $2: $1"
+}
+
+# Usage: source_config
+# Source config file & check valid.
+function source_config {
+
+	# $config set at start of libprometheus.bash, but `-c' or `--config'
+	# command line arguments may cause script to override it.
+	[[ -z "$config" ]] && script_usage_err "no configuration file specified"
+
+	source_file "$config" "prometheus configuration file"
+
+	[[ -z "$profiles" ]] && error "profiles not set in $config"
+	[[ -z "$srcdir" ]] && error "srcdir not set in $config"
+	[[ -z "$builddir" ]] && error "builddir not set in $config"
+}
+
+# ----------------------------- PROFILE HANDLING ----------------------------- #
+
+# Usage: source_profile <profile>
+# Source <profile>.  Set global variables $package & $profile accordingly.
+function source_profile {
+	if (( $# != 1 )) || [[ -z "$1" ]]; then
+		usage_error "source_profile" "<profile>" "$*"
+	fi
+
+	profile="$1"
+	package="${profile##*/}"
+	package="${package%.pkg}"
+
+	source_file "$profile" "$package package profile"
+}
+
+# Usage: add_profile <profile>
+# If <profile> exists & is readable, add it to $profile_list.  Otherwise warn.
+function add_profile {
+	if (( $# != 1 )) || [[ -z "$1" ]]; then
+		usage_error "add_profile" "<profile>" "$*"
+	fi
+
+	# Check exists.
+	if [[ -f "$profile" && -r "$profile" ]]; then
+
+		# Add to end of $profile_list.
+		profile_list[${#profile_list[@]}]="$profile"
+	else
+		failure "$profile package profile not found"
+		return 1
+	fi
+}
+
+# Usage: find_profiles <package_list>
+# Fill $profile_list array with paths to profiles representing packages in
+# <package_list>.  <package_list> has the form:
+# -f, --profile <profile> ...	Specify files containing package profiles.
+# -p, --package <package> ...	Specify packages by name (default).
+# --				Treat remaining arguments as packages/profiles.
+# <profile>s are simply added to $profile_list; <packages> are added as
+# <package>.pkg in the profiles directory.
+function find_profiles {
+	(( $# == 0 )) && usage_error "find_profiles" "<package_list>"
+
+	# $mode is `p' for packages (default) & `f' for profiles.
+	local mode=p
+
+	# Loop while arguments present.
+	while [[ -n "$*" ]]; do
+		case "$1" in
+			(-f|--profile)	mode=f ;; # Following args profiles.
+
+			(-p|--package)	mode=p ;; # Following args packages.
+
+			(--)		shift	  # Stop processing options.
+					break ;;
+
+			(-*)	script_usage_err "invalid option: $1" ;;
+
+			(*)	if [[ $mode == f ]]; then
+					# $1 is profile.
+					add_profile "$1"
+				else
+					# $1 is package.
+					add_profile "$profiles/$1.pkg"
+				fi
+		esac
+		shift
+	done
+
+	# If `--' was caught, may still be arguments to process.
+	while [[ -n "$*" ]]; do
+		if [[ $mode == f ]]; then
+			add_profile "$1"
+		else
+			add_profile "$profiles/$1.pkg"
+		fi
+		shift
+	done
+
+	# Check we have some profiles.
+	[[ -z "${profile_list[*]}" ]] && error "no profiles found"
+}
+
+# ------------------------ ADVANCED PROFILE HANDLING ------------------------- #
+
+# Usage: is_set <variable name>
+# Return true if <variable name> denotes an initialised variable, even if its
+# value is "".  Return false if the variable is unset.
+function is_set {
+	if (( $# != 1 )) || [[ -z "$1" ]]; then
+		usage_error "is_set" "<variable name>" "$*"
+	fi
+
+	eval "[[ \"\${$1+x}\" == x ]]"
+}
+
+# Usage: is_func <function name>
+# Return true if <function name> denotes a shell function, false otherwise.
+function is_func {
+	if (( $# != 1 )) || [[ -z "$1" ]]; then
+		usage_error "is_func" "<function name>" "$*"
+	fi
+
+	[[ "$(type -t $1)" == "function" ]]
+}
+
+# Usage: override_var <var1> <var2>
+# Replace the value of <var1> with that of <var2> if it is set.
+function override_var {
+	if (( $# != 2 )) || [[ -z "$1" || -z "$2" ]]; then
+		usage_error "override_var" "<var1> <var2>" "$*"
+	fi
+
+	is_set "$2" && eval "$1=${!2}"
+}
+
+# Usage: override_array <array1> <array2>
+# Replace the value of each element of <array1> with an element of <array2> if
+# it is set.
+function override_array {
+	if (( $# != 2 )) || [[ -z "$1" || -z "$2" ]]; then
+		usage_error "override_array" "<array1> <array2>" "$*"
+	fi
+
+	local -i i size
+	local elem1 elem2
+
+	# Get size of <array2>.
+	eval "size=\${#$2[@]}"
+
+	is_set "$2" &&
+
+	# Remove *all* elements of <array1>, otherwise some could be left
+	# unchanged.
+	if is_set "$1"; then
+		unset "$1"
+	fi &&
+
+	# Ensure <array1> is created, even if it is empty.
+	eval "$1=" &&
+
+	# Copy each element of <array2> to <array1>.
+	for (( i=0 ; i<size ; ++i )); do
+		elem1="$1[$i]"
+		elem2="$2[$i]"
+		eval "$elem1=${!elem2}"
+	done
+}
+
+# Usage: override_func <func1> <func2>
+# Replace <func1> with <func2> if it is defined.
+function override_func {
+	if (( $# != 2 )) || [[ -z "$1" || -z "$2" ]]; then
+		usage_error "override_func" "<func1> <func2>" "$*"
+	fi
+
+	is_func "$2" && eval "function $1 { $2; }"
+}
+
+# Usage: stage_overrides
+# Override the functions & variables in a package profile with their
+# counterparts from stage $stage.
+function stage_overrides {
+
+	# Stage 2 is default & has no overrides.
+	(( $stage == 2 )) && return
+
+	local i
+
+	# Arrays.
+	for i in archives archive_dirs deps patches patch_cmds; do
+		override_array "$i" "stage${stage}_$i"
+	done
+
+	# Variables.
+	for i in cc cflags check cxx cxxflags directory install_as_root lc_all \
+		 ldflags leavefiles linguas logfile log_install optimize; do
+		override_var "$i" "stage${stage}_$i"
+	done
+
+	# Functions.
+	for i in build_pkg check_pkg install_pkg; do
+		override_func "$i" "stage${stage}_$i"
+	done
+}
+
+# Usage: set_directory
+# Work out package directory of current package.
+function set_directory {
+	local archive="${archives[0]##*/}"
+
+	# Only continue if necessary.
+	[[ -z "$archive" ]] && return
+
+	# Use value from profile if set.
+	if [[ -z "$directory" ]]; then
+
+		# Else try to work it out using first archive name.
+		local suffix=$(get_suffix "$archive")
+		directory="${archive%$suffix}"
+	fi
+
+	# Make $directory absolute.  ${archive_dirs[0]} overrides $builddir if
+	# set to a non-null value.
+	directory="${archive_dirs[0]:-$builddir}/$directory"
+}
+
+# Usage: prepare_build_env
+# Set & export the required build environment.
+function prepare_build_env {
+
+	# Only export CC if a value is given.
+	unset CC
+	[[ -n "$cc" ]] && export CC="$cc"
+
+	# Only export CXX if a value is given.
+	unset CXX
+	[[ -n "$cxx" ]] && export CXX="$cxx"
+
+	# Optimization.  Only export specified values, even if they are null.
+	unset CFLAGS CXXFLAGS LDFLAGS
+	if [[ "$optimize" == yes ]]; then
+		is_set cflags && export CFLAGS="$cflags"
+		is_set cxxflags && export CXXFLAGS="$cxxflags"
+		is_set ldflags && export LDFLAGS="$ldflags"
+	fi
+
+	# NLS.  Only export specified values, even if they are null.
+	unset LINGUAS LC_ALL
+	is_set linguas && export LINGUAS="$linguas"
+	is_set lc_all && export LC_ALL="$lc_all"
+
+	# LFS build directory may be different from the host's.
+	# FIXME: better way?
+	is_set lfs_builddir && export builddir="$lfs_builddir"
+}
+
+# Usage: open_package <profile>
+# FIXME: Different scripts use different parts of this so rip it out.
+# FIXME cont: prepare_build_env _not_ in pkgadd.
+# Source the package profile, apply any stage overrides & complete any missing
+# settings.  Then export required build flags to the environment.
+function open_package {
+	if (( $# != 1 )) || [[ -z "$1" ]]; then
+		usage_error "open_package" "<profile>" "$*"
+	fi
+
+	source_profile "$1"
+
+	stage_overrides
+	set_directory
+	prepare_build_env
+
+	# If $name not in profile, use $package.
+	[[ -z "$name" ]] && name="$package"
+}
+
+# ------------------------- ARCHIVING & COMPRESSION -------------------------- #
+
+# Usage: get_suffix <filename>
+# Print the compression &/or archive suffix of <filename>, one of `.tar', `.z',
+# `.tar.z', `.taz', `.Z', `.tar.Z', `.gz', `.tar.gz', `.tgz', `.bz2',
+# `.tar.bz2', `.tbz', `.tbz2', `.zip', `.ZIP', or null.
+function get_suffix {
+	if (( $# != 1 )) || [[ -z "$1" ]]; then
+		usage_error "get_suffix" "<filename>" "$*"
+	fi
+
+	local file="$1"
+	local suffix="${file##*.}"
+
+	# Some suffixes may need further extraction, e.g. `.tar.gz'.
+	case "$suffix" in
+		(tar|taz|tgz|tbz*|zip|ZIP)	echo ".$suffix" ;;
+
+		(z|Z|gz|bz2)	file="${file%.$suffix}"
+				local subsuffix=$(get_suffix "$file")
+				echo "$subsuffix.$suffix"
+	esac
+}
+
+# Usage: remove_compression_suffix <filename>
+# Remove any compression suffix from <filename> & print the result.  Only
+# remove `gzip', `bzip2', or `compress' suffixes.  Leave archive suffixes in
+# place.
+function remove_compression_suffix {
+	if (( $# != 1 )) || [[ -z "$1" ]]; then
+		usage_error "remove_compression_suffix" "<filename>" "$*"
+	fi
+
+	local uncomp
+	local file="$1"
+	local suffix=$(get_suffix "$file")
+	case "$suffix" in
+		(*.z|*.Z|*.gz|*.bz2)	uncomp="${file%${suffix#.tar}}" ;;
+		(.taz|.tgz|.tbz*)	uncomp="${file%$suffix}.tar" ;;
+		(*)			uncomp="$file"
+	esac
+
+	echo "$uncomp"
+}
+
+# ------------------------------ FILE HANDLING ------------------------------- #
+
+# Usage: list_files
+# Print list of files needed by current package, one file per line.
+function list_files {
+	for file in "${archives[@]}" "${stage0_archives[@]}" \
+		    "${stage1_archives[@]}" "${stage2_archives[@]}" \
+		    "${patches[@]}" "${stage0_patches[@]}" \
+		    "${stage1_patches[@]}" "${stage2_patches[@]}"; do
+		echo "$file"
+	done | sort -u
+}
+
+# Usage: location_of <file>
+# Find <file> in $srcdir or $builddir & print its location.  Also check for
+# un-/re-compressed versions before giving up.
+function location_of {
+	if (( $# != 1 )) || [[ -z "$1" ]]; then
+		usage_error "location_of" "<file>" "$*"
+	fi
+
+	# Remove directory from <file>.
+	local base="${1##*/}"
+
+	# Get uncompressed filename.
+	local uncomp=$(remove_compression_suffix "$base")
+
+	# Search $srcdir & $builddir for the original <file>, &
+	# un-/re-compressed versions.
+	local file location
+	for file in "$base" "$uncomp"{,.gz,.bz2}; do
+
+		# First search $srcdir.
+		location=$(find "$srcdir" -name "$file")
+
+		# Else try $builddir.
+		[[ -z "$location" ]] &&
+		location=$(find "$builddir" -name "$file")
+
+		# End loop if we found <file> & it is readable.
+		[[ -n "$location" && -f "$location" && -r "$location" ]] &&
+		break ||
+		location=
+	done
+
+	# Otherwise fail.
+	[[ -z "$location" ]] &&
+	warning "could not find $base in $srcdir or $builddir"
+
+	echo "$location"
+}
+
+# ------------------------- TEMPORARY FILE HANDLING -------------------------- #
+
+# Usage: temp_file <file> [<file> ...]
+# Mark <file>s (which can be directories) for deletion by remove_temp_files.
+function temp_file {
+	(( $# == 0 )) && usage_error "temp_file" "<file> [<file> ...]"
+
+	# Add arguments to array of files to delete.
+	local file
+	for file in "$@"; do
+		temp_files[${#temp_files[@]}]="$file"
+	done
+}
+
+# Usage: remove_temp_files
+# Removes all files & directories marked for deletion by temp_file.
+function remove_temp_files {
+	if [[ -n "${temp_files[*]}" ]] && ! rm -r "${temp_files[@]}"; then
+		failure "cannot remove unneeded files:"
+		ls "${temp_files[@]}" >&2
+	fi
+}

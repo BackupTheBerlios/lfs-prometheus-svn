@@ -1,0 +1,46 @@
+#! /bin/bash
+
+# pkgbuild package builder
+# Copyright (C) 2003-2004 Oliver Brakmann <obrakmann@gmx.net> &
+# Gareth Jones <moderob@lineone.net>
+#
+# This program is free software; you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation; either version 2 of the License, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+# details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+# Place, Suite 330, Boston, MA  02111-1307  USA
+
+# Global prometheus functions.
+source "%LIBPROMETHEUS%" || exit 1
+
+# Usage: usage
+# Print help text.  FIXME: Define build.
+function usage {
+	cat <<-EOF
+Usage:
+${0##*/} [<options>] <package_list>
+
+Build packages in the order given on the commandline.
+
+Package list:
+-f, --profile <profile> ...	Specify files containing package profiles
+-p, --package <package> ...	Specify packages by name (default)
+--				Treat remaining arguments as packages/profiles
+
+Options (must precede package list):
+-c, --config <config_file>	Specify alternative configuration file
+
+-h, -?, --help			Show this help screen
+-v, --version			Show version information
+
+	EOF
+	finish
+}

@@ -1,0 +1,105 @@
+.TH COMPACT 1 %RELEASE% "" "Linux User's Manual"
+
+.SH NAME
+
+compact \- Compress files with gzip and bzip2, keep the smallest.
+
+.SH SYNOPSIS
+
+.BI "compact [ " options " ] { " file " | " directory " } ... "
+
+.SH DESCRIPTION
+
+.B compact
+compresses
+.I files
+with both
+.BR gzip (1)
+and
+.BR bzip2 (1).
+For each file, the sizes of the two compressed and the original files are
+compared and the smallest kept.  If two files are the same size, the
+uncompressed file is kept in preference, followed by the gzipped.  Files that
+are already compressed may be uncompressed.
+
+Archives with filename suffixes
+.I .tgz
+and
+.I .tbz*
+will be renamed to have the suffixes
+.I .tar.gz
+and
+.I .tar.bz2
+respectively.
+
+.SH OPTIONS
+
+These options must precede
+.I file
+or
+.I directory
+arguments.
+
+.BR -b ", " --bz2 ", " --bzip2
+.RS
+Only try bzip2 compression.
+.RE
+
+.BR -f ", " --force
+.RS
+Force use of compression even when the uncompressed file is smaller.  Only valid
+with
+.BR -b ", " --bz2 ", " --bzip2
+or
+.BR -g ", " --gz ", " --gzip
+options.
+.RE
+
+.BR -g ", " --gz ", " --gzip
+.RS
+Only try gzip compression.
+.RE
+
+.BR -h ", " -? ", " --help
+.RS
+Display the help screen.
+.RE
+
+.BR -r ", " --recompress
+.RS
+Recompress files even if they are already compressed.  Normally
+.B compact
+will not recompress a compressed file with the same compression, and will
+compare it with its compressed and uncompressed counterparts in its original
+form.
+.RE
+
+.BR -R ", " --recursive
+.RS
+Recursively compress files within directories and subdirectories given in the
+command line.
+.RE
+
+.BR -v ", " --version
+.RS
+Display version information.
+.RE
+
+.BR --
+.RS
+Treat remaining arguments as files or directories, even if they begin with `-'.
+.RE
+
+.SH BUGS
+
+If you think you have found a bug or encounter any weird behaviour, please
+report it to the address below.
+
+.SH AUTHOR
+
+.RI "-- Gareth Jones <" moderob@lineone.net >
+
+.SH SEE ALSO
+
+.BR bzip2 (1),
+.BR gzip (1)
