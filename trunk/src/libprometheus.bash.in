@@ -129,7 +129,8 @@ function script_usage_err {
 # ------------------------ LOGGING & TERMINAL OUTPUT ------------------------- #
 
 # Usage: setup_logging
-# Set $log_target, which will be appended to commands that need logging.
+# Set $log_target, which will be appended to commands that need logging.  This
+# should be called once, before log is first used.
 function setup_logging {
 
 	# $PS4 prefixes commands logged by bash.  The first character is
@@ -156,11 +157,40 @@ function setup_logging {
 	fi
 }
 
+# Usage: logged_failure <command>
+# Called by log when a logged command fails.  If terminal output has been
+# disabled, output the log file's tail.  Preserve return value of the logged
+# command.
+function logged_failure {
+	[[ -z "$1" ]] && usage_error "logged_failure" "<command>" "$*"
+
+	local -i retval=$?
+
+	# If terminal output enabled do nothing, the user has already seen the
+	# error.
+	[[ "$terminal_output" == yes ]] && return $retval
+
+	failure "running logged command $1 failed"
+	warning "full command line follows"
+	warning "$*"
+
+	# If the log file is readable (& not /dev/null!), output its tail.
+	if [[ -f "$logfile" && -r "$logfile" ]]; then
+		warning "see $logfile for details"
+		warning "tail of $logfile follows"
+		echo >&2
+		tail "$logfile" >&2
+	fi
+
+	return $retval
+}
+
 # Usage: log <command>
 # Log <command> & its output.  Return <command>'s exit value.
 function log {
 	[[ -z "$*" ]] && usage_error "log" "<command>"
-	eval "( set -x; \"\$@\" ) $log_target && pipestat"
+	eval "( set -x; \"\$@\" ) $log_target && pipestat" ||
+	logged_failure "$@"
 }
 
 # ---------------------------- VERSION REPORTING ----------------------------- #

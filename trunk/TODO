@@ -1,8 +1,5 @@
 * Change manual page file suffixes to .man, let Makefile allocate .1, .5 etc.
 
-* Build logging handled in pkgadd.  If file, run tail if error.  Remove `no' as
-  option, better let user set log destination file.
-
 * Restoring scripts from prometheus 0.1.
 
 * x86stepping: Support 2.6 kernels.

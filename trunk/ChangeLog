@@ -10,6 +10,9 @@
 	  instead of using process substitution, which is no longer needed.
 	* src/libprometheus.bash.in (log): Added call to pipestat.
 
+	* src/libprometheus.bash.in (logged_failure): Added.
+	* src/libprometheus.bash.in (log): Added call to logged_failure.
+
 2004-07-30 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* src/libprometheus.bash.in (list_files): Removed references to
