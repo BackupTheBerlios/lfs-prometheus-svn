@@ -24,14 +24,14 @@ all:
 	$(MAKE) -C etc
 	$(MAKE) -C man
 	$(MAKE) -C profiles
-	$(MAKE) -C src
+	$(MAKE) -C scripts
 #	$(MAKE) -C x86stepping
 
 clean:
 	$(MAKE) -C etc clean
 	$(MAKE) -C man clean
 	$(MAKE) -C profiles clean
-	$(MAKE) -C src clean
+	$(MAKE) -C scripts clean
 #	$(MAKE) -C x86stepping clean
 
 install: all update
@@ -40,5 +40,5 @@ install: all update
 
 update: all
 	$(MAKE) -C man install
-	$(MAKE) -C src install
+	$(MAKE) -C scripts install
 #	$(MAKE) -C x86stepping install
