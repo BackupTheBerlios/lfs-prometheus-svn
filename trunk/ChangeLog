@@ -7,6 +7,11 @@
 	* src/pkgbuild.in: Written.
 	* man/pkgbuild.1.in: Written.
 
+	* src/libprometheus.bash.in: Added log_echo & log_warning.
+
+	* src/pkgcheck.in: Written.
+	* man/pkgcheck.1.in: Written.
+
 2004-07-31 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* src/libprometheus.bash.in (log): Much simplified, nicer output.

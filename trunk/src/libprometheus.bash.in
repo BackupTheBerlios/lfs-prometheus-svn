@@ -193,6 +193,18 @@ function log {
 	logged_failure "$@"
 }
 
+# Usage: log_echo <message>
+# Append <message> to log &/or stdout.
+function log_echo {
+	eval "echo \"\$@\" $log_target && pipestat"
+}
+
+# Usage: log_warning <message>
+# Append <message> to log &/or stderr.
+function log_warning {
+	eval "warning \"\$@\" $log_target && pipestat"
+}
+
 # ---------------------------- VERSION REPORTING ----------------------------- #
 
 # Usage: version

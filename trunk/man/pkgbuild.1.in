@@ -12,7 +12,7 @@ pkgbuild \- Build packages from source code.
 
 .B pkgbuild
 builds packages from their source code, in the order given on the commandline.
-The source code is expected to be in the source directory specified in
+The source code is expected to be in the build directory specified in
 .IR "%CONFIG%".
 .BR pkgunpack (1)
 should be invoked to prepare the source code before running
@@ -21,7 +21,9 @@ should be invoked to prepare the source code before running
 After running
 .BR "pkgbuild",
 .BR pkginstall (8)
-may be invoked to complete package installation.
+may be invoked to complete package installation, or
+.BR pkgcheck (1)
+may first be used to run the packages' testsuites.
 
 .SH PACKAGE LIST
 
