@@ -1,3 +1,8 @@
+2004-01-30 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/*.pkg: Updated another batch of packages to LFS 6.1
+	  instructions.
+
 2005-01-15 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/lfs-6.1/*.pkg: Updated the first batch of profiles to

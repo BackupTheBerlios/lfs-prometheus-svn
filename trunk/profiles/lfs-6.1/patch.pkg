@@ -7,12 +7,12 @@ archives=(
 )
 
 function stage1_build_pkg {
-	CPPFLAGS=-D_GNU_SOURCE ./configure --prefix=/tools &&
+	CPPFLAGS=-D_GNU_SOURCE ./configure --prefix=/tools
 	make
 }
 
 function build_pkg {
-	CPPFLAGS=-D_GNU_SOURCE ./configure --prefix=/usr &&
+	CPPFLAGS=-D_GNU_SOURCE ./configure --prefix=/usr
 	make
 }
 

@@ -12,23 +12,24 @@ stage1_patches=(
 )
 
 function stage1_build_pkg {
-	# Previously provided by util-linux
-	echo "uname -m" > /tools/bin/arch &&
-	chmod 755 /tools/bin/arch &&
-
-	./configure.gnu --prefix=/tools -Dstatic_ext='IO Fcntl POSIX' &&
+	./configure.gnu --prefix=/tools -Dstatic_ext='IO Fcntl POSIX'
 	make perl utilities
 }
 
 function stage1_install_pkg {
-	cp perl pod/pod2man /tools/bin &&
-	mkdir -p /tools/lib/perl5/${version} &&
+	cp perl pod/pod2man /tools/bin
+	mkdir -p /tools/lib/perl5/${version}
 	cp -R lib/* /tools/lib/perl5/${version}
 }
 
 function build_pkg {
-	./configure.gnu --prefix=/usr -Dpager="/bin/less -isR" &&
+	./configure.gnu --prefix=/usr -Dpager="/bin/less -isR"
 	make
+}
+
+function check_pkg {
+	echo "127.0.0.1 localhost $(hostname)" > /etc/hosts
+	make test
 }
 
 function install_pkg {

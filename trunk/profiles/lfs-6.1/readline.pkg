@@ -1,5 +1,5 @@
 name="GNU readline"
-version="4.3"
+version="5.0"
 homepage="http://www.gnu.org/software/readline/"
 
 archives=(
@@ -7,29 +7,19 @@ archives=(
 )
 
 patches=(
-	"ftp://ftp.cs.tu-berlin.de/pub/gnu/readline/readline-${version}-patches/readline43-001"
-	"ftp://ftp.cs.tu-berlin.de/pub/gnu/readline/readline-${version}-patches/readline43-002"
-	"ftp://ftp.cs.tu-berlin.de/pub/gnu/readline/readline-${version}-patches/readline43-003"
-	"ftp://ftp.cs.tu-berlin.de/pub/gnu/readline/readline-${version}-patches/readline43-004"
-	"ftp://ftp.cs.tu-berlin.de/pub/gnu/readline/readline-${version}-patches/readline43-005"
-)
-
-patch_cmds=(
-	"patch -Np0"
-	"patch -Np0"
-	"patch -Np0"
-	"patch -Np0"
-	"patch -Np0"
+	"http://www.linuxfromscratch.org/patches/downloads/readline/readline-${version}-fixes-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/readline/readline-${version}-display_wrap-1.patch"
 )
 
 function build_pkg {
-	./configure --prefix=/usr &&
-	make
+	./configure --prefix=/usr
+	make SHLIB_XLDFLAGS=-lncurses
 }
 
 function install_pkg {
-	make install &&
-	mv /usr/lib/lib{readline,history}.so.4* /lib &&
-	ln -sf ../../lib/libhistory.so.4 /usr/lib/libhistory.so &&
-	ln -sf ../../lib/libreadline.so.4 /usr/lib/libreadline.so
+	make install
+	chmod 755 /usr/lib/*.5.0
+	mv /usr/lib/lib{readline,history}.so.5* /lib
+	ln -sf ../../lib/libhistory.so.5 /usr/lib/libhistory.so
+	ln -sf ../../lib/libreadline.so.5 /usr/lib/libreadline.so
 }

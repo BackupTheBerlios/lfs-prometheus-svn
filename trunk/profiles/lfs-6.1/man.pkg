@@ -5,14 +5,10 @@ archives=(
 	"ftp://ftp.de.kernel.org/pub/linux/utils/man/man-${version}.tar.bz2"
 )
 
-patches=(
-	"http://www.linuxfromscratch.org/patches/downloads/man/man-${version}-80cols-1.patch"
-)
-
 function build_pkg {
 	cp configure{,.orig}
 	cp src/man.conf.in{,.orig}
-	cp src/Makefile.in{,.orig}
+	#cp src/Makefile.in{,.orig}
 	cp man2html/Makefile.in{,.orig}
 	sed -e 's/-is/&R/' configure.orig > configure
 	sed -e 's%MANPATH./usr/man%#&%' src/man.conf.in.orig > src/man.conf.in

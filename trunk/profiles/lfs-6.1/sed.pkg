@@ -1,5 +1,5 @@
 name="sed"
-version="4.1.2"
+version="4.1.4"
 homepage="http://www.gnu.org/software/sed/"
 
 archives=(
@@ -7,15 +7,17 @@ archives=(
 )
 
 function stage1_build_pkg {
-	./configure --prefix=/tools --disable-nls &&
+	./configure --prefix=/tools # --disable-nls
 	make
-	# make check
+}
+
+function check_pkg {
+	make check
 }
 
 function build_pkg {
-	./configure --prefix=/usr --bindir=/bin --disable-nls &&
+	./configure --prefix=/usr --bindir=/bin # --disable-nls
 	make
-	# make check
 }
 
 function install_pkg {

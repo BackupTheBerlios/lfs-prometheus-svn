@@ -6,10 +6,8 @@ archives=(
 )
 
 function build_pkg {
-	cp src/init.c{,.backup} &&
-	sed 's/Sending processes/& started by init/g' \
-		src/init.c.backup > src/init.c &&
-	make -C src CFLAGS="-Wall -D_GNU_SOURCE $CFLAGS"
+	sed -i 's/Sending processes/& started by init/g' src/init.c
+	make -C src
 }
 
 function install_pkg {

@@ -1,5 +1,5 @@
 name="GNU texinfo"
-version="4.7"
+version="4.8"
 homepage="http://www.gnu.org/software/texinfo/"
 
 archives=(
@@ -7,9 +7,12 @@ archives=(
 )
 
 function stage1_build_pkg {
-	./configure --prefix=/tools --disable-nls &&
+	./configure --prefix=/tools # --disable-nls
 	make
-	# make check
+}
+
+function check_pkg {
+	make check
 }
 
 function stage1_install_pkg {
@@ -17,12 +20,11 @@ function stage1_install_pkg {
 }
 
 function build_pkg {
-	./configure --prefix=/usr --disable-nls &&
+	./configure --prefix=/usr # --disable-nls
 	make
-	# make check
 }
 
 function install_pkg {
-	make install &&
+	make install
 	make TEXMF=/usr/share/texmf install-tex
 }

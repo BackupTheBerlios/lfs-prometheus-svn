@@ -7,15 +7,20 @@ archives=(
 )
 
 function build_pkg {
-	# CFLAGS="$CFLAGS -fPIC" \
-	./configure --prefix=/usr --shared &&
+	# Note: as opposed to LFS, we do _not_ build the static zlib
+	# library.
+
+	CFLAGS="$CFLAGS -fPIC" \
+	./configure --prefix=/usr --shared
 	make
-	# make check
+}
+
+function check_pkg {
+	make check
 }
 
 function install_pkg {
-	make  install &&
-#	chmod 644 /usr/lib/libz.a &&
-	mv /usr/lib/libz.so.* /lib &&
+	make install
+	mv /usr/lib/libz.so.* /lib
 	ln -sf ../../lib/libz.so.1 /usr/lib/libz.so
 }

@@ -21,6 +21,9 @@ function install_pkg {
 		lp:x:9:
 		dialout:x:10:
 		audio:x:11:
+		video:x:12:
+		utmp:x:13:
+		usb:x:14:
 	EOF
 
 	# /etc/passwd.
