@@ -1,5 +1,5 @@
 name="GNU Compiler Collection (gcc)"
-version="3.3.2"
+version="3.4.3"
 homepage="http://www.gnu.org/software/gcc/"
 
 archives=(
@@ -8,98 +8,87 @@ archives=(
 
 patches=(
 	"http://www.linuxfromscratch.org/patches/downloads/gcc/gcc-${version}-no_fixincludes-1.patch"
-	"http://www.linuxfromscratch.org/patches/downloads/gcc/gcc-${version}-suppress_libiberty-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/gcc/gcc-${version}-linkonce-1.patch"
 )
 
 stage1_patches=(
      "http://www.linuxfromscratch.org/patches/downloads/gcc/gcc-${version}-no_fixincludes-1.patch"
-     "http://www.linuxfromscratch.org/patches/downloads/gcc/gcc-${version}-specs-1.patch"
+     "http://www.linuxfromscratch.org/patches/downloads/gcc/gcc-${version}-specs-2.patch"
 )
 
 optimize=no
 
+stage0_check=no
+
 function stage0_build_pkg {
-	mkdir "$directory"/../gcc-build &&
-	cd "$directory"/../gcc-build &&
+	mkdir "$directory"/../gcc-build
+	cd "$directory"/../gcc-build
 
-	CFLAGS="-O2 -pipe" \
-	"$directory"/configure --prefix=/tools --with-local-prefix=/tools \
-			       --enable-languages=c --disable-nls \
-			       --enable-shared &&
+	"$directory"/configure --prefix=/tools --libexecdir=/tools/lib \
+			       --with-local-prefix=/tools --disable-nls \
+			       --enable-languages=c --enable-shared
 
-	make BOOT_LDFLAGS="-static -s" bootstrap
+	make BOOT_LDFLAGS="-static" bootstrap
 }
 
 function stage0_install_pkg {
-	cd "$directory"/../gcc-build &&
+	cd "$directory"/../gcc-build
 
-	make install &&
-	ln -sf gcc /tools/bin/cc &&
+	make install
+	ln -sf gcc /tools/bin/cc
 
-	cd "$directory"/.. && rm -rf gcc-build
+	cd "$directory"/..
+	rm -rf gcc-build
 }
 
 function stage1_build_pkg {
-	cd "$builddir"/binutils-build/ &&
-	make -C ld install &&
-	cd "$builddir" && rm -rf binutils* &&
+	mkdir "$directory"/../gcc-build
+	cd "$directory"/../gcc-build
 
-	local SPECFILE=$(ls /tools/lib/gcc-lib/*/*/specs) &&
-	sed -e 's@/lib/ld.so.1@/tools/lib/ld.so.1@g' \
-	    -e 's@/lib/ld-linux.so.2@/tools/lib/ld-linux.so.2@g' \
-	    $SPECFILE > tempspecfile &&
-	mv tempspecfile $SPECFILE &&
-	unset SPECFILE &&
-
-	rm -f /tools/lib/gcc-lib/*/*/include/{pthread.h,bits/sigthread.h} &&
-
-	mkdir "$directory"/../gcc-build &&
-	cd "$directory"/../gcc-build &&
-
-	CFLAGS="-O2 -pipe" \
-	CXXFLAGS="-O2 -pipe" \
-	"$directory"/configure --prefix=/tools --with-local-prefix=/tools \
-			       --enable-languages=c,c++ --enable-shared \
-			       --enable-threads=posix --enable-__cxa_atexit \
-			       --enable-clocale=gnu --disable-nls &&
+	"$directory"/configure --prefix=/tools --libexecdir=/tools/lib \
+			       --with-local-prefix=/tools --with-clocale=gnu \
+			       --enable-shared --enable-threads=posix \
+			       --enable-__cxa_atexit --enable-languages=c,c++ \
+			       --disable-libstdcxx-pch
 	make
-	# make -k check
-	# "$directory"/contrib/test_summary | less
 }
 
 function stage1_install_pkg {
-	cd "$directory"/../gcc-build &&
+	cd "$directory"/../gcc-build
 
-	make install &&
+	make install
 
-	cd "$directory"/.. && rm -rf gcc-build
+	cd "$directory"/..
+	rm -rf gcc-build
 }
 
 function build_pkg {
-	cp libiberty/Makefile.in{,.orig} &&
-	sed -e 's/install_to_$(INSTALL_DEST) //' \
-		libiberty/Makefile.in.orig > libiberty/Makefile.in &&
+	sed -i 's/install_to_$(INSTALL_DEST) //' libiberty/Makefile.in
 
-	mkdir "$directory"/../gcc-build &&
-	cd "$directory"/../gcc-build &&
+	mkdir "$directory"/../gcc-build
+	cd "$directory"/../gcc-build
 
-	CFLAGS="-O2 -pipe" \
-	CXXFLAGS="-O2 -pipe" \
-	"$directory"/configure --prefix=/usr --enable-shared \
-			       --enable-languages=c,c++ --enable-threads=posix \
+	"$directory"/configure --prefix=/usr --libexecdir=/usr/lib \
+			       --enable-shared --enable-threads=posix \
 			       --enable-__cxa_atexit --enable-clocale=gnu \
-			       --disable-nls &&
+			       --enable-languages=c,c++  #--disable-nls
 
-	make LDFLAGS="-s"
-	# make -k check
+	make
+}
+
+function check_pkg {
+	cd "$directory"/../gcc-build
+	make -k check
+	"$directory"/contrib/test_summary | tee test_summary | grep -A7 Summ
 }
 
 function install_pkg {
-	cd "$directory"/../gcc-build &&
+	cd "$directory"/../gcc-build
 
-	make install &&
-	ln -sf ../usr/bin/cpp /lib &&
-	ln -sf gcc /usr/bin/cc &&
+	make install
+	ln -sf ../usr/bin/cpp /lib
+	ln -sf gcc /usr/bin/cc
 
-	cd "$directory"/.. && rm -rf gcc-build
+	cd "$directory"/..
+	rm -rf gcc-build
 }

@@ -1,12 +1,17 @@
+2005-03-10 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs6.1/{binutils,gcc,glibc}.pkg: Finished toolchain profiles.
+	* profiles/lfs6.1/e2fsprofs.pkg: Fixed check_pkg instructions.
+
 2005-02-27 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
-	* profiles/*.pkg: Package and profile updates to the Linux kernel,
-	  findutils, udev, libtool, automake, m4, glibc, iana-etc, expect,
-	  file, readline, gettext, bzip2 and grub.
+	* profiles/lfs6.1/*.pkg: Package and profile updates to the Linux
+	  kernel, findutils, udev, libtool, automake, m4, glibc, iana-etc,
+	  expect, file, readline, gettext, bzip2 and grub.
 
 2005-02-06 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
-	* profiles/*.pkg: Added the remaining new packages since LFS 5.
+	* profiles/lfs6.1/*.pkg: Added the remaining new packages since LFS 5.
 	  Upgraded glibc instructions.
 
 2005-02-04 Oliver Brakmann <oliverbrakmann@users.berlios.de>

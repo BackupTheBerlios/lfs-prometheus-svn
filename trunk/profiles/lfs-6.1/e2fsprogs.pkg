@@ -19,6 +19,7 @@ function build_pkg {
 }
 
 function check_pkg {
+	cd "$directory"/../e2fsprogs-build
 	make check
 }
 
