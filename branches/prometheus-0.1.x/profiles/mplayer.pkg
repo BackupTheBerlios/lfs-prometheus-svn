@@ -1,0 +1,27 @@
+name=mplayer
+version="1.0pre3try2"
+homepage="http://www.mplayerhq.hu"
+
+archives=(
+	"http://www2.mplayerhq.hu/MPlayer/releases/MPlayer-${version}.tar.bz2"
+	"http://www2.mplayerhq.hu/MPlayer/releases/codecs/win32codecs-lite.tar.bz2"
+	"http://www2.mplayerhq.hu/MPlayer/releases/codecs/essential.tar.bz2"
+	"http://www2.mplayerhq.hu/MPlayer/Skin/default-1.7.tar.bz2"
+	"http://www2.mplayerhq.hu/MPlayer/releases/fonts/font-arial-iso-8859-1.tar.bz2"
+)
+
+archive_dirs=(
+	""
+	":"
+)
+
+optimize=no
+
+dep="gtk1"
+
+function build_pkg {
+	./configure --prefix=/usr --confdir=/etc/mplayer --enable-largefiles \
+		--enable-shared-pp --enable-linux-devfs --enable-menu \
+		--cc="gcc -s" --disable-i18n --with-codecsdir=/usr/lib/mplayer/codecs \
+		--with-win32libdir=/usr/lib/mplayer/codecs
+}

@@ -1,0 +1,24 @@
+name="GNU tar"
+version="1.14"
+homepage="http://www.gnu.org/software/tar/"
+
+archives=(
+	"ftp://ftp.cs.tu-berlin.de/pub/gnu/tar/tar-${version}.tar.gz"
+)
+
+function stage1_build_pkg {
+	./configure --prefix=/tools --disable-nls &&
+	make
+	# make check
+}
+
+function build_pkg {
+	./configure --prefix=/usr --libexecdir=/usr/sbin --bindir=/bin \
+		    --disable-nls &&
+	make
+	# make check
+}
+
+function install_pkg {
+	make install
+}

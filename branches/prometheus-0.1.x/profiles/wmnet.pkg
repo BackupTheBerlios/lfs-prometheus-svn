@@ -1,0 +1,20 @@
+name=wmnet
+version="1.06"
+homepage="http://www.digitalkaos.net/linux/wmnet/"
+
+archive=(
+	"http://www.digitalkaos.net/linux/wmnet/download/wmnet-1.06.tar.gz"
+)
+
+dep=windowmaker
+
+function build_pkg {
+	xmkmf &&
+	make &&
+	strip wmnet
+}
+
+function install_pkg {
+	make install &&
+	make install.man
+}

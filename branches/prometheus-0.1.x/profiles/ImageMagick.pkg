@@ -1,0 +1,22 @@
+name=ImageMagick
+version="5.5.7-17"
+homepage="http://imagemagick.org"
+
+directory="${name}-5.5.7"
+
+archives=(
+	"ftp://ftp.fu-berlin.de/unix/X11/graphics/ImageMagick/ImageMagick-${version}.tar.bz2"
+)
+
+dep="libjpeg libpng libtiff lcms libxml2 XFree86"
+
+function build_pkg {
+	./configure --prefix=/usr --enable-shared --with-modules \
+		--with-gs-font-dir=/usr/share/ghostscript/fonts \
+		--with-windows-font-dir=/usr/X11R6/lib/X11/fonts/TTF &&
+	make
+}
+
+function install_pkg {
+	make install
+}

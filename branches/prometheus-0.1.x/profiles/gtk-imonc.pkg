@@ -1,0 +1,21 @@
+name="gtk-imonc"
+version="0.6.2"
+homepage="http://www.fli4l.de/"
+
+archives=(
+	"http://userpage.fu-berlin.de/~zeank/gtk-imonc/download/gtk-imonc-${version}.tar.gz"
+)
+
+dep=gtk2
+
+function build_pkg {
+	./configure --prefix=/usr --disable-nls &&
+	make
+}
+
+function install_pkg {
+	make install &&
+	{
+		rm -r /usr/share/applications || true
+	}
+}

@@ -1,0 +1,19 @@
+name="pkgconfig"
+version="0.15.0"
+homepage="http://www.freedesktop.org/Software/pkgconfig"
+
+archives=(
+	"http://freedesktop.org/Software/pkgconfig/releases/pkgconfig-${version}.tar.gz"
+)
+
+function build_pkg {
+	./configure --prefix=/usr &&
+	make
+}
+
+function install_pkg {
+	make install
+
+	echo Please add 'export PKG_CONFIG_PATH=/usr/X11R6/lib/pkgconfig'
+	echo to one of your shell startup files.
+}

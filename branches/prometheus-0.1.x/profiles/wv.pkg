@@ -1,0 +1,19 @@
+name=wv
+version="1.0.0"
+homepage="http://wvware.sf.net"
+
+archives=(
+	"http://cesnet.dl.sourceforge.net/sourceforge/wvware/wv-${version}.tar.gz"
+)
+
+dep="zlib libpng elinks"
+
+function build_pkg {
+	sed -i 's/force_html/force-html/' wvText.in &&
+	./configure --prefix=/usr &&
+	make
+}
+
+function install_pkg {
+	make install
+}

@@ -1,0 +1,15 @@
+name=when
+version="1.0.10"
+homepage="http://www.lightandmatter.com/when/when.html"
+
+archives=(
+	"http://www.lightandmatter.com/when/when.tar.gz"
+)
+
+directory=when_dist
+
+dep=perl
+
+function install_pkg {
+	install -m755 when /usr/bin
+}

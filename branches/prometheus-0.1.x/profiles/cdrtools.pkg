@@ -1,0 +1,17 @@
+name=cdrtools
+version="2.00.3"
+homepage="http://www.fokus.fhg.de/research/cc/glone/employees/joerg.schilling/private/cdrecord.html"
+
+archives=(
+	"ftp://ftp.berlios.de/pub/cdrecord/cdrtools-${version}.tar.gz"
+)
+
+function build_pkg {
+	make INS_BASE=/usr DEFINSUSR=root DEFINSGRP=root \
+		COPTS="$cflags"
+}
+
+function install_pkg {
+	make INS_BASE=/usr DEFINSUSR=root DEFINSGRP=root \
+		COPTS="$cflags" install
+}

@@ -1,0 +1,47 @@
+.TH COMPACT 1 2004-01-09 "" "Linux User's Manual"
+.SH NAME
+compact \- Compress a file via gzip and bzip2 and keep the smaller archive. 
+
+.SH SYNOPSIS
+.BI "compact [ " options " ] " file
+
+.SH DESCRIPTION
+.B  Compact
+compresses
+.I file
+via both gzip and bzip2, keeps the smaller of the resulting archives as well as
+the original file and echoes its name to stdout.
+ 
+.SH OPTIONS
+.BR -? ", " -h ", " --help
+.RS
+Display help screen.
+.RE
+
+.BR -f ", " --force
+.RS
+Force use of compression, even if the original file is smaller.
+.RE
+
+.BR -k ", " --keep
+.RS
+Do not delete the original file.
+.RE
+
+.SH BUGS
+None known. If you think you have found a bug or encounter any weird behaviour,
+please report it to one of the addresses below.
+
+.SH AUTHOR
+.RI "-- Gareth Jones <" moderob@lineone.net >
+
+.SH SEE ALSO
+.BR pkgadd (8),
+.BR pkginstall (8),
+.BR pkgrm (8),
+.BR pkginfo (1),
+.BR pkgget (1),
+.BR pkgcompress (1),
+.BR install-log (1),
+.BR gzip (1),
+.BR bzip2 (1)

@@ -1,0 +1,31 @@
+name="ncurses"
+version="5.4"
+homepage="http://www.gnu.org/software/ncurses/"
+
+archives=(
+	"ftp://ftp.cs.tu-berlin.de/pub/gnu/ncurses/ncurses-${version}.tar.gz"
+)
+
+function stage1_build_pkg {
+	./configure --prefix=/tools --with-shared --without-debug \
+		    --without-ada --enable-overwrite &&
+	make
+}
+
+function stage1_install_pkg {
+	make install
+}
+
+function build_pkg {
+	./configure --prefix=/usr --with-shared --without-debug &&
+	make	
+}
+
+function install_pkg {
+	make install &&
+	chmod 755 /usr/lib/*.${version} &&
+	chmod 644 /usr/lib/libncurses++.a &&
+	mv /usr/lib/libncurses.so.5* /lib &&
+	ln -sf ../../lib/libncurses.so.5 /usr/lib/libncurses.so &&
+	ln -sf libncurses.so /usr/lib/libcurses.so
+}

@@ -1,0 +1,16 @@
+name=libpcap
+version="0.8.3"
+homepage="http://www.tcpdump.org"
+
+archives=(
+	"http://www.tcpdump.org/release/libpcap-${version}.tar.gz"
+)
+
+function build_pkg {
+	./configure --prefix=/usr &&
+	make
+}
+
+function install_pkg {
+	make install
+}

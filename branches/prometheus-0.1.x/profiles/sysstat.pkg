@@ -1,0 +1,15 @@
+name=sysstat
+version="5.0.5"
+homepage="http://perso.wanadoo.fr/sebastien.godard/"
+
+archives=(
+	"http://perso.wanadoo.fr/sebastien.godard/sysstat-${version}.tar.bz2"
+)
+
+function build_pkg {
+	make PREFIX=/usr MAN_DIR=/usr/share/man REQUIRE_NLS='' CFLAGS="$CFLAGS"
+}
+
+function install_pkg {
+	make PREFIX=/usr MAN_DIR=/usr/share/man REQUIRE_NLS='' install
+}

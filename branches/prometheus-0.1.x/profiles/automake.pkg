@@ -1,0 +1,16 @@
+name="GNU automake"
+version="1.8.5"
+homepage="http://www.gnu.org/software/automake/"
+
+archives=(
+	"ftp://ftp.cs.tu-berlin.de/pub/gnu/automake/automake-${version}.tar.bz2"
+)
+
+function build_pkg {
+	./configure --prefix=/usr &&
+	make
+}
+
+function install_pkg {
+	make install
+}

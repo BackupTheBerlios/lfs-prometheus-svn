@@ -1,0 +1,25 @@
+name="Berkeley db"
+version="4.1.25"
+#version="4.2.52"
+homepage="http://www.sleepycat.com"
+
+archives=(
+	"http://www.sleepycat.com/update/snapshot/db-${version}.tar.gz"
+)
+
+#patches=(
+#	"http://www.sleepycat.com/update/4.2.52/patch.4.2.52.1"
+#	"http://www.sleepycat.com/update/4.2.52/patch.4.2.52.2"
+#)
+
+function build_pkg {
+	cd build_unix &&
+	../dist/configure --prefix=/usr \
+			--enable-cxx &&		# --enable-compat185
+	make
+}
+
+function install_pkg {
+	cd build_unix &&
+	make docdir=/usr/share/doc/db-${version} install
+}

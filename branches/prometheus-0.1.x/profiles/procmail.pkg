@@ -1,0 +1,14 @@
+name=procmail
+version=3.22
+homepage="http://www.procmail.org"
+
+archives=(
+	"ftp://ftp.fu-berlin.de/pub/unix/mail/procmail/procmail-${version}.tar.gz"
+)
+
+dep=postfix
+
+function install_pkg {
+	make BASENAME=/usr install &&
+	make install-suid
+}

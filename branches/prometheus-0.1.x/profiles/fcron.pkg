@@ -1,0 +1,34 @@
+name="fcron"
+version="2.9.4"
+homepage="http://fcron.free.fr"
+
+archives=(
+	"http://fcron.free.fr/fcron-${version}.src.tar.gz"
+)
+
+directory="fcron-${version}"
+
+dep=postfix
+
+function build_pkg {
+	./configure --prefix=/usr --with-answer-all=no \
+		--with-sendmail=/usr/sbin/sendmail &&
+	make
+}
+
+function install_pkg {
+	cat >> /etc/syslog.conf <<-"EOF" &&
+	# Begin fcron addition to /etc/syslog.conf
+
+	cron.* -/var/log/cron.log
+
+	# End fcron addition
+	EOF
+
+#	/etc/init.d/rc.d/sysklogd reload
+#
+#	groupadd fcron &&
+#	useradd -c fcron -g fcron fcron &&
+
+	make install
+}

@@ -1,0 +1,26 @@
+name="mutt"
+version="1.4.2.1i"
+homepage="http://www.mutt.org"
+
+archives=(
+	"ftp://ftp.fu-berlin.de/pub/unix/mail/mutt/mutt-${version}.tar.gz"
+)
+
+patches=(
+	"mutt-${version}-ob.patch"
+)
+
+directory="mutt-1.4.2.1"
+
+dep="ncurses postfix"
+
+function build_pkg {
+	./configure --prefix=/usr --sysconfdir=/etc --with-mailpath=/var/mail \
+		--with-ssl --enable-imap --enable-imap-edit-threads \
+		--enable-nntp --enable-nfs-fix --enable-compressed &&
+	make
+}
+
+function install_pkg {
+	make install
+}

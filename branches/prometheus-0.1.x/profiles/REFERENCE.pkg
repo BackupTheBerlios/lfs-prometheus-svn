@@ -1,0 +1,133 @@
+# Reference package profile.
+#
+# This profile is complex to demonstrate all possible variables & functions.
+# Most profiles will be *much* simpler than this.  This is not intended as a
+# template, though it can be used as one.  It is better to find a package
+# similar to the one you wish to install and use its profile as a template.
+
+# *All* functions & variables are *optional*, although some options depend on
+# others.  This is noted where relevent.
+
+# About the package.
+name="Package"
+version="1.2.3"
+homepage="http://www.package.org/"
+
+# All of the following variables are taken as default values which override the
+# values of the same names in `prometheus.conf'.  All can be further overridden
+# by additional variables with the same names but prefixed with `stage<n>_',
+# where <n> is an integer.  For example, the stage 1 build of binutils requires
+# different instructions than the final build, so `build_pkg' is overridden by
+# `stage1_build_pkg'.
+
+# Should this install be logged?
+log_install=yes
+
+# Should this package be *installed* as root?  (Build user not affected.)
+install_as_root=yes
+
+# If this package has any dependencies (be it run-time or build-time, although
+# run-time is more practical. Alternatively, specify only those build-time deps
+# that a normal LFS system does not provide), specify them in this list. Pkgadd
+# will resolve these dependencies and prompt you to install any missing
+# packages first.  Deletion of unneeded packages is not supported. Also,
+# conflicting packages are not detected (ie. postfix vs. exim). Be careful not
+# to create cyclic dependencies, as this will result in an infinite loop during
+# the checks. This may be resolved at a later date.  A dependency may occur
+# more than once, though.
+# Also, these checks are only available for builds on an installed system, not
+# during an LFS build.
+dep="pkg1 pkg2 pkg3"
+
+# Archives & patches needed by the package.  Download locations are optional but
+# allow the files to be downloaded if required.  The `main' archive should be
+# first, the rest following in the order they should be unpacked.  Patches
+# should be in the order they are applied.
+archives=(
+	"http://www.package.org/package-${version}.tar.bz2"
+	"ftp://ftp.package.org/package-addons-${version}.tar.gz"
+	"ftp://ftp.third-party.org/package-stuff.zip"
+)
+
+patches=(
+	"http://www.package.org/patch.diff.bz2"
+	"ftp://ftp.third-party.org/package-patch.diff.gz"
+	"my-custom-patch.diff"
+	"yet-another-patch"
+)
+
+# The directory that the main archive creates.  This can be omitted if there are
+# no archives, or it is the same as the package name minus the .tar.* or .zip
+# (e.g. `package-1.2.3').
+directory="package123"
+
+# The directories to unpack the archives in.  If this array is omitted, or an
+# element is null, the default is $builddir from prometheus.conf.  `@d' is
+# analogous to $directory with a full path specification, but works even if
+# $directory is not explicitly defined.  Use `:' to prevent an archive (& any
+# following it in the array) being unpacked automatically.  Note that as a
+# special case, the first element must either be null, or the absolute path of a
+# directory that overrides $builddir.  `@d' is not expanded in the first
+# element.
+archive_dirs=(
+	""
+	"@d/addons"
+)
+
+# These are the commands used for each of the above patches respectively.  If
+# this array is omitted, or an element is null, the default is `patch -Np1'.
+# Beware that stdin will be fed the (uncompressed) patch (& thus also the -i
+# parameter for patch is redundant).  Use `:' to prevent a patch (& any
+# following it in the array) being applied automatically.  `@d' may be used as
+# above.
+patch_cmds=(
+	""
+	"cd @d/src && patch -Np0"
+	":"
+)
+
+# This variable is used to keep the source files unpacked even after installing
+# the package.  Its use is analogous to the `--leave-files' switch to pkgadd.
+# This is mainly used for automated LFS builds (i.e. the binutils package and
+# the Linux kernel headers), in which case pkgadd can't be called interactively.
+leavefiles=yes
+
+# Do we want to optimize?
+optimize=yes
+
+# Default build environment.  Null values are exported as null.  If you do not
+# want a variable exported, explicitly unset it.
+cc="gcc"
+cflags="$cflags -fix-all-my-bugs"
+cxxflags="$cflags"
+ldflags=
+unset linguas
+unset lc_all
+
+# Build & install instructions.  The variables above may be used.  Also note:
+# $directory - expands to the full path of the package directory, even if it is
+#	       not specified above.
+# $package - the name of the current package profile, minus the `.pkg' suffix.
+
+# Certain functions are also available to be used:
+# warning <message> - echo <message> to stderr.
+# error <message> - echo <message> to stderr & exit.
+# get_compression <filename> - echo archive & compression suffix of <filename>.
+# remove_compression <filename> - echo <filename> minus the compression suffix.
+#				  The archive suffix is however left.
+# unpack <archive> - Unpack <archive>, whatever type it may be.
+# cat_file <file> - Wrapper for cat, zcat & bzcat.
+
+# Commands that can be run as any user.
+function build_pkg {
+	./configure --prefix=/usr &&
+	patch -Np1 -i ../my-custom-patch.diff &&
+	patch -Np1 -i ../yet-another-patch &&
+	make
+}
+
+# Commands that should be run as root.  Beware that this function may be run in
+# a subshell.
+function install_pkg {
+	make install
+}

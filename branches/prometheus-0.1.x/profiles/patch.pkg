@@ -1,0 +1,21 @@
+name="patch"
+version="2.5.4"
+homepage="http://www.gnu.org/software/patch/"
+
+archives=(
+	"ftp://ftp.cs.tu-berlin.de/pub/gnu/patch/patch-${version}.tar.gz"
+)
+
+function stage1_build_pkg {
+	CPPFLAGS=-D_GNU_SOURCE ./configure --prefix=/tools &&
+	make
+}
+
+function build_pkg {
+	CPPFLAGS=-D_GNU_SOURCE ./configure --prefix=/usr &&
+	make
+}
+
+function install_pkg {
+	make install
+}

@@ -1,0 +1,21 @@
+name="libmng"
+version="1.0.6"
+homepage="http://libmng.sf.net"
+
+archives=(
+	"http://cesnet.dl.sourceforge.net/sourceforge/libmng/libmng-${version}.tar.gz"
+)
+
+dep="zlib libjpeg lcms"
+
+function build_pkg {
+	./autogen.sh &&
+	./configure --prefix=/usr --with-zlib --with-jpeg --with-lcms &&
+	make
+}
+
+function install_pkg {
+	make install &&
+	cp doc/man/*.3 /usr/share/man/man3 &&
+	cp doc/man/*.5 /usr/share/man/man5
+}

@@ -1,0 +1,22 @@
+name="fontconfig"
+version="2.2.1"
+homepage="http://www.freedesktop.org/Software/fontconfig"
+
+archives=(
+	"http://freedesktop.org/Software/fontconfig/releases/fontconfig-${version}.tar.gz"
+)
+
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/fontconfig/fontconfig-2.2.1-freetype_2.1.7_fix-1.patch"
+)
+
+dep="freetype2 expat"
+
+function build_pkg {
+	./configure --prefix=/usr --sysconfdir=/etc &&
+	make
+}
+
+function install_pkg {
+	make install
+}

@@ -1,0 +1,21 @@
+name="dcis init scripts"
+version="0.31"
+homepage="http://www.warwick.ac.uk/~phvdo/dcis/"
+
+archives=(
+	"http://www.warwick.ac.uk/~phvdo/dcis/dcis-${version}.tar.bz2"
+)
+
+#patches=(
+#	"dcis-0.3-ob.patch"
+#)
+
+function build_pkg {
+	cd log_runlevel &&
+	./domake
+}
+
+function install_pkg {
+	cp -r etc/* /etc/ &&
+	install -m755 log_runlevel/log_runlevel /sbin
+}

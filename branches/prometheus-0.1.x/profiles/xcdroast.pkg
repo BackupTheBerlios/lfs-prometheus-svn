@@ -1,0 +1,19 @@
+name=xcdroast
+version="0.98alpha15"
+homepage="http://www.xcdroast.org"
+
+archives=(
+	"http://prdownloads.sourceforge.net/xcdroast/xcdroast-${version}.tar.gz"
+)
+
+dep="gtk2 libungif zlib libpng cdrtools"
+
+function build_pkg {
+	./configure --prefix=/usr --sysconfdir=/etc \
+		--enable-gtk2 --disable-nls &&
+	make
+}
+
+function install_pkg {
+	make install
+}

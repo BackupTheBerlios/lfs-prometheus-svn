@@ -1,0 +1,23 @@
+name="openSSL"
+version="0.9.7d"
+homepage="http://www.openssl.org"
+
+archives=(
+	"ftp://ftp.pca.dfn.de/pub/tools/net/openssl/source/openssl-${version}.tar.gz"
+)
+
+function build_pkg {
+	sed 's/^passwd/openssl-passwd/' doc/apps/passwd.pod \
+		> doc/apps/openssl-passwd.pod &&
+	rm doc/apps/passwd.pod &&
+
+	./config --openssldir=/etc/ssl --prefix=/usr shared &&
+	make MANDIR=/usr/share/man
+}
+
+function install_pkg {
+	make MANDIR=/usr/share/man install &&
+
+	cp -r certs /etc/ssl &&
+	rmdir /etc/ssl/lib
+}

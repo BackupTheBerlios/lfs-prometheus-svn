@@ -1,0 +1,31 @@
+name="prometheus"
+version="dev"
+
+dep=install-log
+
+archives=(
+	"prometheus-${version}.tar.bz2"
+)
+
+function stage1_build_pkg {
+	# Adjust config file for stage2 build.
+	egrep -v "^(build|src)dir=" template.conf > template.conf~
+        echo -e "\nbuilddir=${lfs_builddir}" >> template.conf~
+        echo "srcdir=${lfs_srcdir}" >> template.conf~
+	mv template.conf{~,}
+
+	make prefix=/tools sbindir='$(bindir)' confdir=/tools/etc
+}
+
+function stage1_install_pkg {
+	make prefix=/tools sbindir='$(bindir)' confdir=/tools/etc install
+}
+
+function build_pkg {
+	make
+}
+
+function install_pkg {
+	make install
+}
+

@@ -1,0 +1,17 @@
+name="GDK pixel buffer"
+version=0.22.0
+
+archives=(
+	"http://ftp.belnet.be/mirror/ftp.gnome.org/sources/gdk-pixbuf/0.22/gdk-pixbuf-${version}.tar.bz2"
+)
+
+dep="gtk1 libpng libjpeg libtiff"
+
+function build_pkg {
+	./configure --prefix=/usr --disable-gtk-doc &&
+	make
+}
+
+function install_pkg {
+	make install
+}

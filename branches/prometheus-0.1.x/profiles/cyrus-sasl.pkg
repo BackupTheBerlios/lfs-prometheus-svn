@@ -1,0 +1,21 @@
+name="Cyrus SASL"
+version="2.1.19"
+homepage="http://asg.web.cmu.edu/sasl/"
+
+archives=(
+	"http://ftp.andrew.cmu.edu/pub/cyrus-mail/cyrus-sasl-${version}.tar.gz"
+)
+
+dep=openssl
+
+function build_pkg {
+	./configure --prefix=/usr --sysconfdir=/etc \
+		--localstatedir=/var/lib/sasl --with-dbpath=/var/lib/sasl \
+		--with-saslauthd=/var/lib/sasl --with-openssl=/usr &&
+	make
+}
+
+function install_pkg {
+	make install &&
+	rm -r /usr/share/man/cat8
+}

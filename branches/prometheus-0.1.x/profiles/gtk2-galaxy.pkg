@@ -1,0 +1,19 @@
+name="GTK2 Galaxy theme engine"
+version=0.2
+
+archive=(
+	"http://art.gnome.org/download/themes/gtk2/493/GTK2-Galaxy.tar.gz"
+)
+
+directory="galaxy-${version}"
+
+dep="gtk1 gtk2"
+
+function build_pkg {
+	./configure --prefix=/usr --sysconfdir=/etc &&
+	make
+}
+
+function install_pkg {
+	make install
+}

@@ -1,0 +1,21 @@
+name="elinks"
+version="0.9.1"
+homepage="http://elinks.or.cz"
+
+archives=(
+	"http://elinks.or.cz/download/elinks-${version}.tar.bz2"
+)
+
+dep="openssl"
+
+function build_pkg {
+	./configure --prefix=/usr --sysconfdir=/etc --disable-nls \
+		--disable-mouse --without-gpm --without-x &&
+	make
+}
+
+function install_pkg {
+	make install &&
+	ln -sf elinks /usr/bin/links &&
+	ln -sf elinks /usr/bin/lynx
+}

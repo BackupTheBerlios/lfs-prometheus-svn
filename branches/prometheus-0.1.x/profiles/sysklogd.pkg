@@ -1,0 +1,21 @@
+name="sysklogd"
+version="1.4.1"
+homepage="http://www.infodrom.org/projects/sysklogd"
+
+archives=(
+	"http://www.infodrom.org/projects/sysklogd/download/sysklogd-${version}.tar.gz"
+)
+
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/sysklogd/sysklogd-${version}-querymod-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/sysklogd/sysklogd-${version}-signal-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/sysklogd/sysklogd-${version}-security-1.patch"
+)
+
+function build_pkg {
+	make RPM_OPT_FLAGS="$CFLAGS"
+}
+
+function install_pkg {
+	make install
+}

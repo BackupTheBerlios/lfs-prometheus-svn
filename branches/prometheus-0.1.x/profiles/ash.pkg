@@ -1,0 +1,21 @@
+name=ash
+version="0.4.0"
+
+archives=(
+	"ftp://distro.ibiblio.org/pub/Linux/distributions/slackware/slackware_source/ap/ash/ash-${version}.tar.gz"
+)
+
+patches=(
+	"http://www.linuxfromscratch.org/patches/blfs/cvs/ash-${version}-cumulative_fixes-1.patch"
+)
+
+function build_pkg {
+	make
+}
+
+function install_pkg {
+	install -m755 sh /bin/ash &&
+	install -m644 sh.1 /usr/share/man/man1/ash.1
+
+	#ln -sf ash /bin/sh
+}

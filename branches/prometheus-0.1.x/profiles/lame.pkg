@@ -1,0 +1,18 @@
+name=lame
+version="3.95.1"
+homepage="http://lame.sf.net"
+
+archives=(
+	"http://cesnet.dl.sourceforge.net/sourceforge/lame/lame-${version}.tar.gz"
+)
+
+dep=nasm
+
+function build_pkg {
+	./configure --prefix=/usr --enable-nasm &&
+	make
+}
+
+function install_pkg {
+	make install
+}

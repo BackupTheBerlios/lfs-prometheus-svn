@@ -1,0 +1,26 @@
+name="libwrap"
+version="7.6"
+homepage="ftp://ftp.porcupine.org/pub/security/index.html"
+
+archives=(
+	"ftp://ftp.porcupine.org/pub/security/tcp_wrappers_${version}.tar.gz"
+)
+
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/tcp_wrappers/tcp_wrappers-${version}-shared_lib_plus_plus-1.patch"
+)
+
+function build_pkg {
+	chmod u+w percent_m.c &&
+	cp percent_m.c{,.orig} &&
+	sed -e '/extern char \*sys_errlist/d' percent_m.c.orig > percent_m.c &&
+	make FACILITY=LOG_DAEMON REAL_DAEMON_DIR=/usr/sbin linux
+}
+
+function install_pkg {
+	install -m 644 libwrap.a /usr/lib &&
+	install -m 644 tcpd.h /usr/include &&
+	install -m 644 *.3 /usr/share/man/man3 &&
+	install -m 644 *.5 /usr/share/man/man5 &&
+	install -m 644 *.8 /usr/share/man/man8
+}

@@ -1,0 +1,20 @@
+name="procinfo"
+version="18"
+
+archives=(
+	"ftp://ftp.cistron.nl/pub/people/svm/procinfo-${version}.tar.gz"
+)
+
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/patches/procinfo/procinfo-${version}-install-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/patches/procinfo/procinfo-${version}-perl-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/patches/procinfo/procinfo-${version}-uptime-1.patch"
+)
+
+function build_pkg {
+	make LDLIBS=-lncurses CFLAGS="$CFLAGS"
+}
+
+function install_pkg {
+	make install
+}

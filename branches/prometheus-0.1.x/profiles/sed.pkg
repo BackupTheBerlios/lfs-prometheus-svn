@@ -1,0 +1,23 @@
+name="sed"
+version="4.1.1"
+homepage="http://www.gnu.org/software/sed/"
+
+archives=(
+	"ftp://ftp.cs.tu-berlin.de/pub/gnu/sed/sed-${version}.tar.gz"
+)
+
+function stage1_build_pkg {
+	./configure --prefix=/tools --disable-nls &&
+	make
+	# make check
+}
+
+function build_pkg {
+	./configure --prefix=/usr --bindir=/bin --disable-nls &&
+	make
+	# make check
+}
+
+function install_pkg {
+	make install
+}

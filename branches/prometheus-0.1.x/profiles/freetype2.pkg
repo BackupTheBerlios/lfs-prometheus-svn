@@ -1,0 +1,20 @@
+name="freetype2"
+version="2.1.7"
+homepage="http://www.freetype.org"
+
+archives=(
+	"http://cesnet.dl.sourceforge.net/sourceforge/freetype/freetype-${version}.tar.bz2"
+)
+
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/freetype/freetype-${version}-bytecode_interpreter-1.patch"
+)
+
+function build_pkg {
+	./configure --prefix=/usr &&
+	make
+}
+
+function install_pkg {
+	make install
+}

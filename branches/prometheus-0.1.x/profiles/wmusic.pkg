@@ -1,0 +1,22 @@
+name=wmusic
+version="1.5.0"
+homepage='http://home.jtan.com/~john/index.shtml?software.shtml'
+
+archives=(
+	"http://home.jtan.com/~john/wmusic/wmusic-${version}.tar.gz"
+)
+
+#patches=(
+#	"wmusic-${version}-bmp.patch"
+#)
+
+dep="windowmaker xmms" # beepmp
+
+function build_pkg {
+	./configure --prefix=/usr/X11R6 &&
+	make
+}
+
+function intall_pkg {
+	make install
+}

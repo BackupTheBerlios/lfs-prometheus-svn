@@ -1,0 +1,18 @@
+name="X MultiMedia System"
+version="1.2.10"
+homepage="http://www.xmms.org"
+
+archives=(
+	"http://xmms.org/files/1.2.x/xmms-${version}.tar.bz2"
+)
+
+dep="gtk1 libglade"
+
+function build_pkg {
+	./configure --prefix=/usr --disable-nls --enable-one-plugin-dir &&
+	make
+}
+
+function install_pkg {
+	make install
+}

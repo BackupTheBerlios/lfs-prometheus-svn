@@ -1,0 +1,15 @@
+name="vlock"
+version="1.3"
+
+archives=(
+	"ftp://tsx-11.mit.edu/pub/linux/sources/usr.bin/vlock-${version}.tar.gz"
+)
+
+function build_pkg {
+	make CC="$CC" CFLAGS="$CFLAGS -DSHADOW_PWD" LDFLAGS="$LDFLAGS -lcrypt"
+}
+
+function install_pkg {
+	install -m  644 vlock.1 /usr/share/man/man1 &&
+	install -m 4755 vlock   /usr/bin
+}

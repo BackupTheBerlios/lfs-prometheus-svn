@@ -1,0 +1,18 @@
+name="gtk+"
+version="1.2.10"
+homepage="http://www.gtk.org"
+
+archives=(
+	"http://ftp.belnet.be/mirror/ftp.gnome.org/sources/gtk+/1.2/gtk+-${version}.tar.gz"
+)
+
+dep="XFree86 glib libjpeg libtiff"
+
+function build_pkg {
+	./configure --prefix=/usr --sysconfdir=/etc &&
+	make
+}
+
+function install_pkg {
+	make install
+}

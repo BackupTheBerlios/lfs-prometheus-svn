@@ -1,0 +1,16 @@
+name="glib"
+version="1.2.10"
+homepage="http://www.gtk.org"
+
+archives=(
+	"http://ftp.belnet.be/mirror/ftp.gnome.org/sources/glib/1.2/glib-${version}.tar.gz"
+)
+
+function build_pkg {
+	./configure --prefix=/usr &&
+	make
+}
+
+function install_pkg {
+	make install
+}

@@ -1,0 +1,25 @@
+name="bc"
+version="1.06"
+homepage="http://www.gnu.org/software/bc/"
+
+archives=(
+	"ftp://ftp.cs.tu-berlin.de/pub/gnu/bc/bc-${version}.tar.gz"
+)
+
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/bc/bc-${version}-fixes-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/bc/bc-${version}-flex_invocation-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/bc/bc-${version}-info-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/bc/bc-${version}-readline-1.patch"
+)
+
+dep=readline
+
+function build_pkg {
+	./configure --prefix=/usr --with-readline &&
+	make
+}
+
+function install_pkg {
+	make install
+}

@@ -1,0 +1,17 @@
+name=libIDL
+version=0.8.3
+
+archives=(
+	"http://ftp.belnet.be/mirror/ftp.gnome.org/sources/libIDL/0.8/libIDL-${version}.tar.bz2"
+)
+
+dep=glib2
+
+function build_pkg {
+	./configure --prefix=/usr &&
+	make
+}
+
+function install_pkg {
+	make install
+}

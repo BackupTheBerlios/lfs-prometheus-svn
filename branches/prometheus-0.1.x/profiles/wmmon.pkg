@@ -1,0 +1,20 @@
+name=wmmon
+version="1.0b2"
+
+archives=(
+	"http://web.cs.mun.ca/~gstarkes/wmaker/dockapps/files/wmmon-1.0b2.tar.gz"
+)
+
+directory=wmmon.app
+
+dep=windowmaker
+
+function build_pkg {
+	cd wmmon &&
+	make
+}
+
+function install_pkg {
+	cd wmmon &&
+	install -m755 wmmon /usr/X11R6/bin
+}

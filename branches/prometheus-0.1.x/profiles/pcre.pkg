@@ -1,0 +1,16 @@
+name="pcre"
+version="4.5"
+homepage="http://www.pcre.org/"
+
+archives=(
+	"ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-${version}.tar.bz2"
+)
+
+function build_pkg {
+	./configure --prefix=/usr --enable-utf8 &&
+	make
+}
+
+function install_pkg {
+	make install
+}

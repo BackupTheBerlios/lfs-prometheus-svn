@@ -1,0 +1,21 @@
+name=cups
+version="1.1.20"
+homepage="http://www.cups.org"
+
+archives=(
+	"ftp://ftp.easysw.com/pub/cups/${version}/cups-${version}-source.tar.bz2"
+)
+
+directory="${name}-${version}"
+
+dep="libjpeg libpng libtiff openssl"
+
+function build_pkg {
+	./configure --with-cups-user=lp --with-cups-group=lp --with-rcdir=. &&
+	make
+}
+
+function install_pkg {
+	make install
+}
+

@@ -1,0 +1,53 @@
+.TH PKGCOMPRESS 1 2004-01-09 "" "Linux User's Manual"
+.SH NAME
+pkgcompress \- Recompress source archives
+
+.SH SYNOPSIS
+.BI "pkgcompress [ " options " ] " "package " [ " package ... " ]
+
+.SH DESCRIPTION
+.BR Pkgcompress " recompresses archives and patches needed to install "
+.IR package ". It collects all files listed in the package profile, no matter"
+which stage they belong to, and puts them all in a single archive. This is
+useful to minimise disk space needed to archive source code and to avoid
+clutter in your source tree.
+
+.SH OPTIONS
+.BR -? ", " -h ", " --help
+.RS
+Display help screen.
+.RE
+
+.BR -f ", " --config
+.I config file
+.RS
+Use alternate configuration file.
+.RE
+
+.SH FILES
+.I /etc/pkg/prometheus.conf
+.RS
+The global configuration file.
+.RE
+
+.I /etc/pkg/profiles/*.pkg
+.RS
+The package profiles used to store information on packages and their
+installation.
+.RE
+
+.SH BUGS
+None known. If you think you have found a bug or encounter any weird behaviour,
+please report it to one of the addresses below.
+
+.SH AUTHOR
+.RI "-- Gareth Jones <" moderob@lineone.net >
+
+.SH SEE ALSO
+.BR pkgadd (8),
+.BR pkginstall (8),
+.BR pkgrm (8),
+.BR pkginfo (1),
+.BR pkgget (1),
+.BR compact (1),
+.BR install-log (1)

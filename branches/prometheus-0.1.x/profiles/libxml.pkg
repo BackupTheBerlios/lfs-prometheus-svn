@@ -1,0 +1,16 @@
+name="libxml"
+version="1.8.17"
+homepage="http://www.xmlsoft.org"
+
+archives=(
+	"http://ftp.belnet.be/mirror/ftp.gnome.org/sources/libxml/1.8/libxml-${version}.tar.bz2"
+)
+
+function build_pkg {
+	./configure --prefix=/usr &&
+	make
+}
+
+function install_pkg {
+	make install
+}

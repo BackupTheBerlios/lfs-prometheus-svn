@@ -1,0 +1,22 @@
+name="General Purpose Mouse daemon (gpm)"
+version="1.20.1"
+
+archives=(
+	"ftp://arcana.linux.it/pub/gpm/gpm-${version}.tar.bz2"
+)
+
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/gpm/gpm-${version}-segfault-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/gpm/gpm-${version}-silent-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/gpm/gpm-${version}-smooth_cursor-1.patch"
+)
+
+function build_pkg {
+	./configure --prefix=/usr --sysconfdir=/etc &&
+	LDFLAGS="-lm $LDFLAGS" make
+}
+
+function install_pkg {
+	make install &&
+	ldconfig -n -l /usr/lib/libgpm.so.1.19.0
+}

@@ -1,0 +1,18 @@
+name="xfsprogs"
+version="2.6.13"
+homepage="http://oss.sgi.com/projects/xfs/"
+
+archives=(
+	"ftp://sunsite.dk/mirrors/xfs/cmd_tars/xfsprogs-${version}.src.tar.gz"
+)
+
+directory="xfsprogs-${version}"
+
+function build_pkg {
+	./configure --prefix=/usr --bindir=/bin --sbindir=/sbin --libdir=/lib &&
+	make
+}
+
+function install_pkg {
+	make install
+}

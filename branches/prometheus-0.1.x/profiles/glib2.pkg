@@ -1,0 +1,18 @@
+name="glib2"
+version="2.4.4"
+homepage="http://www.gtk.org"
+
+archives=(
+	"http://ftp.belnet.be/mirror/ftp.gnome.org/sources/glib/2.4/glib-${version}.tar.bz2"
+)
+
+dep="gettext pkgconfig"
+
+function build_pkg {
+	./configure --prefix=/usr &&
+	make
+}
+
+function install_pkg {
+	make install
+}

@@ -1,0 +1,53 @@
+name="Linux Kernel headers"
+version="2.4.26"
+homepage="http://www.kernel.org/"
+
+archives=(
+	"ftp://ftp.de.kernel.org/pub/linux/kernel/v2.4/linux-${version}.tar.bz2"
+)
+
+patches=(
+	"http://www.plumlocosoft.com/kernel/patches/2.4/${version}/${version}-lck1/patch-${version}-lck1.bz2"
+	"xfs-${version}-lck1-acl.patch"
+	"linux-${version}-dm-ioctl.patch"
+	"linux-2.4.26-fix_clear_fpu-1.patch"
+	# IPSEC patches
+        #"http://www.openswan.org/code/openswan-2.1.4.kern.patch.gz"
+	#"http://www.openswan.org/code/openswan-2.1.4.natt.patch.gz"
+)
+
+archive_dirs=(
+	"/usr/src"
+)
+
+stage1_archive_dirs=("")
+
+leavefiles=yes
+stage1_leavefiles=no
+
+function stage1_install_pkg {
+	make mrproper &&
+	make include/linux/version.h &&
+	make symlinks &&
+	mkdir /tools/include/asm &&
+	cp include/asm/* /tools/include/asm &&
+	cp -R include/asm-generic /tools/include &&
+	cp -R include/linux /tools/include &&
+	touch /tools/include/linux/autoconf.h
+}
+
+function install_pkg {
+	find . -name '*.rej' -exec rm {} \;
+	find . -name '*~' -exec rm {} \;
+	ln -sf ${package}-${version} ../linux &&
+	chown -R 0:0 "$directory" &&
+	make mrproper &&
+	make include/linux/version.h &&
+	make symlinks &&
+	make mandocs &&
+	cp -HR include/asm /usr/include &&
+	cp -R include/asm-generic /usr/include &&
+	cp -R include/linux /usr/include &&
+	touch /usr/include/linux/autoconf.h &&
+	cp -a Documentation/man/* /usr/share/man/man9
+}

@@ -1,0 +1,19 @@
+name="LVM2 Utilities"
+version="2.00.20"
+homepage="http://sources.redhat.com/lvm2/"
+
+archives=(
+	"ftp://sources.redhat.com/pub/lvm2/LVM2.${version}.tgz"
+)
+
+dep="readline lvm-devicemapper"
+
+function build_pkg {
+	./configure --prefix=/usr --bindir=/bin --sbindir=/sbin --libdir=/lib \
+		--enable-readline &&
+	make
+}
+
+function install_pkg {
+	make install
+}

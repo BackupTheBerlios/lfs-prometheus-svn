@@ -1,0 +1,20 @@
+name=leafnode
+version="1.10.2"
+homepage="http://leafnode.sourceforge.net"
+
+archives=(
+	"http://www.dt.e-technik.uni-dortmund.de/~ma/leafnode/leafnode-${version}.rel.tar.bz2"
+)
+
+dep=pcre
+
+function build_pkg {
+	./configure --prefix=/usr --localstatedir=/var --sysconfdir=/etc/news \
+		--with-lockfile=/var/lock/news/fetchnews.lck \
+		--with-spooldir=/var/spool/news &&
+	make
+}
+
+function install_pkg {
+	make install
+}

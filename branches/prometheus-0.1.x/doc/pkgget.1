@@ -1,0 +1,55 @@
+.TH PKGGET 1 2004-01-09 "" "Linux User's Manual"
+.SH NAME
+pkgget \- Find needed files for package installations and download any missing
+ones.
+
+.SH SYNOPSIS
+.BI "pkgget [ " options " ] " "package " [ " package ... " ]
+
+.SH DESCRIPTION
+.BR Pkgget " checks whether any files needed for"
+.IR package "'s installation are present on the system and downloads any"
+.RI "that are not. " Package " can be a package name or a package profile."
+
+.SH OPTIONS
+.BR -? ", " -h ", " --help
+.RS
+Display help screen.
+.RE
+
+.BR -f ", " --config
+.I config file
+.RS
+Use alternate config file.
+.RE
+
+.BR -l ", " --list
+.RS
+List download locations for missing files, but do not download.
+.RE
+
+.SH FILES
+.I /etc/pkg/prometheus.conf
+.RS
+The global configuration file.
+.RE
+
+.I /etc/pkg/profiles/*.pkg
+.RS
+The package profiles used to store information on packages and their
+installation.
+.RE
+
+.SH BUGS
+None known. If you think you have found a bug or encounter any weird behaviour,
+please report it to one of the addresses below.
+
+.SH AUTHOR
+.RI "-- Gareth Jones <" moderob@lineone.net >
+
+.SH SEE ALSO
+.BR pkgadd (8),
+.BR pkginstall (8),
+.BR pkgrm (8),
+.BR pkginfo (1),
+.BR install-log (1)

@@ -1,0 +1,96 @@
+.TH PKGADD 8 2004-01-09 "" "System Maintenance Manual"
+.SH NAME
+pkgadd \- Build and install software packages from source.
+
+.SH SYNOPSIS
+.BI "pkgadd [ " options " ] " package " [ " "package ... "]
+
+.SH DESCRIPTION
+.BR Pkgadd " builds and installs packages in the order they are given on the"
+.RI "command line. " Package " can be a package name, eg. `bash', or a package"
+profile, eg. `bash.pkg'.
+
+The knowledge of how to install a package is stored in profile files, normally
+.RI "located in " /etc/pkg/profiles ". See below for more information."
+
+.IR Pkgadd " automatically resolves dependencies between packages and prompts"
+.RI "you to install them. Conflicting dependencies (ie. between " postfix
+.RI "and " exim ") will not be detected. Dependencies must be set up by hand"
+using the mechanism described in the reference package profile.
+
+.SH OPTIONS
+.BR -? ", " -h ", " --help
+.RS
+Display help screen.
+.RE
+
+.BR -f ", " --config
+.I config file
+.RS
+Use alternate config file.
+.RE
+
+.BR -b ", " --build-only
+.RS
+Only build the package, do not install.
+
+.RB "Note that " pkginstall " will complete the installation if this option is
+used.
+.RE
+
+.BR -l ", " --leave-files
+.RS
+Do not delete temporary files (such as the build directory) after building.
+
+.RI "This option is implied by " --build-only .
+
+.SH PROFILE FORMAT
+The format of the package profiles is described in detail in the reference
+.RI "profile located by default in " /etc/pkg/profiles/REFERENCE.pkg .
+
+.SH SPECIAL APPLICATION: SCRIPTED LFS BUILD
+The profile format is powerful enough to allow for a completely scripted build
+.RB "of a " "Linux From Scratch" " system. The distribution tarball already"
+contains the necessary profiles, but one wants to adjust them for personal
+preferences without a doubt.
+
+.RI "The main profiles containing the build information are " lfs.pkg ,
+.IR stage0.pkg " through "stage2.pkg ", " rootfs.pkg " and " users.pkg .
+
+.SH FILES
+.I /etc/pkg/prometheus.conf
+.RS
+The global configuration file.
+.RE
+
+.I /etc/pkg/profiles/*.pkg
+.RS
+The package profiles used to store information on packages and their
+installation.
+.RE
+
+.I /var/log/install-logs/*.log
+.RS
+The package installation log files.
+.RE
+
+.I /var/log/install-logs/.vtab
+.RS
+Version database of installed packages.
+.RE
+
+.SH BUGS
+None known. If you think you have found a bug or encounter any weird behaviour,
+please report it to one of the addresses below.
+
+.SH AUTHOR
+.RB "-- Gareth Jones <" moderob@lineone.net >
+
+.RB "-- Oliver Brakmann <" obrakmann@gmx.net >
+ 
+.SH SEE ALSO
+.BR pkginstall (8),
+.BR pkgrm (8),
+.BR pkginfo (1),
+.BR pkgget (1),
+.BR install-log (1)

@@ -1,0 +1,37 @@
+name="windowmaker"
+version="0.80.2"
+homepage="http://www.windowmaker.org"
+
+archives=(
+	"http://windowmaker.org/pub/source/release/WindowMaker-${version}.tar.bz2"
+	"http://windowmaker.org/pub/source/release/WindowMaker-extra-0.1.tar.gz"
+)
+
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/WindowMaker/Windowmaker-0.80.2-clip_captions-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/WindowMaker/Windowmaker-0.80.2-map_menu-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/WindowMaker/Windowmaker-0.80.2-newbuttons-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/WindowMaker/Windowmaker-0.80.2-translucency-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/WindowMaker/Windowmaker-0.80.2-wmsetbg_workspace_number-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/WindowMaker/WindowMaker-0.80.2-preference_directory-2.patch"
+)
+
+dep="XFree86 zlib libpng libjpeg libungif libtiff"
+
+function build_pkg {
+	./configure --prefix=/usr --sysconfdir=/etc --datadir=/usr/share \
+		--with-appspath=/usr/share/WindowMaker --disable-static \
+		--disable-kde --with-nlsdir=/tmp &&
+	make &&
+
+	cd ../Windowmaker-extras* &&
+	./configure --prefix=/usr &&
+	make
+}
+
+function install_pkg {
+	make install &&
+
+	cd ../Windowmaker-extras* &&
+	make install
+}

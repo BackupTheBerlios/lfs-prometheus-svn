@@ -1,0 +1,22 @@
+name="abook"
+version="0.5.1"
+homepage="http://abook.sf.net"
+
+archives=(
+	"http://prdownloads.sourceforge.net/abook/abook-${version}.tar.gz"
+)
+
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/abook/abook-${version}-bday-1.patch"
+)
+
+dep=readline
+
+function build_pkg {
+	./configure --prefix=/usr &&
+	make
+}
+
+function install_pkg {
+	make install
+}

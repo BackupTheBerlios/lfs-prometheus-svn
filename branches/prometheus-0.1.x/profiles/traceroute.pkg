@@ -1,0 +1,19 @@
+name="traceroute"
+version="1.4a12"
+
+archives=(
+	"ftp://ftp.ee.lbl.gov/traceroute-${version}.tar.gz"
+)
+
+function build_pkg {
+	mv Makefile.in{,.orig} &&
+	sed -e 's/-o bin/-o root/' Makefile.in.orig > Makefile.in &&
+	./configure --prefix=/usr &&
+	make
+}
+
+function install_pkg {
+	make install &&
+	make install-man &&
+	mv /usr/sbin/traceroute /usr/bin
+}

@@ -1,0 +1,22 @@
+name="CDParanoia III"
+version="9.8"
+homepage="http://www.xiph.org/paranoia/"
+
+archives=(
+	"http://www.xiph.org/paranoia/download/cdparanoia-III-alpha9.8.src.tgz"
+)
+
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/cdparanoia/cdparanoia-III-alpha9.8-includes-1.patch"
+)
+
+directory="cdparanoia-III-alpha9.8"
+
+function build_pkg {
+	./configure --prefix=/usr &&
+	make
+}
+
+function install_pkg {
+	make install
+}

@@ -1,0 +1,22 @@
+name="ESP GhostScript"
+version="7.07.1"
+homepage="http://www.cups.org"
+
+archives=(
+	"http://cesnet.dl.sourceforge.net/sourceforge/espgs/espgs-${version}-source.tar.bz2"
+)
+
+directory="espgs-${version}"
+
+dep="cups libjpeg libpng XFree86"
+
+function build_pkg {
+	./configure --prefix=/usr --without-omni --without-gimp-print &&
+	make
+}
+
+function install_pkg {
+	make install # &&
+	# make CFLAGS_SO='-fPIC $(ACDEFS)' so &&
+	# make soinstall
+}

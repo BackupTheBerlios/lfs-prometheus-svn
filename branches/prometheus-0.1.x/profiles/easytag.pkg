@@ -1,0 +1,21 @@
+name=easytag
+version="0.30.2"
+homepage="http://easytag.sf.net"
+
+archives=(
+	"http://cesnet.dl.sourceforge.net/sourceforge/easytag/easytag-${version}.tar.bz2"
+)
+
+dep="gtk1 id3lib"
+
+function build_pkg {
+	./configure --prefix=/usr --disable-nls &&
+	make
+}
+
+function install_pkg {
+	make install &&
+	{
+		rm -r /usr/share/applications || true
+	}
+}

@@ -1,0 +1,17 @@
+name=wmimonc
+version="0.5.1"
+homepage="http://userpage.fu-berlin.de/~zeank/gtk-imonc/"
+
+archives=(
+	"http://userpage.fu-berlin.de/~zeank/gtk-imonc/download/wmimonc-${version}.tar.gz"
+)
+
+dep="windowmaker gtk-imonc"
+
+function build_pkg {
+	make CC="$cc" CFLAGS="$cflags"
+}
+
+function install_pkg {
+	install -m755 wmimonc /usr/X11R6/bin
+}

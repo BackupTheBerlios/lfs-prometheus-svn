@@ -1,0 +1,355 @@
+# This file contains the global prometheus functions.
+
+# Usage: warning <message>
+# Print <message> to stderr.
+function warning {
+	(( $# == 0 )) && usage_error "warning" "<message>"
+
+	echo "$(basename $0): $*" >&2
+}
+
+# Usage: error <message>
+# Print <message> to stderr & exit.
+function error {
+	(( $# == 0 )) && usage_error "error" "<message>"
+
+	warning "$@"
+	exit 1
+}
+
+# Usage: usage_err <function> <correct usage> [<invalid usage>]
+# Print an error about <function> usage, where <correct usage> is correct usage,
+# & <invalid usage> is the usage that caused the error.  Exit.
+function usage_error {
+	if (( $# > 3 )) || [[ -z "$1" || -z "$2" ]]; then
+		usage_error "usage_err" \
+			    "<function> <correct usage> [<invalid usage>]" "$*"
+	fi
+
+	warning "usage: $1 $3"
+	error "correct usage: $1 $2"
+}
+
+# Usage: script_usage_err <message>
+# Report bad usage of a script & exit.
+function script_usage_err {
+	(( $# == 0 )) && usage_error "script_usage_err" "<message>"
+
+	warning "$@"
+	warning "help text follows"
+	echo >&2
+
+	# Script must provide a usage function.
+	usage >&2
+	exit 1
+}
+
+# Usage: source_file <file> [<description>]
+# Source file if it exists, else report error & exit.
+function source_file {
+	if (( $# > 2 )) || [[ -z "$1" ]]; then
+		usage_error "source_file" "<file> [<description>]" "$*"
+	fi
+
+	[[ -f "$1" && -r "$1" ]] && source "$1" ||
+	error "cannot source $2: $1"
+}
+
+# Usage: source_config
+# Source config file & check valid.
+function source_config {
+	source_file "${pkgconfig:=%CONFFILE%}" "configuration file"
+
+	[[ -z "$profiles" ]] && error "profiles not set in $pkgconfig"
+	[[ -z "$srcdir" ]] && error "srcdir not set in $pkgconfig"
+	[[ -z "$builddir" ]] && error "builddir not set in $pkgconfig"
+}
+
+# Usage: source_profile {<profile>|<package>}
+# Source <profile>, or the profile of <package>.  Set global variables $package
+# & $profile accordingly.
+function source_profile {
+	if (( $# != 1 )) || [[ -z "$1" ]]; then
+		usage_error "source_profile" "{<profile>|<package>}" "$*"
+	fi
+
+	# Are we being passed a package or a profile?
+	local pack="${1%.pkg}"
+	if [[ "$pack" == "$1" ]]; then
+
+		# We have <package>.  Look for its profile in $profiles.
+		package="$1"
+		profile="$profiles/$1.pkg"
+	else
+
+		# We have <profile>.
+		package="${pack##*/}"
+		profile="$1"
+	fi
+
+	source_file "$profile" "$package package profile"
+}
+
+# Usage: is_set <variable name>
+# Return true if <variable name> denotes an initialised variable, even if its
+# value is "".  Return false if the variable is unset.
+function is_set {
+	if (( $# != 1 )) || [[ -z "$1" ]]; then
+		usage_error "is_set" "<variable name>" "$*"
+	fi
+
+	eval "[[ \"\${$1+x}\" == x ]]"
+}
+
+# Usage: is_func <function name>
+# Return true if <function name> denotes a shell function, false otherwise.
+function is_func {
+	if (( $# != 1 )) || [[ -z "$1" ]]; then
+		usage_error "is_func" "<function name>" "$*"
+	fi
+
+	[[ "$(type -t $1)" == "function" ]]
+}
+
+# Usage: get_logdir
+# Print the location of the install-log log files.
+function get_logdir {
+	[[ -r /etc/install-log.rc ]] &&
+	echo $(sed -n 's/^LOGDIR=//p' /etc/install-log.rc)
+}
+
+# Usage: get_conf_var <variable> <profile>
+# Echo the value of <variable> to stdout. Do not source <profile>.
+function get_conf_var {
+	(( $# < 2 )) || [[ -z "$1" ]] || [[ -z "$2" ]] &&
+		 usage_error "get_conf_var" "<variable> <profile>" "$@"
+
+	[[ -r "$2" ]] || error "$2 package profile not available."
+
+	(
+		source "$2" &&
+		eval echo \$$1
+	)
+
+	return
+#	sed -n "s/^[  ]*$1=['\"]*\([^'\"]*\).*/\1/p" "$2"
+}
+
+# Usage: get_longname <package> <vtab_flag>
+# Print the full name of a package, including version number.
+# If <vtab_flag> is set, use version number from .vtab.
+function get_longname {
+	(( $# < 2 )) && usage_error "get_longname" "<package> <vtab_flag>" "$@"
+
+	local logdir=$(get_logdir) ||
+	error "get_longname: cannot read install-log configuration file."
+
+	local name
+	local version
+	local profile="$profiles/$1.pkg"
+
+	[[ -r "$profile" ]] &&
+		name="$(get_conf_var name "$profile")"
+
+	if (( "$2" == 1 )); then
+		[[ -r "$logdir/.vtab" ]] &&
+		version="$(sed -n "s/^$1	//p" "$logdir/.vtab")"
+	else
+		[[ -r "$profile" ]] && 
+			version="$(get_conf_var version	"$profile")"
+	fi
+
+	[[ -n "$name" ]] &&
+	echo "$name${version:+ $version}" ||
+	echo "$1${version:+-$version}"
+}	
+
+# Usage: remove_dupes
+# Like uniq, only works for non-consecutive lines, too ;-)
+function remove_dupes {
+	local processed
+
+	while read token; do
+		for i in $processed; do
+			[[ "$i" == "$token" ]] && continue 2
+		done
+		processed="$processed $token"
+	done
+	echo "$processed"
+}
+
+# Usage: get_deps <package>
+# Resolve package dependencies. Only works with package profiles installed
+# in $profiles.
+function get_deps {
+	[[ -n "$1" ]] || usage_error "get_deps" "<package>" "$@"
+
+	local dep
+	local i
+
+	dep=$(get_conf_var dep "$profiles/$1.pkg")
+	for i in $dep; do
+		get_deps "$i"
+	done
+
+	[[ -n "$dep" ]] && echo "$dep" | tr ' ' '\n'
+}
+
+# Usage: get_dependencies <package>
+# Wrapper function for get_deps. Called by user code. The dependency list
+# is echoed to stdout.
+function get_dependencies {
+	[[ -n "$1" ]] || usage_error "get_dependencies" "<package>" "$@"
+
+	get_deps "$1" | remove_dupes
+}
+
+# Usage: list_files
+# Print list of files needed by current package, one file per line.
+function list_files {
+	for file in "${archives[@]}" "${stage0_archives[@]}" \
+		    "${stage1_archives[@]}" "${stage2_archives[@]}" \
+		    "${patches[@]}" "${stage0_patches[@]}" \
+		    "${stage1_patches[@]}" "${stage2_patches[@]}"; do
+		echo "$file"
+	done | sort -u
+}
+
+# Usage: get_compression <filename>
+# Print the compression suffix of <filename>, one of `.tar', `.z', `.tar.z',
+# `.taz', `.Z', `.tar.Z', `.gz', `.tar.gz', `.tgz', `.bz2', `.tar.bz2', `.tbz',
+# `.tbz2', `.zip', `.ZIP', or null.  Include archive suffixes.
+function get_compression {
+	if (( $# != 1 )) || [[ -z "$1" ]]; then
+		usage_error "get_compression" "<filename>" "$*"
+	fi
+
+	local file="$1"
+	local suffix="${file##*.}"
+
+	# Some suffixes may need further extraction, e.g. `.tar.gz'.
+	case "$suffix" in
+		(tar|taz|tgz|tbz*|zip|ZIP)	echo ".$suffix";;
+
+		(z|Z|gz|bz2)	file="${file%.$suffix}"
+				local subsuffix=$(get_compression "$file")
+				echo "$subsuffix.$suffix"
+	esac
+}
+
+# Usage: remove_compression <filename>
+# Remove any compression suffix from <filename> & print the result.  Only
+# remove `gzip', `bzip2', or `compress' suffixes.  Leave archive suffixes in
+# place.
+function remove_compression {
+	if (( $# != 1 )) || [[ -z "$1" ]]; then
+		usage_error "remove_compression" "<filename>" "$*"
+	fi
+
+	local uncomp
+	local file="$1"
+	local suffix=$(get_compression "$file")
+	case "$suffix" in
+		(*.z|*.Z|*.gz|*.bz2)	uncomp="${file%${suffix#.tar}}";;
+		(.taz|.tgz|.tbz*)	uncomp="${file%$suffix}.tar";;
+		(*)			uncomp="$file"
+	esac
+
+	echo "$uncomp"
+}
+
+# Usage: unpack <archive>
+# Unpacks <archive>.
+function unpack {
+	if (( $# != 1 )) || [[ -z "$1" ]]; then
+		usage_error "unpack" "<archive>" "$*"
+	fi
+
+	echo "Unpacking $1..."
+
+	case "$(get_compression "$1")" in
+		(.tar)					tar xf "$1";;
+		(.tar.gz|.tar.z|.tar.Z|.tgz|.taz)	tar xzf "$1";;
+		(.tar.bz2|.tbz*)			tar xjf "$1";;
+		(.zip|.ZIP)				unzip -q "$1";;
+		(*)	error "unknown archive type: $1"
+	esac || error "cannot unpack $1 in $PWD"
+}
+
+# Usage: cat_file <file>
+# Wrapper for cat, zcat & bzcat.
+function cat_file {
+	if (( $# != 1 )) || [[ -z "$1" ]]; then
+		usage_error "cat_file" "<file>" "$*"
+	fi
+
+	case "$(get_compression "$1")" in
+		(*bz*)	bzcat "$1";;
+		(*z|*Z) zcat "$1";;
+		(*)	cat "$1"
+	esac || error "cannot cat $1"
+}
+
+# Usage: location_of <file>
+# Find <file> in $srcdir or $builddir & print its location.  Also check for
+# un-/re-compressed versions before giving up.
+function location_of {
+	if (( $# != 1 )) || [[ -z "$1" ]]; then
+		usage_error "location_of" "<file>" "$*"
+	fi
+
+	# Remove directory from <file>.
+	local base="${1##*/}"
+
+	# Get uncompressed filename.
+	local uncomp=$(remove_compression "$base")
+
+	# Search $srcdir & $builddir for the original <file>, &
+	# un-/re-compressed versions.
+	local file location
+	for file in "$base" "$uncomp"{,.gz,.bz2}; do
+
+		# First search $srcdir.
+		location=$(find "$srcdir" -name "$file")
+
+		# Else try $builddir.
+		[[ -z "$location" ]] &&
+		location=$(find "$builddir" -name "$file")
+
+		# End loop if we found <file> & it is readable.
+		[[ -n "$location" && -f "$location" && -r "$location" ]] &&
+		break ||
+		location=
+	done
+
+	# Otherwise fail.
+	[[ -z "$location" ]] &&
+	warning "could not find $base in $srcdir or $builddir"
+
+	echo "$location"
+}
+
+# Usage: temp_file <file> [<file> ...]
+# Mark <file>s (which can be directories) for deletion by remove_temp_files.
+# temp_files should be unset at the start of a script if remove_temp_files is
+# called at the end.
+function temp_file {
+	(( $# == 0 )) && usage_error "temp_file" "<file> [<file> ...]"
+
+	# Add arguments to array of files to delete.
+	local file
+	for file in "$@"; do
+		temp_files[${#temp_files[@]}]="$file"
+	done
+}
+
+# Usage: remove_temp_files
+# Removes all files & directories marked for deletion by temp_file.  temp_files
+# should be unset at the start of a script if remove_temp_files is called at
+# the end.
+function remove_temp_files {
+	if (( ${#temp_files[@]} > 0 )) && ! rm -fr "${temp_files[@]}"; then
+		warning "cannot remove unneeded files:"
+		ls "${temp_files[@]}" >&2
+	fi
+}

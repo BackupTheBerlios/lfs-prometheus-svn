@@ -1,0 +1,20 @@
+name="Jim Knoble's X11 fonts"
+version=3.0
+homepage="http://www.jmknoble.net/fonts/"
+
+archives=(
+	"http://www.jmknoble.net/fonts/jmk-x11-fonts-${version}.tar.gz"
+)
+
+dep=XFree86
+
+function build_pkg {
+	[[ -d /usr/X11R6/lib/X11/fonts/jmk ]] &&
+		rm -r /usr/X11R6/lib/X11/fonts/jmk
+	xmkmf &&
+	make
+}
+
+function install_pkg {
+	make install
+}

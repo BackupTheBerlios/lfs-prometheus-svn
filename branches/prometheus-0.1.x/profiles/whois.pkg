@@ -1,0 +1,20 @@
+name="whois"
+version="4.6.16"
+homepage="http://www.linux.it/~md/software/"
+
+archives=(
+	"http://www.linux.it/~md/software/whois_${version}.tar.gz"
+)
+
+directory="whois-${version}"
+
+dep=gettext
+
+function build_pkg {
+	find . -type f -exec touch {} \;
+	make CATALOGS=""
+}
+
+function install_pkg {
+	make CATALOGS="" prefix=/usr install
+}

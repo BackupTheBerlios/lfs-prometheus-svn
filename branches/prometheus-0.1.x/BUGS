@@ -1,0 +1,13 @@
+Bugs:
+
+* libpng, zip, unzip, openssl, pciutils, libwrap do not use CFLAGS etc.
+
+* fcron profile does not allow re-install (check for existing users etc.)
+
+* Starting `pkgadd lfs' in a directory which the `lfs' user may not enter
+  breaks the build ("popd: Permission denied").
+
+* $lfs/{proc,dev} and $lfs_srcdir don't get unmounted on errors during build
+
+* If lfs_srcdir is `mount --bind'ed, the profile changes permissions on the
+  host system. Try to avoid that some way.

@@ -1,0 +1,17 @@
+name=lespipe
+version="1.41"
+homepage="http://www-zeuthen.desy.de/~friebel/unix/lesspipe.html"
+
+archives=(
+	"http://www-zeuthen.desy.de/~friebel/unix/less/lesspipe-${version}.tar.gz"
+)
+
+dep=less
+
+function build_pkg {
+	./configure --prefix=/usr --default
+}
+
+function install_pkg {
+	make install
+}

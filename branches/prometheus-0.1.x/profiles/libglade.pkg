@@ -1,0 +1,17 @@
+name=libglade
+version="2.3.6"
+
+archives=(
+	"ftp://ftp.belnet.be/mirror/ftp.gnome.org/sources/libglade/2.3/libglade-${version}.tar.bz2"
+)
+
+dep="libxml2 gtk2"
+
+function build_pkg {
+	./configure --prefix=/usr &&
+	make
+}
+
+function install_pkg {
+	make install
+}

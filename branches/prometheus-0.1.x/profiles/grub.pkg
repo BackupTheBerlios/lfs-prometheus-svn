@@ -1,0 +1,21 @@
+name="GRand Unified Bootloader"
+version="0.95"
+
+archives=(
+	"ftp://alpha.gnu.org/gnu/grub/grub-${version}.tar.gz"
+)
+
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/grub/grub-${version}-oneshot-1.patch"
+)
+
+function build_pkg {
+	./configure --prefix=/usr &&
+	make
+}
+
+function install_pkg {
+	make install &&
+	mkdir -p /boot/grub &&
+	cp /usr/share/grub/*/* /boot/grub/
+}

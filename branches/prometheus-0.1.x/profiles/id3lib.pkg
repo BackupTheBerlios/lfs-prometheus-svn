@@ -1,0 +1,16 @@
+name=id3lib
+version="3.8.3"
+homepage="http://id3lib.sf.net"
+
+archives=(
+	"http://cesnet.dl.sourceforge.net/sourceforge/id3lib/id3lib-${version}.tar.gz"
+)
+
+function build_pkg {
+	./configure --prefix=/usr &&
+	make
+}
+
+function install_pkg {
+	make install
+}

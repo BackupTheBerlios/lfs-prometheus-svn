@@ -1,0 +1,20 @@
+name="libpng"
+version="1.2.5"
+homepage="http://www.libpng.org/pub/png/libpng.html"
+
+archives=(
+	"http://cesnet.dl.sourceforge.net/sourceforge/png-mng/libpng-${version}.tar.bz2"
+)
+
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/libpng/libpng-${version}-link_to_proper_libs-1.patch"
+)
+
+function build_pkg {
+	make prefix=/usr ZLIBINC=/usr/include ZLIBLIB=/usr/lib \
+		-f scripts/makefile.linux
+}
+
+function install_pkg {
+	make prefix=/usr install -f scripts/makefile.linux
+}

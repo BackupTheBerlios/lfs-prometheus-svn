@@ -1,0 +1,30 @@
+Still to do:
+
+* Implement dependency checking between packages (well, once we've got this
+  covered we can use the same functions for dcis and prometheus ;-)
+  Note: this is almost done, as it seems. Yet untested though.
+  We can't use this for dcis, though, as we have to use a different approach
+  there. Maybe we can re-use some parts.
+
+* Have pkgrm check for breaking dependencies if a package is removed.
+
+* If an *install* fails, still run install-log to find out what *was* installed,
+  so it can be cleanly removed.  Give user a choice to clean up after a failed
+  install.
+
+* Better checking for script options (is it a file or a package etc.)
+  Note: This is quite a nightmare and its use darn incosistent throughout
+  the whole pkgtools suite. Some scripts support it, some not, some functions
+  support it, some not. It's a mess :-/
+  Note: The situation has somewhat improved. I think. Certainly.
+
+* Option to cross-compile according to the cross-compilation hint
+  (ie. using a kernel module).
+
+* `lfs-install' script may return as a wrapper for `pkgget (all packages)',
+  optional pkgcompress, and finally `pkgadd lfs'.  Maybe a final run of Gerard's
+  `check-lfs' to give people a warm fuzzy feeling.
+
+* Profiles!
+  I'd consider this done, at least for a base LFS build. See the other TODOs
+  for some minor tweaking, though.

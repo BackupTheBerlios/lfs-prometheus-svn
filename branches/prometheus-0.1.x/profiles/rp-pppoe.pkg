@@ -1,0 +1,20 @@
+name="Roaring Penguin PPPoE"
+version="3.5"
+homepage="http://www.roaringpenguin.com"
+
+archives=(
+	"http://www.roaringpenguin.com/products/rp-pppoe/rp-pppoe-${version}.tar.gz"
+)
+
+dep=ppp
+
+function build_pkg {
+	cd src &&
+	./configure &&
+	make
+}
+
+function install_pkg {
+	cd src &&
+	make install
+}

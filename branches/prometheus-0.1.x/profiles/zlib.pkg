@@ -1,0 +1,25 @@
+name="zlib"
+version="1.2.1"
+homepage="http://www.gzip.org/zlib/"
+
+archives=(
+	"ftp://ftp.info-zip.org/pub/infozip/zlib/zlib-${version}.tar.gz"
+)
+
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/zlib/zlib-${version}-inflate_fix-1.patch"
+)
+
+function build_pkg {
+	# CFLAGS="$CFLAGS -fPIC" \
+	./configure --prefix=/usr --shared &&
+	make
+	# make check
+}
+
+function install_pkg {
+	make  install &&
+#	chmod 644 /usr/lib/libz.a &&
+	mv /usr/lib/libz.so.* /lib &&
+	ln -sf ../../lib/libz.so.1 /usr/lib/libz.so
+}

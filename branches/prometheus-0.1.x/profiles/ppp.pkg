@@ -1,0 +1,21 @@
+name=ppp
+version="2.4.2"
+
+archives=(
+	"http://ccache.samba.org/ftp/ppp/ppp-${version}.tar.gz"
+)
+
+patches=(
+	"http://www.linuxfromscratch.org/patches/blfs/cvs/ppp-${version}-nobpf-3.patch"
+)
+
+dep=libpcap
+
+function build_pkg {
+	./configure &&
+	make ETCDIR=/etc/ppp
+}
+
+function install_pkg {
+	make ETCDIR=/etc/ppp install
+}

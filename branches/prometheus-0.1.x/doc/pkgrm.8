@@ -1,0 +1,79 @@
+.TH PKGRM 8 2004-01-09 "" "System Maintenance Manual"
+.SH NAME
+pkgrm \- Remove packages
+
+.SH SYNOPSIS
+.BI "pkgrm [ " options " ] " package " [ " " package ... " ]
+
+.SH DESCRIPTION
+.BR Pkgrm " removes installed packages from a system. It uses the " install-log
+log files to determine which files belong to a package. Even though those
+.RB "log files list only installed files, " pkgrm " also deletes any directories
+that a package installed files in and that became empty after their removal.
+Non-empty directories are kept.
+
+.SH OPTIONS
+.BR -? ", " -h ", " --help
+.RS
+Display help screen.
+.RE
+
+.BR -f ", " "--config "
+.I  config file
+.RS
+Use alternate configuration file.
+.RE
+
+.BR -b ", " "--backup "
+.I "backup dir"
+.RS
+.RI "Backup package in " "backup dir" " before removal. The files will be saved
+in a bzip2-compressed tarball.
+
+Without this option, NO BACKUP IS PERFORMED. Also, BE EXTRA CAREFUL to ensure
+that no other package DEPENDS ON the package you want to remove.
+.RE
+
+.SH FILES
+.I /etc/pkg/prometheus.conf
+.RS
+The global configuration file.
+.RE
+
+.I /etc/pkg/profiles/*.pkg
+.RS
+The package profiles used to store information on packages and their
+installation.
+.RE
+
+.I /var/log/install-logs/*.log
+.RS
+The package installation log files.
+.RE
+
+.I /var/log/install-logs/.vtab
+.RS
+Version database of installed packages.
+.RE
+
+.SH BUGS AND LIMITATIONS
+.HP 3
+.RI "-- Depending on the way you set up your " install-log.rc " file, "
+.BR pkgrm " may not delete files that were installed in"
+.IR /etc ", " /var " or user home directories. Since files within those
+hierarchies change frequently, it is not advisable to include those directories
+.RI "in the " install-log.rc " file. This is on the one hand a serious
+limitation of this package management mechanism, on the other hand it allows you
+to keep a package's configuration even after it is removed and possibly saves
+you the hassle of reconfiguration should you decide to reinstall the package.
+.HP 0
+
+.SH AUTHOR
+.RI "-- Oliver Brakmann <" obrakmann@gmx.net >
+
+.SH SEE ALSO
+.BR pkgadd (8),
+.BR pkginstall (8),
+.BR pkginfo (1),
+.BR pkgget (1),
+.BR install-log (1)

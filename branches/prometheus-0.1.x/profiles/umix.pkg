@@ -1,0 +1,18 @@
+name=umix
+version="1.0.2"
+homepage="http://umix.sourceforge.net"
+
+archives=(
+	"http://prdownloads.sourceforge.net/umix/umix-${version}.tar.gz"
+)
+
+dep=ncurses
+
+function build_pkg {
+	./configure --prefix=/usr --sysconfdir=/etc &&
+	make
+}
+
+function install_pkg {
+	make install
+}

@@ -1,0 +1,19 @@
+name="GNU wget"
+version="1.9.1"
+homepage="http://www.gnu.org/software/wget/"
+
+archives=(
+	"ftp://ftp.cs.tu-berlin.de/pub/gnu/wget/wget-${version}.tar.bz2"
+)
+
+dep=openssl
+
+function build_pkg {
+	./configure --prefix=/usr --sysconfdir=/etc --with-ssl \
+		--enable-static=no --disable-nls &&
+	make
+}
+
+function install_pkg {
+	make install
+}

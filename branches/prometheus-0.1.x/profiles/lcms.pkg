@@ -1,0 +1,18 @@
+name="lcms"
+version="1.13"
+homepage="http://www.littlecms.org/"
+
+archives=(
+	"http://www.littlecms.com/lcms-${version}.tar.gz"
+)
+
+dep="libjpeg libtiff"
+
+function build_pkg {
+	./configure --prefix=/usr &&
+	make
+}
+
+function install_pkg {
+	make install
+}

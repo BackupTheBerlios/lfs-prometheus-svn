@@ -1,0 +1,22 @@
+name="gtk+"
+version="2.4.4"
+homepage="http://www.gtk.org"
+
+archives=(
+	"http://ftp.belnet.be/mirror/ftp.gnome.org/sources/gtk+/2.4/gtk+-${version}.tar.bz2"
+)
+
+patches=(
+	"http://belnet.dl.sourceforge.net/sourceforge/xfce/gtk+-2.4.0-menushadow.patch"
+)
+
+dep="libtiff libjpeg XFree86 glib2 pango atk"
+
+function build_pkg {
+	./configure --prefix=/usr --sysconfdir=/etc &&
+	make
+}
+
+function install_pkg {
+	make install
+}

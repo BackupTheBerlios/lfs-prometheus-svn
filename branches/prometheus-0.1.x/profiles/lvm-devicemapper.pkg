@@ -1,0 +1,21 @@
+name="LVM Device Mapper"
+version="1.00.18"
+homepage="http://sources.redhat.com/dm/"
+
+archives=(
+	"ftp://sources.redhat.com/pub/dm/device-mapper.${version}.tgz"
+)
+
+# Note: LVM patches for current 2.4 kernels can be obtained from
+# http://people.sistina.com/~thornber/dm/
+
+function build_pkg {
+	./configure --prefix=/usr --bindir=/bin --sbindir=/sbin --libdir=/lib &&
+	make
+}
+
+function install_pkg {
+	make install &&
+	rm /lib/libdevmapper.so &&
+	ln -sf ../../libdevmapper.so.1.00 /usr/lib/libdevmapper.so
+}

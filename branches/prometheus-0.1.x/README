@@ -1,0 +1,22 @@
+Prometheus 0.1
+
+ProMeTheuS is the Package Managing Tool Set.
+
+It is intended for use by the LFS audience. It grew from a simple
+LFS build script to a collection of tools that should cover most
+package management needs of the average LFS user.
+
+Prometheus uses install-log as backend and features very powerful
+package profiles that can even be used to build a complete LFS by
+issueing a single command.
+
+Features:
+* installation and removal of software packages
+* keeps track of installed files using install-log
+* keeps track of version information
+* simple dependency resolution method
+* powerful package profiles based on bash shell scripts
+* simple package download facility
+* flexible tool to query package profiles and get information
+  on installed packages
+

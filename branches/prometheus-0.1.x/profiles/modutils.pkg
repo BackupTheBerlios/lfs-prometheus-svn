@@ -1,0 +1,15 @@
+name="modutils"
+version="2.4.27"
+
+archives=(
+	"ftp://ftp.de.kernel.org/pub/linux/utils/kernel/modutils/v2.4/modutils-${version}.tar.bz2"
+)
+
+function build_pkg {
+	./configure && # --enable-zlib &&   Needs static zlib library
+	make
+}
+
+function install_pkg {
+	make install
+}

@@ -1,0 +1,19 @@
+name=fetchmail
+version=6.2.5
+homepage="http://www.catb.org/~esr/fetchmail/"
+
+archives=(
+	"http://catb.org/~esr/fetchmail/fetchmail-${version}.tar.gz"
+)
+
+dep="openssl procmail"
+
+function build_pkg {
+	./configure --prefix=/usr --with-ssl --enable-fallback=procmail \
+		--disable-nls &&
+	make
+}
+
+function install_pkg {
+	make install
+}

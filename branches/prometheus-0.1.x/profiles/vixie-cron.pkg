@@ -1,0 +1,21 @@
+name=vixie-cron
+version="3.0.1"
+
+archives=(
+	"ftp://ftp.roedu.net/pub/mirrors/gentoo.org/distfiles/vixie-cron-${version}.tar.bz2"
+)
+
+patches=(
+	"http://www.lfs-matrix.de/patches/downloads/vixie-cron/vixie-cron-3.0.1-redhat_mdk-1.patch"
+	"http://www.lfs-matrix.de/patches/downloads/vixie-cron/vixie-cron-3.0.1-security-1.patch"
+	"http://www.lfs-matrix.de/patches/downloads/vixie-cron/vixie-cron-3.0.1-makefile-1.patch"
+	"http://www.lfs-matrix.de/patches/downloads/vixie-cron/vixie-cron-3.0.1-variables-1.patch"
+)
+
+function build_pkg {
+	make CC="gcc $CFLAGS"
+}
+
+function install_pkg {
+	make install
+}

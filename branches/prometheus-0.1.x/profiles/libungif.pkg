@@ -1,0 +1,19 @@
+name="libungif"
+version="4.1.0b1"
+
+archives=(
+	"http://ftp.sunfreeware.com/ftp/pub/freeware/SOURCES/libungif-${version}.tar.gz"
+)
+
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/libungif/libungif-${version}-gcc33-1.patch"
+)
+
+function build_pkg {
+	./autogen.sh --prefix=/usr &&
+	make
+}
+
+function install_pkg {
+	make install
+}

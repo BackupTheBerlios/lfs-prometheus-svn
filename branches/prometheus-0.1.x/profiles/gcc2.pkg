@@ -1,0 +1,51 @@
+name="GNU Compiler Collection (gcc)"
+version="2.95.3"
+homepage="http://www.gnu.org/software/gcc/"
+
+archives=(
+	"ftp://ftp.cs.tu-berlin.de/pub/gnu/gcc/gcc-${version}/gcc-${version}.tar.gz"
+)
+
+patches=(
+  "http://www.linuxfromscratch.org/patches/downloads/gcc/gcc-${version}-fix_install-1.patch"
+  "http://www.linuxfromscratch.org/patches/downloads/gcc/gcc-${version}-no_fixinc-1.patch"
+  "http://www.linuxfromscratch.org/patches/downloads/gcc/gcc-${version}-returntype_fix-1.patch"
+)
+
+optimize=no
+
+function build_pkg {
+	echo timestamp > gcc/cstamp-h.in
+
+	mkdir "$directory"/../gcc2-build &&
+	cd "$directory"/../gcc2-build &&
+
+	CFLAGS="-O2 -pipe" \
+	CXXFLAGS="-O2 -pipe" \
+	"$directory"/configure --prefix=/opt/gcc2 --enable-shared \
+			       --enable-languages=c,c++ --enable-threads=posix \
+			       --disable-nls &&
+
+	make LDFLAGS="-s" bootstrap
+	# make -k check
+}
+
+function install_pkg {
+	cd "$directory"/../gcc2-build &&
+
+	make install &&
+
+	L=`find /opt/gcc2/lib -name "*libstdc++*.so" -type f -exec basename {} \
+	   \;` &&
+
+	for i in /opt/gcc2/lib/*.so*; do
+		mv -f $i /usr/lib;
+		ln -sf /usr/lib/`basename $i` /opt/gcc2/lib
+	done &&
+
+	ln -sf $L /usr/lib/libstdc++-libc6.1-1.so.2 &&
+	ln -sf $L /usr/lib/libstdc++-libc6.2-2.so.3 &&
+	ln -sf $L /usr/lib/libstdc++-libc6.3-2.so.3 &&
+
+	cd "$directory"/.. && rm -rf gcc2-build
+}

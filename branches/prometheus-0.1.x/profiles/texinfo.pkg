@@ -1,0 +1,28 @@
+name="GNU texinfo"
+version="4.7"
+homepage="http://www.gnu.org/software/texinfo/"
+
+archives=(
+	"ftp://ftp.cs.tu-berlin.de/pub/gnu/texinfo/texinfo-${version}.tar.bz2"
+)
+
+function stage1_build_pkg {
+	./configure --prefix=/tools --disable-nls &&
+	make
+	# make check
+}
+
+function stage1_install_pkg {
+	make install
+}
+
+function build_pkg {
+	./configure --prefix=/usr --disable-nls &&
+	make
+	# make check
+}
+
+function install_pkg {
+	make install &&
+	make TEXMF=/usr/share/texmf install-tex
+}

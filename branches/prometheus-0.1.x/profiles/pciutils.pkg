@@ -1,0 +1,21 @@
+name="pciutils"
+version="2.1.11"
+
+archives=(
+	"http://www.de.kernel.org/pub/software/utils/pciutils/pciutils-${version}.tar.bz2"
+)
+
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/pciutils/pciutils-${version}-buffersize-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/pciutils/pciutils-${version}-pcimodules-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/pciutils/pciutils-${version}-sharedir-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/pciutils/pciutils-${version}-unused-1.patch"
+)
+
+function build_pkg {
+	make PREFIX=/usr
+}
+
+function install_pkg {
+	make PREFIX=/usr install
+}

@@ -1,0 +1,18 @@
+name="ncftp"
+version="3.1.6"
+homepage="http://www.ncftp.com/ncftp/"
+
+archives=(
+	"ftp://ftp.ncftp.com/ncftp/ncftp-${version}-src.tar.bz2"
+)
+
+directory="ncftp-${version}"
+
+function build_pkg {
+	./configure --prefix=/usr &&
+	make
+}
+
+function install_pkg {
+	make install
+}

@@ -1,0 +1,15 @@
+--- template.conf	2004-02-09 19:46:40.000000000 +0100
++++ template.conf.old	2004-02-09 19:46:24.000000000 +0100
+@@ -5,6 +5,12 @@
+ srcdir="/usr/src"
+ builddir="/var/tmp"
+ 
++# How to compress files (backups, package archives).  One of `gzip', `bzip2',
++# `smallest' or `none', defaulting to `gzip'.  Files smaller than $threshhold
++# bytes are not compressed (default = 0 bytes).
++# compression=smallest
++# threshold=0
++
+ # Should builds be logged? This variable only has any effects on packages
+ # that have the ``log_install'' variable set.
+ # Allowed values are:

@@ -1,0 +1,16 @@
+name="hdparm"
+version="5.4"
+
+archives=(
+	"http://www.ibiblio.org/pub/Linux/system/hardware/hdparm-${version}.tar.gz"
+)
+
+function build_pkg {
+	make
+}
+
+function install_pkg {
+	make install
+
+	# make binprefix=/usr install
+}

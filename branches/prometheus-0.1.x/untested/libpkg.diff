@@ -1,0 +1,51 @@
+--- libpkg	2004-01-08 10:49:36.000000000 +0100
++++ libpkg.old	2004-01-08 10:45:06.000000000 +0100
+@@ -290,6 +290,48 @@
+ 	esac || error "cannot cat $1"
+ }
+ 
++# Usage: compress <file>
++# Compress <file> depending on $compression.  Print the location of the
++# compressed file.
++function compress {
++	if (( $# != 1 )) || [[ -z "$1" ]]; then
++		usage_error "compress" "<file>" "$*"
++	fi
++
++	# Don't compress <file> if it is smaller than $threshold.
++	if (( threshold && $(wc --bytes < "$1") < threshold )); then
++		echo "$1"
++		return
++	fi
++
++	local filename
++
++	# gzip is the default compression.
++	case "$compression" in
++		(""|gzip)	filename="$1.gz"
++				gzip -9 "$1";;
++
++		(bzip2)		filename="$1.bz2"
++				bzip2 -9 "$1";;
++
++		(smallest)	filename=$(compact "$1");;
++
++		(none)		echo "$1"
++				return;;
++
++		(*)		warning "unknown compression: $compression"
++				echo "$1"
++				return
++	esac &&
++
++	# Check compressed file created.
++	[[ -f "$filename" && -r "$filename" ]] && echo "$filename" && return
++
++	# Compression failed.
++	warning "cannot compress $1 with $compression compression"
++	echo "$1"
++}
++
+ # Usage: location_of <file>
+ # Find <file> in $srcdir or $builddir & print its location.  Also check for
+ # un-/re-compressed versions before giving up.

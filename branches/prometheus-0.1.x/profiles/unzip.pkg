@@ -1,0 +1,26 @@
+name="unzip"
+version="5.51"
+homepage="http://www.info-zip.org/Unzip.html"
+
+archives=(
+	"ftp://ftp.info-zip.org/pub/infozip/src/unzip551.tar.gz"
+)
+
+patches=(
+	"http://www.linuxfromscratch.org/patches/blfs/cvs/unzip-${version}-fix_libz-1.patch"
+	"http://www.linuxfromscratch.org/patches/blfs/cvs/unzip-${version}-fix_Makefile-1.patch"
+	"http://www.linuxfromscratch.org/patches/blfs/cvs/unzip-${version}-dont_make_noise-1.patch"
+)
+
+directory="unzip-${version}"
+
+function build_pkg {
+	cp unix/Makefile . &&
+	make prefix=/usr linux &&
+	make prefix=/usr linux_shlibz
+}
+
+function install_pkg {
+	make prefix=/usr install &&
+	cp -a libunzip.so* /usr/lib
+}

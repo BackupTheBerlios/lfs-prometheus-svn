@@ -1,0 +1,16 @@
+name="libxml2"
+version="2.6.11"
+homepage="http://www.xmlsoft.org"
+
+archives=(
+	"http://ftp.belnet.be/mirror/ftp.gnome.org/sources/libxml2/2.6/libxml2-${version}.tar.bz2"
+)
+
+function build_pkg {
+	./configure --prefix=/usr &&
+	make
+}
+
+function install_pkg {
+	make install
+}

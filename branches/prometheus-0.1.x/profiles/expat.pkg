@@ -1,0 +1,16 @@
+name="expat"
+version="1.95.7"
+homepage="http://expat.sf.net"
+
+archives=(
+	"http://cesnet.dl.sourceforge.net/sourceforge/expat/expat-${version}.tar.gz"
+)
+
+function build_pkg {
+	./configure --prefix=/usr &&
+	make
+}
+
+function install_pkg {
+	make install
+}

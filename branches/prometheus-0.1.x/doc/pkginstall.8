@@ -1,0 +1,67 @@
+.TH PKGINSTALL 8 2004-01-09 "" "System Maintenance Manual"
+.SH NAME
+pkginstall \- Install software packages.
+
+.SH SYNOPSIS
+.BI "pkginstall [ " options " ] " package " [ " " package ... " ]
+
+.SH DESCRIPTION
+.BR Pkginstall " installs software packages in the order they are given on the"
+.RI "command line. " Package " can be a package name, eg. `bash', or a package"
+profile, eg. `bash.pkg'. Packages must have already been built, eg. with
+.B pkgadd --build-only
+.IR package .
+
+.RB "Normally, you should use " pkgadd " to install a package, as " pkginstall
+.RB "is mainly for use by other " prometheus " commands. " Pkgadd
+.RB "will state when " pkginstall " should be called manually."
+
+.SH OPTIONS
+.BR -? ", " -h ", " --help
+.RS
+Display help screen.
+.RE
+
+.BR -f ", " --config
+.I config file
+.RS
+Use alternate config file.
+.RE
+
+.SH FILES
+.I /etc/pkg/prometheus.conf
+.RS
+The global configuration file.
+.RE
+
+.I /etc/pkg/profiles/*.pkg
+.RS
+The package profiles used to store information on packages and their
+installation.
+.RE
+
+.I /var/log/install-logs/*.log
+.RS
+The package installation log files.
+.RE
+
+.I /var/log/install-logs/.vtab
+.RS
+Version database of installed packages.
+.RE
+
+.SH BUGS
+None known. If you think you have found a bug or encounter any weird behaviour,
+please report it to one of the addresses below.
+
+.SH AUTHOR
+.RI "-- Gareth Jones <" moderob@lineone.net >
+
+.RI "-- Oliver Brakmann <" obrakmann@gmx.net >
+
+.SH SEE ALSO
+.BR pkgadd (8),
+.BR pkgrm (8),
+.BR pkginfo (1),
+.BR pkgget (1),
+.BR install-log (1)

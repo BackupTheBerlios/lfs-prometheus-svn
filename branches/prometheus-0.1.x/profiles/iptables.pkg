@@ -1,0 +1,15 @@
+name=iptables
+version="1.2.11"
+homepage="http://netfilter.org"
+
+archives=(
+	"http://www.iptables.org/files/iptables-${version}.tar.bz2"
+)
+
+function build_pkg {
+	make PREFIX=/usr LIBDIR=/lib BINDIR=/sbin
+}
+
+function install_pkg {
+	make PREFIX=/usr LIBDIR=/lib BINDIR=/sbin install
+}

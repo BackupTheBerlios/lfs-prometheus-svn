@@ -1,0 +1,17 @@
+name=bmf
+version="0.9.4"
+
+archives=(
+	"http://cesnet.dl.sourceforge.net/sourceforge/bmf/bmf-${version}.tar.gz"
+)
+
+dep=berkeley-db
+
+function build_pkg {
+	./configure &&
+	make
+}
+
+function install_pkg {
+	make install
+}

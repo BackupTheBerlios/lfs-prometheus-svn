@@ -1,0 +1,22 @@
+name=openswan
+version="2.1.4"
+homepage="http://www.openswan.org"
+
+archives=(
+	"http://www.openswan.org/code/openswan-${version}.tar.gz"
+)
+
+dep=gmp
+
+function build_pkg {
+	cp Makefile.inc{,.orig} &&
+	sed 's/USE_LWRES?=true/USE_LWRES?=false/' Makefile.inc.orig > Makefile.inc &&
+
+	make INC_USRLOCAL=/usr FINALLIBEXECDIR=/usr/lib/ipsec programs &&
+	make KERNELSRC=/usr/src/linux module
+}
+
+function install_pkg {
+	make INC_USRLOCAL=/usr FINALLIBEXECDIR=/usr/lib/ipsec install &&
+	make KERNELSRC=/usr/src/linux minstall
+}

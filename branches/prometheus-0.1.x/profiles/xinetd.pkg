@@ -1,0 +1,18 @@
+name="xinetd"
+version="2.3.13"
+homepage="http://www.xinetd.org/"
+
+archives=(
+	"http://www.xinetd.org/xinetd-${version}.tar.gz"
+)
+
+dep=libwrap
+
+function build_pkg {
+	./configure --prefix=/usr --with-libwrap &&
+	make
+}
+
+function install_pkg {
+	make install
+}

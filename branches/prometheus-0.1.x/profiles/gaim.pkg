@@ -1,0 +1,21 @@
+name="gaim"
+version="0.80"
+homepage="http://gaim.sourceforge.net/"
+
+archives=(
+	"http://heanet.dl.sourceforge.net/sourceforge/gaim/gaim-${version}.tar.bz2"
+)
+
+dep=gtk2
+
+function build_pkg {
+	./configure --prefix=/usr --disable-nls &&
+	make
+}
+
+function install_pkg {
+	make install &&
+	{
+		rm -r /usr/share/applications || true
+	}
+}

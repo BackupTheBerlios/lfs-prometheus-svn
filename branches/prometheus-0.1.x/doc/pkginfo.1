@@ -1,0 +1,125 @@
+.TH PKGINFO 1 2004-02-20 "" "Linux User's Manual"
+.SH NAME
+pkginfo \- Display information on installed and available software packages.
+
+.SH SYNOPSIS
+.BI "pkginfo [ " options " ] [ " "package ... " ]
+
+.SH DESCRIPTION
+.B Pkginfo
+displays information on installed and available software packages. 
+It gathers the information from the package profiles in
+.IR /etc/pkg/profiles ", from the log files in" 
+.IR /var/log/install-logs " and from the file system."
+
+Various switches exist with which you can control the kind of information
+.RB "that " pkginfo " presents. See below for details."
+
+.RB "If there is none of those switches specified, " pkginfo " queries
+.IR package " for the current version and date of last installation."
+Multiple packages can be queried simultaenously this way.
+
+.SH OPTIONS
+.BR -? ", " -h ", " --help
+.RS
+Display help screen.
+.RE
+
+.BR -f ", " "--config "
+.I  config file
+.RS
+Use alternate configuration file.
+.RE
+
+.BR -v ", " --verbose
+.RS
+This options modifies the output behaviour of the default query operation,
+.RI "the " -a ", " -i ", " -d ", " -p " and " -w " options. See the"
+description of these switches for details.
+.RE
+
+.BR -a ", " --query-all
+.RS
+List all, installed as well as available, packages. In verbose mode, using the
+.IR --verbose " switch, print additional information such as homepage, package"
+size and further information.
+.RE
+
+.BR -i ", " --query-installed
+.RS
+.RI "List only installed packages. In verbose mode, using the " --verbose
+switch, print additional information such as homepage, package size and further
+information.
+.RE
+
+.BR -d ", " --dependencies
+.I package
+.RS
+.RI "Show the dependency list of " package ". In verbose mode, using the"
+.IR --verbose " switch, print the full name and version of " package .
+.RE
+
+.BR -p ", " --patches
+.I package
+.RS
+.RI "Shows which patches would be applied to " package " if it was to be"
+installed now. This does _not_ show which patches are applied to the currently
+.RI "installed version of " package ". In verbose mode, using the " --verbose
+switch, print the patch header, too.
+.RE
+
+.BR -l ", " --list
+.I package
+.RS
+.RI "List all files that have been installed by " package .
+.RE
+
+.BR -w ", " --which
+.I file
+.RS
+.RI "Print the name of the package that " file " belongs to."
+.IR file " may be either a relative or an absolute pathname."
+.RI "In verbose mode, using the " --verbose " switch, print"
+.RI "the full name and version of " package .
+.RE
+
+.SH FILES
+.I /etc/pkg/prometheus.conf
+.RS
+The global configuration file.
+.RE
+
+.I /etc/pkg/profiles/*.pkg
+.RS
+The package profiles used to store information on packages and their
+installation.
+.RE
+
+.I /var/log/install-logs/*.log
+.RS
+The package installation log files.
+.RE
+
+.I /var/log/install-logs/.vtab
+.RS
+Version database of installed packages.
+.RE
+
+.SH BUGS
+.HP 3
+-- Doing a query on all packages (ie. using the
+.IR "-a" " or " "--query-all" " option)"
+does only report on those packages for which there is a profile. If you install a
+package and afterwards delete the corresponding profile file, it will only be
+.RI "listed by the " "-i" " or the default query."
+.HP 0
+
+.SH AUTHOR
+.RI "-- Oliver Brakmann <" obrakmann@gmx.net >
+
+.SH SEE ALSO
+.BR pkgadd (8),
+.BR pkginstall (8),
+.BR pkgrm (8),
+.BR pkgget (1),
+.BR install-log (1)

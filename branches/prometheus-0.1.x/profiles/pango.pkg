@@ -1,0 +1,19 @@
+name="pango"
+version="1.4.0"
+homepage="http://www.pango.org"
+
+archives=(
+	"http://ftp.belnet.be/mirror/ftp.gnome.org/sources/pango/1.4/pango-${version}.tar.bz2"
+)
+
+dep="XFree86 glib2 freetype2"
+
+function build_pkg {
+	PKG_CONFIG_PATH=/usr/X11R6/lib/pkgconfig \
+		./configure --prefix=/usr --sysconfdir=/etc &&
+	make
+}
+
+function install_pkg {
+	make install
+}

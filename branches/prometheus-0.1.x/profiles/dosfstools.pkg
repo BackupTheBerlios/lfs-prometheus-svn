@@ -1,0 +1,16 @@
+name="dosfstools"
+version="2.10"
+
+archives=(
+	"ftp://ftp.uni-erlangen.de/pub/Linux/LOCAL/dosfstools/dosfstools-${version}.src.tar.gz"
+)
+
+directory="dosfstools-${version}"
+
+function build_pkg {
+	make CC="$CC" OPTFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS"
+}
+
+function install_pkg {
+	make install
+}
