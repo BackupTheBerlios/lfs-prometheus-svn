@@ -1,0 +1,12 @@
+# Check stdout output of `failure'.
+
+_testing="libprometheus/failure"
+_description="output to stderr"
+_expect=pass
+
+function _check {
+	source "$_lib" || exit 1
+
+	local out="$(failure "this is a failure" 2>&1)"
+	[[ "$out" == "runtest: this is a failure" ]]
+}

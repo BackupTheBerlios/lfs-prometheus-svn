@@ -29,7 +29,11 @@ TESTS = finish/success \
 	warning/stdout \
 	warning/stderr \
 	failure/status \
+	failure/stdout \
+	failure/stderr \
 	error/status \
+	error/stdout \
+	error/stderr \
 	usage_error/status \
 	usage_error/stdout \
 	usage_error/stderr \

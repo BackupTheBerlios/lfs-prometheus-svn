@@ -4,6 +4,10 @@
 	  $(FAIL).
 
 	* testsuite/libprometheus/warning: Added stdout & stderr tests.
+	* testsuite/libprometheus/failure: Added stdout & stderr tests.
+	* testsuite/libprometheus/error: Added stdout & stderr tests.
+
+	* testsuite/libprometheus/finish/success: Fixed buglet.
 
 2004-08-29 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 

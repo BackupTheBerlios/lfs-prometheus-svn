@@ -1,4 +1,4 @@
-# Check stdout output of `usage_error'.
+# Check stdout output of `warning'.
 
 _testing="libprometheus/warning"
 _description="output to stderr"
