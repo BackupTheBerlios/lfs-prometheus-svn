@@ -10,11 +10,9 @@ The `l<y>' component is determined by the value of the $logfile variable. <y> is
 of `log' (contents of log file), `stdout' (text echoed to stdout), or `stderr'
 (text echoed to stderr).
 
-TODO
+`logfile.txt' contains expected `log_echo' output.
 
-tyly_stdout
-tyly_stderr
-tyly_log
+TODO
 
 tyln_stdout
 tyln_stderr

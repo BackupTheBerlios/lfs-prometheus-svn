@@ -50,6 +50,8 @@ TESTS = finish/success \
 	setup_logging/tuln \
 	setup_logging/tulu \
 	log_echo/tyly_stdout \
+	log_echo/tyly_stderr \
+	log_echo/tyly_log \
 	log/tylycp_status \
 	log/tylycp_stdout \
 	log/tylycp_stderr \
