@@ -32,6 +32,7 @@ Remove an installed package from the system and create a backup if desired.
 
 Options (must precede package list):
 -c, --config <config_file>	Specify alternative configuration file
+-f, --force			Non-interactive mode. Do not prompt
 -b, --backup			Create a backup of the removed package
 --				Treat remaining arguments as packages
 
