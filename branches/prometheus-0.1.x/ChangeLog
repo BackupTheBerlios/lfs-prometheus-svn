@@ -6,7 +6,7 @@
 	* profiles/pango.pkg: Upgraded to pango 1.4.1.
 	* profiles/zlib.pkg: Added fix for DoS vulnerability.
 	* profiles/libpng.pkg: Upgraded to libpng 1.2.7.
-	* profiles/cdrecord.pkg: Upgraded to cdrecord 2.01.
+	* profiles/cdrtools.pkg: Upgraded to cdrtools 2.01.
 
 2004-08-29 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
