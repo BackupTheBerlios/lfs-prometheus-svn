@@ -56,7 +56,7 @@ function unpack_archives {
 		[[ "$dir" == ":" ]] && break
 
 		# Set default directory.
-		[[ -z "$dir" ]] && dir="$builddir"
+		[[ -z "$dir" ]] && dir="$package_builddir"
 
 		# Locate & unpack archive.
 		archive=$(location_of "${archives[$i]}") &&

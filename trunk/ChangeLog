@@ -8,6 +8,12 @@
 
 	* man/pkgadd.8.in: Written.
 
+	* scripts/libprometheus.bash.in (set_directory): Build packages in
+	  $builddir/$package ($package_builddir) instead of $builddir.
+	* scripts/pkgunpack.in: Use $package_builddir where appropriate.
+	* scripts/pkgadd.in: Remove $package_builddir if installation
+	  successful.
+
 2004-08-04 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* scripts/pkgadd.in: Dependency checking implemented.

@@ -22,8 +22,9 @@
 unset archives archive_dirs builddir cc cflags check config cxx cxxflags deps
 unset dependencies directory failures homepage install_as_root install_log_rc
 unset lc_all ldflags leavefiles linguas logdir logfile log_install log_target
-unset name name_ver optimize package patches patch_cmds profile profiles
-unset profiles_cwd srcdir stage terminal_output timestamp version version_table
+unset name name_ver optimize package package_builddir patches patch_cmds profile
+unset profiles profiles_cwd srcdir stage terminal_output timestamp version
+unset version_table
 unset ${!stage0*} ${!stage1*}
 
 # Location of configuration file.  Scripts may redefine this value in response
@@ -473,9 +474,12 @@ function set_directory {
 		directory="${archive%$suffix}"
 	fi
 
-	# Make $directory absolute.  ${archive_dirs[0]} overrides $builddir if
-	# set to a non-null value.
-	directory="${archive_dirs[0]:-$builddir}/$directory"
+	# Set package's build directory.  ${archive_dirs[0]} overrides
+	# $builddir if set to a non-null value.
+	package_builddir="${archive_dirs[0]:-$builddir}/$package"
+
+	# Make $directory absolute.
+	directory="$package_builddir/$directory"
 }
 
 # Usage: prepare_build_env

@@ -162,11 +162,13 @@ open_package "${package_list[0]}"
 log_echo
 log_echo "	----- $name_ver -----"
 
+# Unarchive & patch package.
 log_echo
 log_echo "Unarchiving & patching $name..."
 pkgunpack --config="$config" --stage=$stage "$package" ||
 error "unarchiving or patching $name failed"
 
+# Build package if it needs building.
 if is_func build_pkg; then
 	log_echo
 	log_echo "Building $name..."
@@ -174,17 +176,25 @@ if is_func build_pkg; then
 	error "building $name failed"
 fi
 
+# Run package's testsuite if required.
 if [[ "$check" == yes ]]; then
 	log_echo
-	log_echo "Running $name checksuite..."
+	log_echo "Running $name testsuite..."
 	pkgcheck --config="$config" --stage=$stage "$package" ||
-	error "checksuite failed for $name"
+	error "testsuite failed for $name"
 fi
 
+# Install package.
 log_echo
 log_echo "Installing $name..."
 pkginstall --config="$config" ${installed:+--$installed-installed} \
 	   ${failed:+--$failed-failed} --stage=$stage "$package" ||
 error "installation of $name failed"
+
+# Remove build directory.
+echo
+echo "Removing build directory: $package_builddir..."
+rm -r "$package_builddir" ||
+warning "could not remove $package_builddir"
 
 finish

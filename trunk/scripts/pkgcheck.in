@@ -84,7 +84,7 @@ source_config
 if (( ${#package_list[@]} > 1 )); then
 	for package in "${package_list[@]}"; do
 		"$0" --config="$config" --stage=$stage "$package" ||
-		error "$package checksuite failed"
+		error "$package testsuite failed"
 	done
 	finish
 fi
@@ -100,7 +100,7 @@ if [[ "$check" == yes ]]; then
 	if is_func check_pkg; then
 		cd "$directory" &&
 		log check_pkg ||
-		error "$name_ver checksuite failed"
+		error "$name_ver testsuite failed"
 	else
 
 		# No commands for checking package.  Warn user but don't fail;

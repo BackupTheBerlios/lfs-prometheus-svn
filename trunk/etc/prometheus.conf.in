@@ -36,7 +36,7 @@ stage1_install_as_root=no
 # packages.  Its use is analogous to the `--leave-files' switch to pkgadd.
 leavefiles=no
 
-# Should we run the packages' checksuites?
+# Should we run the packages' testsuites?
 check=no
 
 # Do we want to optimize builds?
