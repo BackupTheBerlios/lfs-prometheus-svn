@@ -16,8 +16,8 @@ function build_pkg {
 	hwclock/hwclock.c.backup > hwclock/hwclock.c &&
 	mkdir -p /var/lib/hwclock &&				# FIXME!
 
+	echo "DISABLE_NLS=yes" >> MCONFIG &&
 	./configure &&
-	sed -e '/ENABLE_NLS/d' defines.h > tmp~ && mv tmp~ defines.h &&
 	make HAVE_KILL=yes HAVE_SLN=yes
 }
 
