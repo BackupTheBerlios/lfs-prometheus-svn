@@ -1,5 +1,5 @@
 name="grep"
-version="2.5.1"
+version="2.5.1a"
 homepage="http://www.gnu.org/software/grep/"
 
 archives=(

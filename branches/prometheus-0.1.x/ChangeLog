@@ -1,3 +1,26 @@
+2004-11-25 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/file.pkg: Upgraded to file 4.12.
+
+2004-11-24 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/findutils.pkg: Upgrade to findutils 4.2.8.
+
+2004-11-22 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/findutils.pkg: Upgrade to findutils 4.2.7.
+
+2004-11-21 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/grep.pkg: Upgrade to grep 2.5.1a.
+	* profiles/leafnode.pkg: Upgrade to leafnode 1.10.7.
+	* profiles/findutils.pkg: Upgrade to findutils 4.2.6.
+	* profiles/file.pkg: Upgrade to file 4.11.
+
+2004-11-13 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/gaim.pkg: Upgrade to gaim 1.03.
+
 2004-11-05 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/procps.pkg: Upgrade to procps 3.2.4.
