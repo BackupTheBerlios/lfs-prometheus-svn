@@ -72,7 +72,7 @@ Library, rebuilding the toolchain, and building the remaining packages necessary
 to bootstrap an LFS system; stage 2 is building the final system.
 .RE
 
-.BR -v ", " --version
+.BR -V ", " --version
 .RS
 Display version information.
 .RE

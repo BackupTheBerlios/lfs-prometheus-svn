@@ -37,7 +37,7 @@ Options (must precede package list):
 --				Treat remaining arguments as packages
 
 -h, -?, --help			Show this help screen
--v, --version			Show version information
+-V, --version			Show version information
 
 	EOF
 	finish
@@ -164,7 +164,7 @@ while [[ "$1" == -* ]]; do
 
 		(-l|--list)			listonly=yes ;;
 
-		(-v|--version)			version ;;
+		(-V|--version)			version ;;
 
 		(--)				shift
 						break ;;

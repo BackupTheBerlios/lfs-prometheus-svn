@@ -60,7 +60,7 @@ List download locations for missing files, but do not download them.
 Display the help screen.
 .RE
 
-.BR -v ", " --version
+.BR -V ", " --version
 .RS
 Display version information.
 .RE

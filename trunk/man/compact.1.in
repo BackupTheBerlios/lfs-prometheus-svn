@@ -80,7 +80,7 @@ Recursively compress files within directories and subdirectories given in the
 command line.
 .RE
 
-.BR -v ", " --version
+.BR -V ", " --version
 .RS
 Display version information.
 .RE

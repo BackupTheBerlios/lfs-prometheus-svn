@@ -1,3 +1,8 @@
+2004-09-26 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* docs/*, scripts/*: Changed the short option equivalent of
+	  --version to '-V' instead of '-v'.
+
 2004-09-23 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* testsuite/libprometheus/echo_array/echo_array: Added.
