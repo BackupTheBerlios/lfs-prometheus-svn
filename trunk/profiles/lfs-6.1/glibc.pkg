@@ -1,16 +1,12 @@
 name="GNU C Library (glibc)"
-version="2.3.3-lfs"
-homepage="http://www.gnu.org/software/glibc/"
+version="20041011"
+homepage="http://www.gnu.org/software/libc/"
 
 archives=(
-	"glibc-${version}.tar.bz2"
-#    "ftp://ftp.cs.tu-berlin.de/pub/gnu/glibc/glibc-${version}.tar.gz"
-#    "ftp://ftp.cs.tu-berlin.de/pub/gnu/glibc/glibc-linuxthreads-${version}.tar.gz"
+	"ftp://ftp.lfs-matrix.de/pub/lfs/packages/conglomeration/glibc/glibc-${version}.tar.bz2"
 )
 
 patches=(
-	"glibc-${version}-old_sed_compat.patch"
-	"glibc-${version}-revert_2.3.4_symbols_in_x86.patch"
 	"glibc-mtab.patch"
 	"glibc-passwd-lock.patch"
 )
@@ -18,61 +14,65 @@ patches=(
 optimize=no
 
 function stage1_build_pkg {
-	mkdir -p /tools/etc &&
-	touch /tools/etc/ld.so.conf &&
+	mkdir "${builddir}/glibc-build"
+	cd "${builddir}/glibc-build"
 
-	mkdir "$directory"/../glibc-build &&
-	cd "$directory"/../glibc-build &&
-
-	CFLAGS="-O2 -pipe" \
-	"$directory"/configure --prefix=/tools --enable-add-ons=linuxthreads \
-			       --disable-profile --with-binutils=/tools/bin \
-			       --with-headers=/tools/include --without-gd \
-			       --without-cvs &&
+	"${directory}"/configure --prefix=/tools --enable-add-ons \
+				 --disable-profile --with-binutils=/tools/bin \
+				 --with-headers=/tools/include --without-gd \
+				 --without-cvs --enable-kernel=2.6.0 \
+				 --disable-selinux
 	make
-	# make check
 }
 
 function stage1_install_pkg {
-	cd "$directory"/../glibc-build &&
+	cd "${builddir}/glibc-build"
 
-	make install &&
+	mkdir -p /tools/etc
+	touch /tools/etc/ld.so.conf
 
-	mkdir -p /tools/lib/locale &&
-	localedef -i de_DE -f ISO-8859-1 de_DE &&
-	localedef -i de_DE@euro -f ISO-8859-15 de_DE@euro &&
-	localedef -i en_HK -f ISO-8859-1 en_HK &&
-	localedef -i en_PH -f ISO-8859-1 en_PH &&
-	localedef -i en_US -f ISO-8859-1 en_US &&
-	localedef -i es_MX -f ISO-8859-1 es_MX &&
-	localedef -i fr_FR -f ISO-8859-1 fr_FR &&
-	localedef -i fr_FR@euro -f ISO-8859-15 fr_FR@euro &&
-	localedef -i it_IT -f ISO-8859-1 it_IT &&
-	localedef -i ja_JP -f EUC-JP ja_JP &&
+	make install
 
-	cd "$directory"/.. && rm -rf glibc-build
+	mkdir -p /tools/lib/locale
+	localedef -i de_DE -f ISO-8859-1 de_DE
+	localedef -i de_DE@euro -f ISO-8859-15 de_DE@euro
+	localedef -i en_HK -f ISO-8859-1 en_HK
+	localedef -i en_PH -f ISO-8859-1 en_PH
+	localedef -i en_US -f ISO-8859-1 en_US
+	localedef -i es_MX -f ISO-8859-1 es_MX
+	localedef -i fa_IR -f UTF-8 fa_IR
+	localedef -i fr_FR -f ISO-8859-1 fr_FR
+	localedef -i fr_FR@euro -f ISO-8859-15 fr_FR@euro
+	localedef -i it_IT -f ISO-8859-1 it_IT
+	localedef -i ja_JP -f EUC-JP ja_JP
+
+	rm -rf "${builddir}/glibc-build"
 }
 
 function build_pkg {
-	mkdir "$directory"/../glibc-build &&
-	cd "$directory"/../glibc-build &&
+	mkdir "${builddir}/glibc-build"
+	cd "${builddir}/glibc-build"
 
-	CFLAGS="-O2 -pipe" \
-	"$directory"/configure --prefix=/usr --enable-add-ons=linuxthreads \
-			       --disable-profile --libexecdir=/usr/lib \
-			       --with-headers=/usr/include --disable-nls \
-			       --without-cvs &&
-	make &&
-	# make check
-	make -C "$directory"/linuxthreads/man
+	"${directory}"/configure --prefix=/usr --enable-add-ons \
+				 --disable-profile --enable-kernel=2.6.0
+				 --libexecdir=/usr/lib/glibc --without-cvs
+				# --disable-nls
+	make
+	make -C "${directory}/linuxthreads/man"
+}
+
+function check_pkg {
+	make check
 }
 
 function install_pkg {
-	cd "$directory"/../glibc-build &&
+	cd "${builddir}/glibc-build"
 
-	make install &&
-	make localedata/install-locales &&
-	make -C "$directory"/linuxthreads/man install &&
+	touch /etc/ld.so.conf
 
-	cd "$directory"/.. && rm -rf glibc-build
+	make install
+	make -C "${directory}/linuxthreads/man" install
+	make localedata/install-locales
+
+	rm -rf "${builddir}/glibc-build"
 }

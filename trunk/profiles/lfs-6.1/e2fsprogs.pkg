@@ -1,5 +1,5 @@
 name="e2fsprogs"
-version="1.35"
+version="1.36"
 
 archives=(
 	"http://download.sourceforge.net/e2fsprogs/e2fsprogs-${version}.tar.gz"
