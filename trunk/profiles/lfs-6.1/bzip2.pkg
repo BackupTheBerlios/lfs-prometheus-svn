@@ -14,24 +14,24 @@ function stage1_install_pkg {
 }
 
 function build_pkg {
-	cp Makefile Makefile.backup &&
-	sed -e 's%$(BIGFILES)%$(BIGFILES) $(OPT)%' Makefile.backup > Makefile &&
+	cp Makefile Makefile.backup
+	sed -e 's%$(BIGFILES)%$(BIGFILES) $(OPT)%' Makefile.backup > Makefile
 
-	cp Makefile-libbz2_so Makefile-libbz2_so.backup &&
+	cp Makefile-libbz2_so Makefile-libbz2_so.backup
 	sed -e 's%$(BIGFILES)%$(BIGFILES) $(OPT)%' Makefile-libbz2_so.backup > Makefile-libbz2_so
 
-	make -f Makefile-libbz2_so OPT="$CFLAGS"&&
-	make clean &&
-	make OPT="$CFLAGS"
+	make -f Makefile-libbz2_so OPT="$cflags"
+	make clean
+	make OPT="$cflags"
 }
 
 function install_pkg {
-	make install &&
-	cp bzip2-shared /bin/bzip2 &&
-	cp -a libbz2.so* /lib &&
-	ln -sf ../../lib/libbz2.so.1.0 /usr/lib/libbz2.so &&
-	rm /usr/bin/{bunzip2,bzcat,bzip2} &&
-	mv /usr/bin/{bzip2recover,bzless,bzmore} /bin &&
-	ln -sf bzip2 /bin/bunzip2 &&
+	make install
+	cp bzip2-shared /bin/bzip2
+	cp -a libbz2.so* /lib
+	ln -sf ../../lib/libbz2.so.1.0 /usr/lib/libbz2.so
+	rm /usr/bin/{bunzip2,bzcat,bzip2}
+	mv /usr/bin/{bzip2recover,bzless,bzmore} /bin
+	ln -sf bzip2 /bin/bunzip2
 	ln -sf bzip2 /bin/bzcat
 }
