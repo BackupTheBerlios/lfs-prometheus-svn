@@ -21,7 +21,7 @@
 # Usage: runtest [!] <script> <message>
 # Run <script>.  If script exits successfully, output:
 #
-#	<message>...						Passed
+#	Testing <message>...					Passed
 #
 # otherwise output:
 #
@@ -43,7 +43,7 @@ testscript="$1"
 shift
 message="$*"
 
-echo "$message..."
+echo "Testing $message..."
 
 # Run the test.
 if [[ "$should_fail" == yes ]]; then

@@ -1,3 +1,5 @@
+#! /bin/bash
+
 # Prometheus package management tool set
 # Copyright (C) 2003-2004 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 # Gareth Jones <gareth_jones@users.berlios.de>
@@ -16,31 +18,8 @@
 # this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 # Place, Suite 330, Boston, MA  02111-1307  USA
 
-include ../../Makefile.defs
+# Test the `pipestat' function with failure at start of pipeline.
 
-TESTS = finish/success.bash finish/failure.bash terminated/terminated.bash \
-	pipestat/success.bash pipestat/failure1.bash pipestat/failure2.bash \
-	pipestat/failure3.bash
+source "%LIBPROMETHEUS%" || exit 1
 
-PASS = ../runtest
-FAIL = ../runtest !
-
-.PHONY: all check clean
-
-all: $(TESTS)
-
-%: %.in
-	sed -e 's|%LIBPROMETHEUS%|$(LIBDIR)/$(LIB)|' $< > $@
-	chmod 0755 $@
-
-check: all
-	$(PASS) finish/success.bash "successful exit"
-	$(FAIL) finish/failure.bash "unsuccessful exit"
-	$(FAIL) terminated/terminated.bash "forced exit"
-	$(PASS) pipestat/success.bash "successful pipeline"
-	$(FAIL) pipestat/failure1.bash "pipeline, failure at start"
-	$(FAIL) pipestat/failure2.bash "pipeline, failure in middle"
-	$(FAIL) pipestat/failure3.bash "pipeline, failure at end"
-
-clean:
-	rm $(TESTS)
+false | true | true && pipestat

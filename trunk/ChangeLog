@@ -8,6 +8,7 @@
 	* testsuite/libprometheus/finish/success.bash.in: Added.
 	* testsuite/libprometheus/finish/failure.bash.in: Added.
 	* testsuite/libprometheus/terminated/terminated.bash.in: Added.
+	* testsuite/libprometheus/pipestat/*: Added.
 
 	* testsuite/runtest: Added.
 
