@@ -101,7 +101,9 @@ TESTS = finish/success \
 	choice/yes \
 	choice/no \
 	echo_array/echo_array \
-	source_file/valid_status
+	source_file/valid_status \
+	source_file/valid_sourced \
+	source_file/invalid_status
 
 LOGS = $(addsuffix .log, $(TESTS))
 

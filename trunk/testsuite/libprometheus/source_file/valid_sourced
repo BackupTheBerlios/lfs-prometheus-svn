@@ -1,0 +1,11 @@
+# Test `source_file' actually sources a valid file.
+
+_testing="libprometheus/source_file"
+_description="actually sources a valid file"
+_expect=pass
+
+function _check {
+	source "$_lib" || exit 1
+
+	[[ "$(source_file valid.txt "valid file")" == "sourced_valid" ]]
+}
