@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # pkgadd package installer
-# Copyright (C) 2003-2004 Oliver Brakmann <obrakmann@gmx.net> &
+# Copyright (C) 2003-2004 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 # Gareth Jones <gareth_jones@users.berlios.de>
 #
 # This program is free software; you can redistribute it and/or modify it under
@@ -35,6 +35,7 @@ Options (must precede package list):
 -c, --config <config_file>	Specify alternative configuration file
 -d, --download			Download files need to install packages
 -D, --dependencies		Install any unfulfilled dependencies of packages
+-f, --leave-files		Do not remove build directories after install
 -l, --leave-installed		Do not touch any existing installations
 -L, --leave-failed		Leave files from any failed installations
 -o, --overwrite-installed	Overwrite any existing installations
@@ -101,6 +102,8 @@ while [[ "$1" == -* ]]; do
 
 		(-D|--dependencies)		add_deps=yes ;;
 
+		(-f|--leave-files)		leavefiles=yes ;;
+
 		(--config=*)			config="${1#--config=}" ;;
 
 		(-h|-\?|--help)			usage ;;
@@ -149,7 +152,8 @@ fi
 if (( ${#package_list[@]} > 1 )); then
 	for package in "${package_list[@]}"; do
 		"$0" --config="$config" ${installed:+--$installed-installed} \
-		     ${failed:+--$failed-failed} --stage=$stage "$package" ||
+		     ${failed:+--$failed-failed} --stage=$stage \
+		     ${leavefiles:+--leave-files} "$package" ||
 		error "installation of $package failed"
 	done
 	finish
@@ -192,9 +196,11 @@ pkginstall --config="$config" ${installed:+--$installed-installed} \
 error "installation of $name failed"
 
 # Remove build directory.
-echo
-echo "Removing build directory: $package_builddir..."
-rm -r "$package_builddir" ||
-warning "could not remove $package_builddir"
+if [[ "$leavefiles" != yes ]]; then
+	echo
+	echo "Removing build directory: $package_builddir..."
+	rm -r "$package_builddir" ||
+	warning "could not remove $package_builddir"
+fi
 
 finish

@@ -53,6 +53,11 @@ dependencies and this option is not specified,
 will ask the user what to do.
 .RE
 
+.BR -f ", " --leave-files
+.RS
+Do not remove packages' build directories after their installation.
+.RE
+
 .BR -h ", " -? ", " --help
 .RS
 Display the help screen.

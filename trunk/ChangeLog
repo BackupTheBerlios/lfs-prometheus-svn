@@ -1,3 +1,11 @@
+2004-08-06 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* scripts/pkgadd.in: Added -f/--leave-files option.
+	* man/pkgadd.8.in: Documented -f/--leave-files option.
+
+	* All files: Changed Oliver's email address to
+	  <oliverbrakmann@users.berlios.de>.
+
 2004-08-05 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* scripts/pkgadd.in (get_package_list): Dependency checking is
@@ -278,7 +286,7 @@
 	* INSTALL, README, x86stepping/x86stepping.c: Restored.
 	* AUTHORS, ChangeLog, COPYING: Added.
 
-Before 2004-06-29 Oliver Brakmann <obrakmann@gmx.net> &
+Before 2004-06-29 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* All files: Created initial pkgtools, renamed to prometheus.  In
