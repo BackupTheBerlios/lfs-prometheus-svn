@@ -4,3 +4,4 @@ stdout: tnlycf log
 ** Command: echo 'stderr: tnlycf log'
 stderr: tnlycf log
 ** Command: return 1
+runtest: exit status = 1

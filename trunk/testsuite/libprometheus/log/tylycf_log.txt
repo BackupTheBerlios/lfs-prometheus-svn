@@ -4,3 +4,4 @@ stdout: tylycf log
 ** Command: echo 'stderr: tylycf log'
 stderr: tylycf log
 ** Command: return 1
+runtest: exit status = 1

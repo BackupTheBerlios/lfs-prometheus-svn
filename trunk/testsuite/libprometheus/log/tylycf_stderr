@@ -14,6 +14,6 @@ function _check {
 	> "$logfile"
 	setup_logging
 
-	local out="$(log output "tylycf stderr" 1 2>&1 1> /dev/null)"
-	[[ -z "$out" ]]
+	log output "tylycf stderr" 1 2> output.txt
+	diff "tylycf_stderr.txt" output.txt
 }

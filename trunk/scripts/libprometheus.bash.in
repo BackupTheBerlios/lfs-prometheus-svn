@@ -167,16 +167,15 @@ function logged_failure {
 
 	[[ -z "$1" ]] && usage_error "logged_failure" "<command>" "$*"
 
-	# If terminal output enabled do nothing, the user has already seen the
-	# error.
-	[[ "$terminal_output" == yes ]] && return $retval
-
-	failure "running logged command $1 failed"
+	failure "running logged command \`$1' failed"
+	log_warning "exit status = $retval"
 	warning "full command line follows"
 	warning "$*"
 
-	# If the log file is readable (& not /dev/null!), output its tail.
-	if [[ -f "$logfile" && -r "$logfile" ]]; then
+	# If terinal output is disabled & the log file is readable (& not
+	# /dev/null!), output its tail.
+	if [[ "$terminal_output" == no && -f "$logfile" && -r "$logfile" ]]
+	then
 		warning "see $logfile for details"
 		warning "tail of $logfile follows"
 		echo >&2
@@ -190,7 +189,7 @@ function logged_failure {
 # Log <command> & its output.  Return <command>'s exit value.
 function log {
 	[[ -z "$*" ]] && usage_error "log" "<command>"
-	eval "( set -x; \"\$@\" ) $log_target && pipestat" ||
+	eval "( set -ex; \"\$@\" ) $log_target && pipestat" ||
 	logged_failure "$@"
 }
 
