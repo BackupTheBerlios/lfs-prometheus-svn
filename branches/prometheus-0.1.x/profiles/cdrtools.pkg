@@ -1,5 +1,5 @@
 name=cdrtools
-version="2.01a37"
+version="2.01"
 homepage="http://www.fokus.fhg.de/research/cc/glone/employees/joerg.schilling/private/cdrecord.html"
 
 archives=(
@@ -8,7 +8,9 @@ archives=(
 
 patches=(
 	"http://people.mandrakesoft.com/~warly/files/cdrtools/archives/cdrtools-2.01a27-o_excl.patch.bz2"
+	"http://people.mandrakesoft.com/~warly/files/cdrtools/archives/cdrtools-2.01a27-writemode.patch.bz2"
 	"http://people.mandrakesoft.com/~warly/files/cdrtools/archives/cdrtools-2.01a32-dvd.patch.bz2"
+	"http://people.mandrakesoft.com/~warly/files/cdrtools/archives/cdrtools-2.01a38-rawio.patch.bz2"
 )
 
 patch_cmds=(

@@ -1,5 +1,5 @@
 name="libpng"
-version="1.2.6"
+version="1.2.7"
 homepage="http://www.libpng.org/pub/png/libpng.html"
 
 archives=(

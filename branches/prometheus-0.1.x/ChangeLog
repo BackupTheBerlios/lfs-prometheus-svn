@@ -1,3 +1,13 @@
+2004-09-12 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lvm-utils.pkg: Upgraded to LVM2 2.00.22.
+	* profiles/gtk2.pkg: Upgraded to gtk+ 2.4.9.
+	* profiles/glib2.pkg: Upgraded to glib 2.4.6.
+	* profiles/pango.pkg: Upgraded to pango 1.4.1.
+	* profiles/zlib.pkg: Added fix for DoS vulnerability.
+	* profiles/libpng.pkg: Upgraded to libpng 1.2.7.
+	* profiles/cdrecord.pkg: Upgraded to cdrecord 2.01.
+
 2004-08-29 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/whois.pkg: Removed the gettext dependency,

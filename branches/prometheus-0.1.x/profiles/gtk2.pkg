@@ -1,5 +1,5 @@
 name="gtk+"
-version="2.4.4"
+version="2.4.9"
 homepage="http://www.gtk.org"
 
 archives=(
