@@ -1,6 +1,14 @@
+2004-10-26 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/openssl.pkg: Upgrade to latest version.
+	* profiles/windowmaker.pkg: Upgrade to latest version. Disabled the
+	  patches for now.
+
 2004-10-25 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/cyrus-sasl.pkg: Upgrade to latest version.
+	* profiles/findutils.pkg, profiles/gtk-imonc.pkg: Upgrade to latest
+          versions.
 
 2004-10-24 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 

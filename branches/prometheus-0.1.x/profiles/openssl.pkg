@@ -1,5 +1,5 @@
 name="openSSL"
-version="0.9.7d"
+version="0.9.7e"
 homepage="http://www.openssl.org"
 
 archives=(
