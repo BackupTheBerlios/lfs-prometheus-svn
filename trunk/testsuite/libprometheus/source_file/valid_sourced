@@ -7,5 +7,5 @@ _expect=pass
 function _check {
 	source "$_lib" || exit 1
 
-	[[ "$(source_file valid.txt "valid file")" == "sourced_valid" ]]
+	[[ "$(source_file valid.txt "valid file")" == "sourced valid" ]]
 }

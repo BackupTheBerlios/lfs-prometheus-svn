@@ -1,0 +1,11 @@
+# Test exit status of `source_file' for a file that does not exist.
+
+_testing="libprometheus/source_file"
+_description="status with missing file"
+_expect=fail
+
+function _check {
+	source "$_lib" || exit 1
+
+	source_file missing.txt "missing file"
+}

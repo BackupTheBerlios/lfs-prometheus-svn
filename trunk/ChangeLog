@@ -3,7 +3,8 @@
 	* testsuite/libprometheus/echo_array/echo_array: Added.
 
 	* testsuite/libprometheus/source_file: Added valid.txt, invalid.txt,
-	  valid_status, valid_sourced, invalid_status & invalid_error.
+	  valid_status, valid_sourced, invalid_status, invalid_error,
+	  none_status & none_error.
 
 2004-09-19 Gareth Jones <gareth_jones@users.berlios.de>
 
