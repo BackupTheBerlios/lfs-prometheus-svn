@@ -1,2 +1,2 @@
-usage_error.bash: usage: function arg
-usage_error.bash: correct usage: function <arg1> <arg2>
+stderr.bash: usage: function arg
+stderr.bash: correct usage: function <arg1> <arg2>

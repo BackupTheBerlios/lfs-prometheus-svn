@@ -21,12 +21,11 @@ include ../../Makefile.defs
 TESTS = finish/success.bash finish/failure.bash terminated/terminated.bash \
 	pipestat/success.bash pipestat/failure1.bash pipestat/failure2.bash \
 	pipestat/failure3.bash warning/status.bash failure/status.bash \
-	error/status.bash usage_error/usage_error.bash \
-	script_usage_err/script_usage_err.bash setup_logging/tylf.bash \
-	setup_logging/tyln.bash setup_logging/tylu.bash \
-	setup_logging/tnlf.bash setup_logging/tnln.bash \
-	setup_logging/tnlu.bash setup_logging/tulf.bash \
-	setup_logging/tuln.bash setup_logging/tulu.bash
+	error/status.bash usage_error/stderr.bash script_usage_err/stderr.bash \
+	setup_logging/tylf.bash setup_logging/tyln.bash \
+	setup_logging/tylu.bash setup_logging/tnlf.bash \
+	setup_logging/tnln.bash setup_logging/tnlu.bash \
+	setup_logging/tulf.bash setup_logging/tuln.bash setup_logging/tulu.bash
 
 PASS = ../runtest
 FAIL = ../runtest !
@@ -57,9 +56,9 @@ check: all
 	$(FAIL) failure/status.bash \
 		"libprometheus/failure: exit status after failure"
 	$(FAIL) error/status.bash "libprometheus/error: exit status after error"
-	$(PASS) usage_error/usage_error.bash \
+	$(PASS) usage_error/stderr.bash \
 		"libprometheus/usage_error: function usage error reporting"
-	$(PASS) script_usage_err/script_usage_err.bash \
+	$(PASS) script_usage_err/stderr.bash \
 		"libprometheus/script_usage_err: script usage error reporting"
 	$(PASS) setup_logging/tylf.bash \
 		"libprometheus/setup_logging: terminal + file"
