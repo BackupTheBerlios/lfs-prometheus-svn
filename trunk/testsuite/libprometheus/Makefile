@@ -57,6 +57,8 @@ TESTS = finish/success \
 	log_echo/tnly_stdout \
 	log_echo/tnly_stderr \
 	log_echo/tnly_log \
+	log_echo/tnln_stdout \
+	log_echo/tnln_stderr \
 	log/tylycp_status \
 	log/tylycp_stdout \
 	log/tylycp_stderr \

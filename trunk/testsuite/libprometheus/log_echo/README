@@ -11,8 +11,3 @@ of `log' (contents of log file), `stdout' (text echoed to stdout), or `stderr'
 (text echoed to stderr).
 
 `logfile.txt' contains expected `log_echo' output.
-
-TODO
-
-tnln_stdout
-tnln_stderr
