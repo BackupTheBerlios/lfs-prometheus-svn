@@ -21,8 +21,9 @@ homepage="http://www.package.org/"
 # `stage1_build_pkg'.
 
 # If this is set to a filename, builds & installs (both stdout & stderr) are
-# logged to the file.  $package expands to the name of the current package
-# profile, minus the `.pkg' suffix.
+# logged to the file.  The filename must include full directory specification.
+# $package expands to the name of the current package profile, minus the `.pkg'
+# suffix.
 logfile="$builddir/$package.log"
 
 # Show stdout & stderr on the terminal?  Logging does not affect this.

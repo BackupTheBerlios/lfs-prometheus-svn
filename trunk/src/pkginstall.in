@@ -225,6 +225,7 @@ if (( $# > 1 )); then
 fi
 
 # There is only one package to install.  Do so in this instance.
+profiles_cwd=yes
 open_package "$1"
 
 # Check we know how to install package.

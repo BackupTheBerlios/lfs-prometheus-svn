@@ -22,8 +22,8 @@
 unset archives archive_dirs builddir cc cflags check config cxx cxxflags deps
 unset directory failures homepage install_as_root install_log_rc lc_all ldflags
 unset leavefiles linguas logdir logfile log_install log_target name name_ver
-unset optimize package patches patch_cmds profile profiles srcdir stage
-unset terminal_output timestamp version version_table
+unset optimize package patches patch_cmds profile profiles profiles_cwd srcdir
+unset stage terminal_output timestamp version version_table
 unset ${!stage0*} ${!stage1*}
 
 # Location of configuration file.  Scripts may redefine this value in response
@@ -300,11 +300,12 @@ function source_profile {
 	fi
 
 	package="$1"
+	profile="$package.pkg"
 
-	# First search for profile in current working directory, then try
-	# profile directory.
-	profile="$1.pkg"
-	[[ -f "$profile" ]] || profile="$profiles/$profile"
+	# If $profiles_cwd is `yes', search for profile in current working
+	# directory before trying the profile directory.
+	[[ "$profiles_cwd" == yes && -f "$profile" ]] ||
+	profile="$profiles/$profile"
 
 	source_file "$profile" "$package package profile"
 
