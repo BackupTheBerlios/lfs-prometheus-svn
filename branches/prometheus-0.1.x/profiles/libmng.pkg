@@ -1,5 +1,5 @@
 name="libmng"
-version="1.0.6"
+version="1.0.8"
 homepage="http://libmng.sf.net"
 
 archives=(
@@ -9,8 +9,7 @@ archives=(
 dep="zlib libjpeg lcms"
 
 function build_pkg {
-	./autogen.sh &&
-	./configure --prefix=/usr --with-zlib --with-jpeg --with-lcms &&
+	bash autogen.sh --prefix=/usr --with-zlib --with-jpeg --with-lcms &&
 	make
 }
 
