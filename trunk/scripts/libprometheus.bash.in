@@ -152,6 +152,7 @@ function setup_logging {
 		if [[ "$terminal_output" == yes ]]; then
 			log_target="2>&1 | tee --append \"$logfile\""
 		else
+			terminal_output=no
 			log_target=">> \"$logfile\" 2>&1"
 		fi
 	fi

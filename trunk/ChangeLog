@@ -9,6 +9,12 @@
 
 	* testsuite/libprometheus/finish/success: Fixed buglet.
 
+	* testsuite/libprometheus/setup_logging/README: Added.
+	* testsuite/libprometheus/log/README: Added.
+
+	* scripts/libprometheus.bash.in (setup_logging): Ensure $terminal_output
+	  is set.
+
 2004-08-29 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* scripts/pkgrm.in: Written.

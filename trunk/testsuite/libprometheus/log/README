@@ -1,0 +1,16 @@
+These tests check both `log' & `logged_failure' as a single unit.  Their names
+follow the scheme `t<x>l<y>c<z>_<test>'.
+
+The `t<x>' component is determined by the value of the $terminal_output
+variable.  <x> is `y' or `n' for $terminal_output `yes' & `no' respectively.
+
+The `l<y>' component is determined by the value of the $logfile variable. <y> is
+`f', `d', or `n' for $logfile set to a file, `/dev/null', or unset,
+respectively.
+
+The `c<z>' component is determined by whether the logged command passes or
+fails, with <z> equal to `p' or `f' respectively.
+
+<test> indicates what is actually being tested given the above parameters, one
+of `status' (exit status of `log' function), `log' (contents of log file),
+`stdout' (text echoed to stdout), or `stderr' (text echoed to stderr).
