@@ -2,7 +2,8 @@
 
 	* testsuite/libprometheus/log: Added tnlycp_status, tnlycp_stdout,
 	  tnlycp_stderr, tnlycp_log, tnlycp_log.txt, tnlncf_status,
-	  tnlncf_stdout, tnlncf_stderr & tnlncf_stderr.txt.
+	  tnlncf_stdout, tnlncf_stderr, tnlncf_stderr.txt, tnlncp_status,
+	  tnlncp_stdout & tnlncp_stderr.
 
 2004-09-14 Gareth Jones <gareth_jones@users.berlios.de>
 
