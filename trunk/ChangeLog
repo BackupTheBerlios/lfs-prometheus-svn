@@ -1,6 +1,9 @@
 2004-09-23 Gareth Jones <gareth_jones@users.berlios.de>
 
-	* testsuite/echo_array/echo_array: Added.
+	* testsuite/libprometheus/echo_array/echo_array: Added.
+
+	* testsuite/libprometheus/source_file: Added valid.txt, invalid.txt &
+	  valid_status.
 
 2004-09-19 Gareth Jones <gareth_jones@users.berlios.de>
 

@@ -100,7 +100,8 @@ TESTS = finish/success \
 	get_installed_version/get_installed_version \
 	choice/yes \
 	choice/no \
-	echo_array/echo_array
+	echo_array/echo_array \
+	source_file/valid_status
 
 LOGS = $(addsuffix .log, $(TESTS))
 
