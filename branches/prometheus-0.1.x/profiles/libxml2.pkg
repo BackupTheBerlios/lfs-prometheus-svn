@@ -1,5 +1,5 @@
 name="libxml2"
-version="2.6.11"
+version="2.6.12"
 homepage="http://www.xmlsoft.org"
 
 archives=(

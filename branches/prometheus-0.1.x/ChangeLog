@@ -1,3 +1,10 @@
+2004-08-24 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/gawk.pkg: Upgraded to gawk 3.1.4
+	* profiles/libxml2.pkg: Upgraded to libxml 2.6.12
+	* profiles/libxslt.pkg: Upgraded to libxslt 1.1.9
+	* profiles/man.pkg: Upgraded to man 1.5o
+	* profiles/sed.pkg: Upgraded to sed 4.1.2
 2004-08-22 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/m4.pkg: Upgraded to m4 1.4.2

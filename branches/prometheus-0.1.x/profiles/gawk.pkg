@@ -1,5 +1,5 @@
 name="GNU awk"
-version="3.1.3"
+version="3.1.4"
 homepage="http://www.gnu.org/software/gawk/"
 
 archives=(
