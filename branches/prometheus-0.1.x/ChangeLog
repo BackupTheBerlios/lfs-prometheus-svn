@@ -1,0 +1,34 @@
+2004-08-04 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* ChangeLog: Added
+	* COPYING: Added
+	* libprometheus, pkgadd.sh, pkgget.sh, pkginfo.sh, pkgrm.sh:
+	  Added GPL notice 
+
+2004-07-31 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/bash.pkg: Upgraded to bash 3.0
+	* profiles/automake.pkg: Upgraded to automake 1.9
+	* profiles/man.pkg: Upgraded to man 1.5n
+	* profiles/readline.pkg: Upgraded to readline 5.0
+
+	* profiles/lvm-devicemapper.pkg: Upgraded to devicemapper 1.00.19
+
+2004-07-30 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/leafnode.pkg: Upgraded to leafnode 1.10.3
+	* profiles/perl.pkg: Upgraded to perl 5.8.5
+
+	* profiles/file.pkg: Upgraded to file 4.10
+
+2004-07-29 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* doc/pkgget.1, doc/pkgadd.8, doc/compact.1, doc/pkgcompress.1,
+	  doc/pkginstall.8, libprometheus, pkgadd.sh, pkgget.sh,
+	  pkginfo.sh, pkgrm.sh, x86stepping/x86stepping.c:
+	  Updated E-Mail address.
+
+Before 2004-87-25 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
+Gareth Jones <gareth_jones@users.berlios.de>
+
+	* All Files: Created initial pkgtools, renamed to prometheus.
