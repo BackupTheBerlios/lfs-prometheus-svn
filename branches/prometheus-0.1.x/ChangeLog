@@ -1,3 +1,8 @@
+2004-12-05 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/libpng.pkg: Upgraded to libpng 1.2.8.
+	* profiles/findutils.pkg: Upgraded to findutils 4.2.9.
+
 2004-11-25 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/file.pkg: Upgraded to file 4.12.
