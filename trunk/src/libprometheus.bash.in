@@ -21,8 +21,9 @@
 # Prevent environmental contamination.
 unset archives archive_dirs builddir cc cflags check config cxx cxxflags deps
 unset directory failures homepage install_as_root lc_all ldflags leavefiles
-unset linguas logfile log_install name optimize package patches patch_cmds
-unset profile profiles profile_list srcdir stage temp_files version
+unset linguas logfile log_install log_target name optimize package patches
+unset patch_cmds profile profiles profile_list srcdir stage temp_files
+unset terminal_output version
 unset ${!stage0*} ${!stage1*}
 
 # Location of configuration file.  Scripts may redefine this value in response
@@ -182,6 +183,7 @@ function add_profile {
 		# Add to end of $profile_list.
 		profile_list[${#profile_list[@]}]="$profile"
 	else
+		# FIXME: Probably should call error here?
 		failure "$profile package profile not found"
 		return 1
 	fi
@@ -331,7 +333,8 @@ function stage_overrides {
 
 	# Variables.
 	for i in cc cflags check cxx cxxflags directory install_as_root lc_all \
-		 ldflags leavefiles linguas logfile log_install optimize; do
+		 ldflags leavefiles linguas logfile log_install optimize \
+		 terminal_output; do
 		override_var "$i" "stage${stage}_$i"
 	done
 
@@ -360,6 +363,28 @@ function set_directory {
 	# Make $directory absolute.  ${archive_dirs[0]} overrides $builddir if
 	# set to a non-null value.
 	directory="${archive_dirs[0]:-$builddir}/$directory"
+}
+
+# Usage: setup_logging
+# Set $log_target, which will be appended to commands that need logging.
+function setup_logging {
+
+	# Do we have a log file?
+	if [[ -n "$logfile" ]]; then
+
+		# We may need preserve terminal output.
+		if [[ "$terminal_output" == yes ]]; then
+			log_target="2>&1 | tee --append \"$logfile\""
+		else
+			log_target=">> \"$logfile\" 2>&1"
+		fi
+	elif [[ "$terminal_output" == no ]]; then
+
+		# We have no output!  This better not fail...
+		warning "both terminal output & logging disabled!"
+		warning "stderr will still be output to the terminal"
+		log_target="> /dev/null"
+	fi
 }
 
 # Usage: prepare_build_env
@@ -393,8 +418,6 @@ function prepare_build_env {
 }
 
 # Usage: open_package <profile>
-# FIXME: Different scripts use different parts of this so rip it out.
-# FIXME cont: prepare_build_env _not_ in pkgadd.
 # Source the package profile, apply any stage overrides & complete any missing
 # settings.  Then export required build flags to the environment.
 function open_package {
@@ -406,6 +429,7 @@ function open_package {
 
 	stage_overrides
 	set_directory
+	setup_logging
 	prepare_build_env
 
 	# If $name not in profile, use $package.

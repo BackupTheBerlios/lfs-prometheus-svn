@@ -12,8 +12,11 @@ builddir="/var/tmp"
 # `stage1_install_as_root=no'.
 
 # If this is set to a filename, builds & installs (both stdout & stderr) are
-# logged to the file (instead of the terminal).
+# logged to the file.
 logfile=
+
+# Show stdout & stderr on the terminal?  Logging does not affect this.
+terminal_output=yes
 
 # Should install-log be run?
 log_install=yes

@@ -1,3 +1,12 @@
+2004-07-24 Gareth Jones <moderob@lineone.net>
+
+	* src/libprometheus.bash.in: Added setup_logging, called from
+	  open_package.
+	* etc/prometheus.conf.in: Added terminal_output.
+	* etc/REFERENCE.pkg: Added terminal_output.
+
+	* src/pkgunpack.in: Added option parsing loop & recursive calling.
+
 2004-07-23 Gareth Jones <moderob@lineone.net>
 
 	* src/pkgbuild.in: Added usage.

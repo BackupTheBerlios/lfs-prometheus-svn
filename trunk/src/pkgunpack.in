@@ -46,3 +46,47 @@ Options (must precede package list):
 	EOF
 	finish
 }
+
+# --------------------------- START EXECUTION HERE --------------------------- #
+
+# Check for options.
+while [[ "$1" == -* ]]; do
+	case "$1" in
+		(-c|--config)			config="$2"
+						shift ;;
+
+		(--config=*)			config="${1#--config=}" ;;
+
+		(-f|--profile|-p|--package)	break ;;
+
+		(-h|-\?|--help)			usage ;;
+
+		(-s|--stage)			stage="$2"
+						shift ;;
+
+		(--stage=*)			stage="${1#--stage=}" ;;
+
+		(-v|--version)			version ;;
+
+		(--)				shift
+						break ;;
+
+		(*)		script_usage_err "unrecognized option: $1"
+	esac
+	shift
+done
+
+source_config
+find_profiles "$@"
+
+# If there is more than one package, unpack each in its own instance.
+if (( ${#profile_list[@]} > 1 )); then
+	for profile in "${profile_list[@]}"; do
+		# FIXME: Use package name in error msg.
+		"$0" --config="$config" --stage=$stage --profile "$profile" ||
+		error "could not unpack files listed in $profile"
+	done
+	finish
+fi
+
+# FIXME: Rest of script.

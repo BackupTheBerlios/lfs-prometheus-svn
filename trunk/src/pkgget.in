@@ -162,11 +162,11 @@ while [[ "$1" == -* ]]; do
 
 		(--config=*)			config="${1#--config=}" ;;
 
+		(-f|--profile|-p|--package)	break ;;
+
 		(-h|-\?|--help)			usage ;;
 
 		(-l|--list)			listonly=yes ;;
-
-		(-f|--profile|-p|--package)	break ;;
 
 		(-v|--version)			version ;;
 
@@ -177,9 +177,6 @@ while [[ "$1" == -* ]]; do
 	esac
 	shift
 done
-
-# The remaining arguments should all be packages.
-(( $# == 0 )) && script_usage_err "no packages to get"
 
 source_config
 find_profiles "$@"
