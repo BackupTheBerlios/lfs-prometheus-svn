@@ -4,6 +4,9 @@
 
 	* man/prometheus.conf.5.in: Ammended for new logging options.
 
+	* src/pkgbuild.in: Written.
+	* man/pkgbuild.1.in: Written.
+
 2004-07-31 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* src/libprometheus.bash.in (log): Much simplified, nicer output.

@@ -17,6 +17,9 @@ Files are searched for in the source and build directories specified in
 .IR "%CONFIG%",
 and source code is unarchived in the build directory.
 
+.BR pkgbuild (1)
+may then be invoked to build the source code.
+
 .SH PACKAGE LIST
 
 Package profiles may be specified in two ways.  Any combination of the following

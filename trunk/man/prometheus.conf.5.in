@@ -78,7 +78,7 @@ commands, will be logged in the specified file.
 .RS
 Controls whether output from commands used to build and install packages is
 shown on the terminal.  This option is orthogonal to
-.BR "logfile" .
+.BR "logfile".
 .RE
 
 .B log_install={yes|no}
