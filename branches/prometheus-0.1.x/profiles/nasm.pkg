@@ -3,7 +3,7 @@ version="0.98.38"
 homepage="http://nasm.sourceforge.net"
 
 archives=(
-	"http://cesnet.dl.sourceforge.net/sourceforge/nasm/nasm-${version}.tar.bz2"
+	"http://mesh.dl.sourceforge.net/sourceforge/nasm/nasm-${version}.tar.bz2"
 )
 
 function build_pkg {

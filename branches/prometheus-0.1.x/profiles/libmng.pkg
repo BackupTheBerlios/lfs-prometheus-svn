@@ -3,7 +3,7 @@ version="1.0.6"
 homepage="http://libmng.sf.net"
 
 archives=(
-	"http://cesnet.dl.sourceforge.net/sourceforge/libmng/libmng-${version}.tar.gz"
+	"http://mesh.dl.sourceforge.net/sourceforge/libmng/libmng-${version}.tar.gz"
 )
 
 dep="zlib libjpeg lcms"

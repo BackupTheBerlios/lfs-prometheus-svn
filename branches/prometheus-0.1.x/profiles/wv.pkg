@@ -3,7 +3,7 @@ version="1.0.0"
 homepage="http://wvware.sf.net"
 
 archives=(
-	"http://cesnet.dl.sourceforge.net/sourceforge/wvware/wv-${version}.tar.gz"
+	"http://mesh.dl.sourceforge.net/sourceforge/wvware/wv-${version}.tar.gz"
 )
 
 dep="zlib libpng elinks"

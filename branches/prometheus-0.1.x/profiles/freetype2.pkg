@@ -3,7 +3,7 @@ version="2.1.7"
 homepage="http://www.freetype.org"
 
 archives=(
-	"http://cesnet.dl.sourceforge.net/sourceforge/freetype/freetype-${version}.tar.bz2"
+	"http://mesh.dl.sourceforge.net/sourceforge/freetype/freetype-${version}.tar.bz2"
 )
 
 patches=(

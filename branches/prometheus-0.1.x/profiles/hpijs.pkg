@@ -3,7 +3,7 @@ version="1.5"
 homepage="http://hpinkjet.sf.net"
 
 archives=(
-	"http://cesnet.dl.sourceforge.net/sourceforge/hpinkjet/hpijs-${version}.tar.gz"
+	"http://mesh.dl.sourceforge.net/sourceforge/hpinkjet/hpijs-${version}.tar.gz"
 )
 
 dep="cups espgs"
