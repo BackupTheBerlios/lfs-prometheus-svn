@@ -22,7 +22,7 @@ TESTS = finish/success.bash finish/failure.bash terminated/terminated.bash \
 	pipestat/success.bash pipestat/failure1.bash pipestat/failure2.bash \
 	pipestat/failure3.bash warning/status.bash failure/status.bash \
 	error/status.bash usage_error/usage_error.bash \
-	script_usage_err/script_usage_err.bash
+	script_usage_err/script_usage_err.bash setup_logging/tylf.bash
 
 PASS = ../runtest
 FAIL = ../runtest !
@@ -36,19 +36,29 @@ all: $(TESTS)
 	chmod 0755 $@
 
 check: all
-	$(PASS) finish/success.bash "successful exit"
-	$(FAIL) finish/failure.bash "unsuccessful exit"
-	$(FAIL) terminated/terminated.bash "forced exit"
-	$(PASS) pipestat/success.bash "successful pipeline"
-	$(FAIL) pipestat/failure1.bash "pipeline, failure at start"
-	$(FAIL) pipestat/failure2.bash "pipeline, failure in middle"
-	$(FAIL) pipestat/failure3.bash "pipeline, failure at end"
-	$(PASS) warning/status.bash "exit status after warning"
-	$(FAIL) failure/status.bash "exit status after failure"
-	$(FAIL) error/status.bash "exit status after error"
-	$(PASS) usage_error/usage_error.bash "function usage error reporting"
+	$(PASS) finish/success.bash "libprometheus/finish: successful exit"
+	$(FAIL) finish/failure.bash "libprometheus/finish: unsuccessful exit"
+	$(FAIL) terminated/terminated.bash \
+		"libprometheus/terminated: forced exit"
+	$(PASS) pipestat/success.bash \
+		"libprometheus/pipestat: successful pipeline"
+	$(FAIL) pipestat/failure1.bash \
+		"libprometheus/pipestat: pipeline, failure at start"
+	$(FAIL) pipestat/failure2.bash \
+		"libprometheus/pipestat: pipeline, failure in middle"
+	$(FAIL) pipestat/failure3.bash \
+		"libprometheus/pipestat: pipeline, failure at end"
+	$(PASS) warning/status.bash \
+		"libprometheus/warning: exit status after warning"
+	$(FAIL) failure/status.bash \
+		"libprometheus/failure: exit status after failure"
+	$(FAIL) error/status.bash "libprometheus/error: exit status after error"
+	$(PASS) usage_error/usage_error.bash \
+		"libprometheus/usage_error: function usage error reporting"
 	$(PASS) script_usage_err/script_usage_err.bash \
-		"script usage error reporting"
+		"libprometheus/script_usage_err: script usage error reporting"
+	$(PASS) setup_logging/tylf.bash \
+		"libprometheus/setup_logging: logging setup terminal+file"
 
 clean:
 	# FIXME: */output.txt, */*.log.
