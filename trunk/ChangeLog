@@ -2,6 +2,10 @@
 
 	* src/libprometheus.bash.in (log): Much simplified, nicer output.
 
+	* src/libprometheus.bash.in (pipestat): Added.
+	* src/pkgunpack.in (apply_patches): Added call to pipestat after
+	  `cat | patch' command.
+
 2004-07-30 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* src/libprometheus.bash.in (list_files): Removed references to

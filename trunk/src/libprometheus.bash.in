@@ -58,6 +58,26 @@ function terminated {
 # & KILL will still exit without cleanup.
 trap terminated HUP INT QUIT
 
+# ----------------------------- PIPELINE SUPPORT ----------------------------- #
+
+# Usage: <pipeline> && pipestat
+# Return 0 only if all commands in preceding pipeline completed successfully.
+# NOTE: bash-3 can do this anyway.
+function pipestat {
+
+	# $PIPESTATUS is reset for every command we run so we take a copy here.
+	local -ai pipestatus=( ${PIPESTATUS[@]} )
+
+	# Check return values.
+	local -i ret
+	for ret in ${pipestatus[@]}; do
+		(( ret == 0 )) || return $ret
+	done
+
+	# Pipeline was successful.
+	return 0
+}
+
 # ----------------------------- ERROR REPORTING ------------------------------ #
 
 # Usage: warning <message>

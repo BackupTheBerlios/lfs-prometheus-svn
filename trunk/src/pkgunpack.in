@@ -91,7 +91,8 @@ function apply_patches {
 		patch=$(location_of "${patches[$i]}") &&
 		[[ -n "$patch" ]] &&
 		pushd "$directory" > /dev/null &&
-		cat_file "$patch" | log $cmd &&	# FIXME: If cat_file fails.
+		cat_file "$patch" | log $cmd &&
+		pipestat &&
 		popd > /dev/null ||
 		error "cannot apply ${patches[$i]}"
 	done
