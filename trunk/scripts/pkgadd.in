@@ -34,6 +34,7 @@ Options (must precede package list):
 -b, --backup-installed		Backup and remove any existing installations
 -c, --config <config_file>	Specify alternative configuration file
 -d, --download			Download files need to install packages
+-D, --dependencies		Install any unfulfilled dependencies of packages
 -l, --leave-installed		Do not touch any existing installations
 -L, --leave-failed		Leave files from any failed installations
 -o, --overwrite-installed	Overwrite any existing installations
@@ -49,9 +50,40 @@ Options (must precede package list):
 	finish
 }
 
+# Usage: get_package_list <package_list>
+# Fill $package_list with packages to install by checking dependencies of
+# packages in <package_list>.
+function get_package_list {
+	[[ -z "$*" ]] && usage_error "get_package_list" "<package_list>"
+
+	# Only do dependency checking in stage 2.
+	(( stage < 2 )) && package_list=( "$@" )
+
+	# Get array of dependencies for <package_list>.
+	get_dependencies "$@"		# FIXME
+
+	# Fill not_installed with missing dependencies.
+	local -a not_installed
+	local dep
+	for dep in "${dependencies[@]}"; do
+		pkginfo "$dep" | grep "not installed" > /dev/null &&
+		not_installed[${#not_installed[@]}]="$dep"
+	done
+
+	# If user didn't request adding dependencies, ask.
+	if [[ -n "${not_installed[*]}" && "$add_deps" != yes ]]; then
+		echo "Unfulfilled dependencies:"
+		echo "${not_installed[*]}"
+		echo -n "Install these packages first? [y/n] "
+		choice || error "unfulfilled dependencies - aborting"
+	fi
+
+	package_list=( "${not_installed[@]}" "$@" )
+}
+
 # --------------------------- START EXECUTION HERE --------------------------- #
 
-unset download failed installed
+unset add_deps download failed installed package_list
 
 # Check for options.
 while [[ "$1" == -* ]]; do
@@ -62,6 +94,8 @@ while [[ "$1" == -* ]]; do
 						shift ;;
 
 		(-d|--download)			download=yes ;;
+
+		(-D|--dependencies)		add_deps=yes ;;
 
 		(--config=*)			config="${1#--config=}" ;;
 
@@ -97,15 +131,20 @@ done
 
 source_config
 
+# Get the list of packages to install, including dependencies.
+get_package_list "$@"
+remove_dupes package_list	# FIXME.  Also add this to other scripts.
+
 # Download packages if told to.
 if [[ "$download" == yes ]]; then
 	echo "Downloading needed files..."
-	pkgget --config="$config" "$@" || error "downloading failed"
+	pkgget --config="$config" "${package_list[@]}" ||
+	error "downloading failed"
 fi
 
 # If there is more than one package, install each in its own instance.
-if (( $# > 1 )); then
-	for package in "$@"; do
+if (( ${#package_list[@]} > 1 )); then
+	for package in "${package_list[@]}"; do
 		"$0" --config="$config" ${installed:+--$installed-installed} \
 		     ${failed:+--$failed-failed} --stage=$stage "$package" ||
 		error "installation of $package failed"
@@ -115,7 +154,7 @@ fi
 
 # There is only one package to install.  Do so in this instance.
 profiles_cwd=yes
-open_package "$1"
+open_package "${package_list[0]}"
 
 log_echo
 log_echo "	----- $name_ver -----"

@@ -1,52 +1,58 @@
+2004-08-04 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* scripts/pkgadd.in: Dependency checking implemented.  Needs two
+	  functions added to libprometheus before usable, however I need some
+	  sleep first.
+
 2004-08-03 Gareth Jones <gareth_jones@users.berlios.de>
 
-	* src/libprometheus.bash.in (source_profile, open_package): Takes
+	* scripts/libprometheus.bash.in (source_profile, open_package): Takes
 	  package as argument instead of profile.  Searches current working
 	  directory before profile directory.
-	* src/libprometheus.bash.in: Removed find_profiles, add_profiles,
+	* scripts/libprometheus.bash.in: Removed find_profiles, add_profiles,
 	  $profile_list & $package_list.
-	* src/pkgget.in: Updated profile handling.
-	* src/pkgunpack.in: Updated profile handling.
-	* src/pkgbuild.in: Updated profile handling.
-	* src/pkgcheck.in: Updated profile handling.
-	* src/pkginstall.in: Updated profile handling.
-	* src/pkgadd.in: Updated profile handling.
+	* scripts/pkgget.in: Updated profile handling.
+	* scripts/pkgunpack.in: Updated profile handling.
+	* scripts/pkgbuild.in: Updated profile handling.
+	* scripts/pkgcheck.in: Updated profile handling.
+	* scripts/pkginstall.in: Updated profile handling.
+	* scripts/pkgadd.in: Updated profile handling.
 	* man/pkgget.1.in: Updated.
 	* man/pkgunpack.1.in: Updated.
 	* man/pkgbuild.1.in: Updated.
 	* man/pkgcheck.1.in: Updated.
 	* man/pkginstall.8.in: Updated.
 
-	* src/pkgget.in: Download files to $srcdir, not current working
+	* scripts/pkgget.in: Download files to $srcdir, not current working
 	  directory.
-	* src/libprometheus.bash.in (location_of): Only search $srcdir, not
+	* scripts/libprometheus.bash.in (location_of): Only search $srcdir, not
 	  $builddir.
 
-	* src/libprometheus.bash.in (source_profile): Only search current
+	* scripts/libprometheus.bash.in (source_profile): Only search current
 	  working directory if $profiles_cwd is `yes'.
-	* src/pkgget.in: Updated profile handling.
-	* src/pkgunpack.in: Updated profile handling.
-	* src/pkgbuild.in: Updated profile handling.
-	* src/pkgcheck.in: Updated profile handling.
-	* src/pkginstall.in: Updated profile handling.
-	* src/pkgadd.in: Updated profile handling.
+	* scripts/pkgget.in: Updated profile handling.
+	* scripts/pkgunpack.in: Updated profile handling.
+	* scripts/pkgbuild.in: Updated profile handling.
+	* scripts/pkgcheck.in: Updated profile handling.
+	* scripts/pkginstall.in: Updated profile handling.
+	* scripts/pkgadd.in: Updated profile handling.
 
 	* etc/prometheus.conf: Added $backupdir.
 	* man/prometheus.conf.5.in: Documented $backupdir.
-	* src/pkginstall.in: Added add_version_entry.  Now restores backed up
-	  uninstalls if installation fails.
+	* scripts/pkginstall.in: Added add_version_entry.  Now restores backed
+	  up uninstalls if installation fails.
 
 2004-08-02 Gareth Jones <gareth_jones@users.berlios.de>
 
-	* src/libprometheus.bash.in (add_profile): Fixed bug & added
+	* scripts/libprometheus.bash.in (add_profile): Fixed bug & added
 	  $package_list.
 
-	* src/libprometheus.bash.in: log_echo & log_warning now always output to
-	  the terminal as well as any log.
+	* scripts/libprometheus.bash.in: log_echo & log_warning now always
+	  output to the terminal as well as any log.
 
-	* src/pkgadd.in: Skeleton written.
+	* scripts/pkgadd.in: Skeleton written.
 
-	* src/libprometheus.bash.in: Removed $temp_files, temp_file &
+	* scripts/libprometheus.bash.in: Removed $temp_files, temp_file &
 	  remove_tempfiles.
 
 2004-08-01 Gareth Jones <gareth_jones@users.berlios.de>
@@ -55,72 +61,72 @@
 
 	* man/prometheus.conf.5.in: Ammended for new logging options.
 
-	* src/pkgbuild.in: Written.
+	* scripts/pkgbuild.in: Written.
 	* man/pkgbuild.1.in: Written.
 
-	* src/libprometheus.bash.in: Added log_echo & log_warning.
+	* scripts/libprometheus.bash.in: Added log_echo & log_warning.
 
-	* src/pkgcheck.in: Written.
+	* scripts/pkgcheck.in: Written.
 	* man/pkgcheck.1.in: Written.
 
-	* src/libprometheus.bash.in (choice): Added.
+	* scripts/libprometheus.bash.in (choice): Added.
 
-	* src/libprometheus.bash.in: Move setting $name from open_package to
+	* scripts/libprometheus.bash.in: Move setting $name from open_package to
 	  source_profile.  Added $name_ver & get_installed_version.
-	* src/pkgcheck.in: $name => $name_ver.
-	* src/pkgbuild.in: $name => $name_ver.
+	* scripts/pkgcheck.in: $name => $name_ver.
+	* scripts/pkgbuild.in: $name => $name_ver.
 
 	* Makefile.defs: Added INSTALL_LOG_RC parameter.
 	* etc/Makefile: Added %INSTALL_LOG_RC% substitution for
 	  prometheus.conf.in.
 	* etc/prometheus.conf.in: Added install_log_rc parameter.
 	* man/prometheus.conf.5.in: Documented install_log_rc parameter.
-	* src/libprometheus.bash.in (source_config): Added setting $logdir,
+	* scripts/libprometheus.bash.in (source_config): Added setting $logdir,
 	  $version_table & $timestamp.
 
-	* src/pkginstall.in: Written.
+	* scripts/pkginstall.in: Written.
 	* man/pkginstall.8.in: Written.
 
 2004-07-31 Gareth Jones <gareth_jones@users.berlios.de>
 
-	* src/libprometheus.bash.in (log): Much simplified, nicer output.
+	* scripts/libprometheus.bash.in (log): Much simplified, nicer output.
 
-	* src/libprometheus.bash.in (pipestat): Added.
-	* src/pkgunpack.in (apply_patches): Added call to pipestat after
+	* scripts/libprometheus.bash.in (pipestat): Added.
+	* scripts/pkgunpack.in (apply_patches): Added call to pipestat after
 	  `cat | patch' command.
 
-	* src/libprometheus.bash.in (setup_logging): Reverted to piping to tee
-	  instead of using process substitution, which is no longer needed.
-	* src/libprometheus.bash.in (log): Added call to pipestat.
+	* scripts/libprometheus.bash.in (setup_logging): Reverted to piping to
+	  tee instead of using process substitution, which is no longer needed.
+	* scripts/libprometheus.bash.in (log): Added call to pipestat.
 
-	* src/libprometheus.bash.in (logged_failure): Added.
-	* src/libprometheus.bash.in (log): Added call to logged_failure.
+	* scripts/libprometheus.bash.in (logged_failure): Added.
+	* scripts/libprometheus.bash.in (log): Added call to logged_failure.
 
 2004-07-30 Gareth Jones <gareth_jones@users.berlios.de>
 
-	* src/libprometheus.bash.in (list_files): Removed references to
+	* scripts/libprometheus.bash.in (list_files): Removed references to
 	  $stage2_{archives,patches}.
 
-	* src/libprometheus.bash.in (set_stage): Added.
-	* src/pkgunpack.in: Changed `stage="$val"' to `set_stage "$val"'.
+	* scripts/libprometheus.bash.in (set_stage): Added.
+	* scripts/pkgunpack.in: Changed `stage="$val"' to `set_stage "$val"'.
 
-	* src/libprometheus.bash.in (unpack): Restored.
-	* src/pkgunpack.in (unpack_archives): Restored from pkgadd 0.1.
+	* scripts/libprometheus.bash.in (unpack): Restored.
+	* scripts/pkgunpack.in (unpack_archives): Restored from pkgadd 0.1.
 
-	* src/libprometheus.bash.in (cat_file): Restored.
-	* src/pkgunpack.in (apply_patches): Restored from pkgadd 0.1.
+	* scripts/libprometheus.bash.in (cat_file): Restored.
+	* scripts/pkgunpack.in (apply_patches): Restored from pkgadd 0.1.
 
-	* src/libprometheus.bash.in (override_var): Fixed quoting buglet.
-	* src/libprometheus.bash.in (override_array): Fixed quoting buglet.
+	* scripts/libprometheus.bash.in (override_var): Fixed quoting buglet.
+	* scripts/libprometheus.bash.in (override_array): Fixed quoting buglet.
 
-	* src/libprometheus.bash.in (setup_logging): Set $logfile to /dev/null
-	  if both logging & terminal output disabled.
-	* src/libprometheus.bash.in (log): Added.
-	* src/pkgunpack.in (apply_patches): Added logging to patch command.
+	* scripts/libprometheus.bash.in (setup_logging): Set $logfile to
+	  /dev/null if both logging & terminal output disabled.
+	* scripts/libprometheus.bash.in (log): Added.
+	* scripts/pkgunpack.in (apply_patches): Added logging to patch command.
 
 2004-07-29 Gareth Jones <gareth_jones@users.berlios.de>
 
-	* src/libprometheus.bash.in (add_profile): Call error instead of
+	* scripts/libprometheus.bash.in (add_profile): Call error instead of
 	  failure if profile not found.
 
 	* All files: Changed Gareth Jones' email address to
@@ -128,23 +134,23 @@
 
 2004-07-24 Gareth Jones <gareth_jones@users.berlios.de>
 
-	* src/libprometheus.bash.in: Added setup_logging, called from
+	* scripts/libprometheus.bash.in: Added setup_logging, called from
 	  open_package.
 	* etc/prometheus.conf.in: Added terminal_output.
 	* etc/REFERENCE.pkg: Added terminal_output.
 
-	* src/pkgunpack.in: Added option parsing loop & recursive calling.
+	* scripts/pkgunpack.in: Added option parsing loop & recursive calling.
 
 2004-07-23 Gareth Jones <gareth_jones@users.berlios.de>
 
-	* src/pkgbuild.in: Added usage.
+	* scripts/pkgbuild.in: Added usage.
 
-	* src/pkgunpack.in: Touched.
+	* scripts/pkgunpack.in: Touched.
 	* man/pkgunpack.1.in: Touched.
 	* Makefile.defs: Reference to pkgunpack added.
 
-	* src/libprometheus.bash.in: Sectioned into function groups.  Restored
-	  is_set, is_func, override_var, override_array, override_func,
+	* scripts/libprometheus.bash.in: Sectioned into function groups.
+	  Restored is_set, is_func, override_var, override_array, override_func,
 	  stage_overrides, set_directory (formerly pkgdir), prepare_build_env
 	  & open_package.
 
@@ -154,7 +160,7 @@
 
 2004-07-21 Gareth Jones <gareth_jones@users.berlios.de>
 
-	* src/libprometheus.bash.in: Added terminated function & trap for
+	* scripts/libprometheus.bash.in: Added terminated function & trap for
 	  SIGHUP, SIGINT & SIGQUIT.
 
 2004-07-20 Gareth Jones <gareth_jones@users.berlios.de>
@@ -163,17 +169,17 @@
 	* etc/Makefile: Added GPL notice.
 	* man/Makefile: Added GPL notice.
 	* profiles/Makefile: Added GPL notice.
-	* src/Makefile: Added GPL notice.
-	* src/compact.in: Added GPL notice.
-	* src/pkgadd.in: Added GPL notice.
-	* src/pkgbuild.in: Added GPL notice.
-	* src/pkgcheck.in: Added GPL notice.
-	* src/pkgget.in: Added GPL notice.
-	* src/pkginfo.in: Added GPL notice.
-	* src/pkginstall.in: Added GPL notice.
-	* src/pkgrm.in: Added GPL notice.
-	* src/libprometheus.bash.in: Added GPL notice, also added brief note to
-	  version function output.
+	* scripts/Makefile: Added GPL notice.
+	* scripts/compact.in: Added GPL notice.
+	* scripts/pkgadd.in: Added GPL notice.
+	* scripts/pkgbuild.in: Added GPL notice.
+	* scripts/pkgcheck.in: Added GPL notice.
+	* scripts/pkgget.in: Added GPL notice.
+	* scripts/pkginfo.in: Added GPL notice.
+	* scripts/pkginstall.in: Added GPL notice.
+	* scripts/pkgrm.in: Added GPL notice.
+	* scripts/libprometheus.bash.in: Added GPL notice, also added brief
+	  note to version function output.
 	* x86stepping/Makefile: Added GPL notice.
 	* x86stepping/x86stepping.c: Added GPL notice.
 
@@ -183,7 +189,7 @@
 
 2004-07-04 Gareth Jones <gareth_jones@users.berlios.de>
 
-	* src/libprometheus.bash.in: Restored temp_file & remove_temp_files.
+	* scripts/libprometheus.bash.in: Restored temp_file & remove_temp_files.
 	  Added call to remove_temp_files to finish.
 
 	* man/Makefile: Fixed installation of prometheus.conf.5.
@@ -195,8 +201,8 @@
 
 2004-07-03 Gareth Jones <gareth_jones@users.berlios.de>
 
-	* src/libprometheus.bash.in: Split find_profiles into find_profiles &
-	  add_profile.
+	* scripts/libprometheus.bash.in: Split find_profiles into find_profiles
+	  & add_profile.
 
 	* man/Makefile: Added support for prometheus.conf.5 man page.
 	* man/pkgget.1.in: Added reference to prometheus.conf.5.
@@ -204,7 +210,7 @@
 	* man/pkgget.1.in: Added note about where files are searched for &
 	  downloaded to.
 
-	* src/compact.in: Renamed option -r -> -R.  Added options: -b --bz2
+	* scripts/compact.in: Renamed option -r -> -R.  Added options: -b --bz2
 	  --bzip2 -g --gz --gzip -f --force -r --recompress.  Removed -k
 	  --keep.  Rewrote compact_file.
 	* man/compact.1.in: Updated to reflect above changes.
@@ -213,15 +219,15 @@
 
 	* man/compact.1.in: Written.
 
-	* src/compact.in: Added support for `--' option.
+	* scripts/compact.in: Added support for `--' option.
 
-	* src/libprometheus.bash.in: Added failure & finish functions.
-	* src/compact.in: Use failure & finish.
+	* scripts/libprometheus.bash.in: Added failure & finish functions.
+	* scripts/compact.in: Use failure & finish.
 
-	* src/libprometheus.bash.in: Restored get_suffix, location_of,
+	* scripts/libprometheus.bash.in: Restored get_suffix, location_of,
 	  list_files, source_profile, remove_compression_suffix &
 	  source_config.  Added find_profiles.
-	* src/pkgget.in: Restored.
+	* scripts/pkgget.in: Restored.
 	* man/pkgget.1.in: Written.
 
 2004-07-01 Gareth Jones <gareth_jones@users.berlios.de>
@@ -230,15 +236,15 @@
 
 2004-06-30 Gareth Jones <gareth_jones@users.berlios.de>
 
-	* src/Makefile: Separated rules for executables & library.
+	* scripts/Makefile: Separated rules for executables & library.
 
-	* src/compact.in: Written.
-	* src/libprometheus.bash.in: Restored warning, error, usage_error,
+	* scripts/compact.in: Written.
+	* scripts/libprometheus.bash.in: Restored warning, error, usage_error,
 	  script_usage_err & source_file.  Added version.
 
 	* Makefile.defs: Added VERSION & RELEASE variables.
 	* man/Makefile: Added preprocessing for man pages.
-	* src/Makefile:	Added VERSION & RELEASE to preprocessing.
+	* scripts/Makefile:	Added VERSION & RELEASE to preprocessing.
 
 2004-06-29 Gareth Jones <gareth_jones@users.berlios.de>
 
