@@ -15,6 +15,3 @@
 * Profiles.
 
 * we're not keeping track of installed patches. Try to find a solution.
-
-* online profile updates. A profile tarball gets generated nightly from SVN,
-  and we'd need a command to update the local profiles from there.

@@ -70,7 +70,7 @@ function do_backup {
 	# tar -P does not strip leading slashes in filenames.
 	# tar --ignore-failed-read ignores non-existant files.
 	sed -e 's/# Old # //' -e '/# Del #.*/d' "${logdir}/${package_list[0]}" |
-	xargs -r tar cjPf "${backupdir}/${package_list[0]}.bak.tar.bz2" \
+	xargs -r tar cjPf "${backupdir}/${package_list[0]}.pkg.tar.bz2" \
 		--ignore-failed-read 2> /dev/null ||
 	error "backup failed"
 }
@@ -91,25 +91,10 @@ function create_dep_list {
 	return 0
 }
 
-# Usage: rm_empty_tree
-# Read a list of directories from stdin and recursively remove the trees.
-# Stop at the first non-empty directory.
-function rm_empty_tree {
-
-	local dir
-
-        while read dir; do
-                if rmdir "$dir" 2> /dev/null; then
-                        echo "${dir%/*}" | rm_empty_tree
-                fi
-        done
-
-        return 0
-}
-
-# Usage collect_dirs
-# Build a list of those directories that the current pkg stored files in.
-function collect_dirs {
+# Usage remove_empty_tree
+# Build a list of those directories that the current pkg stored files in
+# and remove all empty ones.
+function remove_empty_tree {
 
 	(( $(wc -c "${logdir}/${package_list[0]}" | cut -f1 -d\ ) > 0 )) ||
 		return 1
@@ -121,7 +106,8 @@ function collect_dirs {
 	sed -e 's/# Old # //' -e 's/# Del # //' "${package_list[0]}" | \
 	while read dir; do
 		echo "${dir%/*}"
-	done | sort --unique
+	done | sort --unique | xargs --no-run-if-empty \
+				 rmdir --parents --ignore-fail-on-non-empty
 }
 
 # Usage: remove_files
@@ -133,7 +119,7 @@ function remove_files {
 	xargs --no-run-if-empty rm -f ||
 	return 1
 
-	collect_dirs | rm_empty_tree
+	remove_empty_tree
 
 	return 0
 }

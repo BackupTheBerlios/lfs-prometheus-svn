@@ -1,3 +1,7 @@
+2004-12-05 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* scripts/pkgrm.in: Optimized removal of empty directories.
+
 2004-11-16 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* testsuite/libprometheus/source_config: Added install_log.conf, logdir
