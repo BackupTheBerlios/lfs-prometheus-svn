@@ -5,6 +5,9 @@
 
 	* testsuite/libprometheus/choice: Added yes & no.
 
+	* testsuite/runtest.in: Added `shopt -u sourcepath'.
+	* scripts/libprometheus.bash.in: Added `shopt -u sourcepath'.
+
 2004-09-18 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* scripts/libprometheus.bash.in: Re-ordered logging functions.

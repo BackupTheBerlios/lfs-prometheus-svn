@@ -18,6 +18,9 @@
 # this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 # Place, Suite 330, Boston, MA  02111-1307  USA
 
+# Prevent accidental sourcing of files in $PATH.
+shopt -u sourcepath
+
 # Set $_lib to the location of libprometheus so that it may be sourced by tests
 # that check its functions.
 _lib="%LIBPROMETHEUS%"

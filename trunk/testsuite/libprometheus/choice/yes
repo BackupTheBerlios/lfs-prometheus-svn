@@ -7,7 +7,7 @@ _expect=pass
 function _check {
 	source "$_lib" || exit 1
 
-	cat <-"EOF"
+	choice <<-"EOF"
 		a
 		g
 		f
@@ -21,6 +21,5 @@ function _check {
 		g
 		h
 		n
-	EOF |
-	choice
+	EOF
 }

@@ -271,6 +271,9 @@ function echo_array {
 
 # ------------------------------ FILE SOURCING ------------------------------- #
 
+# Prevent accidental sourcing of files in $PATH.
+shopt -u sourcepath
+
 # Usage: source_file <file> <description>
 # Source file if it exists, else report error & exit.
 function source_file {
