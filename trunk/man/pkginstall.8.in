@@ -12,9 +12,14 @@ pkginstall \- Install packages from their build directories.
 
 .B pkginstall
 installs packages from their build directories, in the order given on the
-commandline.  The built packages are expected to be in the build directory
-specified in
-.IR "%CONFIG%".
+commandline.  The built packages are expected to be in the build directory.
+
+Packages are specified by short name (without a version number), e.g. `bash',
+`gcc'.  Profiles have the same name suffixed by
+.I .pkg
+(`bash.pkg', `gcc.pkg'), and are searched for first in the current working
+directory, then in the profile directory.
+
 .BR pkgbuild (1)
 should be invoked to build the packages before running
 .BR "pkginstall".
@@ -22,38 +27,11 @@ You may wish to invoke
 .BR pkgcheck (1)
 to run the packages' testsuites before installation too.
 
-.SH PACKAGE LIST
-
-Package profiles may be specified in two ways.  Any combination of the following
-options may be used.
-
-.BR -f ", " --profile
-.I profile
-.BR ...
-.RS
-Specify files containing package profiles.
-.RE
-
-.BR -p ", " --package
-.I package
-.BR ...
-.RS
-Specify packages by name.  Profiles will be searched for the profile directory
-specified in
-.IR "%CONFIG%".
-This is the default behaviour if neither option is used.
-.RE
-
-.BR --
-.RS
-Treat remaining arguments as packages or profiles, even if they begin with `-'.
-This effectively locks the package list into its current mode.
-.RE
-
 .SH OPTIONS
 
 All options must precede
 .IR "package_list".
+When options conflict or are repeated, the last on the commandline is used.
 
 .BR -c ", " --config
 .I config_file
@@ -80,6 +58,11 @@ to bootstrap an LFS system; stage 2 is building the final system.
 Display version information.
 .RE
 
+.B --
+.RS
+Treat all remaining arguments as packages.
+.RE
+
 The following options control what
 .B pkginstall
 does if told to install a package when a version of the package is already
@@ -88,8 +71,6 @@ installed.  If such a situation arises and none of these options are specified,
 will ask the user what to do.
 .BR pkgrm (8)
 is used if an existing installation is removed.
-
-If multiple options are specified, the last one on the commandline is used.
 
 .BR -b ", " --backup-installed
 .RS
@@ -126,8 +107,6 @@ of these options are specified,
 will ask the user what to do.
 .BR pkgrm (8)
 is used if a failed installation is removed.
-
-If multiple options are specified, the last one on the commandline is used.
 
 .BR -L ", " --leave-failed
 .RS

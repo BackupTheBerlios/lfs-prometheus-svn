@@ -11,6 +11,11 @@
 	* src/pkgcheck.in: Updated profile handling.
 	* src/pkginstall.in: Updated profile handling.
 	* src/pkgadd.in: Updated profile handling.
+	* man/pkgget.1.in: Updated.
+	* man/pkgunpack.1.in: Updated.
+	* man/pkgbuild.1.in: Updated.
+	* man/pkgcheck.1.in: Updated.
+	* man/pkginstall.8.in: Updated.
 
 2004-08-02 Gareth Jones <gareth_jones@users.berlios.de>
 

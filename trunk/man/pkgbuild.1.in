@@ -12,11 +12,16 @@ pkgbuild \- Build packages from source code.
 
 .B pkgbuild
 builds packages from their source code, in the order given on the commandline.
-The source code is expected to be in the build directory specified in
-.IR "%CONFIG%".
+The source code is expected to be in the build directory.
 .BR pkgunpack (1)
 should be invoked to prepare the source code before running
 .BR "pkgbuild".
+
+Packages are specified by short name (without a version number), e.g. `bash',
+`gcc'.  Profiles have the same name suffixed by
+.I .pkg
+(`bash.pkg', `gcc.pkg'), and are searched for first in the current working
+directory, then in the profile directory.
 
 After running
 .BR "pkgbuild",
@@ -25,38 +30,11 @@ may be invoked to complete package installation, or
 .BR pkgcheck (1)
 may first be used to run the packages' testsuites.
 
-.SH PACKAGE LIST
-
-Package profiles may be specified in two ways.  Any combination of the following
-options may be used.
-
-.BR -f ", " --profile
-.I profile
-.BR ...
-.RS
-Specify files containing package profiles.
-.RE
-
-.BR -p ", " --package
-.I package
-.BR ...
-.RS
-Specify packages by name.  Profiles will be searched for the profile directory
-specified in
-.IR "%CONFIG%".
-This is the default behaviour if neither option is used.
-.RE
-
-.BR --
-.RS
-Treat remaining arguments as packages or profiles, even if they begin with `-'.
-This effectively locks the package list into its current mode.
-.RE
-
 .SH OPTIONS
 
 All options must precede
 .IR "package_list".
+When options conflict or are repeated, the last on the commandline is used.
 
 .BR -c ", " --config
 .I config_file
@@ -81,6 +59,11 @@ to bootstrap an LFS system; stage 2 is building the final system.
 .BR -v ", " --version
 .RS
 Display version information.
+.RE
+
+.B --
+.RS
+Treat all remaining arguments as packages.
 .RE
 
 .SH FILES

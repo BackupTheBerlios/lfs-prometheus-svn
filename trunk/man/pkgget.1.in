@@ -13,18 +13,14 @@ pkgget \- Download files required to build and install packages.
 .B pkgget
 checks that the archives and/or patches required to build and install each
 package are present on the system, and downloads any that are not.  Files are
-searched for in the source and build directories specified in
-.IR "%CONFIG%".
-If a file is missing and the package profile lacks a URL for the file, the user
-is warned and
+searched for in (subdirectories of) the source directory.  This is also where
+files are downloaded to.  If a file is missing and the package profile lacks a
+URL for the file, the user is warned and
 .B pkgget
 continues with the next file.
 
-Files are downloaded to the current directory.  If this is not the source
-directory specified in
-.I "%CONFIG%"
-then the files should be moved there afterwards.  Download ordering is optimized
-so that connections to servers may be used for multiple files.
+Download ordering is optimized so that connections to servers may be reused for
+multiple files.
 .BR wget (1)
 is used for downloading.
 
@@ -36,38 +32,17 @@ file was recompressed with
 .B bzip2
 after downloading, pkgget will not try to download it again.
 
-.SH PACKAGE LIST
-
-Package profiles may be specified in two ways.  Any combination of the following
-options may be used.
-
-.BR -f ", " --profile
-.I profile
-.BR ...
-.RS
-Specify files containing package profiles.
-.RE
-
-.BR -p ", " --package
-.I package
-.BR ...
-.RS
-Specify packages by name.  Profiles will be searched for the profile directory
-specified in
-.IR "%CONFIG%".
-This is the default behaviour if neither option is used.
-.RE
-
-.BR --
-.RS
-Treat remaining arguments as packages or profiles, even if they begin with `-'.
-This effectively locks the package list into its current mode.
-.RE
+Packages are specified by short name (without a version number), e.g. `bash',
+`gcc'.  Profiles have the same name suffixed by
+.I .pkg
+(`bash.pkg', `gcc.pkg'), and are searched for first in the current working
+directory, then in the profile directory.
 
 .SH OPTIONS
 
 All options must precede
 .IR "package_list".
+When options conflict or are repeated, the last on the commandline is used.
 
 .BR -c ", " --config
 .I config_file
@@ -88,6 +63,11 @@ Display the help screen.
 .BR -v ", " --version
 .RS
 Display version information.
+.RE
+
+.B --
+.RS
+Treat all remaining arguments as packages.
 .RE
 
 .SH FILES
