@@ -101,5 +101,4 @@ check: all
 		"libprometheus/setup_logging: default settings"
 
 clean:
-	# FIXME: */output.txt, */*.log.
-	rm $(TESTS)
+	-rm $(TESTS) */output.txt */*.log
