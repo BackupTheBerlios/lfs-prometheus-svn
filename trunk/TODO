@@ -2,8 +2,6 @@
 
 * x86stepping: Support 2.6 kernels.
 
-* Implement dependency checking between packages.
-
 * Have pkgrm check for breaking dependencies if a package is removed.
 
 * Use $DESTDIR instead of install-log?  Emulate $DESTDIR with chroot for

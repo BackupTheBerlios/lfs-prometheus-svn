@@ -10,6 +10,10 @@
 	* scripts/pkgcheck.in: Removes duplicate package arguments.
 	* scripts/pkginstall.in: Removes duplicate package arguments.
 
+	* scripts/libprometheus.bash.in: Added get_deps, get_dependencies,
+	  get_profile_var, get_profile_array & echo_array.
+	* scripts/libprometheus.bash.in (override_array): Much simplified.
+
 2004-08-03 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* scripts/libprometheus.bash.in (source_profile, open_package): Takes

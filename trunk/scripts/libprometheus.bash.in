@@ -20,10 +20,10 @@
 
 # Prevent environmental contamination.
 unset archives archive_dirs builddir cc cflags check config cxx cxxflags deps
-unset directory failures homepage install_as_root install_log_rc lc_all ldflags
-unset leavefiles linguas logdir logfile log_install log_target name name_ver
-unset optimize package patches patch_cmds profile profiles profiles_cwd srcdir
-unset stage terminal_output timestamp version version_table
+unset dependencies directory failures homepage install_as_root install_log_rc
+unset lc_all ldflags leavefiles linguas logdir logfile log_install log_target
+unset name name_ver optimize package patches patch_cmds profile profiles
+unset profiles_cwd srcdir stage terminal_output timestamp version version_table
 unset ${!stage0*} ${!stage1*}
 
 # Location of configuration file.  Scripts may redefine this value in response
@@ -252,6 +252,22 @@ function choice {
 	[[ "$reply" == y ]]
 }
 
+# ------------------------------ ARRAY SUPPORT ------------------------------- #
+
+# Usage: echo_array <value_list>
+# Echo <value_list> as a single line suitable for assignment to an array.
+function echo_array {
+	[[ -z "$*" ]] && usage_error "echo_array" "<value_list>"
+
+	local item
+
+	echo -n "( "
+	for item in "$@"; do
+		echo -n "\"$item\" "
+	done
+	echo ")"
+}
+
 # ------------------------------ FILE SOURCING ------------------------------- #
 
 # Usage: source_file <file> <description>
@@ -315,6 +331,35 @@ function source_profile {
 	name_ver="$name${version:+ $version}"
 }
 
+# Usage: get_profile_var <variable> <package>
+# Echo the value of <variable> in <package>'s profile, without sourcing the
+# profile in this shell.
+function get_profile_var {
+	if (( $# != 2 )) || [[ -z "$1" || -z "$2" ]]; then
+		usage_error "get_profile_var" "<variable> <package>" "$*"
+	fi
+
+	(
+		source_profile "$2"
+		echo "${!1}"
+	)
+}
+
+# Usage: get_profile_array <array> <package>
+# Echo the value of <array> in <package>'s profile, without sourcing the
+# profile in this shell.  The array is echoed as a single line suitable for
+# assignment to another array.
+function get_profile_array {
+	if (( $# != 2 )) || [[ -z "$1" || -z "$2" ]]; then
+		usage_error "get_profile_array" "<array> <package>" "$*"
+	fi
+
+	(
+		source_profile "$2"
+		eval "echo_array \"\${$1[@]}\""
+	)
+}
+
 # Usage: is_set <variable name>
 # Return true if <variable name> denotes an initialised variable, even if its
 # value is "".  Return false if the variable is unset.
@@ -354,29 +399,7 @@ function override_array {
 		usage_error "override_array" "<array1> <array2>" "$*"
 	fi
 
-	local -i i size
-	local elem1 elem2
-
-	# Get size of <array2>.
-	eval "size=\${#$2[@]}"
-
-	is_set "$2" &&
-
-	# Remove *all* elements of <array1>, otherwise some could be left
-	# unchanged.
-	if is_set "$1"; then
-		unset "$1"
-	fi &&
-
-	# Ensure <array1> is created, even if it is empty.
-	eval "$1=" &&
-
-	# Copy each element of <array2> to <array1>.
-	for (( i=0 ; i<size ; ++i )); do
-		elem1="$1[$i]"
-		elem2="$2[$i]"
-		eval "$elem1=\"${!elem2}\""
-	done
+	is_set "$2" && eval "$1=( \"\${$2[@]}\" )"
 }
 
 # Usage: override_func <func1> <func2>
@@ -530,6 +553,48 @@ function remove_dupes {
 
 	# Refill <array> with processed array.
 	eval "$1=( \"\${processed[@]}\" )"
+}
+
+# Usage: get_deps <package_list>
+# Echo the packages required to be installed before the packages in
+# <package_list>, in order of installation, one per line.  Used internally by
+# get_dependencies.
+function get_deps {
+	[[ -z "$*" ]] && usage_error "get_deps" "<package_list>"
+
+	local -a deps
+	local dep package
+
+	for package in "$@"; do
+
+		# Get immediate dependencies.
+		eval "deps=$(get_profile_array deps "$1")"
+
+		# Echo each dependency preceded by its own dependencies.
+		for dep in "${deps[@]}"; do
+			get_deps "$dep"
+			echo "$dep"
+		done
+	done
+}
+
+# Usage: get_dependencies <package_list>
+# Fill $dependencies with the packages required to be installed before packages
+# in <package_list>, in order of installation & avoiding duplicates.
+function get_dependencies {
+	[[ -z "$*" ]] && usage_error "get_dependencies" "<package_list>"
+
+	unset dependencies
+	local dep
+
+	# Read dependencies into $dependencies array.  Use process substitution
+	# instead of pipe to avoid while loop running in a subshell.
+	while read dep; do
+		dependencies[${#dependencies[@]}]="$dep"
+	done < <(get_deps "$@")
+
+	# Remove any repeated packages.
+	remove_dupes dependencies
 }
 
 # ------------------------- ARCHIVING & COMPRESSION -------------------------- #

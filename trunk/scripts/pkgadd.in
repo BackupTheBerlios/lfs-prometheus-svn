@@ -60,7 +60,7 @@ function get_package_list {
 	(( stage < 2 )) && package_list=( "$@" )
 
 	# Get array of dependencies for <package_list>.
-	get_dependencies "$@"		# FIXME
+	get_dependencies "$@"
 
 	# Fill not_installed with missing dependencies.
 	local -a not_installed
@@ -79,6 +79,7 @@ function get_package_list {
 	fi
 
 	package_list=( "${not_installed[@]}" "$@" )
+	remove_dupes package_list
 }
 
 # --------------------------- START EXECUTION HERE --------------------------- #
@@ -133,7 +134,6 @@ source_config
 
 # Get the list of packages to install, including dependencies.
 get_package_list "$@"
-remove_dupes package_list
 
 # Download packages if told to.
 if [[ "$download" == yes ]]; then
