@@ -73,7 +73,7 @@ function add_version_entry {
 	echo -e "$package\t$1" >> "$version_table.$$" &&
 	sort -u "$version_table.$$" > "$version_table" &&
 	rm "$version_table.$$" ||
-	failure "updating version table $version_table failed"
+	failure "updating version table \`$version_table' failed"
 }
 
 # Usage: remove_installed
@@ -135,7 +135,7 @@ function init_install {
 			# installation may occur at once.  Otherwise install-log
 			# will confuse installed files between packages.
 			warning "install-log appears to already be in use"
-			error "if not, delete $timestamp and try again"
+			error "if not, delete \`$timestamp' and try again"
 		else
 
 			# Create timestamp.
@@ -151,7 +151,7 @@ function finish_install {
 	# Install profile if not already in $profiles.
 	if [[ "$profile" != "$profiles/$package.pkg" ]]; then
 		install -m644 "$profile" "$profiles" ||
-		warning "could not install profile $profile in $profiles"
+		warning "could not install profile \`$profile' in \`$profiles'"
 	fi
 
 	# Run install-log & clean up.
@@ -230,7 +230,7 @@ while [[ "$1" == -* ]]; do
 		(--)				shift
 						break ;;
 
-		(*)		script_usage_err "unrecognized option: $1"
+		(*)		script_usage_err "unrecognized option: \`$1'"
 	esac
 	shift
 done
@@ -249,7 +249,7 @@ if (( ${#package_list[@]} > 1 )); then
 	for package in "${package_list[@]}"; do
 		"$0" --config="$config" ${installed:+--$installed-installed} \
 		     ${failed:+--$failed-failed} --stage=$stage "$package" ||
-		error "installation of $package failed"
+		error "installation of \`$package' failed"
 	done
 	finish
 fi
@@ -269,7 +269,7 @@ if is_func install_pkg; then
 
 	# Run the install commands from the package's profile. finish_install
 	# must be run even if we fail, so capture the return value for later.
-	cd "$directory" || error "cannot enter $directory"
+	cd "$directory" || error "cannot enter \`$directory'"
 	log install_pkg
 	declare -i retval=$?
 
@@ -285,7 +285,7 @@ if is_func install_pkg; then
 else
 
 	# No commands for installing package!
-	warning "no install_pkg function in $profile"
+	warning "no install_pkg function in \`$profile'"
 	error "cannot install $name_ver"
 fi
 

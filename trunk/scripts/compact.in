@@ -76,7 +76,7 @@ function compact_file {
 
 	# Check file readable.
 	if ! [[ -f "$1" && -r "$1" ]]; then
-		failure "cannot read file: $1"
+		failure "cannot read \`$1'"
 		return 1
 	fi
 
@@ -102,7 +102,7 @@ function compact_file {
 			file_gz="$file.gz"
 			have_bz2=yes
 			if ! mv "$original" "$file_bz2"; then
-				failure "could not move $original to $file_bz2"
+				failure "cannot mv \`$original' to \`$file_bz2'"
 				return 1
 			fi ;;
 
@@ -111,7 +111,7 @@ function compact_file {
 			file_gz="$file.gz"
 			have_gz=yes
 			if ! mv "$original" "$file_gz"; then
-				failure "could not move $original to $file_gz"
+				failure "cannot mv \`$original' to \`$file_gz'"
 				return 1
 			fi ;;
 
@@ -124,10 +124,10 @@ function compact_file {
 	# Do nothing cases.
 	if [[ "$recompress" != yes ]]; then
 		if [[ "$bzip2_only" == yes && "$have_bz2" == yes ]]; then
-			echo "$file_bz2 already compressed with bzip2"
+			echo "\`$file_bz2' already compressed with bzip2"
 			return 0
 		elif [[ "$gzip_only" == yes && "$have_gz" == yes ]]; then
-			echo "$file_gz already compressed with gzip"
+			echo "\`$file_gz' already compressed with gzip"
 			return 0
 		fi
 	fi
@@ -136,13 +136,13 @@ function compact_file {
 	if [[ "$have_file" != yes ]]; then
 		[[ "$have_bz2" == yes ]] &&
 		if ! bzcat "$file_bz2" > "$file"; then
-			failure "could not uncompress $file_bz2"
+			failure "could not uncompress \`$file_bz2'"
 			return 1
 		fi
 
 		[[ "$have_gz" == yes ]] &&
 		if ! zcat "$file_gz" > "$file"; then
-			failure "could not uncompress $file_gz"
+			failure "could not uncompress \`$file_gz'"
 			return 1
 		fi
 
@@ -154,12 +154,12 @@ function compact_file {
 	if [[ "$have_bz2" != yes || "$recompress" == yes ]]; then
 		[[ "$have_bz2" == yes ]] &&
 		if ! rm "$file_bz2"; then
-			failure "could not remove $file_bz2"
+			failure "could not remove \`$file_bz2'"
 			return 1
 		fi
 
 		if ! bzip2 -9k "$file"; then
-			failure "running bzip2 on $file failed"
+			failure "running bzip2 on \`$file' failed"
 			return 1
 		fi
 
@@ -170,7 +170,7 @@ function compact_file {
 			largest_of "$file" "$file_bz2"
 			if [[ "$largest" == "$file_bz2" ]]; then
 				rm "$file_bz2" ||
-				failure "could not remove $file_bz2"
+				failure "could not remove \`$file_bz2'"
 
 				have_bz2=
 			fi
@@ -182,12 +182,12 @@ function compact_file {
 	if [[ "$have_gz" != yes || "$recompress" == yes ]]; then
 		[[ "$have_gz" == yes ]] &&
 		if ! rm "$file_gz"; then
-			failure "could not remove $file_gz"
+			failure "could not remove \`$file_gz'"
 			return 1
 		fi
 
 		if ! gzip - < "$file" > "$file_gz"; then
-			failure "running gzip on $file failed"
+			failure "running gzip on \`$file' failed"
 			return 1
 		fi
 
@@ -198,7 +198,7 @@ function compact_file {
 			largest_of "$file" "$file_gz"
 			if [[ "$largest" == "$file_gz" ]]; then
 				rm "$file_gz" ||
-				failure "could not remove $file_gz"
+				failure "could not remove \`$file_gz'"
 
 				have_gz=
 			fi
@@ -214,7 +214,7 @@ function compact_file {
 		else
 			have_bz2=
 		fi
-		rm "$largest" || failure "could not remove $largest"
+		rm "$largest" || failure "could not remove \`$largest'"
 	fi
 
 	# Ensure $remainder is set to the remaining compacted file, or null if
@@ -226,11 +226,11 @@ function compact_file {
 	# Report compacted file.
 	if [[ -n "$remainder" ]]; then
 		echo "$original => $remainder"
-		rm "$file" || failure "could not remove $file"
+		rm "$file" || failure "could not remove \`$file'"
 	else
 
 		# Original file is smaller than compacted.
-		echo "$file already smallest possible"
+		echo "\`$file' already smallest possible"
 	fi
 }
 
@@ -280,7 +280,7 @@ while [[ "$1" == -* ]]; do
 		(--)			shift
 					break ;;
 
-		(*)		script_usage_err "unrecognized option: $1"
+		(*)		script_usage_err "unrecognized option: \`$1'"
 	esac
 	shift
 done
@@ -304,7 +304,7 @@ for arg in "${list[@]}"; do
 		if [[ "$recursive" == yes ]]; then
 			compact_dir "${arg%/}"
 		else
-			failure "$arg is a directory"
+			failure "\`$arg' is a directory"
 		fi
 	else
 		compact_file "$arg"

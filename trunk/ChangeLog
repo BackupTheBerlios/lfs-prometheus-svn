@@ -7,6 +7,14 @@
 	* testsuite/libprometheus/source_file: Error message updated in
 	  invalid_error & none_error.
 
+	* scripts/compact.in: Added quotes around echoed variables.
+	* scripts/pkgadd.in: Added quotes around echoed variables.
+	* scripts/pkgbuild.in: Added quotes around echoed variables.
+	* scripts/pkgcheck.in: Added quotes around echoed variables.
+	* scripts/pkgget.in: Added quotes around echoed variables.
+	* scripts/pkginstall.in: Added quotes around echoed variables.
+	* scripts/pkunpack.in: Added quotes around echoed variables.
+
 2004-09-26 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* docs/*, scripts/*: Changed the short option equivalent of

@@ -63,7 +63,7 @@ function remove_found {
 		echo "$file" && continue
 
 		# $file not present & cannot be downloaded.
-		warning "$file not found and cannot be downloaded"
+		warning "\`$file' not found and cannot be downloaded"
 	done
 }
 
@@ -169,7 +169,7 @@ while [[ "$1" == -* ]]; do
 		(--)				shift
 						break ;;
 
-		(*)		script_usage_err "unrecognized option: $1"
+		(*)		script_usage_err "unrecognized option: \`$1'"
 	esac
 	shift
 done
@@ -189,7 +189,7 @@ else
 
 	# Make sure we can download to $srcdir.
 	[[ -d "$srcdir" && -w "$srcdir" ]] ||
-	error "cannot download files to source directory $srcdir"
+	error "cannot download files to source directory \`$srcdir'"
 
 	# Download files to $srcdir.
 	list_downloads "${package_list[@]}" |

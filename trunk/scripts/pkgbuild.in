@@ -66,7 +66,7 @@ while [[ "$1" == -* ]]; do
 		(--)				shift
 						break ;;
 
-		(*)		script_usage_err "unrecognized option: $1"
+		(*)		script_usage_err "unrecognized option: \`$1'"
 	esac
 	shift
 done
@@ -84,7 +84,7 @@ remove_dupes package_list
 if (( ${#package_list[@]} > 1 )); then
 	for package in "${package_list[@]}"; do
 		"$0" --config="$config" --stage=$stage "$package" ||
-		error "failed to build $package"
+		error "failed to build \`$package'"
 	done
 	finish
 fi

@@ -128,7 +128,7 @@ while [[ "$1" == -* ]]; do
 		(--)				shift
 						break ;;
 
-		(*)		script_usage_err "unrecognized option: $1"
+		(*)		script_usage_err "unrecognized option: \`$1'"
 	esac
 	shift
 done
@@ -154,7 +154,7 @@ if (( ${#package_list[@]} > 1 )); then
 		"$0" --config="$config" ${installed:+--$installed-installed} \
 		     ${failed:+--$failed-failed} --stage=$stage \
 		     ${leavefiles:+--leave-files} "$package" ||
-		error "installation of $package failed"
+		error "installation of \`$package' failed"
 	done
 	finish
 fi
@@ -198,9 +198,9 @@ error "installation of $name failed"
 # Remove build directory.
 if [[ "$leavefiles" != yes ]]; then
 	echo
-	echo "Removing build directory: $package_builddir..."
+	echo "Removing build directory: \`$package_builddir'..."
 	rm -r "$package_builddir" ||
-	warning "could not remove $package_builddir"
+	warning "could not remove \`$package_builddir'"
 fi
 
 finish
