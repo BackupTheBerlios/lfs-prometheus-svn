@@ -1,3 +1,10 @@
+2004-10-23 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/*: Updated automake, atk, libtiff, zlib, cyrus-sasl,
+	  man-pages, glib2, libungif, findutils, gtk2, man, gaim and
+	  util-linux.
+	* profiles/*: Replaced XFree86 with X.org
+
 2004-09-19 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/libtool.pkg: Upgraded to libtool 1.5.10.

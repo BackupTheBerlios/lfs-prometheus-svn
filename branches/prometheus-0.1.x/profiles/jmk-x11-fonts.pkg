@@ -6,7 +6,7 @@ archives=(
 	"http://www.jmknoble.net/fonts/jmk-x11-fonts-${version}.tar.gz"
 )
 
-dep=XFree86
+dep=Xorg
 
 function build_pkg {
 	[[ -d /usr/X11R6/lib/X11/fonts/jmk ]] &&

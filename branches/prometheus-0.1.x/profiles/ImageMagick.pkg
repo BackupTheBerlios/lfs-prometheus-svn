@@ -8,7 +8,7 @@ archives=(
 	"ftp://ftp.fu-berlin.de/unix/X11/graphics/ImageMagick/ImageMagick-${version}.tar.bz2"
 )
 
-dep="libjpeg libpng libtiff lcms libxml2 XFree86"
+dep="libjpeg libpng libtiff lcms libxml2 Xorg"
 
 function build_pkg {
 	./configure --prefix=/usr --enable-shared --with-modules \

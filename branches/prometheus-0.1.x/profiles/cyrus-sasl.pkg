@@ -6,6 +6,10 @@ archives=(
 	"http://ftp.andrew.cmu.edu/pub/cyrus-mail/cyrus-sasl-${version}.tar.gz"
 )
 
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/cyrus-sasl-2.1.19-sasl_path_fix-1.patch"
+)
+
 dep=openssl
 
 function build_pkg {

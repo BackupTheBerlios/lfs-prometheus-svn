@@ -1,5 +1,5 @@
 name="libtiff"
-version="3.6.1"
+version="3.7.0"
 homepage="http://www.libtiff.org"
 
 archives=(
@@ -9,9 +9,7 @@ archives=(
 dep=libjpeg
 
 function build_pkg {
-	./configure --prefix=/usr --noninteractive \
-		--with-DIR_MAN=/usr/share/man --with-ZIP=yes --with-JPEG=yes \
-		--with-DIR_JPEGLIB=/usr/lib --with-DIR_GZLIB=/usr/lib &&
+	./configure --prefix=/usr
 	make
 }
 

@@ -1,5 +1,5 @@
 name=postfix
-version=2.1.3
+version=2.1.3		# 2.1.5 is available, but no corresponding TLS patch
 homepage="http://www.postfix.org"
 #TLS patch homepage http://www.aet.tu-cottbus.de/personen/jaenicke/pfixtls/
 

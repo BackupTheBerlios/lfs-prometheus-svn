@@ -1,5 +1,5 @@
 name="atk"
-version="1.6.0"
+version="1.8.0"
 homepage="http://developer.gnome.org/projects/gap/"
 
 archives=(

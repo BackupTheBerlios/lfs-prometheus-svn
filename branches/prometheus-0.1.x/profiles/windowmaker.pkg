@@ -16,7 +16,7 @@ patches=(
 	"http://www.linuxfromscratch.org/patches/downloads/WindowMaker/WindowMaker-0.80.2-preference_directory-2.patch"
 )
 
-dep="XFree86 zlib libpng libjpeg libungif libtiff"
+dep="Xorg zlib libpng libjpeg libungif libtiff"
 
 function build_pkg {
 	./configure --prefix=/usr --sysconfdir=/etc --datadir=/usr/share \

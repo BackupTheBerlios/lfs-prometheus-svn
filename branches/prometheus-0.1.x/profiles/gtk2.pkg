@@ -1,5 +1,5 @@
 name="gtk+"
-version="2.4.9"
+version="2.4.13"
 homepage="http://www.gtk.org"
 
 archives=(
@@ -10,7 +10,7 @@ patches=(
 	"http://belnet.dl.sourceforge.net/sourceforge/xfce/gtk+-2.4.0-menushadow.patch"
 )
 
-dep="libtiff libjpeg XFree86 glib2 pango atk"
+dep="libtiff libjpeg Xorg glib2 pango atk"
 
 function build_pkg {
 	./configure --prefix=/usr --sysconfdir=/etc &&
