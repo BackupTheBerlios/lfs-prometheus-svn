@@ -1,3 +1,13 @@
+2004-09-19 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/libtool.pkg: Upgraded to libtool 1.5.10.
+	* profiles/iana-etc.pkg: Upraded to iana-etc 1.02.
+
+2004-09-18 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/gaim.pkg: Upgraded gaim to 1.0.0.
+	* profiles/pango.pkg: Upgraded to pango 1.6.0.
+
 2004-09-12 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/lvm-utils.pkg: Upgraded to LVM2 2.00.22.
