@@ -1,5 +1,5 @@
 name="LVM Device Mapper"
-version="1.00.18"
+version="1.00.19"
 homepage="http://sources.redhat.com/dm/"
 
 archives=(
