@@ -19,9 +19,7 @@ The function used to test the logging code is in `output.bash'.
 TODO
 
 tnlycp_log
-tnlycp_status
 tnlycp_stderr
-tnlycp_stdout
 
 tnlncf_status
 tnlncf_stderr
