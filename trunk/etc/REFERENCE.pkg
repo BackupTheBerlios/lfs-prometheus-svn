@@ -137,9 +137,9 @@ unset lc_all
 
 # Commands to build the package.
 function build_pkg {
-	./configure --prefix=/usr &&
-	patch -Np1 -i ../my-custom-patch.diff &&
-	patch -Np1 -i ../yet-another-patch &&
+	./configure --prefix=/usr
+	patch -Np1 -i ../my-custom-patch.diff
+	patch -Np1 -i ../yet-another-patch
 	make
 }
 

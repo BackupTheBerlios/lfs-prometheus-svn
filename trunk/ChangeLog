@@ -6,6 +6,7 @@
 
 	* scripts/libprometheus.bash.in (log): Added `set -e' to logged command
 	  subshell.
+	* etc/REFERENCE.pkg: Removed unneeded `&&'s from functions.
 
 2004-09-15 Gareth Jones <gareth_jones@users.berlios.de>
 
