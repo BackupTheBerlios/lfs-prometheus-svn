@@ -1,9 +1,12 @@
-2004-07-29 Gareth Jones <moderob@lineone.net>
+2004-07-29 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* src/libprometheus.bash.in (add_profile): Call error instead of
 	  failure if profile not found.
 
-2004-07-24 Gareth Jones <moderob@lineone.net>
+	* All files: Changed Gareth Jones' email address to
+	  <gareth_jones@users.berlios.de>.
+
+2004-07-24 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* src/libprometheus.bash.in: Added setup_logging, called from
 	  open_package.
@@ -12,7 +15,7 @@
 
 	* src/pkgunpack.in: Added option parsing loop & recursive calling.
 
-2004-07-23 Gareth Jones <moderob@lineone.net>
+2004-07-23 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* src/pkgbuild.in: Added usage.
 
@@ -29,12 +32,12 @@
 	* etc/REFERENCE.pkg: Restored.  Changed dep variable into deps array.
 	  Added logfile, check & check_pkg.
 
-2004-07-21 Gareth Jones <moderob@lineone.net>
+2004-07-21 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* src/libprometheus.bash.in: Added terminated function & trap for
 	  SIGHUP, SIGINT & SIGQUIT.
 
-2004-07-20 Gareth Jones <moderob@lineone.net>
+2004-07-20 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* Makefile: Added GPL notice.
 	* etc/Makefile: Added GPL notice.
@@ -54,11 +57,11 @@
 	* x86stepping/Makefile: Added GPL notice.
 	* x86stepping/x86stepping.c: Added GPL notice.
 
-2004-07-08 Gareth Jones <moderob@lineone.net>
+2004-07-08 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* TODO: Restored & updated.
 
-2004-07-04 Gareth Jones <moderob@lineone.net>
+2004-07-04 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* src/libprometheus.bash.in: Restored temp_file & remove_temp_files.
 	  Added call to remove_temp_files to finish.
@@ -70,7 +73,7 @@
 
 	* INSTALL: Makefile => Makefile.defs & /etc/pkg => /etc/prometheus.
 
-2004-07-03 Gareth Jones <moderob@lineone.net>
+2004-07-03 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* src/libprometheus.bash.in: Split find_profiles into find_profiles &
 	  add_profile.
@@ -86,7 +89,7 @@
 	  --keep.  Rewrote compact_file.
 	* man/compact.1.in: Updated to reflect above changes.
 
-2004-07-02 Gareth Jones <moderob@lineone.net>
+2004-07-02 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* man/compact.1.in: Written.
 
@@ -101,11 +104,11 @@
 	* src/pkgget.in: Restored.
 	* man/pkgget.1.in: Written.
 
-2004-07-01 Gareth Jones <moderob@lineone.net>
+2004-07-01 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* profiles/Makefile: Fixed naming of PROFILE_LIST.
 
-2004-06-30 Gareth Jones <moderob@lineone.net>
+2004-06-30 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* src/Makefile: Separated rules for executables & library.
 
@@ -117,14 +120,14 @@
 	* man/Makefile: Added preprocessing for man pages.
 	* src/Makefile:	Added VERSION & RELEASE to preprocessing.
 
-2004-06-29 Gareth Jones <moderob@lineone.net>
+2004-06-29 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* All files: Created new package layout & wrote Makefiles.
 	* INSTALL, README, x86stepping/x86stepping.c: Restored.
 	* AUTHORS, ChangeLog, COPYING: Added.
 
 Before 2004-06-29 Oliver Brakmann <obrakmann@gmx.net> &
-Gareth Jones <moderob@lineone.net>
+Gareth Jones <gareth_jones@users.berlios.de>
 
 	* All files: Created initial pkgtools, renamed to prometheus.  In
 	later entries, `restored' refers to files/functions restored to this

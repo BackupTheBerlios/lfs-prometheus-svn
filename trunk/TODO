@@ -1,8 +1,6 @@
 * Do we treat stage=2 different from stage=?  Scripts currently don't, but
   stage_overrides does.
 
-* Change moderob@linone.net to gareth_jones@users.berlios.de.
-
 * Change manual page file suffixes to .man, let Makefile allocate .1, .5 etc.
 
 * Build logging handled in pkgadd.  If file, run tail if error.  Remove `no' as

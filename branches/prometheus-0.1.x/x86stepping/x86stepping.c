@@ -18,7 +18,7 @@
  */
 
 #define LICENCE	"GPL"
-#define AUTHOR	"Gareth Jones <moderob@lineone.net>"
+#define AUTHOR	"Gareth Jones <gareth_jones@users.berlios.de>"
 #define DESCR	"x86 CPU stepping controller"
 
 #define __KERNEL__

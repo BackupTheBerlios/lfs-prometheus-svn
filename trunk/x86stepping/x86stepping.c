@@ -1,7 +1,7 @@
 /*
  * x86stepping control kernel module
  * Copyright (C) 2003-2004 Oliver Brakmann <obrakmann@gmx.net> &
- * Gareth Jones <moderob@lineone.net>
+ * Gareth Jones <gareth_jones@users.berlios.de>
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -38,7 +38,7 @@
  */
 
 #define LICENCE	"GPL"
-#define AUTHOR	"Gareth Jones <moderob@lineone.net>"
+#define AUTHOR	"Gareth Jones <gareth_jones@users.berlios.de>"
 #define DESCR	"x86 CPU stepping controller"
 
 #define __KERNEL__
