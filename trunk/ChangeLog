@@ -2,6 +2,8 @@
 
 	* testsuite/libprometheus/Makefile: Made test descriptions more useful.
 
+	* testsuite/libprometheus/setup_logging/*: Added.
+
 2004-08-15 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* Makefile: Added building testsuite & check target.

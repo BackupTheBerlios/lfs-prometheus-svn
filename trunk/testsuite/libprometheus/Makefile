@@ -22,7 +22,11 @@ TESTS = finish/success.bash finish/failure.bash terminated/terminated.bash \
 	pipestat/success.bash pipestat/failure1.bash pipestat/failure2.bash \
 	pipestat/failure3.bash warning/status.bash failure/status.bash \
 	error/status.bash usage_error/usage_error.bash \
-	script_usage_err/script_usage_err.bash setup_logging/tylf.bash
+	script_usage_err/script_usage_err.bash setup_logging/tylf.bash \
+	setup_logging/tyln.bash setup_logging/tylu.bash \
+	setup_logging/tnlf.bash setup_logging/tnln.bash \
+	setup_logging/tnlu.bash setup_logging/tulf.bash \
+	setup_logging/tuln.bash setup_logging/tulu.bash
 
 PASS = ../runtest
 FAIL = ../runtest !
@@ -58,7 +62,20 @@ check: all
 	$(PASS) script_usage_err/script_usage_err.bash \
 		"libprometheus/script_usage_err: script usage error reporting"
 	$(PASS) setup_logging/tylf.bash \
-		"libprometheus/setup_logging: logging setup terminal+file"
+		"libprometheus/setup_logging: terminal + file"
+	$(PASS) setup_logging/tyln.bash \
+		"libprometheus/setup_logging: terminal + no file"
+	$(PASS) setup_logging/tylu.bash "libprometheus/setup_logging: terminal"
+	$(PASS) setup_logging/tnlf.bash \
+		"libprometheus/setup_logging: no terminal + file"
+	$(PASS) setup_logging/tnln.bash \
+		"libprometheus/setup_logging: no terminal + no file"
+	$(PASS) setup_logging/tnlu.bash \
+		"libprometheus/setup_logging: no terminal"
+	$(PASS) setup_logging/tulf.bash "libprometheus/setup_logging: file"
+	$(PASS) setup_logging/tuln.bash "libprometheus/setup_logging: no file"
+	$(PASS) setup_logging/tulu.bash \
+		"libprometheus/setup_logging: default settings"
 
 clean:
 	# FIXME: */output.txt, */*.log.
