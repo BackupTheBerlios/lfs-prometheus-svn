@@ -18,8 +18,14 @@
 # this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 # Place, Suite 330, Boston, MA  02111-1307  USA
 
-# Test that the `warning' function doesn't affect exit status.
+# Check output of `script_usage_err'.
 
 source "%LIBPROMETHEUS%" || exit 1
-warning "this is a warning" &> /dev/null
-finish
+
+function usage {
+	echo "Usage: script"
+	finish
+}
+
+( script_usage_err "too many arguments" ) 2> output.txt
+exec diff stderr.txt output.txt

@@ -22,3 +22,4 @@
 
 source "%LIBPROMETHEUS%" || exit 1
 failure "this is a failure" &> /dev/null
+finish

@@ -1,0 +1,4 @@
+script_usage_err.bash: too many arguments
+script_usage_err.bash: help text follows
+
+Usage: script

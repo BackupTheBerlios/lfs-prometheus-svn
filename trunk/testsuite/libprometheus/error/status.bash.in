@@ -21,7 +21,7 @@
 # Test that the `error' function causes immediate failure.
 
 source "%LIBPROMETHEUS%" || exit 1
-warning "this is an error" &> /dev/null
+error "this is an error" &> /dev/null
 
 # We should never get here.
 exit 0

@@ -5,6 +5,7 @@
 	* testsuite/README: Added.
 
 	* testsuite/runtest: Added.
+	* testsuite/runtest: Fixed to run in tests' own directories.
 
 	* testsuite/libprometheus/Makefile: Added.
 	* testsuite/libprometheus/finish/success.bash.in: Added.
@@ -15,6 +16,7 @@
 	* testsuite/libprometheus/failure/*: Added.
 	* testsuite/libprometheus/error/*: Added.
 	* testsuite/libprometheus/usage_error/*: Added.
+	* testsuite/libprometheus/script_usage_err/*: Added.
 
 2004-08-12 Gareth Jones <gareth_jones@users.berlios.de>
 

@@ -19,7 +19,7 @@
 # Place, Suite 330, Boston, MA  02111-1307  USA
 
 # Usage: runtest [!] <script> <message>
-# Run <script>.  If script exits successfully, output:
+# Run <script> in its directory.  If script exits successfully, output:
 #
 #	Testing <message>...					Passed
 #
@@ -33,23 +33,28 @@
 # Return the exit value of script.  If `!' precedes <script>, reverse its exit
 # status.  This is used for tests that are supposed to fail.
 
-# Get parameters.
+# Should we expect failure?
 if [[ "$1" == "!" ]]; then
 	should_fail=yes
 	shift
 fi
 
-testscript="$1"
+# Get script & directory.
+script="${1##*/}"
+directory="${1%/$script}"
 shift
-message="$*"
 
+# Run script in its directory.
+cd "$directory"
+
+message="$*"
 echo "Testing $message..."
 
 # Run the test.
 if [[ "$should_fail" == yes ]]; then
-	! "$testscript"
+	! "$script"
 else
-	"$testscript"
+	"$script"
 fi
 
 declare -i retval=$?
@@ -61,7 +66,7 @@ if (( $retval == 0 )); then
 else
 	# Report failue to stderr.
 	echo >&2
-	echo "$testscript: $message failed" >&2
+	echo "$directory/$script: $message failed" >&2
 fi
 
 exit $retval
