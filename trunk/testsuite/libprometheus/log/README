@@ -18,9 +18,6 @@ The function used to test the logging code is in `output.bash'.
 
 TODO
 
-tnlycf_log
-tnlycf_stderr
-
 tnlycp_log
 tnlycp_status
 tnlycp_stderr

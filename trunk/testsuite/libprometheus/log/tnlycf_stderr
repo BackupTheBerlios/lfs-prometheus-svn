@@ -1,8 +1,8 @@
-# Test stdout of `log' when $terminal_output=no, $log=output.log, & logged
+# Test stderr of `log' when $terminal_output=no, $log=output.log, & logged
 # command fails.
 
 _testing="libprometheus/log"
-_description="stdout, no terminal + file, fail"
+_description="stderr, no terminal + file, fail"
 _expect=pass
 
 function _check {
@@ -14,6 +14,6 @@ function _check {
 	> "$logfile"
 	setup_logging
 
-	local out="$(log output "tnlycf stdout" 1)"
-	[[ -z "$out" ]]
+	log output "tnlycf stderr" 1 2> output.txt
+	diff "tnlycf_stderr.txt" output.txt
 }

@@ -1,9 +1,9 @@
-# Test exit status of `log' when $terminal_output=no, $log=output.log, & logged
+# Log output from `log' when $terminal_output=no, $log=output.log, & logged
 # command fails.
 
 _testing="libprometheus/log"
-_description="status, no terminal + file, fail"
-_expect=fail
+_description="log, no terminal + file, fail"
+_expect=pass
 
 function _check {
 	source "$_lib" || exit 1
@@ -14,5 +14,6 @@ function _check {
 	> "$logfile"
 	setup_logging
 
-	log output "tnlycf status" 1
+	log output "tnlycf log" 1
+	diff "tnlycf_log.txt" "$logfile"
 }

@@ -1,6 +1,7 @@
 2004-09-14 Gareth Jones <gareth_jones@users.berlios.de>
 
-	* testsuite/libprometheus/log: Added tnlycf_status, tnlycf_stdout.
+	* testsuite/libprometheus/log: Added tnlycf_status, tnlycf_stdout,
+	  tnlycf_stderr, tnlycf_stderr.txt, tnlycf_log, tnlycf_log.txt.
 
 2004-09-13 Gareth Jones <gareth_jones@users.berlios.de>
 

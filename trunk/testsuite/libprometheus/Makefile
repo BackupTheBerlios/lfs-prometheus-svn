@@ -50,7 +50,9 @@ TESTS = finish/success \
 	setup_logging/tuln \
 	setup_logging/tulu \
 	log/tnlycf_status \
-	log/tnlycf_stdout
+	log/tnlycf_stdout \
+	log/tnlycf_stderr \
+	log/tnlycf_log
 
 LOGS = $(addsuffix .log, $(TESTS))
 
@@ -64,4 +66,4 @@ all:
 check: $(LOGS)
 
 clean:
-	-rm $(LOGS) */output.txt
+	-rm $(LOGS) */output.txt */output.log
