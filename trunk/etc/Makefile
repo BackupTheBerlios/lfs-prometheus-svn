@@ -22,8 +22,10 @@ include ../Makefile.defs
 
 all: $(CONFIG)
 
-$(CONFIG):
-	sed -e 's|%PROFDIR%|$(PROFDIR)|' $(CONFIG).in > $(CONFIG)
+$(CONFIG): $(CONFIG).in
+	sed -e 's|%PROFDIR%|$(PROFDIR)|' \
+	    -e 's|%INSTALL_LOG_RC%|$(INSTALL_LOG_RC)|' \
+	    $< > $@
 
 clean:
 	-rm $(CONFIG)

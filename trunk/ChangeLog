@@ -12,6 +12,24 @@
 	* src/pkgcheck.in: Written.
 	* man/pkgcheck.1.in: Written.
 
+	* src/libprometheus.bash.in (choice): Added.
+
+	* src/libprometheus.bash.in: Move setting $name from open_package to
+	  source_profile.  Added $name_ver & get_installed_version.
+	* src/pkgcheck.in: $name => $name_ver.
+	* src/pkgbuild.in: $name => $name_ver.
+
+	* Makefile.defs: Added INSTALL_LOG_RC parameter.
+	* etc/Makefile: Added %INSTALL_LOG_RC% substitution for
+	  prometheus.conf.in.
+	* etc/prometheus.conf.in: Added install_log_rc parameter.
+	* man/prometheus.conf.5.in: Documented install_log_rc parameter.
+	* src/libprometheus.bash.in (source_config): Added setting $logdir,
+	  $version_table & $timestamp.
+
+	* src/pkginstall.in: Written.
+	* man/pkginstall.8.in: Written.
+
 2004-07-31 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* src/libprometheus.bash.in (log): Much simplified, nicer output.

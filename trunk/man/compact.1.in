@@ -34,7 +34,7 @@ respectively.
 
 .SH OPTIONS
 
-These options must precede
+All options must precede
 .I file
 or
 .I directory

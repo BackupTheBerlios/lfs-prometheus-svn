@@ -8,13 +8,6 @@
 
 * Have pkgrm check for breaking dependencies if a package is removed.
 
-* If an *install* fails, still run install-log to find out what *was* installed,
-  so it can be cleanly removed.  Give user a choice to clean up after a failed
-  install.
-
-* Use a lock file for pkginstall so that no two installs may run concurrently.
-  This will prevent confusing install-log.
-
 * Use $DESTDIR instead of install-log?  Emulate $DESTDIR with chroot for
   packages that don't support it?
 

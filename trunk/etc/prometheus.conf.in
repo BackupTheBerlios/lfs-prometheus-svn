@@ -1,6 +1,9 @@
 # Location of the package profiles.
 profiles="%PROFDIR%"
 
+# Where to find install-log.rc.
+install_log_rc="%INSTALL_LOG_RC%"
+
 # Other file locations.
 srcdir="/usr/src"
 builddir="/var/tmp"

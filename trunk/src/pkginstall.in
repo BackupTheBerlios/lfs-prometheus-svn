@@ -18,5 +18,249 @@
 # this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 # Place, Suite 330, Boston, MA  02111-1307  USA
 
-# FIXME: Some code from old pkgadd::build_package is needed here to initialize
-# install-log.
+# Global prometheus functions.
+source "%LIBPROMETHEUS%" || exit 1
+
+# Usage: usage
+# Print help text.
+function usage {
+	cat <<-EOF
+Usage:
+${0##*/} [<options>] <package_list>
+
+Install packages in the order given on the commandline.
+
+Package list:
+-f, --profile <profile> ...	Specify files containing package profiles
+-p, --package <package> ...	Specify packages by name (default)
+--				Treat remaining arguments as packages/profiles
+
+Options (must precede package list):
+-b, --backup-installed		Backup and remove any existing installations
+-c, --config <config_file>	Specify alternative configuration file
+-l, --leave-installed		Do not touch any existing installations
+-L, --leave-failed		Leave files from any failed installations
+-o, --overwrite-installed	Overwrite any existing installations
+-r, --remove-installed		Remove any existing installations
+-R, --remove-failed		Cleanup files from any failed installations
+-s, --stage <stage_number>	Specify stage 0, 1 or 2 (default = 2)
+
+-h, -?, --help			Show this help screen
+-v, --version			Show version information
+
+	EOF
+	finish
+}
+
+# Usage: get_privileges
+# Rerun as root if necessary.
+function get_privileges {
+	if [[ "$install_as_root" == yes ]] && (( $(id -u) != 0 )); then
+		echo "You must be root to install $name."
+		exec su -c "'$0' --config='$config' --stage=$stage \
+				 ${installed:+--$installed-installed} \
+				 ${failed:+--$failed-failed}
+				 --profile '$profile'"
+	fi
+}
+
+# Usage: remove_installed
+# Deal with any existing installation of $package.
+function remove_installed {
+
+	# Return if not already installed.
+	pkginfo "$package" | grep "not installed" > /dev/null && return
+
+	# Get version of installed $package.
+	local installed_version="$(get_installed_version "$package")"
+	local installed_name="$name${installed_version:+ $installed_version}"
+
+	# $installed wasn't set on the command line.  Go interactive.
+	if [[ -z "$installed" ]]; then
+		echo "$installed_name is already installed."
+		echo -n "Abort installation? [y/n] "
+		choice && installed=leave
+	fi
+
+	# User wants to continue installation.
+	if [[ -z "$installed" ]]; then
+		echo "Do you want to remove currently installed $installed_name"
+		echo -n "prior to installation? [y/n] "
+		choice && installed=remove
+
+		# Maybe they want to backup the existing installation before
+		# removing it.
+		if [[ "$installed" == remove ]]; then
+			echo "Do you want to create a backup of the current"
+			echo -n "$installed_name installation? [y/n] "
+			choice && installed=backup
+		fi
+	fi
+
+	# User wants an overwrite.
+	[[ -z "$installed" ]] && installed=overwrite
+
+	# What to do.
+	case $installed in
+		(leave)		error "$installed_name already installed" ;;
+		(remove)	pkgrm --force "$package" ;;
+		(backup)	pkgrm --backup --force "$package" ;;
+		(overwrite)	log_warning "overwriting $installed_name"
+	esac
+}
+
+# Usage: init_install
+# Prepare install_log if necessary.
+function init_install {
+	if [[ "$log_install" == yes ]]; then
+		if [[ -e "$timestamp" ]]; then
+
+			# install-log timestamp doubles as a lock so only one
+			# installation may occur at once.  Otherwise install-log
+			# will confuse installed files between packages.
+			warning "install-log appears to already be in use"
+			error "if not, delete $timestamp and try again"
+		else
+
+			# Create timestamp.
+			touch --reference="$directory" "$timestamp"
+		fi
+	fi
+}
+
+# Usage: finish_install
+# If necessary, install $profile into $profiles, & run install-log.
+function finish_install {
+
+	# Install profile if not already in $profiles.
+	if [[ "$profile" != "$profiles/$package.pkg" ]]; then
+		install -m644 "$profile" "$profiles" ||
+		warning "could not install profile $profile in $profiles"
+	fi
+
+	# Run install-log & clean up.
+	if [[ "$log_install" == yes ]];
+		if install-log --force "$package"; then
+
+			# Update version table.
+			touch "$version_table" &&
+			grep --invert-match "^$package	" "$version_table" > \
+			     "$version_table.$$" &&
+			echo -e "$package\t$version" >> "$version_table.$$" &&
+			sort -u "$version_table.$$" > "$version_table" &&
+			rm "$version_table.$$" ||
+			failure "updating version table $version_table failed"
+		else
+			error "running install-log failed"
+		fi
+
+		# Release lock.
+		rm "$timestamp" || error "releasing lock failed"
+	fi
+}
+
+# Usage: cleanup_failed
+# Uninstall any files installed by a failed installation.
+function cleanup_failed {
+
+	# $failed wasn't set on the command line.  Go interactive.
+	if [[ -z "$failed" ]]; then
+		echo "Do you want clean up the failed installation of"
+		echo -n "$name? [y/n] "
+		choice && failed=remove
+	fi
+
+	[[ "$failed" == remove ]] && pkgrm --force "$package"
+}
+
+# --------------------------- START EXECUTION HERE --------------------------- #
+
+# Check for options.
+unset installed failed
+while [[ "$1" == -* ]]; do
+	case "$1" in
+		(-b|--backup-installed)		installed=backup ;;
+
+		(-c|--config)			config="$2"
+						shift ;;
+
+		(--config=*)			config="${1#--config=}" ;;
+
+		(-f|--profile|-p|--package)	break ;;
+
+		(-h|-\?|--help)			usage ;;
+
+		(-l|--leave-installed)		installed=leave ;;
+
+		(-L|--leave-failed)		failed=leave ;;
+
+		(-o|--overwrite-installed)	installed=overwrite ;;
+
+		(-r|--remove-installed)		installed=remove ;;
+
+		(-R|--remove-failed)		failed=remove ;;
+
+		(-s|--stage)			set_stage "$2"
+						shift ;;
+
+		(--stage=*)			set_stage "${1#--stage=}" ;;
+
+		(-v|--version)			version ;;
+
+		(--)				shift
+						break ;;
+
+		(*)		script_usage_err "unrecognized option: $1"
+	esac
+	shift
+done
+
+source_config
+find_profiles "$@"
+
+# If there is more than one package, install each in its own instance.
+if (( ${#profile_list[@]} > 1 )); then
+	for profile in "${profile_list[@]}"; do
+		"$0" --config="$config" ${installed:+--$installed-installed} \
+		     ${failed:+--$failed-failed} --stage=$stage \
+		     --profile "$profile" ||
+		error "failed in $profile"
+	done
+	finish
+fi
+
+# There is only one package to install.  Do so in this instance.
+open_package "${profile_list[0]}"
+
+# Check we know how to install package.
+if is_func install_pkg; then
+
+	# Ensure we the have necessary privileges, (optionally) remove any
+	# existing installation of $package & initialize install-log.
+	get_privileges
+	remove_installed
+	init_install
+
+	# Run the install commands from the package's profile. finish_install
+	# must be run even if we fail, so capture the return value for later.
+	cd "$directory" || error "cannot enter $directory"
+	log install_pkg
+	declare -i retval=$?
+
+	# Run install-log.
+	finish_install
+
+	# Clean up if the install failed.
+	if (( retval != 0 )); then
+		failure "installation of $name_ver failed"
+		cleanup_failed
+	fi
+
+else
+
+	# No commands for installing package!
+	warning "no install_pkg function in $profile"
+	error "cannot install $name_ver"
+fi
+
+finish

@@ -37,6 +37,12 @@ FIXME: Document minimum requirements.
 The directory where package profiles should be searched for.
 .RE
 
+.BI "install_log_rc=" install-log_configuration_file
+.RS
+The location of
+.BR "install-log.rc".
+.RE
+
 .BI "srcdir=" directory
 .RS
 The directory where source archives and patches should be searched for.

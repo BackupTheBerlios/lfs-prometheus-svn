@@ -94,7 +94,7 @@ open_package "${profile_list[0]}"
 if is_func build_pkg; then
 	cd "$directory" &&
 	log build_pkg ||
-	error "building $name failed"
+	error "building $name_ver failed"
 fi
 
 finish

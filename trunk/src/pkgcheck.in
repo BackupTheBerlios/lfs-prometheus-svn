@@ -97,14 +97,14 @@ if [[ "$check" == yes ]]; then
 	if is_func check_pkg; then
 		cd "$directory" &&
 		log check_pkg ||
-		error "$name checksuite failed"
+		error "$name_ver checksuite failed"
 	else
 
 		# No commands for checking package.  Warn user but don't fail;
 		# this is more likely a configuration error than a package
 		# error.
 		log_warning "no check_pkg function in $profile"
-		log_warning "skipped checks for $name"
+		log_warning "skipped checks for $name_ver"
 	fi
 fi
 

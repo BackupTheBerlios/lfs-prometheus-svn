@@ -16,7 +16,7 @@ are checked in the order given on the commandline.  The built packages are
 expected to be in the build directory specified in
 .IR "%CONFIG%".
 .BR pkgbuild (1)
-should be invoked to build the package before running
+should be invoked to build the packages before running
 .BR "pkgcheck".
 
 After running
@@ -54,7 +54,7 @@ This effectively locks the package list into its current mode.
 
 .SH OPTIONS
 
-These options must precede
+All options must precede
 .IR "package_list".
 
 .BR -c ", " --config

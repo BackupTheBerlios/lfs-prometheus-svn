@@ -20,10 +20,10 @@
 
 # Prevent environmental contamination.
 unset archives archive_dirs builddir cc cflags check config cxx cxxflags deps
-unset directory failures homepage install_as_root lc_all ldflags leavefiles
-unset linguas logfile log_install log_target name optimize package patches
-unset patch_cmds profile profiles profile_list srcdir stage temp_files
-unset terminal_output version
+unset directory failures homepage install_as_root install_log_rc lc_all ldflags
+unset leavefiles linguas logdir logfile log_install log_target name name_ver
+unset optimize package patches patch_cmds profile profiles profile_list srcdir
+unset stage temp_files terminal_output timestamp version version_table
 unset ${!stage0*} ${!stage1*}
 
 # Location of configuration file.  Scripts may redefine this value in response
@@ -226,6 +226,31 @@ details.
 	finish
 }
 
+# Usage: get_installed_version <package>
+# Echo installed version of <package>.
+function get_installed_version {
+	if (( $# != 1 )) || [[ -z "$1" ]]; then
+		usage_error "get_installed_version" "<package>" "$*"
+	fi
+
+	sed -n "s/^$1	//p" "$version_table"
+}
+
+# ----------------------------- USER INTERACTION ----------------------------- #
+
+# Usage: choice
+# Wait until the user presses `y' (yes) or `n' (no).  Return true if yes, false
+# otherwise.
+function choice {
+	local reply
+
+	until [[ "$reply" == y || "$reply" == n ]]; do
+		read reply
+	done
+
+	[[ "$reply" == y ]]
+}
+
 # ------------------------------ FILE SOURCING ------------------------------- #
 
 # Usage: source_file <file> <description>
@@ -248,9 +273,19 @@ function source_config {
 
 	source_file "$config" "prometheus configuration file"
 
+	# Check essential variables.
+	[[ -z "$builddir" ]] && error "builddir not set in $config"
+	[[ -z "$install_log_rc" ]] && error "install_log_rc not set in $config"
 	[[ -z "$profiles" ]] && error "profiles not set in $config"
 	[[ -z "$srcdir" ]] && error "srcdir not set in $config"
-	[[ -z "$builddir" ]] && error "builddir not set in $config"
+
+	# Set some useful variables.
+	logdir=$(sed -n 's/^LOGDIR=//p' "$install_log_rc")
+	[[ -z "$logdir" ]] &&
+	error "could not extract log directory from $install_log_rc"
+
+	timestamp="$logdir/.timestamp"
+	version_table="$logdir/.vtab"
 }
 
 # ----------------------------- PROFILE HANDLING ----------------------------- #
@@ -267,6 +302,10 @@ function source_profile {
 	package="${package%.pkg}"
 
 	source_file "$profile" "$package package profile"
+
+	# If $name not in profile, use $package.
+	[[ -z "$name" ]] && name="$package"
+	name_ver="$name${version:+ $version}"
 }
 
 # Usage: add_profile <profile>
@@ -524,9 +563,6 @@ function open_package {
 	set_directory
 	setup_logging
 	prepare_build_env
-
-	# If $name not in profile, use $package.
-	[[ -z "$name" ]] && name="$package"
 }
 
 # ------------------------- ARCHIVING & COMPRESSION -------------------------- #

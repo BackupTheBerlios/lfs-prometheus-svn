@@ -24,12 +24,15 @@ PROGS = $(BINPROGS) $(SBINPROGS)
 LIB = libprometheus.bash
 
 # Prometheus version & release date.
-VERSION = 0.2-20040721
-RELEASE = 2004-07-08
+VERSION = 0.2-20040801
+RELEASE = 2004-08-01
 
 # Configuration files.
 CONFIG = prometheus.conf
 REFERENCE_PROFILE = REFERENCE.pkg
+
+# Where to find install-log.rc.
+INSTALL_LOG_RC=/etc/install-log.rc
 
 # x86stepping kernel module build flags.
 CC = gcc
