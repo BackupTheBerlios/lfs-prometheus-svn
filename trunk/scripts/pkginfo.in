@@ -49,9 +49,9 @@ Options:
 }
 
 
-# Usage: query_package
+# Usage: _query_package
 # Gather and display information about a package
-function query_package {
+function _query_package {
 	local date pkg_version size
 
 	if [[ -f "${logdir}/${arg}" ]]; then
@@ -114,9 +114,9 @@ function query_package {
 }
 
 
-# Usage: query_installed
-# Run query_package on every installed package
-function query_installed {
+# Usage: _query_installed
+# Run _query_package on every installed package
+function _query_installed {
 	# All installed packages should have a corresponding log file in
 	# $logdir, so we check those first.
 
@@ -135,10 +135,10 @@ function query_installed {
 }
 
 
-# Usage: query_all
-# Run query_package on all packages that have `log_install=yes'
+# Usage: _query_all
+# Run _query_package on all packages that have `log_install=yes'
 # in their .pkg profile
-function query_all {
+function _query_all {
 	grep -L "^[ 	]*log_install=no" "$profiles"/*.pkg 2> /dev/null | \
 	sed -e '/REFERENCE/d' -e 's/.*\///' -e 's/\.pkg//' | \
 	xargs pkginfo ${verbose:+--verbose}
@@ -165,7 +165,7 @@ function print_patches {
 
 	local i
 	for (( i=0; i < ${#patches[0]}; i++ )); do
-		echo "$(basename $(remove_compression "${patches[$i]}"))"
+		echo "$(basename $(remove_compression_suffix "${patches[$i]}"))"
 
 		if [[ -n "$verbose" ]]; then
 			local patch
@@ -183,7 +183,7 @@ function print_patches {
 function print_files {
 	[[ -f "${logdir}/${arg}" ]] || error "$arg is not installed."
 
-	sed -e 's/# Old # //' -e '/# Del #.*/d' "${logdir}/{$arg}"
+	sed -e 's/# Old # //' -e '/# Del #.*/d' "${logdir}/${arg}"
 }
 
 
@@ -290,13 +290,13 @@ fi
 
 source_config
 
-if   [[ -n "$query_all"       ]]; then	query_all
-elif [[ -n "$query_installed" ]]; then	query_installed
+if   [[ -n "$query_all"       ]]; then	_query_all
+elif [[ -n "$query_installed" ]]; then	_query_installed
 elif [[ -n "$dependencies"    ]]; then	print_deps
 elif [[ -n "$patches"         ]]; then	print_patches
 elif [[ -n "$list"            ]]; then	print_files
 elif [[ -n "$which"           ]]; then	find_owner
-else					query_package
+else					_query_package
 fi
 
 finish
