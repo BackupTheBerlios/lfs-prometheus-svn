@@ -51,6 +51,8 @@ TESTS = finish/success \
 	setup_logging/tulu \
 	log/tnlycp_status \
 	log/tnlycp_stdout \
+	log/tnlycp_stderr \
+	log/tnlycp_log \
 	log/tnlycf_status \
 	log/tnlycf_stdout \
 	log/tnlycf_stderr \
