@@ -1,5 +1,5 @@
 name="file"
-version="4.09"
+version="4.10"
 
 archives=(
 	"ftp://ftp.astron.com/pub/file/file-${version}.tar.gz"
