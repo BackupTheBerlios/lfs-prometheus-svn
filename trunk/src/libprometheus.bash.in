@@ -129,7 +129,7 @@ function setup_logging {
 
 		# We may need preserve terminal output.
 		if [[ "$terminal_output" == yes ]]; then
-			log_target="> >(tee --append \"$logfile\") 2>&1"
+			log_target="2>&1 | tee --append \"$logfile\""
 		else
 			log_target=">> \"$logfile\" 2>&1"
 		fi
