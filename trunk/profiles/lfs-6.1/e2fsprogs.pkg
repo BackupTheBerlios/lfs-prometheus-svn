@@ -10,6 +10,8 @@ patches=(
 )
 
 function build_pkg {
+	sed -i 's/-DTEST/$(ALL_CFLAGS) &/' lib/e2p/Makefile.in
+
 	mkdir "$directory"/../e2fsprogs-build
 	cd "$directory"/../e2fsprogs-build
 	"$directory"/configure --prefix=/usr --with-root-prefix="" \
