@@ -34,12 +34,12 @@ fi
 
 # Get script, directory & log.
 script="${1##*/}"
-directory="${1%/$script}"
+directory="${1%$script}"
 log="${script%bash}log"
 shift
 
 # Run script in its directory.
-cd "$directory"
+[[ -n "$directory" ]] && cd "$directory"
 
 message="$*"
 echo "Testing $message..."
@@ -60,8 +60,8 @@ if (( $retval == 0 )); then
 	echo -e "\033[A\033[70GPassed"
 else
 	# Report failue to stderr.
-	echo "$directory/$script: $message failed" >&2
-	echo "see $directory/$log for details" >&2
+	echo "$directory$script: $message failed" >&2
+	echo "see $directory$log for details" >&2
 fi
 
 exit $retval
