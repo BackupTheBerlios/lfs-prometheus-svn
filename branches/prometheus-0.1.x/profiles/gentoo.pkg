@@ -3,7 +3,7 @@ version="0.11.51"
 homepage="http://www.obsession.se/gentoo/"
 
 archives=(
-	"http://mesh.dl.sourceforge.net/sourceforge/gentoo/gentoo-${version}.tar.gz"
+	"http://belnet.dl.sourceforge.net/sourceforge/gentoo/gentoo-${version}.tar.gz"
 )
 
 dep=gtk1

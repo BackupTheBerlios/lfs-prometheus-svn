@@ -3,7 +3,7 @@ version="0.81"
 homepage="http://gaim.sourceforge.net/"
 
 archives=(
-	"http://heanet.dl.sourceforge.net/sourceforge/gaim/gaim-${version}.tar.bz2"
+	"http://belnet.dl.sourceforge.net/sourceforge/gaim/gaim-${version}.tar.bz2"
 )
 
 dep=gtk2

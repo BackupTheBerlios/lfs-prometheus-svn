@@ -3,7 +3,7 @@ version="7.07.1"
 homepage="http://www.cups.org"
 
 archives=(
-	"http://mesh.dl.sourceforge.net/sourceforge/espgs/espgs-${version}-source.tar.bz2"
+	"http://belnet.dl.sourceforge.net/sourceforge/espgs/espgs-${version}-source.tar.bz2"
 )
 
 directory="espgs-${version}"

@@ -2,7 +2,7 @@ name=bmf
 version="0.9.4"
 
 archives=(
-	"http://mesh.dl.sourceforge.net/sourceforge/bmf/bmf-${version}.tar.gz"
+	"http://belnet.dl.sourceforge.net/sourceforge/bmf/bmf-${version}.tar.gz"
 )
 
 dep=berkeley-db

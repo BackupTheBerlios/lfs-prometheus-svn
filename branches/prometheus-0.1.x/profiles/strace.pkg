@@ -3,7 +3,7 @@ version="4.5.1"
 homepage="http://www.liacs.nl/~wichert/strace/"
 
 archives=(
-	"http://mesh.dl.sourceforge.net/sourceforge/strace/strace-${version}.tar.bz2"
+	"http://belnet.dl.sourceforge.net/sourceforge/strace/strace-${version}.tar.bz2"
 )
 
 function build_pkg {

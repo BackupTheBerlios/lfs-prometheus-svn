@@ -3,7 +3,7 @@ version="0.1.9"
 homepage="http://id3v2.sf.net"
 
 archives=(
-	"http://mesh.dl.sourceforge.net/sourceforge/id3v2/id3v2-${version}.tar.gz"
+	"http://belnet.dl.sourceforge.net/sourceforge/id3v2/id3v2-${version}.tar.gz"
 )
 
 dep=id3lib

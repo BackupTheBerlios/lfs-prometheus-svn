@@ -3,7 +3,7 @@ version="5.30"
 homepage="http://smartmontools.sf.net"
 
 archives=(
-	"http://mesh.dl.sourceforge.net/sourceforge/smartmontools/smartmontools-${version}.tar.gz"
+	"http://belnet.dl.sourceforge.net/sourceforge/smartmontools/smartmontools-${version}.tar.gz"
 )
 
 function build_pkg {
