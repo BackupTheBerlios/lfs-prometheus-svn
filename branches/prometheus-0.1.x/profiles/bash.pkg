@@ -1,33 +1,14 @@
 name="GNU Bourne Again Shell"
-version="2.05b"
+version="3.0"
 homepage="http://www.gnu.org/software/bash/bash.html"
 
 archives=(
 	"ftp://ftp.cs.tu-berlin.de/pub/gnu/bash/bash-${version}.tar.gz"
 )
 
-patches=(
-     "ftp://ftp.cs.tu-berlin.de/pub/gnu/bash/bash-${version}-patches/bash205b-001"
-     "ftp://ftp.cs.tu-berlin.de/pub/gnu/bash/bash-${version}-patches/bash205b-002"
-     "ftp://ftp.cs.tu-berlin.de/pub/gnu/bash/bash-${version}-patches/bash205b-003"
-     "ftp://ftp.cs.tu-berlin.de/pub/gnu/bash/bash-${version}-patches/bash205b-004"
-     "ftp://ftp.cs.tu-berlin.de/pub/gnu/bash/bash-${version}-patches/bash205b-005"
-     "ftp://ftp.cs.tu-berlin.de/pub/gnu/bash/bash-${version}-patches/bash205b-006"
-     "ftp://ftp.cs.tu-berlin.de/pub/gnu/bash/bash-${version}-patches/bash205b-007"
-)
-
-patch_cmds=(
-	"patch -Np0"
-	"patch -Np0"
-	"patch -Np0"
-	"patch -Np0"
-	"patch -Np0"
-	"patch -Np0"
-	"patch -Np0"
-)
 
 function stage1_build_pkg {
-	./configure --prefix=/tools &&
+	./configure --prefix=/tools --without-bash-malloc &&
 	make
 	# make tests
 }
@@ -35,11 +16,11 @@ function stage1_build_pkg {
 function stage1_install_pkg {
 	make install &&
 	ln -s bash /tools/bin/sh
-	# I'm not sure this is really needed. If not, get rid of this function.
 }
 
 function build_pkg {
-	./configure --prefix=/usr --bindir=/bin &&
+	./configure --prefix=/usr --bindir=/bin \
+		--without-bash-malloc --with-installed-readline &&
 	make
 	# make tests
 }
