@@ -1,3 +1,30 @@
+2005-04-02 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs6.1/linux.pkg: Upgraded to Linux 2.6.11.6, updated
+	  patches.
+	* profiles/lfs6.1/findutils.pkg: Upgraded to findutils 4.2.20.
+	* profiles/lfs6.1/udev.pkg: Upgraded to udev 055.
+	* profiles/lfs6.1/util-linux.pkg: Updated patches.
+	* profiles/lfs6.1/bash.pkg: Updated patches.
+	* profiles/lfs6.1/linux-libc-headers.pkg: Upgraded to linux-libc-headers
+	  2.6.11.2.
+	* profiles/lfs6.1/glibc.pkg: Upgraded to glibc 2.3.4.
+	* profiles/lfs6.1/m4.pkg: Upgraded to m4 1.4.3.
+	* profiles/lfs6.1/flex.pkg: Updated patches.
+	* profiles/lfs6.1/coreutils.pkg: Updated patches.
+	* profiles/lfs6.1/iproute2.pkg: Upgraded to iproute2-2.6.11-05030,
+	  updated patches.
+	* profiles/lfs6.1/e2fsprogs.pkg: Upgraded to e2fsprogs 1.37.
+	* profiles/lfs6.1/readline.pkg: Updated patches.
+	* profiles/lfs6.1/gettext.pkg: Upgraded to gettext 0.14.3.
+	* profiles/lfs6.1/shadow.pkg: Added patch that fixes lastlog breakage.
+	* profiles/lfs6.1/tar.pkg: Added patch that fixes sparse file breakage.
+
+2005-03-11 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs6.1/psmisc.pkg: Upgraded to psmisc 21.6.
+	* profiles/lfs6.1/findutils.pkg: Upgraded to findutils 4.2.19.
+
 2005-03-10 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/lfs6.1/{binutils,gcc,glibc}.pkg: Finished toolchain profiles.

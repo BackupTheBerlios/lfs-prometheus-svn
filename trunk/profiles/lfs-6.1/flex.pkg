@@ -6,14 +6,8 @@ archives=(
 )
 
 patches=(
-#	"http://www.linuxfromscratch.org/patches/downloads/flex/flex-2.5.31-debian_fixes-2.patch"
-	"http://www.linuxfromscratch.org/patches/downloads/flex/flex-2.5.31-yytext_ptr-1.patch"
-	"flex-2.5.31-declarations.patch"
-)
-
-patch_cmds=(
-	""
-	"patch -Np0"
+	"http://www.linuxfromscratch.org/patches/downloads/flex/flex-${version}-debian_fixes-2.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/flex/flex-${version}-yytext_ptr-1.patch"
 )
 
 function stage1_build_pkg {

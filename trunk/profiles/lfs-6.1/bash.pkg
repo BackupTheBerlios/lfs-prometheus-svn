@@ -9,7 +9,6 @@ archives=(
 patches=(
 	"http://www.linuxfromscratch.org/patches/downloads/bash/bash-3.0-fixes-3.patch"
 	"http://www.linuxfromscratch.org/patches/downloads/bash/bash-3.0-avoid_WCONTINUED-1.patch"
-	"http://www.linuxfromscratch.org/patches/downloads/bash/bash-3.0-display_wrap-1.patch"
 )
 
 function stage1_build_pkg {

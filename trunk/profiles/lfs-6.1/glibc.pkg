@@ -1,9 +1,9 @@
 name="GNU C Library (glibc)"
-version="20041011"
+version="2.3.4"
 homepage="http://www.gnu.org/software/libc/"
 
 archives=(
-	"ftp://ftp.lfs-matrix.de/pub/lfs/packages/conglomeration/glibc/glibc-${version}.tar.bz2"
+	"ftp://ftp.cs.tu-berlin.de/pub/gnu/glibc/glibc-${version}.tar.bz2"
 )
 
 patches=(

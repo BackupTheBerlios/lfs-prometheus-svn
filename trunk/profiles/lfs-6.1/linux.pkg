@@ -1,5 +1,5 @@
 name="Linux Kernel"
-version="2.6.10"
+version="2.6.11.6"
 homepage="http://kernel.org"
 
 archives=(
@@ -7,8 +7,7 @@ archives=(
 )
 
 patches=(
-	"http://www.acm.rpi.edu/~dilinger/patches/${version}/as6/patch-${version}-as6.gz"
-	"http://www.13thfloor.at/patches/patch-2.6.4-bme0.04.diff.bz2"
+	"http://www.13thfloor.at/patches/patch-2.6.11-rc4-bme0.06.diff"
 )
 
 archive_dirs="/usr/src"
