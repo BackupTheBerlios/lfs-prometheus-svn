@@ -1,0 +1,26 @@
+# Test `choice' for negative input.
+
+_testing="libprometheus/choice"
+_description="negative input"
+_expect=fail
+
+function _check {
+	source "$_lib" || exit 1
+
+	cat <-"EOF"
+		a
+		g
+		f
+		h
+		g
+		k
+		f
+		n
+		h
+		h
+		g
+		h
+		y
+	EOF |
+	choice
+}
