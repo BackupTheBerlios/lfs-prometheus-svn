@@ -1,3 +1,12 @@
+2004-11-05 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/procps.pkg: Upgrade to procps 3.2.4.
+
+2004-11-01 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/automake.pkg: Upgrade to automake 1.9.3.
+	* profiles/man-pages.pkg: Upgrade to man-pages 1.70.
+
 2004-10-31 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/findutils.pkg: Upgrade to latest version.
