@@ -16,35 +16,20 @@
 # this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 # Place, Suite 330, Boston, MA  02111-1307  USA
 
-include Makefile.defs
+include ../../Makefile.defs
 
-.PHONY: all check clean install update
+TESTS = finish/success.bash
 
-all:
-	$(MAKE) -C etc
-	$(MAKE) -C man
-	$(MAKE) -C profiles
-	$(MAKE) -C scripts
-	$(MAKE) -C testsuite
-#	$(MAKE) -C x86stepping
+.PHONY: all check clean
 
-check:
-	$(MAKE) -C testsuite check
-#	$(MAKE) -C x86stepping check
+all: $(TESTS)
+
+%: %.in
+	sed -e 's|%LIBPROMETHEUS%|$(LIBDIR)/$(LIB)|' $< > $@
+	chmod 0755 $@
+
+check: all
+	finish/success.bash
 
 clean:
-	$(MAKE) -C etc clean
-	$(MAKE) -C man clean
-	$(MAKE) -C profiles clean
-	$(MAKE) -C scripts clean
-	$(MAKE) -C testsuite clean
-#	$(MAKE) -C x86stepping clean
-
-install: all update
-	$(MAKE) -C etc install
-	$(MAKE) -C profiles install
-
-update: all
-	$(MAKE) -C man install
-	$(MAKE) -C scripts install
-#	$(MAKE) -C x86stepping install
+	rm $(TESTS)

@@ -1,3 +1,5 @@
+#! /bin/bash
+
 # Prometheus package management tool set
 # Copyright (C) 2003-2004 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 # Gareth Jones <gareth_jones@users.berlios.de>
@@ -16,35 +18,7 @@
 # this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 # Place, Suite 330, Boston, MA  02111-1307  USA
 
-include Makefile.defs
+# Test the `finish' function.
 
-.PHONY: all check clean install update
-
-all:
-	$(MAKE) -C etc
-	$(MAKE) -C man
-	$(MAKE) -C profiles
-	$(MAKE) -C scripts
-	$(MAKE) -C testsuite
-#	$(MAKE) -C x86stepping
-
-check:
-	$(MAKE) -C testsuite check
-#	$(MAKE) -C x86stepping check
-
-clean:
-	$(MAKE) -C etc clean
-	$(MAKE) -C man clean
-	$(MAKE) -C profiles clean
-	$(MAKE) -C scripts clean
-	$(MAKE) -C testsuite clean
-#	$(MAKE) -C x86stepping clean
-
-install: all update
-	$(MAKE) -C etc install
-	$(MAKE) -C profiles install
-
-update: all
-	$(MAKE) -C man install
-	$(MAKE) -C scripts install
-#	$(MAKE) -C x86stepping install
+source "%LIBPROMETHEUS%" || exit 1
+finish

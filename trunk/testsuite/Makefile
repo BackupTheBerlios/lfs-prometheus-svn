@@ -16,35 +16,15 @@
 # this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 # Place, Suite 330, Boston, MA  02111-1307  USA
 
-include Makefile.defs
+include ../Makefile.defs
 
-.PHONY: all check clean install update
+.PHONY: all check clean
 
 all:
-	$(MAKE) -C etc
-	$(MAKE) -C man
-	$(MAKE) -C profiles
-	$(MAKE) -C scripts
-	$(MAKE) -C testsuite
-#	$(MAKE) -C x86stepping
+	$(MAKE) -C libprometheus
 
-check:
-	$(MAKE) -C testsuite check
-#	$(MAKE) -C x86stepping check
+check: all
+	$(MAKE) -C libprometheus check
 
 clean:
-	$(MAKE) -C etc clean
-	$(MAKE) -C man clean
-	$(MAKE) -C profiles clean
-	$(MAKE) -C scripts clean
-	$(MAKE) -C testsuite clean
-#	$(MAKE) -C x86stepping clean
-
-install: all update
-	$(MAKE) -C etc install
-	$(MAKE) -C profiles install
-
-update: all
-	$(MAKE) -C man install
-	$(MAKE) -C scripts install
-#	$(MAKE) -C x86stepping install
+	$(MAKE) -C libprometheus clean
