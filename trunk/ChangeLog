@@ -12,6 +12,9 @@
 	* src/libprometheus.bash.in (cat_file): Restored.
 	* src/pkgunpack.in (apply_patches): Restored from pkgadd 0.1.
 
+	* src/libprometheus.bash.in (override_var): Fixed quoting buglet.
+	* src/libprometheus.bash.in (override_array): Fixed quoting buglet.
+
 2004-07-29 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* src/libprometheus.bash.in (add_profile): Call error instead of
