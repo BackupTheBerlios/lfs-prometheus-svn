@@ -1,3 +1,8 @@
+2004-10-24 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/util-linux.pkg: Added the sfdisk-1 patch as it still appears
+	  to be needed
+
 2004-10-23 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/*: Updated automake, atk, libtiff, zlib, cyrus-sasl,

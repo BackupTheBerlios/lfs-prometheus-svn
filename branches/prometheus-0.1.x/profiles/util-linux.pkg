@@ -8,6 +8,7 @@ archives=(
 patches=(
 	"http://www.linuxfromscratch.org/patches/downloads/util-linux/util-linux-${version}-make-1.patch"
 	"http://www.linuxfromscratch.org/patches/downloads/util-linux/util-linux-${version}-mount_move-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/util-linux/util-linux-${version}-sfdisk-1.patch"
 )
 
 function build_pkg {
