@@ -1,12 +1,8 @@
 name="System V Init"
-version="2.85"
+version="2.86"
 
 archives=(
 	"ftp://ftp.cistron.nl/pub/people/miquels/sysvinit/sysvinit-${version}.tar.gz"
-)
-
-patches=(
-	"http://www.linuxfromscratch.org/patches/downloads/sysvinit-${version}-proclen-1.patch"
 )
 
 function build_pkg {

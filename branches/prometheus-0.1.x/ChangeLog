@@ -3,6 +3,7 @@
 	* profiles/shadow.pkg: Upgraded to shadow 4.0.6.
 	* profiles/findutils.pkg: Upgraded to findutils 4.2.10.
 	* profiles/util-linux.pkg: Upgraded to util-linux 2.12k.
+	* profiles/sysvinit.pkg: Upgraded to sysvinit 2.86.
 
 2004-12-11 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
