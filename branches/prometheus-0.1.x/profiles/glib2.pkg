@@ -6,9 +6,14 @@ archives=(
 	"http://ftp.belnet.be/mirror/ftp.gnome.org/sources/glib/2.4/glib-${version}.tar.bz2"
 )
 
-dep="gettext pkgconfig"
+dep="pkgconfig"
 
 function build_pkg {
+	# Get rid of the gettext dependency
+	cp configure{,.orig}
+	sed '/gettext.html/,/^fi/s/|{ (exit 1); exit 1; };//' \
+		configure.orig > configure
+
 	./configure --prefix=/usr &&
 	make
 }

@@ -1,3 +1,9 @@
+2004-08-29 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/whois.pkg: Removed the gettext dependency,
+	  upgraded to whois 4.6.21.
+	* profiles/glib2.pkg: Removed the gettext dependency.
+
 2004-08-27 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/gaim.pkg: Upgraded to gaim 0.82.1
