@@ -106,7 +106,8 @@ TESTS = finish/success \
 	source_file/invalid_status \
 	source_file/invalid_error \
 	source_file/none_status \
-	source_file/none_error
+	source_file/none_error \
+	source_config/logdir
 
 LOGS = $(addsuffix .log, $(TESTS))
 
