@@ -1,5 +1,7 @@
 2005-04-02 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
+	* profiles/lfs-6.1/syslog-ng.pkg,
+	  profiles/lfs-6.1/sysklogd.pkg: Replaced syslog-ng with sysklogd.
 	* profiles/lfs6.1/linux.pkg: Upgraded to Linux 2.6.11.6, updated
 	  patches.
 	* profiles/lfs6.1/findutils.pkg: Upgraded to findutils 4.2.20.
