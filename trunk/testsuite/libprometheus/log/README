@@ -5,8 +5,7 @@ The `t<x>' component is determined by the value of the $terminal_output
 variable.  <x> is `y' or `n' for $terminal_output `yes' & `no' respectively.
 
 The `l<y>' component is determined by the value of the $logfile variable. <y> is
-`f', `d', or `n' for $logfile set to a file, `/dev/null', or unset,
-respectively.
+`y' or `n' for $logfile set to a file or unset respectively.
 
 The `c<z>' component is determined by whether the logged command passes or
 fails, with <z> equal to `p' or `f' respectively.
@@ -19,43 +18,37 @@ The function used to test the logging code is in `output.bash'.
 
 TODO
 
-tnldcf_status
-tnldcf_stderr
-tnldcf_stdout
-tnldcp_status
-tnldcp_stderr
-tnldcp_stdout
-tnlfcf_log
-tnlfcf_status
-tnlfcf_stderr
-tnlfcf_stdout
-tnlfcp_log
-tnlfcp_status
-tnlfcp_stderr
-tnlfcp_stdout
+tnlycf_log
+tnlycf_stderr
+tnlycf_stdout
+
+tnlycp_log
+tnlycp_status
+tnlycp_stderr
+tnlycp_stdout
+
 tnlncf_status
 tnlncf_stderr
 tnlncf_stdout
+
 tnlncp_status
 tnlncp_stderr
 tnlncp_stdout
-tyldcf_status
-tyldcf_stderr
-tyldcf_stdout
-tyldcp_status
-tyldcp_stderr
-tyldcp_stdout
-tylfcf_log
-tylfcf_status
-tylfcf_stderr
-tylfcf_stdout
-tylfcp_log
-tylfcp_status
-tylfcp_stderr
-tylfcp_stdout
+
+tylycf_log
+tylycf_status
+tylycf_stderr
+tylycf_stdout
+
+tylycp_log
+tylycp_status
+tylycp_stderr
+tylycp_stdout
+
 tylncf_status
 tylncf_stderr
 tylncf_stdout
+
 tylncp_status
 tylncp_stderr
 tylncp_stdout

@@ -1,3 +1,7 @@
+2004-09-14 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* testsuite/libprometheus/log: Added tnlycf_status.
+
 2004-09-13 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* testsuite/libprometheus/log/output.bash: Added.
