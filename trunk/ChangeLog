@@ -6,6 +6,10 @@
 	* src/pkgunpack.in (apply_patches): Added call to pipestat after
 	  `cat | patch' command.
 
+	* src/libprometheus.bash.in (setup_logging): Reverted to piping to tee
+	  instead of using process substitution, which is no longer needed.
+	* src/libprometheus.bash.in (log): Added call to pipestat.
+
 2004-07-30 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* src/libprometheus.bash.in (list_files): Removed references to
