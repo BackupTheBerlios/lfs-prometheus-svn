@@ -1,8 +1,6 @@
 2004-07-31 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* src/libprometheus.bash.in (log): Much simplified, nicer output.
-	* src/libprometheus.bash.in (setup_logging): Revert to piping to tee
-	  instead of process substitution, which is no longer needed.
 
 2004-07-30 Gareth Jones <gareth_jones@users.berlios.de>
 
