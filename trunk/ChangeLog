@@ -1,3 +1,11 @@
+2004-08-29 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* scripts/pkgrm.in: Written.
+	* man/pkgrm.8.in: Written.
+
+	* man/pkgadd.8.in, man/pkginstall.8.in: Changed man page header to
+          correclty reflect section 8 of the man pages.
+
 2004-08-17 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* testsuite/libprometheus/usage_error: Renamed usage_error.bash.in to
