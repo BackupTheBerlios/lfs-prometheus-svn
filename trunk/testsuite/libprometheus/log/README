@@ -19,7 +19,6 @@ The function used to test the logging code is in `output.bash'.
 TODO
 
 tylycf_log
-tylycf_status
 tylycf_stderr
 tylycf_stdout
 
