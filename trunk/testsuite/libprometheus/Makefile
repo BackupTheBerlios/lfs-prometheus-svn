@@ -57,6 +57,9 @@ TESTS = finish/success \
 	log/tylycf_stdout \
 	log/tylycf_stderr \
 	log/tylycf_log \
+	log/tylncp_status \
+	log/tylncp_stdout \
+	log/tylncp_stderr \
 	log/tnlycp_status \
 	log/tnlycp_stdout \
 	log/tnlycp_stderr \
