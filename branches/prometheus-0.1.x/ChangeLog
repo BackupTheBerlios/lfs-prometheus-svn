@@ -1,3 +1,17 @@
+2004-08-20 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/libmng.pkg: Upgraded to libmng 1.0.8
+	* profiles/libpng.pkg: Upgraded to libpng 1.2.6
+
+	* profiles/beepmp.pkg, profiles/bmf.pkg, profiles/cdrdao.pkg,
+	  profiles/easytag.pkg, profiles/espgs.pkg, profiles/expat.pkg,
+	  profiles/flex.pkg, profiles/freetype2.pkg, profiles/gaim.pkg,
+	  profiles/gentoo.pkg, profiles/hpijs.pkg, profiles/id3lib.pkg,
+	  profiles/id3v2.pkg, profiles/install-log.pkg, profiles/lame.pkg,
+	  profiles/libmng.pkg, profiles/nasm.pkg, profiles/smartmontools.pkg,
+	  profiles/strace.pkg, profiles/wv.pkg: Changed the Sourceforge
+	  mirror to belnet.dl.sourceforge.net throughout.
+
 2004-08-15 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/leafnode.pkg: Upgraded to leafnode 1.10.4
