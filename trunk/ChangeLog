@@ -4,13 +4,14 @@
 	* testsuite/Makefile: Added.
 	* testsuite/README: Added.
 
+	* testsuite/runtest: Added.
+
 	* testsuite/libprometheus/Makefile: Added.
 	* testsuite/libprometheus/finish/success.bash.in: Added.
 	* testsuite/libprometheus/finish/failure.bash.in: Added.
 	* testsuite/libprometheus/terminated/terminated.bash.in: Added.
 	* testsuite/libprometheus/pipestat/*: Added.
-
-	* testsuite/runtest: Added.
+	* testsuite/libprometheus/warning/*: Added.
 
 2004-08-12 Gareth Jones <gareth_jones@users.berlios.de>
 
