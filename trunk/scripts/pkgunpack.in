@@ -61,6 +61,7 @@ function unpack_archives {
 		# Locate & unpack archive.
 		archive=$(location_of "${archives[$i]}") &&
 		[[ -n "$archive" ]] &&
+		mkdir -p "$dir" &&
 		pushd "$dir" > /dev/null &&
 		unpack "$archive" &&
 		popd > /dev/null ||

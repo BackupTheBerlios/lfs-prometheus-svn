@@ -1,3 +1,11 @@
+2004-08-12 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* scripts/pkgunpack.in (unpack_archives): Make sure build directories
+	  exist.
+
+	* scripts/pkginstall.in (cleanup_failed): Added FIXME for restoring
+	  backups.
+
 2004-08-06 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* scripts/pkgadd.in: Added -f/--leave-files option.

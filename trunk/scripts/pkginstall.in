@@ -182,6 +182,8 @@ function cleanup_failed {
 
 	# Did we backup a previous install?  If so, restore it & related
 	# install-log files.
+	# FIXME: pkgrm should include install-log log in tarball.  Then use
+	#	 unpack to restore backup.
 	if [[ "$backed_up" == yes ]]; then
 		echo "Restoring backup of $installed_name..."
 		tar xvjf "$backupdir/$package.bak.tar.bz2" > \
