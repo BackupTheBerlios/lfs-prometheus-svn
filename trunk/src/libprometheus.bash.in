@@ -513,6 +513,20 @@ function unpack {
 	esac || error "cannot unpack $1 in $PWD"
 }
 
+# Usage: cat_file <file>
+# Wrapper for cat, zcat & bzcat.
+function cat_file {
+	if (( $# != 1 )) || [[ -z "$1" ]]; then
+		usage_error "cat_file" "<file>" "$*"
+	fi
+
+	case "$(get_compression_suffix "$1")" in
+		(*bz*)	bzcat "$1" ;;
+		(*z|*Z) zcat "$1" ;;
+		(*)	cat "$1"
+	esac || error "cannot cat $1"
+}
+
 # ------------------------------ FILE HANDLING ------------------------------- #
 
 # Usage: list_files

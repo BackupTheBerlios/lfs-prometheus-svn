@@ -6,8 +6,11 @@
 	* src/libprometheus.bash.in (set_stage): Added.
 	* src/pkgunpack.in: Changed `stage="$val"' to `set_stage "$val"'.
 
-	* src/libprometheus.bash.in (unpack): Added.
-	* src/pkgunpack.in (unpack_archives): Added.
+	* src/libprometheus.bash.in (unpack): Restored.
+	* src/pkgunpack.in (unpack_archives): Restored from pkgadd 0.1.
+
+	* src/libprometheus.bash.in (cat_file): Restored.
+	* src/pkgunpack.in (apply_patches): Restored from pkgadd 0.1.
 
 2004-07-29 Gareth Jones <gareth_jones@users.berlios.de>
 

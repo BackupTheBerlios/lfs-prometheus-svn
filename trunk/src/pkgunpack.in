@@ -72,6 +72,31 @@ function unpack_archives {
 	done
 }
 
+# Usage: apply_patches
+# Apply patches listed in $patches with appropriate commands.
+function apply_patches {
+	local patch cmd
+	local -i i
+	for (( i=0 ; i<${#patches[@]} ; ++i )); do
+
+		# Substitute $directory for `@d' & stop if patch & those
+		# following should not be applied.
+		cmd="${patch_cmds[$i]//@d/$directory}"
+		[[ "$cmd" == ":" ]] && break
+
+		# Set default command.
+		[[ -z "$cmd" ]] && cmd="patch -Np1"
+
+		# Locate & apply patch.
+		patch=$(location_of "${patches[$i]}") &&
+		[[ -n "$patch" ]] &&
+		pushd "$directory" > /dev/null &&
+		cat_file "$patch" | "$cmd" &&
+		popd > /dev/null ||
+		error "cannot apply ${patches[$i]}"
+	done
+}
+
 # --------------------------- START EXECUTION HERE --------------------------- #
 
 # Check for options.
@@ -117,6 +142,6 @@ fi
 open_package "${profile_list[0]}"
 
 unpack_archives &&
-apply_patches		# FIXME
+apply_patches
 
 finish
