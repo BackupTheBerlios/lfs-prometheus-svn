@@ -6,6 +6,8 @@
 
 	* testsuite/libprometheus/Makefile: Added.
 	* testsuite/libprometheus/finish/success.bash.in: Added.
+	* testsuite/libprometheus/finish/failure.bash.in: Added.
+	* testsuite/libprometheus/terminated/terminated.bash.in: Added.
 
 	* testsuite/runtest: Added.
 

@@ -1,3 +1,5 @@
+#! /bin/bash
+
 # Prometheus package management tool set
 # Copyright (C) 2003-2004 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 # Gareth Jones <gareth_jones@users.berlios.de>
@@ -16,22 +18,8 @@
 # this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 # Place, Suite 330, Boston, MA  02111-1307  USA
 
-include ../../Makefile.defs
+# Test the `pipestat' function with successful pipeline.
 
-TESTS = finish/success.bash finish/failure.bash terminated/terminated.bash
+source "%LIBPROMETHEUS%" || exit 1
 
-.PHONY: all check clean
-
-all: $(TESTS)
-
-%: %.in
-	sed -e 's|%LIBPROMETHEUS%|$(LIBDIR)/$(LIB)|' $< > $@
-	chmod 0755 $@
-
-check: all
-	../runtest finish/success.bash "Testing successful exit"
-	../runtest ! finish/failure.bash "Testing unsuccessful exit"
-	../runtest ! terminated/terminated.bash "Testing forced exit"
-
-clean:
-	rm $(TESTS)
+true | true | true && pipestat
