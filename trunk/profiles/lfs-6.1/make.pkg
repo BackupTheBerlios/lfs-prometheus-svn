@@ -13,19 +13,17 @@ patches=(
 )
 
 function stage1_build_pkg {
-	./configure --prefix=/tools --disable-nls &&
+	./configure --prefix=/tools #--disable-nls
 	make
-	# make check
-}
-
-function stage1_install_pkg {
-	make install
 }
 
 function build_pkg {
-	./configure --prefix=/usr --disable-nls &&
+	./configure --prefix=/usr #--disable-nls
 	make
-	# make check
+}
+
+function check_pkg {
+	make check
 }
 
 function install_pkg {

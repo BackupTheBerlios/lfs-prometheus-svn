@@ -7,7 +7,7 @@ archives=(
 )
 
 function build_pkg {
-	./configure --prefix=/usr --bindir=/bin --sysconfdir=/etc &&
+	./configure --prefix=/usr --bindir=/bin --sysconfdir=/etc
 	make
 }
 

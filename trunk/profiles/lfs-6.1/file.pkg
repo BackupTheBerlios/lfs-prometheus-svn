@@ -6,7 +6,7 @@ archives=(
 )
 
 function build_pkg {
-	./configure --prefix=/usr &&
+	./configure --prefix=/usr
 	make
 }
 

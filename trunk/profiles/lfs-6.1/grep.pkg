@@ -13,16 +13,18 @@ patches=(
 
 function stage1_build_pkg {
 	./configure --prefix=/tools --disable-perl-regexp \
-		    --with-included-regexp --disable-nls &&
+		    --with-included-regexp #--disable-nls
 	make
-	# make check
 }
 
 function build_pkg {
-	./configure --prefix=/usr --bindir=/bin --with-included-regexp \
-		    --disable-nls &&
+	./configure --prefix=/usr --bindir=/bin --with-included-regexp
+		    #--disable-nls
 	make
-	# make check
+}
+
+function check_pkg {
+	make check
 }
 
 function install_pkg {

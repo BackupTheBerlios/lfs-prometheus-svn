@@ -7,13 +7,13 @@ archives=(
 )
 
 function build_pkg {
-	PAGE=A4 ./configure --prefix=/usr &&
+	PAGE=A4 ./configure --prefix=/usr
 	make
 }
 
 function install_pkg {
-	make install &&	
-	ln -sf soelim /usr/bin/zsoelim &&
-	ln -sf eqn /usr/bin/geqn &&
+	make install
+	ln -sf soelim /usr/bin/zsoelim
+	ln -sf eqn /usr/bin/geqn
 	ln -sf tbl /usr/bin/gtbl
 }

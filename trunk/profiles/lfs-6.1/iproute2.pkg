@@ -1,20 +1,20 @@
 name=iproute2
-version="2.6.8"
+version="2.6.9"
 homepage="http://developer.osdl.org/dev/iproute2/"
 
 archives=(
-	"http://developer.osdl.org/dev/iproute2/download/iproute2-2.6.X-ss040702.tar.gz"
+	"http://developer.osdl.org/dev/iproute2/download/iproute2-2.6.9-ss041019.tar.gz"
 )
 
 patches=(
-	"http://www.linuxfromscratch.org/patches/downloads/iproute2/iproute2-2.6.X_ss040702-missing_header-1.patch"
-	"http://www.linuxfromscratch.org/patches/downloads/iproute2/iproute2-2.6.X_ss040702-remove_db-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/iproute2/iproute2-2.6.9_ss041019-remove_db-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/iproute2/iproute2-2.6.9_ss041019-free_error-2.patch"
 )
 
 directory="iproute2-${version}"
 
 function build_pkg {
-	./configure &&
+	./configure
 	make SBINDIR=/sbin
 }
 

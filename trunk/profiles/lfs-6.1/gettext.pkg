@@ -6,9 +6,18 @@ archives=(
 	"ftp://ftp.cs.tu-berlin.de/pub/gnu/gettext/gettext-${version}.tar.gz"
 )
 
-function build_pkg {
-	./configure --prefix=/usr --disable-nls &&
+function stage1_build_pkg {
+	./configure --prefix=/tools --disable-libasprintf --disable-csharp
 	make
+}
+
+function build_pkg {
+	./configure --prefix=/usr #--disable-nls
+	make
+}
+
+function check_pkg {
+	make check
 }
 
 function install_pkg {

@@ -1,5 +1,5 @@
 name="GNU findutils"
-version="4.2.10"
+version="4.2.11"
 homepage="http://www.gnu.org/software/findutils/"
 
 archives=(
@@ -7,16 +7,18 @@ archives=(
 )
 
 function stage1_build_pkg {
-	./configure --prefix=/tools --disable-nls &&
+	./configure --prefix=/tools #--disable-nls
 	make
-	# make check
 }
 
 function build_pkg {
 	./configure --prefix=/usr --libexecdir=/usr/lib/locate \
-		    --localstatedir=/var/lib/misc --disable-nls &&
+		    --localstatedir=/var/lib/locate #--disable-nls
 	make
-	# make check
+}
+
+function check_pkg {
+	make check
 }
 
 function install_pkg {

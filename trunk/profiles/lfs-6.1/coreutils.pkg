@@ -1,5 +1,5 @@
 name="GNU coreutils"
-version="5.3.0"
+version="5.2.1"
 homepage="http://www.gnu.org/software/coreutils/"
 
 archives=(
@@ -7,7 +7,7 @@ archives=(
 )
 
 patches=(
-	"http://www.linuxfromscratch.org/patches/downloads/coreutils/coreutils-${version}-uname-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/coreutils/coreutils-${version}-uname-2.patch"
 	"http://www.linuxfromscratch.org/patches/downloads/coreutils/coreutils-${version}-static-uname-1.patch"
 	"http://www.linuxfromscratch.org/patches/downloads/coreutils/coreutils-${version}-suppress_hostname_uptime_kill_su-1.patch"
 )

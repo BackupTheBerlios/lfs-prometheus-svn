@@ -7,9 +7,12 @@ archives=(
 )
 
 function build_pkg {
-	./configure --prefix=/usr &&
+	./configure --prefix=/usr
 	make
-	# make check
+}
+
+function check_pkg {
+	make check
 }
 
 function install_pkg {

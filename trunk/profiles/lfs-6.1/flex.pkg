@@ -16,15 +16,24 @@ patch_cmds=(
 	"patch -Np0"
 )
 
+function stage1_build_pkg {
+	touch doc/flex.1
+	./configure --prefix=/tools
+	make
+}
+
 function build_pkg {
 	touch doc/flex.1
-	./configure --prefix=/usr &&
+	./configure --prefix=/usr
 	make
-	# make bigcheck
+}
+
+function check_pkg {
+	make check
 }
 
 function install_pkg {
-	make install &&
+	make install
 	ln -sf libfl.a /usr/lib/libl.a
 
 	cat > /usr/bin/lex <<-"EOF"

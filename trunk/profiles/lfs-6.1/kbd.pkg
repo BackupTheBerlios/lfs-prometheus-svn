@@ -11,8 +11,8 @@ patches=(
 )
 
 function build_pkg {
-	./configure &&
-	make CFLAGS="$CFLAGS"
+	./configure
+	make CFLAGS="$cflags"
 }
 
 function install_pkg {

@@ -10,12 +10,12 @@ patches=(
 )
 
 function build_pkg {
-	./configure --prefix=/usr &&
+	./configure --prefix=/usr
 	make
 }
 
 function install_pkg {
-	make install &&
-	mkdir -p /boot/grub &&
+	make install
+	mkdir -p /boot/grub
 	cp /usr/share/grub/*/* /boot/grub/
 }

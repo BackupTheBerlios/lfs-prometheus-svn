@@ -11,7 +11,7 @@ patches=(
 )
 
 function build_pkg {
-	./configure --prefix=/usr --with-libc &&
+	./configure --prefix=/usr --with-libc
 	make
 }
 
