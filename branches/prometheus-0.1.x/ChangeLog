@@ -1,3 +1,12 @@
+2004-08-27 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/gaim.pkg: Upgraded to gaim 0.82.1
+	* profiles/hdparm.pkg: Upgraded to hdparm 5.6
+
+2004-08-26 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/leafnode.pkg: Upgraded to leafnode 1.10.5
+
 2004-08-24 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/gawk.pkg: Upgraded to gawk 3.1.4
@@ -5,6 +14,7 @@
 	* profiles/libxslt.pkg: Upgraded to libxslt 1.1.9
 	* profiles/man.pkg: Upgraded to man 1.5o
 	* profiles/sed.pkg: Upgraded to sed 4.1.2
+
 2004-08-22 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/m4.pkg: Upgraded to m4 1.4.2

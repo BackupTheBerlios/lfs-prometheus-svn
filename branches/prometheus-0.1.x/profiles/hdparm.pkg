@@ -1,5 +1,5 @@
 name="hdparm"
-version="5.4"
+version="5.6"
 
 archives=(
 	"http://www.ibiblio.org/pub/Linux/system/hardware/hdparm-${version}.tar.gz"
