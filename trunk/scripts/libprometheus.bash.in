@@ -190,8 +190,8 @@ function logged_failure {
 	# /dev/null!), output its tail.
 	if [[ "$terminal_output" == no && -f "$logfile" && -r "$logfile" ]]
 	then
-		warning "see $logfile for details"
-		warning "tail of $logfile follows"
+		warning "see log file \`$logfile' for details"
+		warning "tail of log follows"
 		echo >&2
 		tail "$logfile" >&2
 	fi
@@ -281,7 +281,7 @@ function source_file {
 		usage_error "source_file" "<file> <description>" "$*"
 	fi
 
-	source "$1" || error "cannot source $2: $1"
+	source "$1" || error "cannot source $2: \`$1'"
 }
 
 # Usage: source_config
@@ -295,16 +295,17 @@ function source_config {
 	source_file "$config" "prometheus configuration file"
 
 	# Check essential variables.
-	[[ -z "$backupdir" ]] && error "backupdir not set in $config"
-	[[ -z "$builddir" ]] && error "builddir not set in $config"
-	[[ -z "$install_log_rc" ]] && error "install_log_rc not set in $config"
-	[[ -z "$profiles" ]] && error "profiles not set in $config"
-	[[ -z "$srcdir" ]] && error "srcdir not set in $config"
+	[[ -z "$backupdir" ]] && error "backupdir not set in \`$config'"
+	[[ -z "$builddir" ]] && error "builddir not set in \`$config'"
+	[[ -z "$install_log_rc" ]] &&
+		error "install_log_rc not set in \`$config'"
+	[[ -z "$profiles" ]] && error "profiles not set in \`$config'"
+	[[ -z "$srcdir" ]] && error "srcdir not set in \`$config'"
 
 	# Set some useful variables.
 	logdir=$(sed -n 's/^LOGDIR=//p' "$install_log_rc")
 	[[ -z "$logdir" ]] &&
-	error "could not extract log directory from $install_log_rc"
+	error "could not extract log directory from \`$install_log_rc'"
 
 	timestamp="$logdir/.timestamp"
 	version_table="$logdir/.vtab"
@@ -328,7 +329,7 @@ function source_profile {
 	[[ "$profiles_cwd" == yes && -f "$profile" ]] ||
 	profile="$profiles/$profile"
 
-	source_file "$profile" "$package package profile"
+	source_file "$profile" "\`$package' package profile"
 
 	# If $name not in profile, use $package.
 	[[ -z "$name" ]] && name="$package"
@@ -427,7 +428,7 @@ function set_stage {
 	# If $int != $1, <stage> is not an integer.
 	if [[ $int != "$1" ]] || (( int < 0 || int > 2 )); then
 		warning "stage must be 0, 1 or 2"
-		error "stage cannot be $1"
+		error "stage cannot be \`$1'"
 	fi
 
 	stage=$int
@@ -662,7 +663,7 @@ function unpack {
 		(.tar.bz2|.tbz*)			tar xjf "$1" ;;
 		(.zip|.ZIP)				unzip -q "$1" ;;
 		(*)			error "unknown archive type: $1"
-	esac || error "cannot unpack $1 in $PWD"
+	esac || error "cannot unpack \`$1' in \`$PWD'"
 }
 
 # Usage: cat_file <file>
@@ -676,7 +677,7 @@ function cat_file {
 		(*bz*)	bzcat "$1" ;;
 		(*z|*Z) zcat "$1" ;;
 		(*)	cat "$1"
-	esac || error "cannot cat $1"
+	esac || error "cannot cat \`$1'"
 }
 
 # ------------------------------ FILE HANDLING ------------------------------- #
@@ -719,7 +720,7 @@ function location_of {
 
 	# Otherwise fail.
 	[[ -z "$location" ]] &&
-	warning "could not find $base in $srcdir"
+	warning "could not find \`$base' in \`$srcdir'"
 
 	echo "$location"
 }

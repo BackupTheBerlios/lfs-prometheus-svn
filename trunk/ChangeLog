@@ -1,3 +1,12 @@
+2004-10-20 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* scripts/libprometheus.bash.in: Added quotes around echoed variables in
+	  logged_failure, source_file, source_config, source_profile, set_stage,
+	  unpack, cat_file & location_of.
+	* testsuite/libprometheus/log/tnlycf_stderr.txt: Error message updated.
+	* testsuite/libprometheus/source_file: Error message updated in
+	  invalid_error & none_error.
+
 2004-09-26 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* docs/*, scripts/*: Changed the short option equivalent of

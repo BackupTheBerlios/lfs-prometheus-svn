@@ -8,5 +8,5 @@ function _check {
 	source "$_lib" || exit 1
 
 	err="$(source_file missing.txt "missing file" 2>&1 | tail --lines=1)"
-	[[ "$err" == "runtest: cannot source missing file: missing.txt" ]]
+	[[ "$err" == "runtest: cannot source missing file: \`missing.txt'" ]]
 }
