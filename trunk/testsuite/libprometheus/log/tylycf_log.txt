@@ -1,0 +1,6 @@
+** Command: output 'tylycf log' 1
+** Command: echo 'stdout: tylycf log'
+stdout: tylycf log
+** Command: echo 'stderr: tylycf log'
+stderr: tylycf log
+** Command: return 1
