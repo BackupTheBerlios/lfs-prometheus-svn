@@ -82,7 +82,7 @@ function create_dep_list {
 	local pkg
 
 	for pkg in $(pkginfo --installed 2> /dev/null | cut -f1 -d\ ); do
-		if pkginfo --dependencies $pkg 2> /dev/null |
+		if pkginfo --dependencies "$pkg" 2> /dev/null |
 			grep ${package_list[0]} > /dev/null; then
 			dep_list="${dep_list}\n$pkg"
 		fi
@@ -129,7 +129,7 @@ function collect_dirs {
 function remove_files {
 
 	# Weed out `# Old #' markings and remove lines marked `# Del #'
-	sed -e 's/# Old # //' -e '/# Del #.*/d' "${logdir}/${package_list[0]}" || \
+	sed -e 's/# Old # //' -e '/# Del #.*/d' "${logdir}/${package_list[0]}" | \
 	xargs --no-run-if-empty rm -f ||
 	return 1
 
