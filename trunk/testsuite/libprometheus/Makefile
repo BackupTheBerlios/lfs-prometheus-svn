@@ -26,14 +26,16 @@ TESTS = finish/success \
 	pipestat/failure2 \
 	pipestat/failure3 \
 	warning/status \
+	warning/stdout \
+	warning/stderr \
 	failure/status \
 	error/status \
 	usage_error/status \
-	usage_error/stderr \
 	usage_error/stdout \
+	usage_error/stderr \
 	script_usage_err/status \
-	script_usage_err/stderr \
 	script_usage_err/stdout \
+	script_usage_err/stderr \
 	setup_logging/tylf \
 	setup_logging/tyln \
 	setup_logging/tylu \
@@ -45,9 +47,6 @@ TESTS = finish/success \
 	setup_logging/tulu
 
 LOGS = $(addsuffix .log, $(TESTS))
-
-PASS = ../runtest
-FAIL = ../runtest !
 
 .PHONY: all check clean
 

@@ -1,3 +1,10 @@
+2004-09-07 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* testsuite/libprometheus/Makefile: Removed unused variables $(PASS) &
+	  $(FAIL).
+
+	* testsuite/libprometheus/warning: Added stdout & stderr tests.
+
 2004-08-29 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* scripts/pkgrm.in: Written.

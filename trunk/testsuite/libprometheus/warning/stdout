@@ -1,0 +1,12 @@
+# Check stdout output of `usage_error'.
+
+_testing="libprometheus/warning"
+_description="output only to stderr"
+_expect=pass
+
+function _check {
+	source "$_lib" || exit 1
+
+	local out="$(warning "this is a warning")"
+	[[ -z "$out" ]]
+}
