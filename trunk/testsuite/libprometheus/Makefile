@@ -60,6 +60,9 @@ TESTS = finish/success \
 	log/tylncp_status \
 	log/tylncp_stdout \
 	log/tylncp_stderr \
+	log/tylncf_status \
+	log/tylncf_stdout \
+	log/tylncf_stderr \
 	log/tnlycp_status \
 	log/tnlycp_stdout \
 	log/tnlycp_stderr \

@@ -15,9 +15,3 @@ of `status' (exit status of `log' function), `log' (contents of log file),
 `stdout' (text echoed to stdout), or `stderr' (text echoed to stderr).
 
 The function used to test the logging code is in `output.bash'.
-
-TODO
-
-tylncf_status
-tylncf_stderr
-tylncf_stdout

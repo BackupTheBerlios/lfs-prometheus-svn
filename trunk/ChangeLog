@@ -6,7 +6,8 @@
 	  tnlncp_stdout, tnlncp_stderr, tylycp_status, tylycp_stdout,
 	  tylycp_stderr, tylycp_log, tylycf_status, tylycf_stdout,
 	  tylycf_stdout.txt, tylycf_stderr, tylycf_log, tylycf_log.txt,
-	  tylncp_status, tylncp_stdout, tylncp_stderr & tylncp_stderr.txt.
+	  tylncp_status, tylncp_stdout, tylncp_stderr, tylncp_stderr.txt,
+	  tylncf_status, tylncf_stdout, tylncf_stderr & tylncf_stderr.txt.
 
 2004-09-14 Gareth Jones <gareth_jones@users.berlios.de>
 
