@@ -37,7 +37,7 @@ declare -i failures=0
 # `--stage' options.
 declare -i stage=2
 
-# ------------------------------ EXIT HANDLING ------------------------------  #
+# ------------------------------ EXIT HANDLING ------------------------------- #
 
 # Usage: finish
 # Clean-up, exit & return number of failures.
@@ -292,7 +292,8 @@ function source_config {
 # ----------------------------- PROFILE HANDLING ----------------------------- #
 
 # Usage: source_profile <profile>
-# Source <profile>.  Set global variables $package & $profile accordingly.
+# Source <profile>.  Set global variables $package, $profile, $name & $name_ver
+# accordingly.
 function source_profile {
 	if (( $# != 1 )) || [[ -z "$1" ]]; then
 		usage_error "source_profile" "<profile>" "$*"
