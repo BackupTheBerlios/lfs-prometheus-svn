@@ -1,0 +1,146 @@
+# This is the master profile for Linux From Scratch.
+
+name="Linux From Scratch"
+version="pure_lfs-1.0"
+homepage="http://linuxfromscratch.org/~greg/"
+log_install=no
+
+# LFS specific configuration.
+lfs="/mnt/lfs"		# Host location where the LFS system will be built.
+mount_lfs=yes		# Ensure $lfs is mounted.
+lfs_device="/dev/hda1"	# This must already exist & contain a filesystem.
+lfs_user="lfs"		# User to build stage 1 as.
+bind_proc=no		# Bind host /proc to $lfs/proc.
+bind_dev=no		# Bind host /dev to $lfs/dev.
+bind_src=no		# Bind $srcdir to $lfs$srcdir.
+enable_devfs=yes	# Want devfs & host kernel supports it.
+lfs_builddir=/tools/build
+			# Temporary location for the source trees to be built.
+			# This _must_ be the same for stage0/1 and the chroot'ed
+			# stage2 (ie. place it somewhere below /tools)!
+lfs_srcdir=/tools/src	# Location for the source files for the LFS build.
+
+
+function install_pkg {
+
+	# Sanity checks.
+	(( $(id -u) != 0 )) && error "$package: must be run as root"
+	[[ -z "$lfs" ]] && error "$package: lfs not set"
+	[[ -z "$lfs_user" ]] && error "$package: lfs_user not set"
+
+	# Should $lfs be mounted?
+	if [[ "$mount_lfs" == yes ]]; then
+
+		# Is it already mounted?
+		mount | grep "$lfs" &> /dev/null ||
+		if [[ -n "$lfs_device" ]]; then
+
+			# Try to mount $lfs_device on $lfs.
+			mount "$lfs_device" "$lfs"
+		else
+
+			# Maybe we have an entry in /etc/fstab.
+			if grep "$lfs" /etc/fstab &> /dev/null; then
+				mount "$lfs"
+			else
+				false
+			fi
+		fi || error "$package: could not mount $lfs"
+	fi
+
+	echo "Preparing stage 0..."
+
+	# Add an lfs user if necessary.
+	if [[ "x$(grep ^${lfs_user}: /etc/passwd | awk -F: '{print $1}')" \
+	      != "x${lfs_user}" ]]; then
+		useradd -s /bin/bash -m "$lfs_user" &&
+		echo -e "Please enter a password for ${lfs_user}:\n" &&
+		passwd "$lfs_user" ||
+		error "${package}: could not add user: $lfs_user"
+	fi
+
+	# Create directories needed to build stages 0 & 1.
+	if [[ ! -d "${lfs}/tools" ]]; then
+		[[ -e "${lfs}/tools" ]] && rm -f "${lfs}/tools"
+		mkdir "${lfs}/tools"
+	fi &&
+	chown "$lfs_user" "${lfs}/tools" &&
+	ln -sf "${lfs}/tools" / ||
+	error "${package}: could not create ${lfs}/tools and /tools."
+
+	if [[ ! -d "${lfs}${lfs_builddir}" || ! -d "${lfs}${lfs_srcdir}" ]]; then
+		[[ ! -e "${lfs}${lfs_builddir}" ]] || rm -f "${lfs}${lfs_builddir}"
+		[[ ! -e "${lfs}${lfs_srcdir}"   ]] || rm -f "${lfs}${lfs_srcdir}"
+		mkdir -p "${lfs}${lfs_builddir}" "${lfs}${lfs_srcdir}"
+	fi &&
+	chown -R "$lfs_user" "${lfs}${lfs_builddir}" "${lfs}${lfs_srcdir}" ||
+	error "${package}: could not create ${lfs}${lfs_builddir} and/or ${lfs}${lfs_srcdir}."
+
+	# Create the root filesystem directory tree.
+	lfs="$lfs" lfs_builddir="${lfs}${lfs_builddir}" stage=0 \
+	pkgadd --config "$pkgconfig" rootfs ||
+	error "${package}: could not create root filesystem directory tree in $lfs"
+
+	# Build stage 0.
+	lfs="$lfs" stage=0 lfs_builddir="$lfs_builddir" \
+	su "$lfs_user" -c "%PKGADD% --config '$pkgconfig' stage0" ||
+	error "${package}: could not build stage 0"
+
+	echo "Preparing stage 1..."
+
+	# Build stage 1.
+	lfs="$lfs" stage=1 lfs_builddir="$lfs_builddir" lfs_srcdir="$lfs_srcdir" \
+	su "$lfs_user" -c "%PKGADD% --config '$pkgconfig' stage1" ||
+	error "${package}: could not build stage 1"
+
+	# Remove the /tools symlink.
+	rm /tools
+
+	echo "Preparing stage 2..."
+
+	# Make sure /proc & /dev are available in chroot.
+	local mount_proc=yes mount_dev="$enable_devfs"
+
+	if [[ "$bind_proc" == yes ]]; then
+		mount --bind /proc "$lfs/proc" ||
+		error "${package}: could not bind /proc to ${lfs}/proc"
+	elif [[ "$mount_proc" == yes ]]; then
+		mount -t proc proc "$lfs/proc" ||
+		error "${package}: could not mount proc filesystem on ${lfs}/proc"
+	fi
+
+	if [[ "$bind_dev" == yes ]]; then
+		mount --bind /dev "${lfs}/dev" ||
+		error "${package}: could not bind /dev to ${lfs}/dev"
+	elif [[ "$mount_dev" == yes ]]; then
+		mount -t devfs devfs "${lfs}/dev" ||
+		error "${package}: could not mount devfs on ${lfs}/dev"
+	fi
+
+	# Make sure package source is available in chroot.
+	if [[ "$bind_src" == yes ]]; then
+		mount --bind "$srcdir" "${lfs}${lfs_srcdir}" ||
+		error "${package}: could not bind $srcdir to ${lfs}${lfs_srcdir}"
+	else
+		echo "Copying packages to LFS system..."
+		cp -r "${srcdir}"/* "${lfs}${lfs_srcdir}" ||
+		error "${package}: could not copy packages to LFS system"
+	fi
+
+	# Build stage 2.
+	chroot "$lfs" /tools/bin/env -i HOME=/root TERM="$TERM" \
+		PATH="/usr/bin:/usr/sbin:/bin:/sbin:/tools/bin" \
+		stage=2 pkgadd --config /tools/etc/prometheus.conf stage2 ||
+	error "${package}: could not build stage 2"
+
+	#FIXME: Cleaning up - kernel, bootloader, pwconv, config...
+
+	if [[ "$bind_src" == yes ]]; then
+		mount | grep "${lfs}${lfs_srcdir}" &> /dev/null &&
+		umount "${lfs}${lfs_srcdir}"
+	fi
+	mount | grep "${lfs}/dev" &> /dev/null && umount "${lfs}/dev"
+	mount | grep "${lfs}/proc" &> /dev/null && umount "${lfs}/proc"
+	
+	return 0
+}

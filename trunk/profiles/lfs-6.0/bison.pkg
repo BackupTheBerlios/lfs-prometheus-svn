@@ -1,0 +1,21 @@
+name="bison"
+version="1.875"
+homepage="http://www.gnu.org/software/bison/"
+
+archives=(
+	"ftp://ftp.cs.tu-berlin.de/pub/gnu/bison/bison-${version}.tar.bz2"
+)
+
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/bison/bison-1.875-attribute-1.patch"
+)
+
+function build_pkg {
+	./configure --prefix=/usr --disable-nls &&
+	make
+	# make check
+}
+
+function install_pkg {
+	make install
+}

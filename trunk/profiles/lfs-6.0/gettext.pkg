@@ -1,0 +1,16 @@
+name="gettext"
+version="0.14.1"
+homepage="http://www.gnu.org/software/gettext/"
+
+archives=(
+	"ftp://ftp.cs.tu-berlin.de/pub/gnu/gettext/gettext-${version}.tar.gz"
+)
+
+function build_pkg {
+	./configure --prefix=/usr --disable-nls &&
+	make
+}
+
+function install_pkg {
+	make install
+}

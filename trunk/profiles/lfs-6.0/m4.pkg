@@ -1,0 +1,17 @@
+name="m4"
+version="1.4.2"
+homepage="http://www.gnu.org/software/m4/"
+
+archives=(
+	"ftp://alpha.gnu.org/gnu/bison/m4-${version}.tar.gz"
+)
+
+function build_pkg {
+	./configure --prefix=/usr &&
+	make
+	# make check
+}
+
+function install_pkg {
+	make install
+}

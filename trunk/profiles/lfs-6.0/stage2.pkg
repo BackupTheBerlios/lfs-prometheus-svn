@@ -1,0 +1,42 @@
+# This is the master profile for stage 2 of pure_lfs.
+
+# Stage 2 is the final build, a.k.a. Chapter 6.
+
+name="Stage 2"
+version="pure_lfs-1.0"
+log_install=no
+
+# Packages to install in stage 2 (in order).
+# FIXME: cracklib pam kgcc gettext gpm
+pkglist=(
+	users linux glibc binutils gcc install-log coreutils zlib mktemp
+	iana-etc findutils gawk ncurses vim m4 bison less groff sed flex
+	net-tools inetutils perl readline texinfo autoconf automake bash
+	file libtool bzip2 diffutils ed kbd e2fsprogs grep grub gzip man
+	make modutils patch procinfo procps psmisc shadow sysklogd sysvinit
+	tar util-linux man-pages devfsd dcis prometheus
+)
+
+directory="/tools"
+stage=2
+
+function install_pkg {
+
+	# Sanity checks.
+	(( $(id -u) != 0 )) && error "${package}: stage 2 must be built as root"
+
+	touch /var/log/install-logs/.timestamp
+
+	cat > /etc/install-log.rc <<-"EOF"
+		INCLUDE=/bin:/sbin:/lib:/usr:/opt
+		EXCLUDE=/lib/modules:/usr/src:/usr/local/src:/usr/etc:/usr/share/info/dir:/usr/share/man/whatis
+		LOGDIR=/var/log/install-logs
+	EOF
+
+	# Install packages in pkglist.
+	local pkg
+	for pkg in "${pkglist[@]}"; do
+		stage=2 pkgadd --config "$pkgconfig" "$pkg" ||
+		error "${package}: could not install $pkg"
+	done
+}

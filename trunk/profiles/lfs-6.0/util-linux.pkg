@@ -1,0 +1,26 @@
+name="util-linux"
+version="2.12p"
+
+archives=(
+	"ftp://ftp.win.tue.nl/pub/linux-local/utils/util-linux/util-linux-${version}.tar.gz"
+)
+
+patches=(
+	"http://lfs-prometheus.berlios.de/patches/util-linux-${version}-make-1.patch"
+	"http://lfs-prometheus.berlios.de/patches/util-linux-${version}-mount_move-1.patch"
+)
+
+function build_pkg {
+	cp hwclock/hwclock.c{,.backup} &&
+	sed 's%etc/adjtime%var/lib/hwclock/adjtime%' \
+	hwclock/hwclock.c.backup > hwclock/hwclock.c &&
+	mkdir -p /var/lib/hwclock &&				# FIXME!
+
+	echo "DISABLE_NLS=yes" >> MCONFIG &&
+	./configure &&
+	make HAVE_KILL=yes HAVE_SLN=yes
+}
+
+function install_pkg {
+	make HAVE_KILL=yes HAVE_SLN=yes install
+}

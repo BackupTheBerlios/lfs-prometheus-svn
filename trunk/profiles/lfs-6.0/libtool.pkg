@@ -1,0 +1,17 @@
+name="libtool"
+version="1.5.10"
+homepage="http://www.gnu.org/software/libtool/"
+
+archives=(
+	"ftp://ftp.cs.tu-berlin.de/pub/gnu/libtool/libtool-${version}.tar.gz"
+)
+
+function build_pkg {
+	./configure --prefix=/usr &&
+	make
+	# make check
+}
+
+function install_pkg {
+	make install
+}

@@ -1,0 +1,20 @@
+name="kbd"
+version="1.12"
+
+archives=(
+	"ftp://ftp.win.tue.nl/pub/linux-local/utils/kbd/kbd-${version}.tar.gz"
+)
+
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/kbd/kbd-${version}-more_programs-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/kbd/kbd-${version}-openvtdevfs-1.patch"
+)
+
+function build_pkg {
+	./configure &&
+	make CFLAGS="$CFLAGS"
+}
+
+function install_pkg {
+	make install
+}

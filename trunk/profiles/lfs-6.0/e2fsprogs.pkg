@@ -1,0 +1,28 @@
+name="e2fsprogs"
+version="1.35"
+
+archives=(
+	"http://download.sourceforge.net/e2fsprogs/e2fsprogs-${version}.tar.gz"
+)
+
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/e2fsprogs/e2fsprogs-${version}-enable_readline-1.patch"
+)
+
+function build_pkg {
+	mkdir "$directory"/../e2fsprogs-build &&
+	cd "$directory"/../e2fsprogs-build &&
+	"$directory"/configure --prefix=/usr --with-root-prefix="" \
+			       --enable-elf-shlibs --disable-nls \
+			       --disable-evms &&
+	make
+	# make check
+}
+
+function install_pkg {
+	cd "$directory"/../e2fsprogs-build &&
+	make install &&
+	make install-libs &&
+
+	cd "$directory"/.. && rm -rf e2fsprogs-build
+}
