@@ -103,7 +103,8 @@ TESTS = finish/success \
 	echo_array/echo_array \
 	source_file/valid_status \
 	source_file/valid_sourced \
-	source_file/invalid_status
+	source_file/invalid_status \
+	source_file/invalid_error
 
 LOGS = $(addsuffix .log, $(TESTS))
 
