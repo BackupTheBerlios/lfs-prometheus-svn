@@ -22,8 +22,9 @@
 unset archives archive_dirs builddir cc cflags check config cxx cxxflags deps
 unset directory failures homepage install_as_root install_log_rc lc_all ldflags
 unset leavefiles linguas logdir logfile log_install log_target name name_ver
-unset optimize package patches patch_cmds profile profiles profile_list srcdir
-unset stage temp_files terminal_output timestamp version version_table
+unset optimize package package_list patches patch_cmds profile profiles
+unset profile_list srcdir stage temp_files terminal_output timestamp version
+unset version_table
 unset ${!stage0*} ${!stage1*}
 
 # Location of configuration file.  Scripts may redefine this value in response
@@ -194,15 +195,17 @@ function log {
 }
 
 # Usage: log_echo <message>
-# Append <message> to log &/or stdout.
+# Append <message> to log & stdout.
 function log_echo {
 	eval "echo \"\$@\" $log_target && pipestat"
+	[[ "$terminal_output" == no ]] && echo "$@"
 }
 
 # Usage: log_warning <message>
-# Append <message> to log &/or stderr.
+# Append <message> to log & stderr.
 function log_warning {
 	eval "warning \"\$@\" $log_target && pipestat"
+	[[ "$terminal_output" == no ]] && warning "$@"
 }
 
 # ---------------------------- VERSION REPORTING ----------------------------- #
@@ -309,19 +312,25 @@ function source_profile {
 }
 
 # Usage: add_profile <profile>
-# If <profile> exists & is readable, add it to $profile_list.  Otherwise warn.
+# If <profile> exists & is readable, add it to $profile_list.  Add the package
+# name to $package_list.  Otherwise warn.
 function add_profile {
 	if (( $# != 1 )) || [[ -z "$1" ]]; then
 		usage_error "add_profile" "<profile>" "$*"
 	fi
 
+	# Get name of package.
+	local profile_basename="${1##*/}"
+	profile_basename="${profile_basename%.pkg}"
+
 	# Check exists.
-	if [[ -f "$profile" && -r "$profile" ]]; then
+	if [[ -f "$1" && -r "$1" ]]; then
 
 		# Add to end of $profile_list.
-		profile_list[${#profile_list[@]}]="$profile"
+		profile_list[${#profile_list[@]}]="$1"
+		package_list[${#package_list[@]}]="$profile_basename"
 	else
-		error "$profile package profile not found"
+		error "$1 package profile not found"
 		return 1
 	fi
 }

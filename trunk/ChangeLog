@@ -1,3 +1,13 @@
+2004-08-02 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* src/libprometheus.bash.in (add_profile): Fixed bug & added
+	  $package_list.
+
+	* src/libprometheus.bash.in: log_echo & log_warning now always output to
+	  the terminal as well as any log.
+
+	* src/pkgadd.in: Skeleton written.
+
 2004-08-01 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* man/pkgunpack.1.in: Written.

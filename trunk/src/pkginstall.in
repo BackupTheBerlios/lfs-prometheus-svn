@@ -176,7 +176,7 @@ function cleanup_failed {
 # --------------------------- START EXECUTION HERE --------------------------- #
 
 # Check for options.
-unset installed failed
+unset failed installed
 while [[ "$1" == -* ]]; do
 	case "$1" in
 		(-b|--backup-installed)		installed=backup ;;

@@ -17,3 +17,136 @@
 # You should have received a copy of the GNU General Public License along with
 # this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 # Place, Suite 330, Boston, MA  02111-1307  USA
+
+# Global prometheus functions.
+source "%LIBPROMETHEUS%" || exit 1
+
+# Usage: usage
+# Print help text.
+function usage {
+	cat <<-EOF
+Usage:
+${0##*/} [<options>] <package_list>
+
+Install packages in the order given on the commandline.
+
+Package list:
+-f, --profile <profile> ...	Specify files containing package profiles
+-p, --package <package> ...	Specify packages by name (default)
+--				Treat remaining arguments as packages/profiles
+
+Options (must precede package list):
+-b, --backup-installed		Backup and remove any existing installations
+-c, --config <config_file>	Specify alternative configuration file
+-d, --download			Download files need to install packages
+-l, --leave-installed		Do not touch any existing installations
+-L, --leave-failed		Leave files from any failed installations
+-o, --overwrite-installed	Overwrite any existing installations
+-r, --remove-installed		Remove any existing installations
+-R, --remove-failed		Cleanup files from any failed installations
+-s, --stage <stage_number>	Specify stage 0, 1 or 2 (default = 2)
+
+-h, -?, --help			Show this help screen
+-v, --version			Show version information
+
+	EOF
+	finish
+}
+
+# --------------------------- START EXECUTION HERE --------------------------- #
+
+# Check for options.
+unset download failed installed
+while [[ "$1" == -* ]]; do
+	case "$1" in
+		(-b|--backup-installed)		installed=backup ;;
+
+		(-c|--config)			config="$2"
+						shift ;;
+
+		(-d|--download)			download=yes ;;
+
+		(--config=*)			config="${1#--config=}" ;;
+
+		(-f|--profile|-p|--package)	break ;;
+
+		(-h|-\?|--help)			usage ;;
+
+		(-l|--leave-installed)		installed=leave ;;
+
+		(-L|--leave-failed)		failed=leave ;;
+
+		(-o|--overwrite-installed)	installed=overwrite ;;
+
+		(-r|--remove-installed)		installed=remove ;;
+
+		(-R|--remove-failed)		failed=remove ;;
+
+		(-s|--stage)			set_stage "$2"
+						shift ;;
+
+		(--stage=*)			set_stage "${1#--stage=}" ;;
+
+		(-v|--version)			version ;;
+
+		(--)				shift
+						break ;;
+
+		(*)		script_usage_err "unrecognized option: $1"
+	esac
+	shift
+done
+
+source_config
+find_profiles "$@"
+
+# Download packages if told to.
+if [[ "$download" == yes ]]; then
+	echo "Downloading needed files..."
+	pkgget --config="$config" --profile "${profile_listp[@]}" ||
+	error "downloading failed"
+fi
+
+# If there is more than one package, install each in its own instance.
+if (( ${#profile_list[@]} > 1 )); then
+	for profile in "${profile_list[@]}"; do
+		"$0" --config="$config" ${installed:+--$installed-installed} \
+		     ${failed:+--$failed-failed} --stage=$stage \
+		     --profile "$profile" ||
+		error "failed in $profile"
+	done
+	finish
+fi
+
+# There is only one package to install.  Do so in this instance.
+open_package "${profile_list[0]}"
+
+log_echo
+log_echo "	----- $name_ver -----"
+
+log_echo
+log_echo "Unarchiving & patching $name..."
+pkgunpack --config="$config" --stage=$stage --profile "$profile" ||
+error "unarchiving or patching $name failed"
+
+if is_func build_pkg; then
+	log_echo
+	log_echo "Building $name..."
+	pkgbuild --config="$config" --stage=$stage --profile "$profile" ||
+	error "building $name failed"
+fi
+
+if [[ "$check" == yes ]]; then
+	log_echo
+	log_echo "Running $name checksuite..."
+	pkgcheck --config="$config" --stage=$stage --profile "$profile" ||
+	error "checksuite failed for $name"
+fi
+
+log_echo
+log_echo "Installing $name..."
+pkginstall --config="$config" ${installed:+--$installed-installed} \
+	   ${failed:+--$failed-failed} --stage=$stage --profile "$profile" ||
+error "installing $name failed"
+
+finish
