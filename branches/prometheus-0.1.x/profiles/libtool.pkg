@@ -1,5 +1,5 @@
 name="libtool"
-version="1.5.2" # 1.5.6 (1.5.4 had some issues. Does 1.5.6 still have?)
+version="1.5.8"
 homepage="http://www.gnu.org/software/libtool/"
 
 archives=(

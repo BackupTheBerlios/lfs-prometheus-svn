@@ -37,7 +37,7 @@
 	  pkginfo.sh, pkgrm.sh, x86stepping/x86stepping.c:
 	  Updated E-Mail address.
 
-Before 2004-87-25 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
+Before 2004-07-25 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* All Files: Created initial pkgtools, renamed to prometheus.
