@@ -44,8 +44,8 @@ Options (must precede package list):
 }
 
 # Usage: remove_found
-# Read list of files, output any that are not present in $srcdir or $builddir.
-# Warn on any that are missing & cannot be downloaded.
+# Read list of files, output any that are not present in $srcdir.  Warn on any
+# that are missing & cannot be downloaded.
 function remove_found {
 	local file location protocol
 	while read file; do
@@ -180,7 +180,14 @@ source_config
 if [[ "$listonly" == yes ]]; then
 	list_downloads "$@"
 else
-	list_downloads "$@" | wget --input-file=- ||
+
+	# Make sure we can download to $srcdir.
+	[[ -d "$srcdir" && -w "$srcdir" ]] ||
+	error "cannot download files to source directory $srcdir"
+
+	# Download files to $srcdir.
+	list_downloads "$@" |
+	wget --directory-prefix="$srcdir" --input-file=- ||
 	error "download failed"
 fi
 

@@ -17,6 +17,11 @@
 	* man/pkgcheck.1.in: Updated.
 	* man/pkginstall.8.in: Updated.
 
+	* src/pkgget.in: Download files to $srcdir, not current working
+	  directory.
+	* src/libprometheus.bash.in (location_of): Only search $srcdir, not
+	  $builddir.
+
 2004-08-02 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* src/libprometheus.bash.in (add_profile): Fixed bug & added

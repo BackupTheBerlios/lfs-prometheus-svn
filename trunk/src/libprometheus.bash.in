@@ -587,8 +587,8 @@ function list_files {
 }
 
 # Usage: location_of <file>
-# Find <file> in $srcdir or $builddir & print its location.  Also check for
-# un-/re-compressed versions before giving up.
+# Find <file> in (a subdirectory of) $srcdir & print its location.  Also check
+# for un-/re-compressed versions before giving up.
 function location_of {
 	if (( $# != 1 )) || [[ -z "$1" ]]; then
 		usage_error "location_of" "<file>" "$*"
@@ -600,17 +600,11 @@ function location_of {
 	# Get uncompressed filename.
 	local uncomp=$(remove_compression_suffix "$base")
 
-	# Search $srcdir & $builddir for the original <file>, &
-	# un-/re-compressed versions.
+	# Search $srcdir for the original <file>, & un-/re-compressed versions.
 	local file location
 	for file in "$base" "$uncomp"{,.gz,.bz2}; do
 
-		# First search $srcdir.
 		location=$(find "$srcdir" -name "$file")
-
-		# Else try $builddir.
-		[[ -z "$location" ]] &&
-		location=$(find "$builddir" -name "$file")
 
 		# End loop if we found <file> & it is readable.
 		[[ -n "$location" && -f "$location" && -r "$location" ]] &&
@@ -620,7 +614,7 @@ function location_of {
 
 	# Otherwise fail.
 	[[ -z "$location" ]] &&
-	warning "could not find $base in $srcdir or $builddir"
+	warning "could not find $base in $srcdir"
 
 	echo "$location"
 }
