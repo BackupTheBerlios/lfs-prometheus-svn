@@ -501,6 +501,37 @@ function open_package {
 	prepare_build_env
 }
 
+# --------------------------- DEPENDENCY HANDLING ---------------------------- #
+
+# Usage: remove_dupes <array>
+# Remove duplicate entries from array, including non-consecutive duplicates.
+# Keep only the first occurrence of each element.
+function remove_dupes {
+	if (( $# != 1 )) || [[ -z "$1" ]]; then
+		usage_error "remove_dupes" "<array>" "$*"
+	fi
+
+	local -a array processed
+
+	# Get local copy of <array>.
+	eval "array=( \"\${$1[@]}\" )"
+
+	local elem pelem
+	for elem in "${array[@]}"; do
+		for pelem in "${processed[@]}"; do
+
+			# If already processed, skip element.
+			[[ "$elem" == "$pelem" ]] && continue 2
+		done
+
+		# Add new element to processed array.
+		processed[${#processed[@]}]="$elem"
+	done
+
+	# Refill <array> with processed array.
+	eval "$1=( \"\${processed[@]}\" )"
+}
+
 # ------------------------- ARCHIVING & COMPRESSION -------------------------- #
 
 # Usage: get_suffix <filename>

@@ -1,8 +1,14 @@
 2004-08-04 Gareth Jones <gareth_jones@users.berlios.de>
 
-	* scripts/pkgadd.in: Dependency checking implemented.  Needs two
-	  functions added to libprometheus before usable, however I need some
-	  sleep first.
+	* scripts/pkgadd.in: Dependency checking implemented.
+
+	* scripts/libprometheus.bash.in (remove_dupes): Added.
+	* scripts/compact.in: Removes duplicate file/directory arguments.
+	* scripts/pkgget.in: Removes duplicate package arguments.
+	* scripts/pkgunpack.in: Removes duplicate package arguments.
+	* scripts/pkgbuild.in: Removes duplicate package arguments.
+	* scripts/pkgcheck.in: Removes duplicate package arguments.
+	* scripts/pkginstall.in: Removes duplicate package arguments.
 
 2004-08-03 Gareth Jones <gareth_jones@users.berlios.de>
 

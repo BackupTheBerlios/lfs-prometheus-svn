@@ -258,7 +258,7 @@ function compact_dir {
 
 # --------------------------- START EXECUTION HERE --------------------------- #
 
-unset bzip2_only force gzip_only recompress recursive
+unset bzip2_only force gzip_only recompress recursive list
 
 # Check for options.
 while [[ "$1" == -* ]]; do
@@ -292,8 +292,12 @@ script_usage_err "--force only valid with --bzip2 or --gzip"
 # The remaining arguments should all be files to compact.
 (( $# == 0 )) && script_usage_error "no files to compact"
 
+# Remove duplicate files/directories from parameter list.
+list=( "$@" )
+remove_dupes list
+
 # Compact files/directories from argument list.
-for arg in "$@"; do
+for arg in "${list[@]}"; do
 
 	# If directory, are we recursive?
 	if [[ -d "$arg" ]]; then

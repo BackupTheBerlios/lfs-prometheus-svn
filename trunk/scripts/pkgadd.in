@@ -72,7 +72,7 @@ function get_package_list {
 
 	# If user didn't request adding dependencies, ask.
 	if [[ -n "${not_installed[*]}" && "$add_deps" != yes ]]; then
-		echo "Unfulfilled dependencies:"
+		echo "The following dependencies are unfulfilled:"
 		echo "${not_installed[*]}"
 		echo -n "Install these packages first? [y/n] "
 		choice || error "unfulfilled dependencies - aborting"
@@ -133,7 +133,7 @@ source_config
 
 # Get the list of packages to install, including dependencies.
 get_package_list "$@"
-remove_dupes package_list	# FIXME.  Also add this to other scripts.
+remove_dupes package_list
 
 # Download packages if told to.
 if [[ "$download" == yes ]]; then

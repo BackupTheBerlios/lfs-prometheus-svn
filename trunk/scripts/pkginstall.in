@@ -194,7 +194,7 @@ function cleanup_failed {
 
 # --------------------------- START EXECUTION HERE --------------------------- #
 
-unset backed_up failed installed installed_name installed_version
+unset backed_up failed installed installed_name installed_version package_list
 
 # Check for options.
 while [[ "$1" == -* ]]; do
@@ -236,11 +236,15 @@ done
 # The remaining arguments should all be packages.
 (( $# == 0 )) && script_usage_err "no packages to install"
 
+# Remove duplicate packages from parameter list.
+package_list=( "$@" )
+remove_dupes package_list
+
 source_config
 
 # If there is more than one package, install each in its own instance.
-if (( $# > 1 )); then
-	for package in "$@"; do
+if (( ${#package_list[@]} > 1 )); then
+	for package in "${package_list[@]}"; do
 		"$0" --config="$config" ${installed:+--$installed-installed} \
 		     ${failed:+--$failed-failed} --stage=$stage "$package" ||
 		error "installation of $package failed"
@@ -250,7 +254,7 @@ fi
 
 # There is only one package to install.  Do so in this instance.
 profiles_cwd=yes
-open_package "$1"
+open_package "${package_list[0]}"
 
 # Check we know how to install package.
 if is_func install_pkg; then

@@ -150,7 +150,7 @@ function list_downloads {
 
 # --------------------------- START EXECUTION HERE --------------------------- #
 
-unset listonly
+unset listonly package_list
 
 # Check for options.
 while [[ "$1" == -* ]]; do
@@ -177,10 +177,14 @@ done
 # The remaining arguments should all be packages.
 (( $# == 0 )) && script_usage_err "no packages to get"
 
+# Remove duplicate packages from parameter list.
+package_list=( "$@" )
+remove_dupes package_list
+
 source_config
 
 if [[ "$listonly" == yes ]]; then
-	list_downloads "$@"
+	list_downloads "${package_list[@]}"
 else
 
 	# Make sure we can download to $srcdir.
@@ -188,7 +192,7 @@ else
 	error "cannot download files to source directory $srcdir"
 
 	# Download files to $srcdir.
-	list_downloads "$@" |
+	list_downloads "${package_list[@]}" |
 	wget --directory-prefix="$srcdir" --input-file=- ||
 	error "download failed"
 fi
