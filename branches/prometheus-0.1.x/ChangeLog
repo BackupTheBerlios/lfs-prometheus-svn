@@ -1,3 +1,7 @@
+2004-10-31 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/findutils.pkg: Upgrade to latest version.
+
 2004-10-27 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/windowmaker.pkg: Re-enabled the patches, fixed a typo.
