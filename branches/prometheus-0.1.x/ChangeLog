@@ -1,6 +1,7 @@
 2004-11-05 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/procps.pkg: Upgrade to procps 3.2.4.
+	* profiles/util-linux.pkg: Upgrade to util-linux 2.12i.
 
 2004-11-01 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 

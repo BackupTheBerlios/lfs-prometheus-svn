@@ -1,5 +1,5 @@
 name="util-linux"
-version="2.12h"
+version="2.12i"
 
 archives=(
 	"ftp://ftp.win.tue.nl/pub/linux-local/utils/util-linux/util-linux-${version}.tar.gz"
