@@ -1,3 +1,8 @@
+2004-08-08 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/gaim.pkg: Upgraded to gaim 0.81
+	* profiles/libtool.pkg: Upgraded to libtool 1.5.8
+
 2004-08-06 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* All files: Changed Oliver's email address to
