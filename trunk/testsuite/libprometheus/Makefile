@@ -59,6 +59,16 @@ TESTS = finish/success \
 	log_echo/tnly_log \
 	log_echo/tnln_stdout \
 	log_echo/tnln_stderr \
+	log_warning/tyly_stdout \
+	log_warning/tyly_stderr \
+	log_warning/tyly_log \
+	log_warning/tyln_stdout \
+	log_warning/tyln_stderr \
+	log_warning/tnly_stdout \
+	log_warning/tnly_stderr \
+	log_warning/tnly_log \
+	log_warning/tnln_stdout \
+	log_warning/tnln_stderr \
 	log/tylycp_status \
 	log/tylycp_stdout \
 	log/tylycp_stderr \
