@@ -99,7 +99,8 @@ TESTS = finish/success \
 	log/tnlncf_stderr \
 	get_installed_version/get_installed_version \
 	choice/yes \
-	choice/no
+	choice/no \
+	echo_array/echo_array
 
 LOGS = $(addsuffix .log, $(TESTS))
 
