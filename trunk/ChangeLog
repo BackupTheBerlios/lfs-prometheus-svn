@@ -6,6 +6,9 @@
 	* src/libprometheus.bash.in (set_stage): Added.
 	* src/pkgunpack.in: Changed `stage="$val"' to `set_stage "$val"'.
 
+	* src/libprometheus.bash.in (unpack): Added.
+	* src/pkgunpack.in (unpack_archives): Added.
+
 2004-07-29 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* src/libprometheus.bash.in (add_profile): Call error instead of

@@ -497,6 +497,22 @@ function remove_compression_suffix {
 	echo "$uncomp"
 }
 
+# Usage: unpack <archive>
+# Unpacks <archive>.
+function unpack {
+	if (( $# != 1 )) || [[ -z "$1" ]]; then
+		usage_error "unpack" "<archive>" "$*"
+	fi
+
+	case "$(get_compression_suffix "$1")" in
+		(.tar)					tar xf "$1" ;;
+		(.tar.gz|.tar.z|.tar.Z|.tgz|.taz)	tar xzf "$1" ;;
+		(.tar.bz2|.tbz*)			tar xjf "$1" ;;
+		(.zip|.ZIP)				unzip -q "$1" ;;
+		(*)			error "unknown archive type: $1"
+	esac || error "cannot unpack $1 in $PWD"
+}
+
 # ------------------------------ FILE HANDLING ------------------------------- #
 
 # Usage: list_files

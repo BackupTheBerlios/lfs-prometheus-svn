@@ -47,6 +47,31 @@ Options (must precede package list):
 	finish
 }
 
+# Usage: unpack_archives
+# Unpack archives listed in $archives in appropriate directories.
+function unpack_archives {
+	local archive dir
+	local -i i
+	for (( i=0 ; i<${#archives[@]} ; ++i )); do
+
+		# Substitute  $directory for `@d' & stop if archive & those
+		# following should not be unpacked.
+		dir="${archive_dirs[$i]//@d/$directory}"
+		[[ "$dir" == ":" ]] && break
+
+		# Set default directory.
+		[[ -z "$dir" ]] && dir="$builddir"
+
+		# Locate & unpack archive.
+		archive=$(location_of "${archives[$i]}") &&
+		[[ -n "$archive" ]] &&
+		pushd "$dir" > /dev/null &&
+		unpack "$archive" &&
+		popd > /dev/null ||
+		error "cannot unpack ${archives[$i]} in $dir"
+	done
+}
+
 # --------------------------- START EXECUTION HERE --------------------------- #
 
 # Check for options.
@@ -82,11 +107,16 @@ find_profiles "$@"
 # If there is more than one package, unpack each in its own instance.
 if (( ${#profile_list[@]} > 1 )); then
 	for profile in "${profile_list[@]}"; do
-		# FIXME: Use package name in error msg.
 		"$0" --config="$config" --stage=$stage --profile "$profile" ||
-		error "could not unpack files listed in $profile"
+		error "failed in $profile"
 	done
 	finish
 fi
 
-# FIXME: Rest of script.
+# There is only one package to unpack.  Do so in this instance.
+open_package "${profile_list[0]}"
+
+unpack_archives &&
+apply_patches		# FIXME
+
+finish
