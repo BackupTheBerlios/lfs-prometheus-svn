@@ -32,9 +32,21 @@ Blank lines are ignored, as is anything after a hash (#) character.
 
 FIXME: Document minimum requirements.
 
-.BI "profiles=" directory
+.BI "backupdir=" directory
 .RS
-The directory where package profiles should be searched for.
+The
+.IR "backup directory",
+where
+.BR pkgrm (8)
+will back up files it uninstalls if requested.  Such backups will be compressed
+tar archives based on the short name of the package, e.g. `bash.bak.tar.bz2'.
+.RE
+
+.BI "builddir=" directory
+.RS
+The
+.IR "build directory",
+where packages should be unpacked and built prior to installation.
 .RE
 
 .BI "install_log_rc=" install-log_configuration_file
@@ -43,15 +55,18 @@ The location of
 .BR "install-log.rc".
 .RE
 
-.BI "srcdir=" directory
+.BI "profiles=" directory
 .RS
-The directory where source archives and patches should be searched for.
+The
+.IR "profiles directory",
+where package profiles should be searched for.
 .RE
 
-.BI "builddir=" directory
+.BI "srcdir=" directory
 .RS
-The directory where packages should be unpacked and built, prior to
-installation.
+The
+.IR "source directory",
+where source archives and patches should be searched for.
 .RE
 
 .SH PACKAGE PARAMETER DEFAULTS
@@ -74,17 +89,10 @@ For example, in stage 0, if set,
 overrides the value of
 .BR "optimize".
 
-.BI "logfile=" file
+.B install_as_root={yes|no}
 .RS
-If set, commands used to build and install packages, and any output from these
-commands, will be logged in the specified file.
-.RE
-
-.B terminal_output={yes|no}
-.RS
-Controls whether output from commands used to build and install packages is
-shown on the terminal.  This option is orthogonal to
-.BR "logfile".
+Controls whether packages should be installed as root.  This does not affect the
+build user.
 .RE
 
 .B log_install={yes|no}
@@ -97,10 +105,11 @@ required if the ability to uninstall using
 is desired.
 .RE
 
-.B install_as_root={yes|no}
+.BI "logfile=" file
 .RS
-Controls whether packages should be installed as root.  This does not affect the
-build user.
+If set, commands used to build and install packages, and any output from these
+commands, will be logged in the specified file.  This must include a full
+directory specification.
 .RE
 
 .B optimize={yes|no}
@@ -108,20 +117,30 @@ build user.
 Controls whether package builds are optimized.  Use with caution.
 .RE
 
+.B terminal_output={yes|no}
+.RS
+Controls whether output from commands used to build and install packages is
+shown on the terminal.  This option is orthogonal to
+.BR "logfile".
+.RE
+
+The folowing parameters determine the build environment.  Their values are used
+to set the corresponding environment variables with capitalized names.
+
 .BI "cc=" C_compiler
 .RS
 The C compiler to use when building packages.
 .RE
 
+.BI "cflags=" flags
+.RS
+The flags to pass to the C compiler when building.  Only used when
+optimizations are enabled.
+.RE
+
 .BI "cxx=" C++_compiler
 .RS
 The C++ compiler to use when building packages.
-.RE
-
-.BI "cflags=" flags
-.RS
-The flags to pass to the C compiler when building.  Only used when optimizations
-are enabled.
 .RE
 
 .BI "cxxflags=" flags
@@ -135,17 +154,17 @@ optimizations are enabled.
 The flags to pass to the linker.  Only used when optimizations enabled.
 .RE
 
-.BI "linguas=" language
-.RS
-The value of the
-.B LINGUAS
-environment variable to use when building.
-.RE
-
 .BI "lc_all=" locale
 .RS
 The value of the
 .B LC_ALL
+environment variable to use when building.
+.RE
+
+.BI "linguas=" language
+.RS
+The value of the
+.B LINGUAS
 environment variable to use when building.
 .RE
 

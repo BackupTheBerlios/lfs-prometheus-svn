@@ -60,6 +60,22 @@ function get_privileges {
 	fi
 }
 
+# Usage: add_version_entry <version>
+# Update version table.
+function add_version_entry {
+	if (( $# != 1 )) || [[ -z "$1" ]]; then
+		usage_error "add_version_entry" "<version>" "$*"
+	fi
+
+	touch "$version_table" &&
+	grep --invert-match "^$package	" "$version_table" > \
+	     "$version_table.$$" &&
+	echo -e "$package\t$1" >> "$version_table.$$" &&
+	sort -u "$version_table.$$" > "$version_table" &&
+	rm "$version_table.$$" ||
+	failure "updating version table $version_table failed"
+}
+
 # Usage: remove_installed
 # Deal with any existing installation of $package.
 function remove_installed {
@@ -68,8 +84,8 @@ function remove_installed {
 	pkginfo "$package" | grep "not installed" > /dev/null && return
 
 	# Get version of installed $package.
-	local installed_version="$(get_installed_version "$package")"
-	local installed_name="$name${installed_version:+ $installed_version}"
+	installed_version="$(get_installed_version "$package")"
+	installed_name="$name${installed_version:+ $installed_version}"
 
 	# $installed wasn't set on the command line.  Go interactive.
 	if [[ -z "$installed" ]]; then
@@ -99,8 +115,12 @@ function remove_installed {
 	# What to do.
 	case $installed in
 		(leave)		error "$installed_name already installed" ;;
+
 		(remove)	pkgrm --force "$package" ;;
-		(backup)	pkgrm --backup --force "$package" ;;
+
+		(backup)	pkgrm --backup --force "$package" &&
+				backed_up=yes ;;
+
 		(overwrite)	log_warning "overwriting $installed_name"
 	esac
 }
@@ -137,15 +157,7 @@ function finish_install {
 	# Run install-log & clean up.
 	if [[ "$log_install" == yes ]];
 		if install-log --force "$package"; then
-
-			# Update version table.
-			touch "$version_table" &&
-			grep --invert-match "^$package	" "$version_table" > \
-			     "$version_table.$$" &&
-			echo -e "$package\t$version" >> "$version_table.$$" &&
-			sort -u "$version_table.$$" > "$version_table" &&
-			rm "$version_table.$$" ||
-			failure "updating version table $version_table failed"
+			add_version_entry "$version"
 		else
 			error "running install-log failed"
 		fi
@@ -166,13 +178,25 @@ function cleanup_failed {
 		choice && failed=remove
 	fi
 
-	[[ "$failed" == remove ]] && pkgrm --force "$package"
+	[[ "$failed" == remove ]] && pkgrm --force "$package" &&
+
+	# Did we backup a previous install?  If so, restore it & related
+	# install-log files.
+	if [[ "$backed_up" == yes ]]; then
+		echo "Restoring backup of $installed_name..."
+		tar xvjf "$backupdir/$package.bak.tar.bz2" > \
+			 "$logdir/$package" ||
+		failure "restoring backup failed"
+
+		add_version_entry "$installed_version"
+	fi
 }
 
 # --------------------------- START EXECUTION HERE --------------------------- #
 
+unset backed_up failed installed installed_name installed_version
+
 # Check for options.
-unset failed installed
 while [[ "$1" == -* ]]; do
 	case "$1" in
 		(-b|--backup-installed)		installed=backup ;;

@@ -275,6 +275,7 @@ function source_config {
 	source_file "$config" "prometheus configuration file"
 
 	# Check essential variables.
+	[[ -z "$backupdir" ]] && error "backupdir not set in $config"
 	[[ -z "$builddir" ]] && error "builddir not set in $config"
 	[[ -z "$install_log_rc" ]] && error "install_log_rc not set in $config"
 	[[ -z "$profiles" ]] && error "profiles not set in $config"

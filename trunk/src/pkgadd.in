@@ -51,8 +51,9 @@ Options (must precede package list):
 
 # --------------------------- START EXECUTION HERE --------------------------- #
 
-# Check for options.
 unset download failed installed
+
+# Check for options.
 while [[ "$1" == -* ]]; do
 	case "$1" in
 		(-b|--backup-installed)		installed=backup ;;

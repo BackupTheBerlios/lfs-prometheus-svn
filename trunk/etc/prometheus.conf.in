@@ -5,8 +5,9 @@ profiles="%PROFDIR%"
 install_log_rc="%INSTALL_LOG_RC%"
 
 # Other file locations.
-srcdir="/usr/src"
+backupdir="/var/tmp"
 builddir="/var/tmp"
+srcdir="/usr/src"
 
 # The following values may be overridden per package in package profiles.  All
 # can be further overridden by additional variables with the same names but

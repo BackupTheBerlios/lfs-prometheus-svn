@@ -31,6 +31,11 @@
 	* src/pkginstall.in: Updated profile handling.
 	* src/pkgadd.in: Updated profile handling.
 
+	* etc/prometheus.conf: Added $backupdir.
+	* man/prometheus.conf.5.in: Documented $backupdir.
+	* src/pkginstall.in: Added add_version_entry.  Now restores backed up
+	  uninstalls if installation fails.
+
 2004-08-02 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* src/libprometheus.bash.in (add_profile): Fixed bug & added

@@ -150,8 +150,9 @@ function list_downloads {
 
 # --------------------------- START EXECUTION HERE --------------------------- #
 
-# Check for options.
 unset listonly
+
+# Check for options.
 while [[ "$1" == -* ]]; do
 	case "$1" in
 		(-c|--config)			config="$2"

@@ -258,8 +258,9 @@ function compact_dir {
 
 # --------------------------- START EXECUTION HERE --------------------------- #
 
-# Check for options.
 unset bzip2_only force gzip_only recompress recursive
+
+# Check for options.
 while [[ "$1" == -* ]]; do
 	case "$1" in
 		(-b|--bz2|--bzip2)	bzip2_only=yes ;;

@@ -1,5 +1,3 @@
-* Change manual page file suffixes to .man, let Makefile allocate .1, .5 etc.
-
 * Restoring scripts from prometheus 0.1.
 
 * x86stepping: Support 2.6 kernels.
