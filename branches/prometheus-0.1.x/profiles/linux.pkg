@@ -10,6 +10,7 @@ patches=(
 	"http://www.plumlocosoft.com/kernel/patches/2.4/${version}/${version}-lck1/patch-${version}-lck1.bz2"
 	"ftp://sources.redhat.com/pub/dm/patches/2.4-stable/2.4.26/linux-2.4.26-rc1-devmapper-ioctl.patch"
 	"linux-2.4.22-VFS-lock.patch" # Found in the lvm-devicemapper tarball
+	"http://www.13thfloor.at/patches/patch-${version}-bme0.05.diff.bz2"
 	# IPSEC patches
         #"http://www.openswan.org/code/openswan-2.1.4.kern.patch.gz"
 	#"http://www.openswan.org/code/openswan-2.1.4.natt.patch.gz"

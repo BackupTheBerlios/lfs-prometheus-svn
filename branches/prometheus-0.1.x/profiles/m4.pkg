@@ -1,9 +1,9 @@
 name="m4"
-version="1.4.1"
+version="1.4.2"
 homepage="http://www.gnu.org/software/m4/"
 
 archives=(
-	"ftp://ftp.cs.tu-berlin.de/pub/gnu/m4/m4-${version}.tar.gz"
+	"ftp://alpha.gnu.org/gnu/bison/m4-${version}.tar.gz"
 )
 
 function build_pkg {

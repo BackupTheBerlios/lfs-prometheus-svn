@@ -1,3 +1,11 @@
+2004-08-22 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/m4.pkg: Upgraded to m4 1.4.2
+	* profiles/cdrtools.pkg: Upgraded to cdrtools 2.01a37 and added
+	  patches for DVD support
+	* profiles/xcdroast.pkg: Added patch for DVD support
+	* profiles/linux.pkg: Added mound --bind extensions patch
+
 2004-08-20 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/libmng.pkg: Upgraded to libmng 1.0.8

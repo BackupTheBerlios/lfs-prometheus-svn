@@ -6,6 +6,10 @@ archives=(
 	"http://prdownloads.sourceforge.net/xcdroast/xcdroast-${version}.tar.gz"
 )
 
+patches=(
+	"http://people.mandrakesoft.com/~warly/files/cdrtools/archives/xcdroast-${version}-dvd.patch.bz2"
+)
+
 dep="gtk2 libungif zlib libpng cdrtools"
 
 function build_pkg {

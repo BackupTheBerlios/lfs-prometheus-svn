@@ -1,9 +1,21 @@
 name=cdrtools
-version="2.00.3"
+version="2.01a37"
 homepage="http://www.fokus.fhg.de/research/cc/glone/employees/joerg.schilling/private/cdrecord.html"
 
 archives=(
 	"ftp://ftp.berlios.de/pub/cdrecord/cdrtools-${version}.tar.gz"
+)
+
+patches=(
+	"http://people.mandrakesoft.com/~warly/files/cdrtools/archives/cdrtools-2.01a27-o_excl.patch.bz2"
+	"http://people.mandrakesoft.com/~warly/files/cdrtools/archives/cdrtools-2.01a32-dvd.patch.bz2"
+)
+
+patch_cmds=(
+	# As the o_excl patch is for an earlier version of cdrtools, the
+	# version string in the patch is wrong. Fixing this on the fly.
+	"sed 's/scsi-linux-sg.c-1.80/scsi-linux-sg.c-1.83-mdk/' | patch -Np1"
+	""
 )
 
 function build_pkg {
