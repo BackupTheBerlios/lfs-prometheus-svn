@@ -61,10 +61,10 @@ while [[ "$1" == -* ]]; do
 
 		(-h|-\?|--help)			usage ;;
 
-		(-s|--stage)			stage="$2"
+		(-s|--stage)			set_stage "$2"
 						shift ;;
 
-		(--stage=*)			stage="${1#--stage=}" ;;
+		(--stage=*)			set_stage "${1#--stage=}" ;;
 
 		(-v|--version)			version ;;
 
