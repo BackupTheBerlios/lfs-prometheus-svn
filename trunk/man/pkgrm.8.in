@@ -58,7 +58,7 @@ directive in
 .BR prometheus.conf "(5).  Any previous backups will be overwritten.  The
 backup will be a
 .BR bzip2 "(1)-compressed tarball named after the short name of the package
-and the string .bak.tar.bz2 appended, e.g. `bash.bak.tar.bz2'.
+and the string .pkg.tar.bz2 appended, e.g. `bash.pkg.tar.bz2'.
 .RE
 
 .BR -h ", " -? ", " --help

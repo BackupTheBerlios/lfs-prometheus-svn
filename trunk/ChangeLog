@@ -1,6 +1,8 @@
 2004-12-05 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* scripts/pkgrm.in: Optimized removal of empty directories.
+	* scripts/pkgrm.in: Changed backup file extension to "pkg.tar.bz2"
+	instead of "bak.tar.bz2".
 
 2004-11-16 Gareth Jones <gareth_jones@users.berlios.de>
 
