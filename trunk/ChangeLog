@@ -10,6 +10,8 @@
 	  tyly_stderr, logfile.txt, tyly_log, tyln_stdout, tyln_stderr,
 	  tnly_stdout, tnly_stderr, tnly_log, tnln_stdout & tnln_stderr.
 
+	* testsuite/README: Added more detail.
+
 2004-09-16 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* scripts/libprometheus.bash.in (logged_failure): Added logging &
