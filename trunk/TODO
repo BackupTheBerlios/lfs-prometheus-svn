@@ -1,5 +1,3 @@
-* Simplify logging - logging wrapper function.
-
 * Change manual page file suffixes to .man, let Makefile allocate .1, .5 etc.
 
 * Build logging handled in pkgadd.  If file, run tail if error.  Remove `no' as

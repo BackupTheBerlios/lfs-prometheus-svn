@@ -15,6 +15,11 @@
 	* src/libprometheus.bash.in (override_var): Fixed quoting buglet.
 	* src/libprometheus.bash.in (override_array): Fixed quoting buglet.
 
+	* src/libprometheus.bash.in (setup_logging): Set $logfile to /dev/null
+	  if both logging & terminal output disabled.
+	* src/libprometheus.bash.in (log): Added.
+	* src/pkgunpack.in (apply_patches): Added logging to patch command.
+
 2004-07-29 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* src/libprometheus.bash.in (add_profile): Call error instead of
