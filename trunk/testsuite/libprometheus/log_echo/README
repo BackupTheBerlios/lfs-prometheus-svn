@@ -1,0 +1,27 @@
+The `log_echo' test names follow the scheme `t<x>l<y>_<test>'.
+
+The `t<x>' component is determined by the value of the $terminal_output
+variable.  <x> is `y' or `n' for $terminal_output `yes' & `no' respectively.
+
+The `l<y>' component is determined by the value of the $logfile variable. <y> is
+`y' or `n' for $logfile set to a file or unset respectively.
+
+<test> indicates what is actually being tested given the above parameters, one
+of `log' (contents of log file), `stdout' (text echoed to stdout), or `stderr'
+(text echoed to stderr).
+
+TODO
+
+tyly_stdout
+tyly_stderr
+tyly_log
+
+tyln_stdout
+tyln_stderr
+
+tnly_stdout
+tnly_stderr
+tnly_log
+
+tnln_stdout
+tnln_stderr

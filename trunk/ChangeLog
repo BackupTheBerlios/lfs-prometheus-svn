@@ -1,3 +1,9 @@
+2004-09-18 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* scripts/libprometheus.bash.in: Re-ordered logging functions.
+
+	* testsuite/libprometheus/log_echo: Added README & tyly_stdout.
+
 2004-09-16 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* scripts/libprometheus.bash.in (logged_failure): Added logging &
