@@ -1,14 +1,18 @@
+2004-10-25 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/cyrus-sasl.pkg: Upgrade to latest version.
+
 2004-10-24 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/util-linux.pkg: Added the sfdisk-1 patch as it still appears
-	  to be needed
+	  to be needed.
 
 2004-10-23 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/*: Updated automake, atk, libtiff, zlib, cyrus-sasl,
 	  man-pages, glib2, libungif, findutils, gtk2, man, gaim and
 	  util-linux.
-	* profiles/*: Replaced XFree86 with X.org
+	* profiles/*: Replaced XFree86 with X.org.
 
 2004-09-19 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
