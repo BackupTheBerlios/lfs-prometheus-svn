@@ -48,7 +48,9 @@ TESTS = finish/success \
 	setup_logging/tnlu \
 	setup_logging/tulf \
 	setup_logging/tuln \
-	setup_logging/tulu
+	setup_logging/tulu \
+	log/tnlycf_status \
+	log/tnlycf_stdout
 
 LOGS = $(addsuffix .log, $(TESTS))
 
