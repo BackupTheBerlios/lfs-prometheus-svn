@@ -22,8 +22,8 @@
 unset archives archive_dirs builddir cc cflags check config cxx cxxflags deps
 unset directory failures homepage install_as_root install_log_rc lc_all ldflags
 unset leavefiles linguas logdir logfile log_install log_target name name_ver
-unset optimize package package_list patches patch_cmds profile profiles
-unset profile_list srcdir stage terminal_output timestamp version version_table
+unset optimize package patches patch_cmds profile profiles srcdir stage
+unset terminal_output timestamp version version_table
 unset ${!stage0*} ${!stage1*}
 
 # Location of configuration file.  Scripts may redefine this value in response
@@ -291,17 +291,20 @@ function source_config {
 
 # ----------------------------- PROFILE HANDLING ----------------------------- #
 
-# Usage: source_profile <profile>
-# Source <profile>.  Set global variables $package, $profile, $name & $name_ver
-# accordingly.
+# Usage: source_profile <package>
+# Source <package>'s profile.  Set global variables $package, $profile, $name &
+# $name_ver accordingly.
 function source_profile {
 	if (( $# != 1 )) || [[ -z "$1" ]]; then
-		usage_error "source_profile" "<profile>" "$*"
+		usage_error "source_profile" "<package>" "$*"
 	fi
 
-	profile="$1"
-	package="${profile##*/}"
-	package="${package%.pkg}"
+	package="$1"
+
+	# First search for profile in current working directory, then try
+	# profile directory.
+	profile="$1.pkg"
+	[[ -f "$profile" ]] || profile="$profiles/$profile"
 
 	source_file "$profile" "$package package profile"
 
@@ -309,83 +312,6 @@ function source_profile {
 	[[ -z "$name" ]] && name="$package"
 	name_ver="$name${version:+ $version}"
 }
-
-# Usage: add_profile <profile>
-# If <profile> exists & is readable, add it to $profile_list.  Add the package
-# name to $package_list.  Otherwise warn.
-function add_profile {
-	if (( $# != 1 )) || [[ -z "$1" ]]; then
-		usage_error "add_profile" "<profile>" "$*"
-	fi
-
-	# Get name of package.
-	local profile_basename="${1##*/}"
-	profile_basename="${profile_basename%.pkg}"
-
-	# Check exists.
-	if [[ -f "$1" && -r "$1" ]]; then
-
-		# Add to end of $profile_list.
-		profile_list[${#profile_list[@]}]="$1"
-		package_list[${#package_list[@]}]="$profile_basename"
-	else
-		error "$1 package profile not found"
-		return 1
-	fi
-}
-
-# Usage: find_profiles <package_list>
-# Fill $profile_list array with paths to profiles representing packages in
-# <package_list>.  <package_list> has the form:
-# -f, --profile <profile> ...	Specify files containing package profiles.
-# -p, --package <package> ...	Specify packages by name (default).
-# --				Treat remaining arguments as packages/profiles.
-# <profile>s are simply added to $profile_list; <packages> are added as
-# <package>.pkg in the profiles directory.
-function find_profiles {
-	(( $# == 0 )) && usage_error "find_profiles" "<package_list>"
-
-	# $mode is `p' for packages (default) & `f' for profiles.
-	local mode=p
-
-	# Loop while arguments present.
-	while [[ -n "$*" ]]; do
-		case "$1" in
-			(-f|--profile)	mode=f ;; # Following args profiles.
-
-			(-p|--package)	mode=p ;; # Following args packages.
-
-			(--)		shift	  # Stop processing options.
-					break ;;
-
-			(-*)	script_usage_err "invalid option: $1" ;;
-
-			(*)	if [[ $mode == f ]]; then
-					# $1 is profile.
-					add_profile "$1"
-				else
-					# $1 is package.
-					add_profile "$profiles/$1.pkg"
-				fi
-		esac
-		shift
-	done
-
-	# If `--' was caught, may still be arguments to process.
-	while [[ -n "$*" ]]; do
-		if [[ $mode == f ]]; then
-			add_profile "$1"
-		else
-			add_profile "$profiles/$1.pkg"
-		fi
-		shift
-	done
-
-	# Check we have some profiles.
-	[[ -z "${profile_list[*]}" ]] && error "no profiles found"
-}
-
-# ------------------------ ADVANCED PROFILE HANDLING ------------------------- #
 
 # Usage: is_set <variable name>
 # Return true if <variable name> denotes an initialised variable, even if its
@@ -557,12 +483,12 @@ function prepare_build_env {
 	is_set lfs_builddir && export builddir="$lfs_builddir"
 }
 
-# Usage: open_package <profile>
+# Usage: open_package <package>
 # Source the package profile, apply any stage overrides & complete any missing
 # settings.  Then export required build flags to the environment.
 function open_package {
 	if (( $# != 1 )) || [[ -z "$1" ]]; then
-		usage_error "open_package" "<profile>" "$*"
+		usage_error "open_package" "<package>" "$*"
 	fi
 
 	source_profile "$1"

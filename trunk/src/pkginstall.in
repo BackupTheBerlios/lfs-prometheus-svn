@@ -28,12 +28,8 @@ function usage {
 Usage:
 ${0##*/} [<options>] <package_list>
 
-Install packages in the order given on the commandline.
-
-Package list:
--f, --profile <profile> ...	Specify files containing package profiles
--p, --package <package> ...	Specify packages by name (default)
---				Treat remaining arguments as packages/profiles
+Install packages from their build directories, in the order given on the
+commandline.
 
 Options (must precede package list):
 -b, --backup-installed		Backup and remove any existing installations
@@ -44,6 +40,7 @@ Options (must precede package list):
 -r, --remove-installed		Remove any existing installations
 -R, --remove-failed		Cleanup files from any failed installations
 -s, --stage <stage_number>	Specify stage 0, 1 or 2 (default = 2)
+--				Treat remaining arguments as packages
 
 -h, -?, --help			Show this help screen
 -v, --version			Show version information
@@ -59,8 +56,7 @@ function get_privileges {
 		echo "You must be root to install $name."
 		exec su -c "'$0' --config='$config' --stage=$stage \
 				 ${installed:+--$installed-installed} \
-				 ${failed:+--$failed-failed}
-				 --profile '$profile'"
+				 ${failed:+--$failed-failed} '$package'"
 	fi
 }
 
@@ -186,8 +182,6 @@ while [[ "$1" == -* ]]; do
 
 		(--config=*)			config="${1#--config=}" ;;
 
-		(-f|--profile|-p|--package)	break ;;
-
 		(-h|-\?|--help)			usage ;;
 
 		(-l|--leave-installed)		installed=leave ;;
@@ -215,22 +209,23 @@ while [[ "$1" == -* ]]; do
 	shift
 done
 
+# The remaining arguments should all be packages.
+(( $# == 0 )) && script_usage_err "no packages to install"
+
 source_config
-find_profiles "$@"
 
 # If there is more than one package, install each in its own instance.
-if (( ${#profile_list[@]} > 1 )); then
-	for profile in "${profile_list[@]}"; do
+if (( $# > 1 )); then
+	for package in "$@"; do
 		"$0" --config="$config" ${installed:+--$installed-installed} \
-		     ${failed:+--$failed-failed} --stage=$stage \
-		     --profile "$profile" ||
-		error "failed in $profile"
+		     ${failed:+--$failed-failed} --stage=$stage "$package" ||
+		error "installation of $package failed"
 	done
 	finish
 fi
 
 # There is only one package to install.  Do so in this instance.
-open_package "${profile_list[0]}"
+open_package "$1"
 
 # Check we know how to install package.
 if is_func install_pkg; then

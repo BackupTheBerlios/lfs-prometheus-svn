@@ -1,3 +1,17 @@
+2004-08-03 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* src/libprometheus.bash.in (source_profile, open_package): Takes
+	  package as argument instead of profile.  Searches current working
+	  directory before profile directory.
+	* src/libprometheus.bash.in: Removed find_profiles, add_profiles,
+	  $profile_list & $package_list.
+	* src/pkgget.in: Updated profile handling.
+	* src/pkgunpack.in: Updated profile handling.
+	* src/pkgbuild.in: Updated profile handling.
+	* src/pkgcheck.in: Updated profile handling.
+	* src/pkginstall.in: Updated profile handling.
+	* src/pkgadd.in: Updated profile handling.
+
 2004-08-02 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* src/libprometheus.bash.in (add_profile): Fixed bug & added

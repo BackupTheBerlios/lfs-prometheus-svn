@@ -31,14 +31,10 @@ ${0##*/} [<options>] <package_list>
 Check that the archives and patches required to build and install each package
 are present on the system, and download any that are not.
 
-Package list:
--f, --profile <profile> ...	Specify files containing package profiles
--p, --package <package> ...	Specify packages by name (default)
---				Treat remaining arguments as packages/profiles
-
 Options (must precede package list):
 -c, --config <config_file>	Specify alternative configuration file
 -l, --list			List download locations but do not download
+--				Treat remaining arguments as packages
 
 -h, -?, --help			Show this help screen
 -v, --version			Show version information
@@ -162,8 +158,6 @@ while [[ "$1" == -* ]]; do
 
 		(--config=*)			config="${1#--config=}" ;;
 
-		(-f|--profile|-p|--package)	break ;;
-
 		(-h|-\?|--help)			usage ;;
 
 		(-l|--list)			listonly=yes ;;
@@ -178,13 +172,15 @@ while [[ "$1" == -* ]]; do
 	shift
 done
 
+# The remaining arguments should all be packages.
+(( $# == 0 )) && script_usage_err "no packages to get"
+
 source_config
-find_profiles "$@"
 
 if [[ "$listonly" == yes ]]; then
-	list_downloads "${profile_list[@]}"
+	list_downloads "$@"
 else
-	list_downloads "${profile_list[@]}" | wget --input-file=- ||
+	list_downloads "$@" | wget --input-file=- ||
 	error "download failed"
 fi
 

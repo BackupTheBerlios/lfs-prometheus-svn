@@ -31,14 +31,10 @@ ${0##*/} [<options>] <package_list>
 For each package on the command line, extract the source code from its source
 archives and apply the relevent patches.
 
-Package list:
--f, --profile <profile> ...	Specify files containing package profiles
--p, --package <package> ...	Specify packages by name (default)
---				Treat remaining arguments as packages/profiles
-
 Options (must precede package list):
 -c, --config <config_file>	Specify alternative configuration file
 -s, --stage <stage_number>	Specify stage 0, 1 or 2 (default = 2)
+--				Treat remaining arguments as packages
 
 -h, -?, --help			Show this help screen
 -v, --version			Show version information
@@ -108,8 +104,6 @@ while [[ "$1" == -* ]]; do
 
 		(--config=*)			config="${1#--config=}" ;;
 
-		(-f|--profile|-p|--package)	break ;;
-
 		(-h|-\?|--help)			usage ;;
 
 		(-s|--stage)			set_stage "$2"
@@ -127,20 +121,22 @@ while [[ "$1" == -* ]]; do
 	shift
 done
 
+# The remaining arguments should all be packages.
+(( $# == 0 )) && script_usage_err "no packages to unpack"
+
 source_config
-find_profiles "$@"
 
 # If there is more than one package, unpack each in its own instance.
-if (( ${#profile_list[@]} > 1 )); then
-	for profile in "${profile_list[@]}"; do
-		"$0" --config="$config" --stage=$stage --profile "$profile" ||
-		error "failed in $profile"
+if (( $# > 1 )); then
+	for package in "$@"; do
+		"$0" --config="$config" --stage=$stage "$package" ||
+		error "failed to unpack $package"
 	done
 	finish
 fi
 
 # There is only one package to unpack.  Do so in this instance.
-open_package "${profile_list[0]}"
+open_package "$1"
 
 unpack_archives &&
 apply_patches
