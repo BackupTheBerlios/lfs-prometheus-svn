@@ -23,11 +23,6 @@ tylycf_status
 tylycf_stderr
 tylycf_stdout
 
-tylycp_log
-tylycp_status
-tylycp_stderr
-tylycp_stdout
-
 tylncf_status
 tylncf_stderr
 tylncf_stdout

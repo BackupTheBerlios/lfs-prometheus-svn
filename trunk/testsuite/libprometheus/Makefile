@@ -49,6 +49,10 @@ TESTS = finish/success \
 	setup_logging/tulf \
 	setup_logging/tuln \
 	setup_logging/tulu \
+	log/tylycp_status \
+	log/tylycp_stdout \
+	log/tylycp_stderr \
+	log/tylycp_log \
 	log/tnlycp_status \
 	log/tnlycp_stdout \
 	log/tnlycp_stderr \
