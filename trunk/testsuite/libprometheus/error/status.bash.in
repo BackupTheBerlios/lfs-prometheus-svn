@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/bash -x
 
 # Prometheus package management tool set
 # Copyright (C) 2003-2004 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
@@ -21,7 +21,7 @@
 # Test that the `error' function causes immediate failure.
 
 source "%LIBPROMETHEUS%" || exit 1
-error "this is an error" &> /dev/null
+error "this is an error"
 
 # We should never get here.
 exit 0

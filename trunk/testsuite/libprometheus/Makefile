@@ -51,4 +51,5 @@ check: all
 		"script usage error reporting"
 
 clean:
+	# FIXME: */output.txt, */*.log.
 	rm $(TESTS)

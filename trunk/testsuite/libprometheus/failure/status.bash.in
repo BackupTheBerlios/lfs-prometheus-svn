@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/bash -x
 
 # Prometheus package management tool set
 # Copyright (C) 2003-2004 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
@@ -21,5 +21,5 @@
 # Test that the `failure' function affects exit status.
 
 source "%LIBPROMETHEUS%" || exit 1
-failure "this is a failure" &> /dev/null
+failure "this is a failure"
 finish

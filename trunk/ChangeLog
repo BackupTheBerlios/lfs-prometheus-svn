@@ -6,6 +6,7 @@
 
 	* testsuite/runtest: Added.
 	* testsuite/runtest: Fixed to run in tests' own directories.
+	* testsuite/runtest: Added logging.
 
 	* testsuite/libprometheus/Makefile: Added.
 	* testsuite/libprometheus/finish/success.bash.in: Added.

@@ -19,19 +19,12 @@
 # Place, Suite 330, Boston, MA  02111-1307  USA
 
 # Usage: runtest [!] <script> <message>
-# Run <script> in its directory.  If script exits successfully, output:
-#
-#	Testing <message>...					Passed
-#
-# otherwise output:
-#
-#	<message>...
-#	[<script> output]
-#
-#	<script>: <message> failed
-#
-# Return the exit value of script.  If `!' precedes <script>, reverse its exit
-# status.  This is used for tests that are supposed to fail.
+# Set the current working directory to the directory containing <script>, & run
+# <script>.  <script>'s stdout & stderr are redirected to a file in the same
+# directory with the same basename as <script> & suffix `.log'.  The log is
+# deleted if <script> exits successfully.  Return the exit value of script.  If
+# `!' precedes <script>, reverse its exit status.  This is used for tests that
+# are supposed to fail.
 
 # Should we expect failure?
 if [[ "$1" == "!" ]]; then
@@ -39,9 +32,10 @@ if [[ "$1" == "!" ]]; then
 	shift
 fi
 
-# Get script & directory.
+# Get script, directory & log.
 script="${1##*/}"
 directory="${1%/$script}"
+log="${script%bash}log"
 shift
 
 # Run script in its directory.
@@ -52,21 +46,22 @@ echo "Testing $message..."
 
 # Run the test.
 if [[ "$should_fail" == yes ]]; then
-	! "$script"
+	! "./$script" &> "$log"
 else
-	"$script"
+	"./$script" &> "$log"
 fi
 
 declare -i retval=$?
 
 if (( $retval == 0 )); then
 
-	# Add passed to end of line.
+	# Remove log & add passed to end of line.
+	rm "$log"
 	echo -e "\033[A\033[70GPassed"
 else
 	# Report failue to stderr.
-	echo >&2
 	echo "$directory/$script: $message failed" >&2
+	echo "see $directory/$log for details" >&2
 fi
 
 exit $retval
