@@ -23,8 +23,7 @@ unset archives archive_dirs builddir cc cflags check config cxx cxxflags deps
 unset directory failures homepage install_as_root install_log_rc lc_all ldflags
 unset leavefiles linguas logdir logfile log_install log_target name name_ver
 unset optimize package package_list patches patch_cmds profile profiles
-unset profile_list srcdir stage temp_files terminal_output timestamp version
-unset version_table
+unset profile_list srcdir stage terminal_output timestamp version version_table
 unset ${!stage0*} ${!stage1*}
 
 # Location of configuration file.  Scripts may redefine this value in response
@@ -43,7 +42,6 @@ declare -i stage=2
 # Usage: finish
 # Clean-up, exit & return number of failures.
 function finish {
-	remove_temp_files
 	exit $failures
 }
 
@@ -698,27 +696,4 @@ function location_of {
 	warning "could not find $base in $srcdir or $builddir"
 
 	echo "$location"
-}
-
-# ------------------------- TEMPORARY FILE HANDLING -------------------------- #
-
-# Usage: temp_file <file> [<file> ...]
-# Mark <file>s (which can be directories) for deletion by remove_temp_files.
-function temp_file {
-	(( $# == 0 )) && usage_error "temp_file" "<file> [<file> ...]"
-
-	# Add arguments to array of files to delete.
-	local file
-	for file in "$@"; do
-		temp_files[${#temp_files[@]}]="$file"
-	done
-}
-
-# Usage: remove_temp_files
-# Removes all files & directories marked for deletion by temp_file.
-function remove_temp_files {
-	if [[ -n "${temp_files[*]}" ]] && ! rm -r "${temp_files[@]}"; then
-		failure "cannot remove unneeded files:"
-		ls "${temp_files[@]}" >&2
-	fi
 }

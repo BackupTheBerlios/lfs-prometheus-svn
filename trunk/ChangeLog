@@ -8,6 +8,9 @@
 
 	* src/pkgadd.in: Skeleton written.
 
+	* src/libprometheus.bash.in: Removed $temp_files, temp_file &
+	  remove_tempfiles.
+
 2004-08-01 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* man/pkgunpack.1.in: Written.
