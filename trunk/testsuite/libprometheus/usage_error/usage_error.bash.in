@@ -18,7 +18,9 @@
 # this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 # Place, Suite 330, Boston, MA  02111-1307  USA
 
-# Test that the `warning' function doesn't affect exit status.
+# Check output of `usage_error'.
 
 source "%LIBPROMETHEUS%" || exit 1
-warning "this is a warning" &> /dev/null
+
+( usage_error "function" "<arg1> <arg2>" "arg" ) 2> output.txt
+exec diff stderr.txt output.txt

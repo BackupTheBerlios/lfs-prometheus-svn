@@ -12,6 +12,9 @@
 	* testsuite/libprometheus/terminated/terminated.bash.in: Added.
 	* testsuite/libprometheus/pipestat/*: Added.
 	* testsuite/libprometheus/warning/*: Added.
+	* testsuite/libprometheus/failure/*: Added.
+	* testsuite/libprometheus/error/*: Added.
+	* testsuite/libprometheus/usage_error/*: Added.
 
 2004-08-12 Gareth Jones <gareth_jones@users.berlios.de>
 

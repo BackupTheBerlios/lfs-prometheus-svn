@@ -20,7 +20,8 @@ include ../../Makefile.defs
 
 TESTS = finish/success.bash finish/failure.bash terminated/terminated.bash \
 	pipestat/success.bash pipestat/failure1.bash pipestat/failure2.bash \
-	pipestat/failure3.bash warning/status.bash
+	pipestat/failure3.bash warning/status.bash failure/status.bash \
+	error/status.bash usage_error/usage_error.bash
 
 PASS = ../runtest
 FAIL = ../runtest !
@@ -42,6 +43,9 @@ check: all
 	$(FAIL) pipestat/failure2.bash "pipeline, failure in middle"
 	$(FAIL) pipestat/failure3.bash "pipeline, failure at end"
 	$(PASS) warning/status.bash "exit status after warning"
+	$(FAIL) failure/status.bash "exit status after failure"
+	$(FAIL)	error/status.bash "exit status after error"
+	$(PASS) usage_error/usage_error.bash "function usage error reporting"
 
 clean:
 	rm $(TESTS)
