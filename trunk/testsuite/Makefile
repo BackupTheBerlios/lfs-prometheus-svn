@@ -22,6 +22,7 @@ include ../Makefile.defs
 
 all:
 	$(MAKE) -C libprometheus
+	chmod 0755 runtest
 
 check: all
 	$(MAKE) -C libprometheus check

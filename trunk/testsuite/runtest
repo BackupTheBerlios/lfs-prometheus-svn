@@ -1,3 +1,5 @@
+#! /bin/bash
+
 # Prometheus package management tool set
 # Copyright (C) 2003-2004 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 # Gareth Jones <gareth_jones@users.berlios.de>
@@ -16,20 +18,50 @@
 # this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 # Place, Suite 330, Boston, MA  02111-1307  USA
 
-include ../../Makefile.defs
+# Usage: runtest [!] <script> <message>
+# Run <script>.  If script exits successfully, output:
+#
+#	<message>...						Passed
+#
+# otherwise output:
+#
+#	<message>...
+#	[<script> output]
+#
+#	<script>: <message> failed
+#
+# Return the exit value of script.  If `!' precedes <script>, reverse its exit
+# status.  This is used for tests that are supposed to fail.
 
-TESTS = finish/success.bash
+# Get parameters.
+if [[ "$1" == "!" ]]; then
+	should_fail=yes
+	shift
+fi
 
-.PHONY: all check clean
+testscript="$1"
+shift
+message="$*"
 
-all: $(TESTS)
+echo "$message..."
 
-%: %.in
-	sed -e 's|%LIBPROMETHEUS%|$(LIBDIR)/$(LIB)|' $< > $@
-	chmod 0755 $@
+# Run the test.
+if [[ "$should_fail" == yes ]]; then
+	! "$testscript"
+else
+	"$testscript"
+fi
 
-check: all
-	../runtest finish/success.bash "Testing successful exit"
+declare -i retval=$?
 
-clean:
-	rm $(TESTS)
+if (( $retval == 0 )); then
+
+	# Add passed to end of line.
+	echo -e "\033[A\033[70GPassed"
+else
+	# Report failue to stderr.
+	echo >&2
+	echo "$testscript: $message failed" >&2
+fi
+
+exit $retval

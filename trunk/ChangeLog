@@ -7,6 +7,8 @@
 	* testsuite/libprometheus/Makefile: Added.
 	* testsuite/libprometheus/finish/success.bash.in: Added.
 
+	* testsuite/runtest: Added.
+
 2004-08-12 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* scripts/pkgunpack.in (unpack_archives): Make sure build directories
