@@ -5,6 +5,10 @@
 	* libprometheus, pkgadd.sh, pkgget.sh, pkginfo.sh, pkgrm.sh:
 	  Added GPL notice 
 
+	* profiles/libpng.pkg: Upgraded to libpng 1.2.6rc1 due to several
+	  vulnerabilities
+	* profiles/procmail.pkg: Updated installation instructions as per BLFS
+
 2004-07-31 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/bash.pkg: Upgraded to bash 3.0

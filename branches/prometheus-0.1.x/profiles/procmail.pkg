@@ -9,6 +9,6 @@ archives=(
 dep=postfix
 
 function install_pkg {
-	make BASENAME=/usr install &&
+	make LOCKINGTEST=/tmp install &&
 	make install-suid
 }

@@ -1,9 +1,9 @@
 name="libpng"
-version="1.2.5"
+version="1.2.6rc1"
 homepage="http://www.libpng.org/pub/png/libpng.html"
 
 archives=(
-	"http://cesnet.dl.sourceforge.net/sourceforge/png-mng/libpng-${version}.tar.bz2"
+	"ftp://swrinde.nde.swri.edu/pub/png/src/libpng-${version}.tar.bz2"
 )
 
 patches=(
