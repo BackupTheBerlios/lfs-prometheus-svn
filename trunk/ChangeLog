@@ -3,6 +3,8 @@
 	* testsuite/libprometheus/get_installed_version: Added vtab &
 	  get_installed_version.
 
+	* testsuite/libprometheus/choice: Added yes.
+
 2004-09-18 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* scripts/libprometheus.bash.in: Re-ordered logging functions.

@@ -97,7 +97,8 @@ TESTS = finish/success \
 	log/tnlncf_status \
 	log/tnlncf_stdout \
 	log/tnlncf_stderr \
-	get_installed_version/get_installed_version
+	get_installed_version/get_installed_version \
+	choice/yes
 
 LOGS = $(addsuffix .log, $(TESTS))
 
