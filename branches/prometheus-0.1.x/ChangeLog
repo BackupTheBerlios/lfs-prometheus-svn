@@ -1,3 +1,8 @@
+2004-12-11 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/mrxvt.pkg: Added mrxvt, a version of rxvt with support for
+	tabs and other eye candy, such as pseudo-transparancy.
+
 2004-12-05 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/libpng.pkg: Upgraded to libpng 1.2.8.

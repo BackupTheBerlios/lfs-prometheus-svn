@@ -1,0 +1,20 @@
+name=mrxvt
+version="0.3.10"
+homepage="http://materm.sf.net"
+
+archives=(
+	"http://mesh.dl.sourceforge.net/sourceforge/materm/mrxvt-${version}.tar.gz"
+)
+
+dep=x.org
+
+function build_pkg {
+	./configure --prefix=/usr --bindir=/usr/X11R6/bin --mandir=/usr/X11R6/man \
+		--enable-everything --disable-debug --disable-greek \
+		--disable-thai --disable-cjk &&
+	make
+}
+
+function install_pkg {
+	make install
+}
