@@ -1,4 +1,4 @@
-# Log output from `log' when $terminal_output=no, $log=output.log, & logged
+# Log output from `log' when $terminal_output=no, $logfile=output.log, & logged
 # command passes.
 
 _testing="libprometheus/log"

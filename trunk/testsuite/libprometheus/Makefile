@@ -56,7 +56,10 @@ TESTS = finish/success \
 	log/tnlycf_status \
 	log/tnlycf_stdout \
 	log/tnlycf_stderr \
-	log/tnlycf_log
+	log/tnlycf_log \
+	log/tnlncf_status \
+	log/tnlncf_stdout \
+	log/tnlncf_stderr
 
 LOGS = $(addsuffix .log, $(TESTS))
 

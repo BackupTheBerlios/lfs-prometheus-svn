@@ -18,10 +18,6 @@ The function used to test the logging code is in `output.bash'.
 
 TODO
 
-tnlncf_status
-tnlncf_stderr
-tnlncf_stdout
-
 tnlncp_status
 tnlncp_stderr
 tnlncp_stdout

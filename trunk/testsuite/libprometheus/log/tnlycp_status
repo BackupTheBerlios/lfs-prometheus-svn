@@ -1,5 +1,5 @@
-# Test exit status of `log' when $terminal_output=no, $log=output.log, & logged
-# command passes.
+# Test exit status of `log' when $terminal_output=no, $logfile=output.log, &
+# logged command passes.
 
 _testing="libprometheus/log"
 _description="status, no terminal + file, pass"
