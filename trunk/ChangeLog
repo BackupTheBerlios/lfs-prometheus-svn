@@ -1,3 +1,8 @@
+2004-07-30 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* src/libprometheus.bash.in (list_files):  Removed references to
+	  $stage2_{archives,patches}.
+
 2004-07-29 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* src/libprometheus.bash.in (add_profile): Call error instead of

@@ -486,9 +486,8 @@ function remove_compression_suffix {
 # Print list of files needed by current package, one file per line.
 function list_files {
 	for file in "${archives[@]}" "${stage0_archives[@]}" \
-		    "${stage1_archives[@]}" "${stage2_archives[@]}" \
-		    "${patches[@]}" "${stage0_patches[@]}" \
-		    "${stage1_patches[@]}" "${stage2_patches[@]}"; do
+		    "${stage1_archives[@]}" "${patches[@]}" \
+		    "${stage0_patches[@]}" "${stage1_patches[@]}"; do
 		echo "$file"
 	done | sort -u
 }
