@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/bash -x
 
 # Prometheus package management tool set
 # Copyright (C) 2003-2004 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
@@ -18,9 +18,10 @@
 # this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 # Place, Suite 330, Boston, MA  02111-1307  USA
 
-# Check stderr output of `usage_error'.
+# Test that the `usage_error' function causes immediate failure.
 
 source "%LIBPROMETHEUS%" || exit 1
+usage_error "function" "<arg1> <arg2>" "arg"
 
-( usage_error "function" "<arg1> <arg2>" "arg" ) 2> output.txt
-exec diff stderr.txt output.txt
+# We should never get here.
+exit 0

@@ -2,8 +2,12 @@
 
 	* testsuite/libprometheus/usage_error: Renamed usage_error.bash.in to
 	  stderr.bash.in.
+	* testsuite/libprometheus/usage_error: Added stdout.bash.in &
+	  status.bash.in.
 	* testsuite/libprometheus/script_usage_err: Renamed
 	  script_usage_err.bash.in to stderr.bash.in.
+	* testsuite/libprometheus/script_usage_err: Added stdout.bash.in &
+	  status.bash.in.
 
 2004-08-16 Gareth Jones <gareth_jones@users.berlios.de>
 
