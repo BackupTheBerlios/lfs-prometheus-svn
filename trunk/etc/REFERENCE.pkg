@@ -41,8 +41,7 @@ install_as_root=yes
 # cyclic dependencies, as this will result in an infinite loop during the
 # checks.  This may be resolved at a later date.  A dependency may occur more
 # than once, though.  Also, these checks are only available for builds on an
-# installed system, not during an LFS build.  FIXME: What does that last
-# sentence mean?
+# installed system, not during an LFS build.
 deps=(
 	pkg1
 	pkg2

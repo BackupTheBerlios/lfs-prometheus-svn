@@ -183,8 +183,7 @@ function add_profile {
 		# Add to end of $profile_list.
 		profile_list[${#profile_list[@]}]="$profile"
 	else
-		# FIXME: Probably should call error here?
-		failure "$profile package profile not found"
+		error "$profile package profile not found"
 		return 1
 	fi
 }

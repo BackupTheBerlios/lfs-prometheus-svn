@@ -1,3 +1,8 @@
+2004-07-29 Gareth Jones <moderob@lineone.net>
+
+	* src/libprometheus.bash.in (add_profile): Call error instead of
+	  failure if profile not found.
+
 2004-07-24 Gareth Jones <moderob@lineone.net>
 
 	* src/libprometheus.bash.in: Added setup_logging, called from
