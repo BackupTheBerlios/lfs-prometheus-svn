@@ -114,5 +114,6 @@ report it to the address below.
 .BR pkginfo (1),
 .BR pkginstall (8),
 .BR pkgrm (8),
+.BR pkgunpack (1),
 .BR prometheus.conf (5),
 .BR wget (1)

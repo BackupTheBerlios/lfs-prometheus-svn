@@ -1,0 +1,103 @@
+.TH PKGUNPACK 1 %RELEASE% "" "Linux User's Manual"
+
+.SH NAME
+
+pkgunpack \- Extract and patch source code from archives.
+
+.SH SYNOPSIS
+
+.BI "pkgunpack [ " options " ] " package_list
+
+.SH DESCRIPTION
+
+.B pkgunpack
+extracts the source code needed to build packages.  For each package, it
+extracts files from the package's source archives and applies required patches.
+Files are searched for in the source and build directories specified in
+.IR "%CONFIG%",
+and source code is unarchived in the build directory.
+
+.SH PACKAGE LIST
+
+Package profiles may be specified in two ways.  Any combination of the following
+options may be used.
+
+.BR -f ", " --profile
+.I profile
+.BR ...
+.RS
+Specify files containing package profiles.
+.RE
+
+.BR -p ", " --package
+.I package
+.BR ...
+.RS
+Specify packages by name.  Profiles will be searched for the profile directory
+specified in
+.IR "%CONFIG%".
+This is the default behaviour if neither option is used.
+.RE
+
+.BR --
+.RS
+Treat remaining arguments as packages or profiles, even if they begin with `-'.
+This effectively locks the package list into its current mode.
+.RE
+
+.SH OPTIONS
+
+These options must precede
+.IR "package_list".
+
+.BR -c ", " --config
+.I config_file
+.RS
+Specify alternative configuration file.
+.RE
+
+.BR -h ", " -? ", " --help
+.RS
+Display the help screen.
+.RE
+
+.BR -s ", " --stage
+.I stage_number
+.RS
+Specify the stage of a Linux From Scratch build.  Valid stage numbers are 0, 1
+or 2.  Stage 0 is building the initial toolchain; stage 1 is building the GNU C
+Library, rebuilding the toolchain, and building the remaining packages necessary
+to bootstrap an LFS system; stage 2 is building the final system.
+.RE
+
+.BR -v ", " --version
+.RS
+Display version information.
+.RE
+
+.SH FILES
+
+.I "%CONFDIR%/%CONFIG%"
+.RS
+The global prometheus configuration file.
+.RE
+
+.SH BUGS
+
+If you think you have found a bug or encounter any weird behaviour, please
+report it to the address below.
+
+.SH AUTHOR
+
+.RI "-- Gareth Jones <" gareth_jones@users.berlios.de >
+
+.SH SEE ALSO
+
+.BR pkgadd (8),
+.BR pkgbuild (1),
+.BR pkgcheck (1),
+.BR pkgget (1),
+.BR pkginfo (1),
+.BR pkginstall (8),
+.BR pkgrm (8),
+.BR prometheus.conf (5)

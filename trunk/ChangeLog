@@ -1,3 +1,9 @@
+2004-08-01 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* man/pkgunpack.1.in: Written.
+
+	* man/prometheus.conf.5.in: Ammended for new logging options.
+
 2004-07-31 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* src/libprometheus.bash.in (log): Much simplified, nicer output.

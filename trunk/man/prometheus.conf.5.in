@@ -48,29 +48,6 @@ The directory where packages should be unpacked and built, prior to
 installation.
 .RE
 
-.B log_build={file|no|screen}
-.RS
-Controls how the output from package builds is logged.
-
-.B file
-.RS
-Write a log to
-.IB "package_name".log
-in
-.IR "$builddir".
-.RE
-
-.B no
-.RS
-Do not log builds.  Build output is suppressed.
-.RE
-
-.B screen
-.RS
-Do not log builds.  Build output is shown on-screen.
-.RE
-.RE
-
 .SH PACKAGE PARAMETER DEFAULTS
 
 FIXME: Document minimum requirements.
@@ -91,12 +68,25 @@ For example, in stage 0, if set,
 overrides the value of
 .BR "optimize".
 
+.BI "logfile=" file
+.RS
+If set, commands used to build and install packages, and any output from these
+commands, will be logged in the specified file.
+.RE
+
+.B terminal_output={yes|no}
+.RS
+Controls whether output from commands used to build and install packages is
+shown on the terminal.  This option is orthogonal to
+.BR "logfile" .
+.RE
+
 .B log_install={yes|no}
 .RS
 Controls whether
 .BR install-log (1)
-is run to log the names of files installed by packages.  Logging is required if
-the ability to uninstall using
+is run to log the names of files installed by packages.  Install logging is
+required if the ability to uninstall using
 .BR pkgrm (8)
 is desired.
 .RE
@@ -162,4 +152,5 @@ environment variable to use when building.
 .BR pkgget (1),
 .BR pkginfo (1),
 .BR pkginstall (8),
-.BR pkgrm (8)
+.BR pkgrm (8),
+.BR pkgunpack (1)
