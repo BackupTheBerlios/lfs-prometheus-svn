@@ -57,7 +57,10 @@ function get_package_list {
 	[[ -z "$*" ]] && usage_error "get_package_list" "<package_list>"
 
 	# Only do dependency checking in stage 2.
-	(( stage < 2 )) && package_list=( "$@" )
+	if (( stage < 2 )); then
+		package_list=( "$@" )
+		return
+	fi
 
 	# Get array of dependencies for <package_list>.
 	get_dependencies "$@"

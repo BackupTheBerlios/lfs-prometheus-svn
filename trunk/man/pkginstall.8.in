@@ -118,7 +118,8 @@ later.
 .BR -R ", " --remove-failed
 .RS
 The failed installation is removed, leaving the system in the state it was in
-before the installation was attempted.
+before the installation was attempted.  If a previous installation was backed-up
+and removed prior to the failed installation, its files will be restored.
 .RE
 
 .SH FILES

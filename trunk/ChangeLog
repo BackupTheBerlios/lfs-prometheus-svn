@@ -1,3 +1,13 @@
+2004-08-05 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* scripts/pkgadd.in (get_package_list): Dependency checking is
+	  actually skipped if $stage < 2.
+
+	* man/pkginstall.8.in: Added note about restoring a backed-up package
+	  after a failed installation.
+
+	* man/pkgadd.8.in: Written.
+
 2004-08-04 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* scripts/pkgadd.in: Dependency checking implemented.
