@@ -20,12 +20,16 @@ include ../Makefile.defs
 
 .PHONY: all check clean
 
-all:
+all: runtest
 	$(MAKE) -C libprometheus
-	chmod 0755 runtest
+
+%: %.in
+	sed -e 's|%LIBPROMETHEUS%|$(LIBDIR)/$(LIB)|' $< > $@
+	chmod 0755 $@
 
 check: all
 	$(MAKE) -C libprometheus check
 
 clean:
 	$(MAKE) -C libprometheus clean
+	-rm runtest

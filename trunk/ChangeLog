@@ -9,6 +9,11 @@
 	* testsuite/libprometheus/script_usage_err: Added stdout.bash.in &
 	  status.bash.in.
 
+	* testsuite/runtest: Removed.
+	* testsuite/runtest.in: Added.
+	* testsuite/TEMPLATE: Added.
+	* testsuite/*: Updated for new script.
+
 2004-08-16 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* testsuite/libprometheus/Makefile: Made test descriptions more useful.

@@ -1,0 +1,11 @@
+# Test that the `warning' function doesn't affect exit status.
+
+_testing="libprometheus/warning"
+_description="exit status after warning"
+_expect=pass
+
+function _check {
+	source "$_lib" || exit 1
+	warning "this is a warning"
+	finish
+}

@@ -1,0 +1,77 @@
+#! /bin/bash
+
+# Prometheus package management tool set
+# Copyright (C) 2003-2004 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
+# Gareth Jones <gareth_jones@users.berlios.de>
+#
+# This program is free software; you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation; either version 2 of the License, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+# details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+# Place, Suite 330, Boston, MA  02111-1307  USA
+
+# Set $_lib to the location of libprometheus so that it may be sourced by tests
+# that check its functions.
+_lib="%LIBPROMETHEUS%"
+
+# Check arguments.
+if (( $# > 1 )) || [[ -z "$1" ]]; then
+	echo "Usage: $0 <test_description_file>" >&2
+	exit 1
+fi
+
+# Identify test description file & its directory.  Identify log file.
+_test="${1##*/}"
+_directory="${1%$_test}"
+_log="$_test.log"
+
+# Run test in its own directory.
+[[ -n "$_directory" ]] && if ! cd "$_directory"; then
+	echo "$0: cannot enter test directory $_directory" >&2
+	exit 1
+fi
+
+# Read test description.
+if ! source "$_test"; then
+	echo "$0: cannot source test description $_test" >&2
+	exit 1
+fi
+
+echo "Testing $_testing: $_description..."
+
+# Run test (in a subshell) & reverse its exit status if failure expected.  Log
+# any test output.
+case "$_expect" in
+	(pass)		( _check ) &> "$_log" ;;
+
+	(fail)		! ( _check ) &> "$_log" ;;
+
+	(*)		echo "$0: expect what?" >&2
+			exit 1
+esac
+
+# Catch test's exit status.
+declare -i retval=$?
+
+# Move cursor to column 75 of the previous line.
+echo -en "\033[A\033[75G"
+
+# Report exit status of test.
+if (( $retval == 0 )); then
+	echo "Passed"
+else
+	echo "FAILED"
+	echo "Exit status = $retval"
+	echo "See $_directory$_log for test output"
+fi
+
+# Preserve test's exit status.
+exit $retval

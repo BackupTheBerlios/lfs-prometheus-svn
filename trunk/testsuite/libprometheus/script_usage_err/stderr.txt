@@ -1,4 +1,4 @@
-stderr.bash: too many arguments
-stderr.bash: help text follows
+runtest: too many arguments
+runtest: help text follows
 
 Usage: script
