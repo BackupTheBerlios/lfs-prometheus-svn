@@ -1,3 +1,17 @@
+2004-08-15 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/leafnode.pkg: Upgraded to leafnode 1.10.4
+
+2004-08-14 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/bash.pkg: Went back to bash 2.05b, because bash 3.0
+	  breaks gcc 3.3.x's configure script
+	* profiles/readline.pkg: Went back to readline 4.3
+
+	* profiles/automake.pkg: Upgraded to automake 1.9.1
+	* profiles/procps.pkg: Upgraded to procps 3.2.3
+	* profiles/linux.pkg: Upgraded to kernel 2.4.27
+
 2004-08-08 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/gaim.pkg: Upgraded to gaim 0.81
