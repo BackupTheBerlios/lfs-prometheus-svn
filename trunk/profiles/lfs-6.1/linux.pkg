@@ -7,7 +7,7 @@ archives=(
 )
 
 patches=(
-	"http://www.acm.rpi.edu/~dilinger/patches/${version}/as1/patch-${version}-as1.gz"
+	"http://www.acm.rpi.edu/~dilinger/patches/${version}/as6/patch-${version}-as6.gz"
 	"http://www.13thfloor.at/patches/patch-2.6.4-bme0.04.diff.bz2"
 )
 

@@ -1,12 +1,12 @@
 name="bzip2"
-version="1.0.2"
+version="1.0.3"
 
 archives=(
 	"ftp://sources.redhat.com/pub/bzip2/v102/bzip2-1.0.2.tar.gz"
 )
 
 patches=(
-	"http://www.linuxfromscratch.org/patches/downloads/bzip2/bzip2-1.0.2-use_mktemp-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/bzip2/bzip2-1.0.3-use_mktemp-1.patch"
 )
 
 function stage1_install_pkg {

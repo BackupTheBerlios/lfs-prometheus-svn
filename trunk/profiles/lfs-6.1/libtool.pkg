@@ -1,5 +1,5 @@
 name="libtool"
-version="1.5.12"
+version="1.5.14"
 homepage="http://www.gnu.org/software/libtool/"
 
 archives=(

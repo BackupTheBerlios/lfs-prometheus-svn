@@ -1,5 +1,5 @@
 name="GNU automake"
-version="1.9.4"
+version="1.9.5"
 homepage="http://www.gnu.org/software/automake/"
 
 archives=(

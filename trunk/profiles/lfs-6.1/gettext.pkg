@@ -1,5 +1,5 @@
 name="gettext"
-version="0.14.1"
+version="0.14.2"
 homepage="http://www.gnu.org/software/gettext/"
 
 archives=(
@@ -7,7 +7,7 @@ archives=(
 )
 
 function stage1_build_pkg {
-	./configure --prefix=/tools --disable-libasprintf --disable-csharp
+	./configure --prefix=/tools --disable-libasprintf --without-csharp
 	make
 }
 

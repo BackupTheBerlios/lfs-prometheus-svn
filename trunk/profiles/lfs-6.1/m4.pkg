@@ -3,7 +3,7 @@ version="1.4.2"
 homepage="http://www.gnu.org/software/m4/"
 
 archives=(
-	"ftp://alpha.gnu.org/gnu/bison/m4-${version}.tar.gz"
+	"ftp://ftp.cs.tu-berlin.de/pub/gnu/m4/m4-${version}.tar.gz"
 )
 
 function stage1_build_pkg {

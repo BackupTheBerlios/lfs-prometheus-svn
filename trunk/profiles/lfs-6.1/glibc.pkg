@@ -21,7 +21,7 @@ function stage1_build_pkg {
 				 --disable-profile --with-binutils=/tools/bin \
 				 --with-headers=/tools/include --without-gd \
 				 --without-cvs --enable-kernel=2.6.0 \
-				 --disable-selinux
+				 --without-selinux
 	make
 }
 

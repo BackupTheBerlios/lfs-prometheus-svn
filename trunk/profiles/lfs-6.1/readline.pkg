@@ -12,14 +12,15 @@ patches=(
 )
 
 function build_pkg {
-	./configure --prefix=/usr
+	./configure --prefix=/usr --libdir=/lib
 	make SHLIB_XLDFLAGS=-lncurses
 }
 
 function install_pkg {
 	make install
-	chmod 755 /usr/lib/*.5.0
-	mv /usr/lib/lib{readline,history}.so.5* /lib
-	ln -sf ../../lib/libhistory.so.5 /usr/lib/libhistory.so
+	chmod 755 /lib/lib{readline,history}.so*
+	mv /lib/lib{readline,history}.a /usr/lib
+	rm /lib/lib{readline,history}.so
 	ln -sf ../../lib/libreadline.so.5 /usr/lib/libreadline.so
+	ln -sf ../../lib/libhistory.so.5 /usr/lib/libhistory.so
 }

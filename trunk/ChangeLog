@@ -1,3 +1,9 @@
+2005-02-27 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/*.pkg: Package and profile updates to the Linux kernel,
+	  findutils, udev, libtool, automake, m4, glibc, iana-etc, expect,
+	  file, readline, gettext, bzip2 and grub.
+
 2005-02-06 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/*.pkg: Added the remaining new packages since LFS 5.

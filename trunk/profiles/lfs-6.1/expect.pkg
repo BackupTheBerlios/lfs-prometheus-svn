@@ -1,5 +1,5 @@
 name="expect"
-version="5.42.1"
+version="5.43.0"
 homepage="http://expect.nist.gov/"
 
 archives=(
