@@ -1,5 +1,5 @@
 name="procps"
-version="3.2.2"
+version="3.2.3"
 homepage="http://procps.sourceforge.net"
 
 archives=(
@@ -12,5 +12,4 @@ function build_pkg {
 
 function install_pkg {
 	make install &&
-	rm /lib/libproc.so
 }
