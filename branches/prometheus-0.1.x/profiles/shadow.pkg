@@ -1,5 +1,5 @@
 name="Shadow password suite"
-version="4.0.4.1"
+version="4.0.6"
 
 archives=(
 	"ftp://ftp.pld.org.pl/software/shadow/shadow-${version}.tar.bz2"
@@ -19,19 +19,26 @@ function build_pkg {
 	cp man/Makefile.in{,.orig} &&
 	sed -e '/SUBDIRS =/d' man/Makefile.in.orig > man/Makefile.in &&
 
-	./configure --prefix=/usr --libdir=/usr/lib --enable-shared \
-		    --disable-nls &&
-	echo '#define HAVE_SETLOCALE 1' >> config.h &&
+	# 2004-10-23  Tomasz K³oczko  <kloczek@pld.org.pl>
+	#
+        # * lib/defines.h:
+        #  define syslog() depending on ENABLE_NLS (not on HAVE_SETLOCALE).
+
+	# So check whether logging still works with --disable-nls
+
+	./configure --libdir=/usr/lib --enable-shared --disable-nls &&
 	make
 }
 
 function install_pkg {
 	make install &&
 	cp etc/{limits,login.access} /etc &&
-	sed 's%/var/spool/mail%/var/mail%' etc/login.defs.linux > \
-	/etc/login.defs &&
-	ln -sf vipw /usr/sbin/vigr &&
-	mv /usr/lib/lib{shadow,misc}.so.0* /lib &&
+	sed -e's@#MD5_CRYPT_ENAB.no@MD5_CRYPT_ENAB yes@' \
+		-e 's@/var/spool/mail@/var/mail@' /etc/login.defs \
+		< etc/login.defs.linux > /etc/login.defs &&
+	mv /usr/bin/passwd /bin &&
+	mv /lib/libshadow.*a /usr/lib &&
+	rm /lib/libshadow.so &&
 	ln -sf ../../lib/libshadow.so.0 /usr/lib/libshadow.so &&
-	ln -sf ../../lib/libmisc.so.0 /usr/lib/libmisc.so
+	mkdir /etc/default
 }

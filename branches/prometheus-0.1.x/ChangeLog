@@ -1,3 +1,9 @@
+2004-12-14 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/shadow.pkg: Upgraded to shadow 4.0.6.
+	* profiles/findutils.pkg: Upgraded to findutils 4.2.10.
+	* profiles/util-linux.pkg: Upgraded to util-linux 2.12k.
+
 2004-12-11 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/mrxvt.pkg: Added mrxvt, a version of rxvt with support for
