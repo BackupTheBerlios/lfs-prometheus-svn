@@ -1,0 +1,31 @@
+name="expect"
+version="5.42.1"
+homepage="http://expect.nist.gov/"
+
+archives=(
+	"http://expect.nist.gov/expect.tar.gz"
+)
+
+patches=(
+	"http://www.lfs-matrix.de/patches/downloads/expect/expect-${version}-spawn-1.patch"
+)
+
+directory=expect
+
+function stage1_build_pkg {
+	./configure --prefix=/tools --with-tcl=/tools/lib --with-x=no
+	make
+}
+
+function stage1_build_pkg {
+	make SCRIPTS="" install
+}
+
+function build_pkg {
+	./configure --prefix=/usr --sysconfdir=/etc
+	make
+}
+
+function install_pkg {
+	make install
+}

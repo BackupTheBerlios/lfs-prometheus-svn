@@ -1,0 +1,14 @@
+name=hotplug
+version="2004_09_23"
+homepage="http://linux-hotplug.sourceforge.net/"
+
+archives=(
+	"http://www.kernel.org/pub/linux/utils/kernel/hotplug/hotplug-${version}.tar.bz2"
+)
+
+function install_pkg {
+	make install
+	rm -rf /etc/init.d
+	# rm -rd /etc/init.d/hotplug	# if DCIS is used
+	rm -rf /etc/hotplug/net.agent
+}
