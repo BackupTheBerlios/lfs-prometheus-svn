@@ -98,13 +98,13 @@ while [[ "$1" == -* ]]; do
 		(-c|--config)			config="$2"
 						shift ;;
 
+		(--config=*)			config="${1#--config=}" ;;
+
 		(-d|--download)			download=yes ;;
 
 		(-D|--dependencies)		add_deps=yes ;;
 
 		(-f|--leave-files)		leavefiles=yes ;;
-
-		(--config=*)			config="${1#--config=}" ;;
 
 		(-h|-\?|--help)			usage ;;
 

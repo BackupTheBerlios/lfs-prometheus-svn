@@ -572,7 +572,7 @@ function get_deps {
 	for package in "$@"; do
 
 		# Get immediate dependencies.
-		eval "deps=$(get_profile_array deps "$1")"
+		eval "deps=$(get_profile_array deps \"$1\")"
 
 		# Echo each dependency preceded by its own dependencies.
 		for dep in "${deps[@]}"; do
