@@ -14,9 +14,5 @@ of `log' (contents of log file), `stdout' (text echoed to stdout), or `stderr'
 
 TODO
 
-tnly_stdout
-tnly_stderr
-tnly_log
-
 tnln_stdout
 tnln_stderr
