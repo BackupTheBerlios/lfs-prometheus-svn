@@ -1,5 +1,5 @@
 name="LVM2 Utilities"
-version="2.00.22"
+version="2.00.32"
 homepage="http://sources.redhat.com/lvm2/"
 
 archives=(

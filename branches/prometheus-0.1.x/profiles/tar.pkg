@@ -1,5 +1,5 @@
 name="GNU tar"
-version="1.14"
+version="1.15.1"
 homepage="http://www.gnu.org/software/tar/"
 
 archives=(

@@ -8,22 +8,23 @@ archives=(
 )
 
 patches=(
-	"http://www.linuxfromscratch.org/patches/downloads/WindowMaker/Windowmaker-0.80.2-clip_captions-1.patch"
-	"http://www.linuxfromscratch.org/patches/downloads/WindowMaker/Windowmaker-0.80.2-newbuttons-1.patch"
-	"http://www.linuxfromscratch.org/patches/downloads/WindowMaker/WindowMaker-0.80.2-preference_directory-1.patch"
-	"http://www.linuxfromscratch.org/patches/downloads/WindowMaker/Windowmaker-0.80.2-translucency-1.patch"
-	"http://www.linuxfromscratch.org/patches/downloads/WindowMaker/Windowmaker-0.80.2-wmsetbg_workspace_number-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/WindowMaker/WindowMaker-${version}-clip_captions-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/WindowMaker/WindowMaker-${version}-newbuttons-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/WindowMaker/WindowMaker-${version}-preference_directory-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/WindowMaker/WindowMaker-${version}-translucency-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/WindowMaker/WindowMaker-${version}-wmsetbg_workspace_number-1.patch"
 )
 
 dep="Xorg zlib libpng libjpeg libungif libtiff"
 
 function build_pkg {
+	aclocal && automake
 	./configure --prefix=/usr/X11R6 --sysconfdir=/etc --datadir=/usr/share \
 		--with-appspath=/usr/share/WindowMaker --disable-static \
 		--disable-kde --with-nlsdir=/tmp/wm-nls &&
 	make &&
 
-	cd ../Windowmaker-extras* &&
+	cd ../WindowMaker-extra* &&
 	./configure --prefix=/usr &&
 	make
 }
@@ -32,6 +33,6 @@ function install_pkg {
 	make install &&
 	rm -r /tmp/wm-nls &&
 
-	cd ../Windowmaker-extras* &&
+	cd ../WindowMaker-extra* &&
 	make install
 }

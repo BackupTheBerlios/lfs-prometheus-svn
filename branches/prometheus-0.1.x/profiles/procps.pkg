@@ -11,5 +11,5 @@ function build_pkg {
 }
 
 function install_pkg {
-	make install &&
+	make install
 }

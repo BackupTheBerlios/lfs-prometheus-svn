@@ -18,6 +18,5 @@ function build_pkg {
 function install_pkg {
 	make MANDIR=/usr/share/man install &&
 
-	cp -r certs /etc/ssl &&
-	rmdir /etc/ssl/lib
+	cp -r certs /etc/ssl
 }

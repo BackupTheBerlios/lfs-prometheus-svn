@@ -1,9 +1,9 @@
 name="libtiff"
-version="3.7.0"
+version="3.7.1"
 homepage="http://www.libtiff.org"
 
 archives=(
-	"ftp://ftp.remotesensing.org/pub/libtiff/tiff-v${version}.tar.gz"
+	"ftp://ftp.remotesensing.org/pub/libtiff/tiff-${version}.tar.gz"
 )
 
 dep=libjpeg

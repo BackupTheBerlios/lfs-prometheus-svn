@@ -1,9 +1,9 @@
 name="gtk+"
-version="2.4.13"
+version="2.6.0"
 homepage="http://www.gtk.org"
 
 archives=(
-	"http://ftp.belnet.be/mirror/ftp.gnome.org/sources/gtk+/2.4/gtk+-${version}.tar.bz2"
+	"http://ftp.belnet.be/mirror/ftp.gnome.org/sources/gtk+/2.6/gtk+-${version}.tar.bz2"
 )
 
 patches=(

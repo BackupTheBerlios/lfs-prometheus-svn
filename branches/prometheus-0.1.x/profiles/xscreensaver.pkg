@@ -1,12 +1,12 @@
 name=xscreensaver
-version="4.16"
+version="4.19"
 homepage="http://www.jwz.org/xscreensaver/"
 
 archives=(
 	"http://www.jwz.org/xscreensaver/xscreensaver-${version}.tar.gz"
 )
 
-dep="gtk2 libxml2 libjpeg"
+dep="bc gtk2 libxml2 libjpeg"
 
 function build_pkg {
 	./configure --prefix=/usr/X11R6 --disable-nls &&

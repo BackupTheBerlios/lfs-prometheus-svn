@@ -6,7 +6,7 @@ archives=(
 )
 
 patches=(
-	"http://www.linuxfromscratch.org/patches/blfs/cvs/ash-${version}-cumulative_fixes-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/ash/ash-${version}-cumulative_fixes-1.patch"
 )
 
 function build_pkg {

@@ -1,13 +1,13 @@
 name="util-linux"
-version="2.12l"
+version="2.12p"
 
 archives=(
 	"ftp://ftp.win.tue.nl/pub/linux-local/utils/util-linux/util-linux-${version}.tar.gz"
 )
 
 patches=(
-	"http://www.linuxfromscratch.org/patches/downloads/util-linux/util-linux-${version}-make-1.patch"
-	"http://www.linuxfromscratch.org/patches/downloads/util-linux/util-linux-${version}-mount_move-1.patch"
+	"http://lfs-prometheus.berlios.de/patches/util-linux-${version}-make-1.patch"
+	"http://lfs-prometheus.berlios.de/patches/util-linux-${version}-mount_move-1.patch"
 )
 
 function build_pkg {

@@ -1,3 +1,41 @@
+2004-12-25 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/util-linux.pkg: Upgraded to util-linux 2.12p.
+	* profiles/xscreensaver.pkg: Upgraded to xscreensaver 4.19.
+	* profiles/libtiff.pkg: Upgraded to libtiff 3.7.1.
+	* profiles/when.pkg: Upgraded to when 1.0.11.
+	* profiles/elinks.pkg: Upgraded to elinks 0.10.0.
+	* profiles/man-pages.pkg: Upgraded to man-pages 2.01.
+	* profiles/tar.pkg: Upgraded to tar 1.15.1.
+	* profiles/ImageMagick.pkg: Upgraded to ImageMagick 6.1.7-3.
+	* profiles/lvm-utils.pkg: Upgraded to LVM 2.0.32.
+	* profiles/lvm-devicemapper: Fixed build instructions.
+	* profiles/gtk2.pkg: Upgraded to gtk+ 2.6.0.
+	* profiles/glib2.pkg: Upgraded to glib 2.6.0, fixed sed command.
+	* profiles/pango.pkg: Upgraded to pango 1.8.0.
+	* profiles/xfsprogs.pkg: Upgraded to xfsprogs 2.6.25.
+	* profiles/procps.pkg: Fixed a syntax error.
+	* profiles/automake.pkg: Upgraded to automake 1.9.4.
+	* profiles/perl.pkg: Upgraded to perl 5.8.6.
+	* profiles/cups.pkg: Upgraded to cups 1.1.22.
+	* profiles/gaim.pkg: Upgraded to gaim 1.1.0.
+	* profiles/windowmaker.pkg: Fixed patches.
+	* profiles/ash.pkg: Fixed patch location.
+	* profiles/libpng.pkg: Upgraded to libpng 1.2.7.
+	* profiles/gawk.pkg: Updated instructions as per LFS unstable.
+	* profiles/grep.pkg: Fixed patch locations.
+	* profiles/linux.pkg: Upgraded to kernel 2.4.28.
+	* profiles/shadow.pkg: Corrected build instructions.
+	* profiles/Xorg.pkg: Removed ApgGartDrivers from build, fixed build
+	  instructions.
+	* profiles/windowmaker.pkg: Fixed build instructions.
+	* profiles/xscreensaver.pkg: Added bc as dependency.
+	* profiles/openssl.pkg: Fixed build instructions.
+
+2004-12-16 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/util-linux.pkg: Upgraded to util-linux 2.12l.
+
 2004-12-14 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/shadow.pkg: Upgraded to shadow 4.0.6.
@@ -8,7 +46,7 @@
 2004-12-11 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/mrxvt.pkg: Added mrxvt, a version of rxvt with support for
-	tabs and other eye candy, such as pseudo-transparancy.
+	  tabs and other eye candy, such as pseudo-transparancy.
 
 2004-12-05 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 

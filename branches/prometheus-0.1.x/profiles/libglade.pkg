@@ -1,8 +1,8 @@
 name=libglade
-version="2.3.6"
+version="2.4.1"
 
 archives=(
-	"ftp://ftp.belnet.be/mirror/ftp.gnome.org/sources/libglade/2.3/libglade-${version}.tar.bz2"
+	"ftp://ftp.belnet.be/mirror/ftp.gnome.org/sources/libglade/2.4/libglade-${version}.tar.bz2"
 )
 
 dep="libxml2 gtk2"

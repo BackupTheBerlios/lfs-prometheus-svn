@@ -1,9 +1,9 @@
 name="glib2"
-version="2.4.7"
+version="2.6.0"
 homepage="http://www.gtk.org"
 
 archives=(
-	"http://ftp.belnet.be/mirror/ftp.gnome.org/sources/glib/2.4/glib-${version}.tar.bz2"
+	"http://ftp.belnet.be/mirror/ftp.gnome.org/sources/glib/2.6/glib-${version}.tar.bz2"
 )
 
 dep="pkgconfig"
@@ -11,7 +11,7 @@ dep="pkgconfig"
 function build_pkg {
 	# Get rid of the gettext dependency
 	cp configure{,.orig}
-	sed '/gettext.html/,/^fi/s/|{ (exit 1); exit 1; };||' \
+	sed '/gettext.html/,/^fi/s|{ (exit 1); exit 1; };||' \
 		configure.orig > configure
 
 	./configure --prefix=/usr &&

@@ -3,7 +3,7 @@ version="6.8.1"
 homepage="http://x.org"
 
 archives=(
-	"http://freedesktop.org/~xorg/X11R6.8.1/src-single/X11R6.8.1-src.tar.bz2"
+	"http://ftp.gwdg.de/pub/x11/x.org/pub/X11R${version}/src-single/X11R${version}-src.tar.bz2"
 )
 
 dep="zlib libpng expat freetype2 fontconfig"
@@ -54,7 +54,7 @@ function build_pkg {
                                 siliconmotion \
                                 vesa vga XF86OSCardDrivers XF86ExtraCardDrivers
 	*/
-	#define XF86CardDrivers	nv fbdev AgpGartDrivers vesa
+	#define XF86CardDrivers	nv fbdev vesa
 
 	/*
 	 * Select the XInput devices you want by uncommenting this.
@@ -90,10 +90,17 @@ function install_pkg {
 	ln -sf ../X11R6/lib/X11 /usr/lib/X11
 	ln -sf ../X11R6/include/X11 /usr/include/X11
 
+	cd ..
+	rm -rf xcbuild
+
 	cat <<-"EOF"
 	Don't forget to run the following commands to configure the X server:
 	$ cd
 	$ Xorg -configure
 	$ Xorg -xf86config ~/xorg.conf.new
+
+	Also, add /usr/X11R6/bin to your PATH, /usr/X11R6 to /etc/ld.so.conf
+	and /usr/X11R6/lib/pkgconfig to the PKG_CONFIG_PATH variable.
+	(yes, someday, this will be scripted)
 	EOF
 }

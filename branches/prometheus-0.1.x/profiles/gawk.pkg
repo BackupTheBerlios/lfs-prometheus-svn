@@ -7,7 +7,7 @@ archives=(
 )
 
 patches=(
-	"http://www.linuxfromscratch.org/patches/downloads/gawk/gawk-${version}-libexecdir-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/gawk/gawk-${version}-datadir-1.patch"
 )
 
 function stage1_build_pkg {
@@ -17,7 +17,7 @@ function stage1_build_pkg {
 }
 
 function build_pkg {
-	./configure --prefix=/usr --libexecdir=/usr/lib/gawk --disable-nls &&
+	./configure --prefix=/usr --libexecdir=/usr/lib --disable-nls &&
 	make
 	# make check
 }

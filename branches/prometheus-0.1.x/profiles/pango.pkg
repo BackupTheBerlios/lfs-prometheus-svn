@@ -1,9 +1,9 @@
 name="pango"
-version="1.6.0"
+version="1.8.0"
 homepage="http://www.pango.org"
 
 archives=(
-	"http://ftp.belnet.be/mirror/ftp.gnome.org/sources/pango/1.4/pango-${version}.tar.bz2"
+	"http://ftp.belnet.be/mirror/ftp.gnome.org/sources/pango/1.8/pango-${version}.tar.bz2"
 )
 
 dep="Xorg glib2 freetype2"

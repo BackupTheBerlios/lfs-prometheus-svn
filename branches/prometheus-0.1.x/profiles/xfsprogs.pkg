@@ -1,5 +1,5 @@
 name="xfsprogs"
-version="2.6.13"
+version="2.6.25"
 homepage="http://oss.sgi.com/projects/xfs/"
 
 archives=(
@@ -9,7 +9,8 @@ archives=(
 directory="xfsprogs-${version}"
 
 function build_pkg {
-	./configure --prefix=/usr --bindir=/bin --sbindir=/sbin --libdir=/lib &&
+	DEBUG=-DNDEBUG ./configure --prefix=/usr --bindir=/bin --sbindir=/sbin \
+		--libdir=/lib --disable-gettext &&
 	make
 }
 

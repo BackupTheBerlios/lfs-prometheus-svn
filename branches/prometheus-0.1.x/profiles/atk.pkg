@@ -3,7 +3,7 @@ version="1.8.0"
 homepage="http://developer.gnome.org/projects/gap/"
 
 archives=(
-	"http://ftp.belnet.be/mirror/ftp.gnome.org/sources/atk/1.6/atk-${version}.tar.bz2"
+	"http://ftp.belnet.be/mirror/ftp.gnome.org/sources/atk/1.8/atk-${version}.tar.bz2"
 )
 
 dep=glib2

@@ -26,7 +26,7 @@ function build_pkg {
 
 	# So check whether logging still works with --disable-nls
 
-	./configure --libdir=/usr/lib --enable-shared --disable-nls &&
+	./configure --libdir=/lib --enable-shared --disable-nls &&
 	make
 }
 
