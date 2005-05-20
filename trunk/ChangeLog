@@ -1,3 +1,12 @@
+2005-05-20 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* profiles/gareth: Added base_system.pkg, stage0.pkg, stage1.pkg &
+	  stage2.pkg.  Don't want to break lfs-6.1 profiles yet!
+
+	* TODO: Noted fakeroot.
+	* Makefile.defs: Consistancy fix (only spacing) & verion number
+	  updated.
+
 2005-04-02 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/lfs-6.1/syslog-ng.pkg,
@@ -8,8 +17,8 @@
 	* profiles/lfs-6.1/udev.pkg: Upgraded to udev 055.
 	* profiles/lfs-6.1/util-linux.pkg: Updated patches.
 	* profiles/lfs-6.1/bash.pkg: Updated patches.
-	* profiles/lfs-6.1/linux-libc-headers.pkg: Upgraded to linux-libc-headers
-	  2.6.11.2.
+	* profiles/lfs-6.1/linux-libc-headers.pkg: Upgraded to
+	  linux-libc-headers 2.6.11.2.
 	* profiles/lfs-6.1/glibc.pkg: Upgraded to glibc 2.3.4.
 	* profiles/lfs-6.1/m4.pkg: Upgraded to m4 1.4.3.
 	* profiles/lfs-6.1/flex.pkg: Updated patches.
@@ -29,7 +38,8 @@
 
 2005-03-10 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
-	* profiles/lfs-6.1/{binutils,gcc,glibc}.pkg: Finished toolchain profiles.
+	* profiles/lfs-6.1/{binutils,gcc,glibc}.pkg: Finished toolchain
+	  profiles.
 	* profiles/lfs-6.1/e2fsprofs.pkg: Fixed check_pkg instructions.
 
 2005-02-27 Oliver Brakmann <oliverbrakmann@users.berlios.de>
@@ -185,7 +195,7 @@
 	* man/pkgrm.8.in: Written.
 
 	* man/pkgadd.8.in, man/pkginstall.8.in: Changed man page header to
-          correclty reflect section 8 of the man pages.
+	  correctly reflect section 8 of the man pages.
 
 2004-08-17 Gareth Jones <gareth_jones@users.berlios.de>
 
