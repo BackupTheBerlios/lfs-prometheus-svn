@@ -1,8 +1,8 @@
 # This is the master profile for Linux From Scratch.
 
 name="Linux From Scratch"
-version="pure_lfs-1.0"
-homepage="http://linuxfromscratch.org/~greg/"
+version="6.1"
+homepage="http://linuxfromscratch.org/view/testing/"
 log_install=no
 
 # LFS specific configuration.
@@ -10,8 +10,7 @@ lfs="/mnt/lfs"		# Host location where the LFS system will be built.
 mount_lfs=yes		# Ensure $lfs is mounted.
 lfs_device="/dev/hda1"	# This must already exist & contain a filesystem.
 lfs_user="lfs"		# User to build stage 1 as.
-bind_proc=no		# Bind host /proc to $lfs/proc.
-bind_dev=no		# Bind host /dev to $lfs/dev.
+lfs_grp="lfs"		# Group the $lfs_user belongs to.
 bind_src=no		# Bind $srcdir to $lfs$srcdir.
 enable_devfs=yes	# Want devfs & host kernel supports it.
 lfs_builddir=/tools/build
@@ -24,6 +23,19 @@ lfs_srcdir=/tools/src	# Location for the source files for the LFS build.
 function install_pkg {
 
 	# Sanity checks.
+	local lv=$(uname -r)
+	lv=${lv%%-*}
+
+	if [[ "${lv%.*}" == "2.6" ]]; then
+		(( "${lv##*.} -lt 2 )) &&
+		error "$package: Minimum required kernel version to build LFS is 2.6.2."
+	else
+		error "$package: Minimum required kernel version to build LFS is 2.6.2."
+	fi
+
+	[[ $(sed 's/.*(gcc version \(.*\)).*/\1/' /proc/version) < 3 ]] &&
+		error "$package: Kernel needs to be compiled with gcc 3.0 or greater."
+
 	(( $(id -u) != 0 )) && error "$package: must be run as root"
 	[[ -z "$lfs" ]] && error "$package: lfs not set"
 	[[ -z "$lfs_user" ]] && error "$package: lfs_user not set"
@@ -50,12 +62,15 @@ function install_pkg {
 
 	echo "Preparing stage 0..."
 
-	# Add an lfs user if necessary.
+	# Add an lfs user and group if necessary.
+	if [[ "x$(grep ^${lfs_grp}: /etc/group | awk -F: '{print $1}')" \
+	      != "x${lfs_grp}" ]]; then
+		groupadd lfs ||
+		error "${package}: could not add group: $lfs_grp"
+	fi
 	if [[ "x$(grep ^${lfs_user}: /etc/passwd | awk -F: '{print $1}')" \
 	      != "x${lfs_user}" ]]; then
-		useradd -s /bin/bash -m "$lfs_user" &&
-		echo -e "Please enter a password for ${lfs_user}:\n" &&
-		passwd "$lfs_user" ||
+		useradd -s /bin/bash -m -k /dev/null -g lfs "$lfs_user" ||
 		error "${package}: could not add user: $lfs_user"
 	fi
 
@@ -98,25 +113,6 @@ function install_pkg {
 
 	echo "Preparing stage 2..."
 
-	# Make sure /proc & /dev are available in chroot.
-	local mount_proc=yes mount_dev="$enable_devfs"
-
-	if [[ "$bind_proc" == yes ]]; then
-		mount --bind /proc "$lfs/proc" ||
-		error "${package}: could not bind /proc to ${lfs}/proc"
-	elif [[ "$mount_proc" == yes ]]; then
-		mount -t proc proc "$lfs/proc" ||
-		error "${package}: could not mount proc filesystem on ${lfs}/proc"
-	fi
-
-	if [[ "$bind_dev" == yes ]]; then
-		mount --bind /dev "${lfs}/dev" ||
-		error "${package}: could not bind /dev to ${lfs}/dev"
-	elif [[ "$mount_dev" == yes ]]; then
-		mount -t devfs devfs "${lfs}/dev" ||
-		error "${package}: could not mount devfs on ${lfs}/dev"
-	fi
-
 	# Make sure package source is available in chroot.
 	if [[ "$bind_src" == yes ]]; then
 		mount --bind "$srcdir" "${lfs}${lfs_srcdir}" ||
@@ -127,11 +123,18 @@ function install_pkg {
 		error "${package}: could not copy packages to LFS system"
 	fi
 
+	mount -f -t ramfs ramfs ${lfs}/dev
+	mount -f -t tmpfs tmpfs ${lfs}/dev/shm
+	mount -f -t devpts -o gid=4,mode=620 devpts ${lfs}/dev/pts
+
 	# Build stage 2.
 	chroot "$lfs" /tools/bin/env -i HOME=/root TERM="$TERM" \
 		PATH="/usr/bin:/usr/sbin:/bin:/sbin:/tools/bin" \
 		stage=2 pkgadd --config /tools/etc/prometheus.conf stage2 ||
 	error "${package}: could not build stage 2"
+
+	find ${lfs}/{,usr/}{bin,lib,sbin} -type f \
+		-exec strip --strip-debug '{}' ';'
 
 	#FIXME: Cleaning up - kernel, bootloader, pwconv, config...
 
@@ -139,8 +142,11 @@ function install_pkg {
 		mount | grep "${lfs}${lfs_srcdir}" &> /dev/null &&
 		umount "${lfs}${lfs_srcdir}"
 	fi
-	mount | grep "${lfs}/dev" &> /dev/null && umount "${lfs}/dev"
-	mount | grep "${lfs}/proc" &> /dev/null && umount "${lfs}/proc"
+	grep "${lfs}/dev/shm" /proc/mounts &> /dev/null && umount "${lfs}/dev/shm"
+	grep "${lfs}/dev/pts" /proc/mounts &> /dev/null && umount "${lfs}/dev/pts"
+	grep "${lfs}/dev"  /proc/mounts &> /dev/null && umount "${lfs}/dev"
+	grep "${lfs}/sys"  /proc/mounts &> /dev/null && umount "${lfs}/sys"
+	grep "${lfs}/proc" /proc/mounts &> /dev/null && umount "${lfs}/proc"
 	
 	return 0
 }

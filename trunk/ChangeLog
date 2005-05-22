@@ -1,5 +1,8 @@
 2005-05-22 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
+	* profiles/lfs-6.1/*: Brought the remaining package profiles up to date
+	  wrt to LFS 6.1.
+
 	* profiles/lfs-6.1/linux.pkg: Upgraded to Linux 2.6.11.9.
 	* profiles/lfs-6.1/gzip.pkg: Added security fix.
 	* profiles/lfs-6.1/glibc.pkg: Added a patch that fixes test suite
@@ -14,7 +17,7 @@
 	  stage2.pkg.  Don't want to break lfs-6.1 profiles yet!
 
 	* TODO: Noted fakeroot.
-	* Makefile.defs: Consistancy fix (only spacing) & verion number
+	* Makefile.defs: Consistancy fix (only spacing) & version number
 	  updated.
 
 2005-04-02 Oliver Brakmann <oliverbrakmann@users.berlios.de>

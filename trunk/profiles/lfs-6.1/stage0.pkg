@@ -3,7 +3,7 @@
 # Stage 0 is the static build of binutils & gcc in /tools.
 
 name="Stage 0"
-version="pure_lfs-1.0"
+version="6.1"
 log_install=no
 
 # Packages to install in stage 0 (in order).

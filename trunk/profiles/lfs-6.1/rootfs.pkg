@@ -9,44 +9,26 @@ function install_pkg {
 	# Check $lfs is set.
 	[[ -z "$lfs" ]] && error "${package}: lfs not set"
 
-	local i
+	install -d ${lfs}/{bin,boot,dev,etc/opt,home,lib,mnt,proc}
+	install -d ${lfs}/{sbin,srv,sys,usr/local,var,opt}
+	install -d ${lfs}/root -m 0750
+	install -d ${lfs}/tmp /var/tmp -m 1777
+	install -d ${lfs}/media/{floppy,cdrom}
+	install -d ${lfs}/usr/{bin,include,lib,sbin,share,src}
+	ln -s share/{man,doc,info} ${lfs}/usr
+	install -d ${lfs}/usr/share/{doc,info,locale,man}
+	install -d ${lfs}/usr/share/{misc,terminfo,zoneinfo}
+	install -d ${lfs}/usr/share/man/man{1,2,3,4,5,6,7,8}
+	install -d ${lfs}/usr/local/{bin,etc,include,lib,sbin,share,src}
+	ln -s share/{man,doc,info} ${lfs}/usr/local
+	install -d ${lfs}/usr/local/share/{doc,info,locale,man}
+	install -d ${lfs}/usr/local/share/{misc,terminfo,zoneinfo}
+	install -d ${lfs}/usr/local/share/man/man{1,2,3,4,5,6,7,8}
+	install -d ${lfs}/var/{lock,log,mail,run,spool}
+	install -d ${lfs}/var/{opt,cache,lib/{misc,locate},local}
+	install -d ${lfs}/opt/{bin,doc,include,info}
+	install -d ${lfs}/opt/{lib,man/man{1,2,3,4,5,6,7,8}}
 
-	# /.
-	mkdir -p "${lfs}"/{bin,boot,dev,etc/opt,home,lib,mnt,opt,proc,root} &&
-	mkdir -p "${lfs}"/{sbin,tmp,usr/local,var} &&
-
-	# /usr & /usr/local.
-	for i in "${lfs}"/usr{,/local}; do
-		mkdir -p "${i}"/{bin,include,lib/locale,sbin} &&
-		mkdir "${i}"/{share,src} &&
-
-		ln -s share/{man,doc,info} "$i" &&
-
-		# /usr/share & /usr/local/share.
-		mkdir "${i}"/share/{dict,doc,games,info,locale,man,misc} &&
-		mkdir "${i}"/share/{terminfo,zoneinfo} &&
-
-		mkdir "${i}"/share/man/man{1,2,3,4,5,6,7,8,9}
-	done &&
-
-	# /var.
-	mkdir -p "${lfs}"/var/{cache,lib/misc,lock,log/install-logs,mail} &&
-	mkdir -p "${lfs}"/var/{opt,run,spool,tmp} &&
-	mkdir "${lfs}"/var/local &&
-
-	# Permissions.
-	chmod 0750 "${lfs}"/root &&
-	chmod 1777 "${lfs}"/{,var/}tmp &&
-
-	# Symbolic links.
-	ln -s ../var/tmp "${lfs}"/usr &&
-	ln -s ../var/lib/misc/mtab "${lfs}"/etc/mtab &&
-	ln -s bash "${lfs}"/bin/sh &&
-
-	# ... That will be overwritten later.
-	ln -s /tools/bin/perl "${lfs}"/usr/bin &&
-	ln -s /tools/bin/{bash,cat,pwd,stty} "${lfs}"/bin &&
-
-	# Files.
-	touch "${lfs}"/{etc/ld.so.conf,var/lib/misc/mtab}
+	mknod -m 600 ${lfs}/dev/console c 5 1
+	mknod -m 666 ${lfs}/dev/null c 1 3
 }

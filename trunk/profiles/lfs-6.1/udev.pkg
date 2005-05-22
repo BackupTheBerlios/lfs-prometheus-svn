@@ -23,5 +23,5 @@ function check_pkg {
 function install_pkg {
 	make udevdir=/dev install
 	cp 25-lfs.rules /etc/udev/rules.d/
-	# udevstart
+	/sbin/udevstart
 }

@@ -3,18 +3,68 @@
 # Stage 2 is the final build, a.k.a. Chapter 6.
 
 name="Stage 2"
-version="pure_lfs-1.0"
+version="6.1"
 log_install=no
 
 # Packages to install in stage 2 (in order).
-# FIXME: cracklib pam kgcc gettext gpm
 pkglist=(
-	users linux glibc binutils gcc install-log coreutils zlib mktemp
-	iana-etc findutils gawk ncurses vim m4 bison less groff sed flex
-	net-tools inetutils perl readline texinfo autoconf automake bash
-	file libtool bzip2 diffutils ed kbd e2fsprogs grep grub gzip man
-	make modutils patch procinfo procps psmisc shadow sysklogd sysvinit
-	tar util-linux man-pages devfsd dcis prometheus
+	users
+	linux-libc-headers
+	man-pages
+	glibc
+	binutils
+	gcc
+	install-log
+	coreutils
+	zlib
+	mktemp
+	iana-etc
+	findutils
+	gawk
+	ncurses
+	readline
+	vim
+	m4
+	bison
+	less
+	groff
+	sed
+	flex
+	gettext
+	inetutils
+	iproute2
+#	net-tools
+	perl
+	texinfo
+	autoconf
+	automake
+	bash
+	file
+	libtool
+	bzip2
+	diffutils
+#	ed
+	kbd
+	e2fsprogs
+	grep
+	grub
+	gzip
+	hotplug
+	man
+	make
+	module-init-tools
+	patch
+#	procinfo
+	procps
+	psmisc
+	shadow
+	sysklogd
+	sysvinit
+	tar
+	udev
+	util-linux
+	lfs-bootscripts
+	prometheus
 )
 
 directory="/tools"
@@ -32,6 +82,40 @@ function install_pkg {
 		EXCLUDE=/lib/modules:/usr/src:/usr/local/src:/usr/etc:/usr/share/info/dir:/usr/share/man/whatis
 		LOGDIR=/var/log/install-logs
 	EOF
+
+	mount -t proc proc $lfs/proc
+	mount -t sysfs sysfs $lfs/sys
+
+	chown -R 0:0 /
+
+	# Critical symlinks
+	ln -s /tools/bin/{bash,cat,pwd,stty} /bin
+	ln -s /tools/bin/perl /usr/bin
+	ln -s /tools/lib/libgcc_s.so{,.1} /usr/lib
+	ln -s bash /bin/sh
+
+	# Devices
+	mount -n -t ramfs ramfs /dev
+	mknod -m 622 /dev/console c 5 1
+	mknod -m 666 /dev/null c 1 3
+	mknod -m 666 /dev/zero c 1 5
+	mknod -m 666 /dev/ptmx c 5 2
+	mknod -m 666 /dev/tty c 5 0
+	mknod -m 444 /dev/random c 1 8
+	mknod -m 444 /dev/urandom c 1 9
+	chown 0:4 /dev/{console,ptmx,tty}
+
+	ln -s /proc/self/fd /dev/fd
+	ln -s /proc/self/fd/0 /dev/stdin
+	ln -s /proc/self/fd/1 /dev/stdout
+	ln -s /proc/self/fd/2 /dev/stderr
+	ln -s /proc/kcore /dev/core
+
+	mkdir /dev/pts
+	mkdir /dev/shm
+	mount -t devpts -o gid=4,mode=620 devpts /dev/pts
+	mount -t tmpfs tmpfs /dev/shm
+
 
 	# Install packages in pkglist.
 	local pkg

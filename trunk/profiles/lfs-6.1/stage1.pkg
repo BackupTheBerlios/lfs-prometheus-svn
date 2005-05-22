@@ -3,13 +3,40 @@
 # Stage 1 is the shared build in /tools.
 
 name="Stage 1"
-version="pure_lfs-1.0"
+version="6.1"
 log_install=no
 
 # Packages to install in stage 1 (in order).
 pkglist=(
-	linux glibc gcc binutils gawk coreutils bzip2 gzip diffutils findutils
-	make grep sed ncurses patch tar texinfo bash perl install-log prometheus
+	linux-libc-headers
+	glibc
+	tcl
+	expect
+	dejagnu
+	gcc
+	binutils
+	gawk
+	coreutils
+	bzip2
+	gzip	
+	diffutils
+	findutils
+	make
+	grep
+	sed
+	gettext
+	ncurses
+	patch
+	tar
+	texinfo
+	bash
+	m4
+	bison
+	flex
+	util-linux
+	perl
+	install-log
+	prometheus
 )
 
 directory="/tools"

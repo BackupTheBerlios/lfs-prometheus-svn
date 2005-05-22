@@ -28,7 +28,7 @@ function stage0_build_pkg {
 			       --with-local-prefix=/tools --disable-nls \
 			       --enable-languages=c --enable-shared
 
-	make BOOT_LDFLAGS="-static" bootstrap
+	make bootstrap
 }
 
 function stage0_install_pkg {

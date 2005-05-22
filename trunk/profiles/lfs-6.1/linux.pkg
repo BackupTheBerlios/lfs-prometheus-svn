@@ -10,7 +10,9 @@ patches=(
 	"http://www.13thfloor.at/patches/patch-2.6.11-rc4-bme0.06.diff"
 )
 
-archive_dirs="/usr/src"
+archive_dirs=(
+	"/usr/src"
+)
 
 leavefiles=yes
 

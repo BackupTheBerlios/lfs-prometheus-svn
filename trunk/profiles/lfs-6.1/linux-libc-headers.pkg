@@ -17,7 +17,3 @@ function stage2_install_pkg {
 	find /usr/include/{asm,linux} -type d -exec chmod 755 {} \;
 	find /usr/include/{asm,linux} -type f -exec chmod 644 {} \;
 }
-
-function build_pkg {
-	error "This package is not meant to be installed onto a already running system"
-}

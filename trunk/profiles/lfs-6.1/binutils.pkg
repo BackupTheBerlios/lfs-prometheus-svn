@@ -9,13 +9,14 @@ archives=(
 stage0_leavefiles=yes
 stage1_leavefiles=yes
 
+stage0_check=no
+
 function stage0_build_pkg {
 	mkdir "$directory"/../binutils-build
 	cd "$directory"/../binutils-build
 
 	"$directory"/configure --prefix=/tools --disable-nls
-	make configure-host &&
-	make LDFLAGS="-all-static"
+	make
 }
 
 function stage0_install_pkg {
@@ -24,7 +25,7 @@ function stage0_install_pkg {
 	make install
 
 	make -C ld clean
-	make -C ld LDFLAGS="-all-static" LIB_PATH=/tools/lib
+	make -C ld LIB_PATH=/tools/lib
 }
 
 function stage1_build_pkg {
@@ -72,7 +73,6 @@ function build_pkg {
 	cd "$directory"/../binutils-build
 
 	"$directory"/configure --prefix=/usr --enable-shared
-	make configure-host
 	make tooldir=/usr
 }
 
