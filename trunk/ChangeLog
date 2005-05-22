@@ -1,3 +1,13 @@
+2005-05-22 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/linux.pkg: Upgraded to Linux 2.6.11.9.
+	* profiles/lfs-6.1/gzip.pkg: Added security fix.
+	* profiles/lfs-6.1/glibc.pkg: Added a patch that fixes test suite
+	  misbehaviour with Linux 2.6.11.
+	* profiles/lfs-6.1/hotplug.pkg: Updated instructions.
+	* profiles/lfs-6.1/iproute2.pkg: Replaced the patch with a sed.
+	* profiles/lfs-6.1/lfs-bootscripts.pkg: Added.
+
 2005-05-20 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* profiles/gareth: Added base_system.pkg, stage0.pkg, stage1.pkg &

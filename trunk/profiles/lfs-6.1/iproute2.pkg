@@ -6,13 +6,10 @@ archives=(
 	"http://developer.osdl.org/dev/iproute2/download/iproute2-${version}-050330.tar.gz"
 )
 
-patches=(
-	"http://www.linuxfromscratch.org/patches/downloads/iproute2/iproute2-${version}-050330-remove_db-1.patch"
-)
-
 directory="iproute2-${version}"
 
 function build_pkg {
+	sed -i '/^TARGETS/s@arpd@@g' misc/Makefile
 	./configure
 	make SBINDIR=/sbin
 }

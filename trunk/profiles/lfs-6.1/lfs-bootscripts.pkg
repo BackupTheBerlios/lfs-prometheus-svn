@@ -1,0 +1,10 @@
+name="LFS boot scripts"
+version="3.2.1"
+
+archives=(
+	"http://downloads.linuxfromscratch.org/lfs-bootscripts-${version}.tar.bz2"
+)
+
+function install_pkg {
+	make install
+}
