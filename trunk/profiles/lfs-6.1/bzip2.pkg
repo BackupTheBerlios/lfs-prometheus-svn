@@ -10,15 +10,9 @@ function stage1_install_pkg {
 }
 
 function build_pkg {
-	cp Makefile Makefile.backup
-	sed -e 's%$(BIGFILES)%$(BIGFILES) $(OPT)%' Makefile.backup > Makefile
-
-	cp Makefile-libbz2_so Makefile-libbz2_so.backup
-	sed -e 's%$(BIGFILES)%$(BIGFILES) $(OPT)%' Makefile-libbz2_so.backup > Makefile-libbz2_so
-
-	make -f Makefile-libbz2_so OPT="$cflags"
+	make -f Makefile-libbz2_so
 	make clean
-	make OPT="$cflags"
+	make
 }
 
 function install_pkg {
