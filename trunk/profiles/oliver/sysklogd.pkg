@@ -12,7 +12,7 @@ patches=(
 )
 
 function build_pkg {
-	make # RPM_OPT_FLAGS="$CFLAGS"
+	make RPM_OPT_FLAGS="$CFLAGS"
 }
 
 function install_pkg {

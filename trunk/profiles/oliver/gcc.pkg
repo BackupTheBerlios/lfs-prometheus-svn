@@ -71,7 +71,7 @@ function build_pkg {
 	"$directory"/configure --prefix=/usr --libexecdir=/usr/lib \
 			       --enable-shared --enable-threads=posix \
 			       --enable-__cxa_atexit --enable-clocale=gnu \
-			       --enable-languages=c,c++  #--disable-nls
+			       --enable-languages=c,c++ --disable-nls
 
 	make
 }

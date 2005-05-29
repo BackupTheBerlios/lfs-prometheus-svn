@@ -25,7 +25,7 @@ function build_pkg {
 	sed -i 's%etc/adjtime%var/lib/hwclock/adjtime%' hwclock/hwclock.c
 	mkdir -p /var/lib/hwclock				# FIXME!
 
-	# echo "DISABLE_NLS=yes" >> MCONFIG
+	echo "DISABLE_NLS=yes" >> MCONFIG
 	./configure
 	make HAVE_KILL=yes HAVE_SLN=yes
 }

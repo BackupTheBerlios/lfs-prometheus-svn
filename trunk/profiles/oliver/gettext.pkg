@@ -12,7 +12,7 @@ function stage1_build_pkg {
 }
 
 function build_pkg {
-	./configure --prefix=/usr #--disable-nls
+	./configure --prefix=/usr --disable-nls
 	make
 }
 

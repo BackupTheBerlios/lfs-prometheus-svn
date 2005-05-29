@@ -73,8 +73,8 @@ function build_pkg {
 
 	"${directory}"/configure --prefix=/usr --enable-add-ons \
 				 --disable-profile --enable-kernel=2.6.0
-				 --libexecdir=/usr/lib/glibc
-				# --disable-nls
+				 --libexecdir=/usr/lib/glibc \
+				 --disable-nls
 	make
 	make -C "${directory}/linuxthreads/man"
 }

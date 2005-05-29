@@ -6,7 +6,7 @@ archives=(
 )
 
 function build_pkg {
-	./configure --prefix=/usr --exec-prefix="" # --disable-nls
+	./configure --prefix=/usr --exec-prefix="" --disable-nls
 	make
 }
 

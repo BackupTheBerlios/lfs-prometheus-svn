@@ -15,7 +15,7 @@ function build_pkg {
 	mkdir "$directory"/../e2fsprogs-build
 	cd "$directory"/../e2fsprogs-build
 	"$directory"/configure --prefix=/usr --with-root-prefix="" \
-			       --enable-elf-shlibs \ #--disable-nls \
+			       --enable-elf-shlibs --disable-nls \
 			       --disable-evms
 	make
 }

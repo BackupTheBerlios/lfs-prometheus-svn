@@ -64,7 +64,7 @@ function stage2_build_pkg {
 	mkdir "$directory"/../binutils-build
 	cd "$directory"/../binutils-build
 
-	"$directory"/configure --prefix=/usr --enable-shared #--disable-nls
+	"$directory"/configure --prefix=/usr --enable-shared --disable-nls
 	make tooldir=/usr
 }
 
