@@ -1,0 +1,17 @@
+name=iana-etc
+version="1.04"
+homepage="http://www.sethwklein.net/projects/iana-etc/"
+
+archives=(
+	"http://www.sethwklein.net/projects/iana-etc/downloads/iana-etc-${version}.tar.bz2"
+)
+
+log_install=no
+
+function build_pkg {
+	make
+}
+
+function install_pkg {
+	make install
+}

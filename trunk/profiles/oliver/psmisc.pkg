@@ -1,0 +1,16 @@
+name="psmisc"
+version="21.6"
+
+archives=(
+	"http://download.sourceforge.net/psmisc/psmisc-${version}.tar.gz"
+)
+
+function build_pkg {
+	./configure --prefix=/usr --exec-prefix="" # --disable-nls
+	make
+}
+
+function install_pkg {
+	make install
+	mv /bin/pstree* /usr/bin
+}

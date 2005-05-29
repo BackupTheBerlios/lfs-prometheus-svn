@@ -1,0 +1,19 @@
+name="linux-libc-headers"
+version="2.6.11.2"
+
+archives=(
+	"http://ep09.pld-linux.org/~mmazur/linux-libc-headers/linux-libc-headers-${version}.tar.bz2"
+)
+
+function stage1_install_pkg {
+	cp -R include/asm-i386 /tools/include/asm
+	cp -R include/linux /tools/include
+}
+
+function stage2_install_pkg {
+	cp -R include/asm-i386 /usr/include/asm
+	cp -R include/linux /usr/include
+	chown -R root:root /usr/include/{asm,linux}
+	find /usr/include/{asm,linux} -type d -exec chmod 755 {} \;
+	find /usr/include/{asm,linux} -type f -exec chmod 644 {} \;
+}

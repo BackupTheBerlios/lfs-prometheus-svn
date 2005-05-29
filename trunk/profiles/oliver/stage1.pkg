@@ -1,0 +1,62 @@
+# This is the master profile for stage 1 of pure_lfs.
+
+# Stage 1 is the shared build in /tools.
+
+name="Stage 1"
+version="6.1"
+log_install=no
+
+# Packages to install in stage 1 (in order).
+pkglist=(
+	linux-libc-headers
+	glibc
+	tcl
+	expect
+	dejagnu
+	gcc
+	binutils
+	gawk
+	coreutils
+	bzip2
+	gzip	
+	diffutils
+	findutils
+	make
+	grep
+	sed
+	gettext
+	ncurses
+	patch
+	tar
+	texinfo
+	bash
+	m4
+	bison
+	flex
+	util-linux
+	perl
+	install-log
+	prometheus
+)
+
+directory="/tools"
+stage=1
+
+function install_pkg {
+
+	# Sanity checks.
+	(( $(id -u) == 0 )) &&
+	error "${package}: stage 1 should not be built as root"
+
+	[[ -z "$lfs" ]] && error "$package: lfs not set"
+
+	export PATH="/tools/bin:$PATH"
+
+	# Install packages in pkglist.
+	local pkg
+	for pkg in "${pkglist[@]}"; do
+		lfs="$lfs" stage=1 \
+		%PKGADD% --config "$pkgconfig" "$pkg" ||
+		error "${package}: could not install $pkg"
+	done
+}

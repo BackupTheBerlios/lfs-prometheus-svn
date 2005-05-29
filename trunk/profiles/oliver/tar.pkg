@@ -1,0 +1,30 @@
+name="GNU tar"
+version="1.15.1"
+homepage="http://www.gnu.org/software/tar/"
+
+archives=(
+	"ftp://ftp.cs.tu-berlin.de/pub/gnu/tar/tar-${version}.tar.gz"
+)
+
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/tar/tar-${version}-sparse_fix-1.patch"
+)
+
+function stage1_build_pkg {
+	./configure --prefix=/tools # --disable-nls
+	make
+}
+
+function check_pkg {
+	make check
+}
+
+function build_pkg {
+	./configure --prefix=/usr --libexecdir=/usr/sbin --bindir=/bin
+		# --disable-nls
+	make
+}
+
+function install_pkg {
+	make install
+}

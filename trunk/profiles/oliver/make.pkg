@@ -1,0 +1,31 @@
+name="GNU make"
+version="3.80"
+homepage="http://www.gnu.org/software/make/"
+
+archives=(
+	"ftp://ftp.cs.tu-berlin.de/pub/gnu/make/make-${version}.tar.bz2"
+)
+
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/make/make-${version}-crash-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/make/make-${version}-eval-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/make/make-${version}-variables-1.patch"
+)
+
+function stage1_build_pkg {
+	./configure --prefix=/tools #--disable-nls
+	make
+}
+
+function build_pkg {
+	./configure --prefix=/usr #--disable-nls
+	make
+}
+
+function check_pkg {
+	make check
+}
+
+function install_pkg {
+	make install
+}
