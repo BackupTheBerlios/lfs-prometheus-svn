@@ -6,20 +6,14 @@ archives=(
 	"ftp://ftp.cs.tu-berlin.de/pub/gnu/grep/grep-${version}.tar.bz2"
 )
 
-patches=(
-	"http://www.linuxfromscratch.org/patches/downloads/grep/grep-2.5.1-option_io_combo-1.patch"
-	"http://www.linuxfromscratch.org/patches/downloads/grep/grep-2.5.1-option_w-1.patch"
-)
-
 function stage1_build_pkg {
 	./configure --prefix=/tools --disable-perl-regexp \
-		    --with-included-regexp #--disable-nls
+		    --with-included-regexp
 	make
 }
 
 function build_pkg {
 	./configure --prefix=/usr --bindir=/bin --with-included-regexp
-		    #--disable-nls
 	make
 }
 

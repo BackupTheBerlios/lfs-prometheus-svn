@@ -15,17 +15,7 @@ function build_pkg {
 	chgrp utmp /var/run/utmp /var/log/lastlog
 	chmod 644 /var/run/utmp /var/log/lastlog
 
-	# cp man/Makefile.in{,.orig} &&
-	# sed -e '/SUBDIRS =/d' man/Makefile.in.orig > man/Makefile.in &&
-
-	# 2004-10-23  Tomasz K³oczko  <kloczek@pld.org.pl>
-	#
-        # * lib/defines.h:
-        #  define syslog() depending on ENABLE_NLS (not on HAVE_SETLOCALE).
-
-	# So check whether logging still works with --disable-nls
-
-	./configure --libdir=/lib --enable-shared # --disable-nls
+	./configure --libdir=/lib --enable-shared
 
 	sed -i 's/groups$(EXEEXT) //' src/Makefile
 	sed -i '/groups/d' man/Makefile

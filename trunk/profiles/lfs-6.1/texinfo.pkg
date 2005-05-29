@@ -7,7 +7,7 @@ archives=(
 )
 
 function stage1_build_pkg {
-	./configure --prefix=/tools # --disable-nls
+	./configure --prefix=/tools
 	make
 }
 
@@ -20,7 +20,7 @@ function stage1_install_pkg {
 }
 
 function build_pkg {
-	./configure --prefix=/usr # --disable-nls
+	./configure --prefix=/usr
 	make
 }
 

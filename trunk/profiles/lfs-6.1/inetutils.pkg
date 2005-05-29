@@ -8,17 +8,13 @@ archives=(
 
 patches=(
 	"http://www.linuxfromscratch.org/patches/downloads/inetutils/inetutils-${version}-kernel_headers-1.patch"
-	"http://www.linuxfromscratch.org/patches/downloads/inetutils/inetutils-${version}-ping-1.patch"
-	"http://www.linuxfromscratch.org/patches/downloads/inetutils/inetutils-${version}-talk-1.patch"
-	"http://www.linuxfromscratch.org/patches/downloads/inetutils/inetutils-${version}-telnet-1.patch"
-	"http://www.linuxfromscratch.org/patches/downloads/inetutils/inetutils-${version}-typos-1.patch"
-	"http://www.linuxfromscratch.org/patches/downloads/inetutils/inetutils-${version}-fix_installation-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/inetutils/inetutils-${version}-no_server_man_pages-1.patch"
 )
 
 function build_pkg {
 	./configure --prefix=/usr --disable-syslogd --libexecdir=/usr/sbin \
 		    --disable-logger --sysconfdir=/etc --localstatedir=/var \
-		    --disable-whois --disable-servers #--disable-nls
+		    --disable-whois --disable-servers
 	make
 }
 

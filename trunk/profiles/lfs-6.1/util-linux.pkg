@@ -5,12 +5,6 @@ archives=(
 	"ftp://ftp.de.kernel.org/pub/linux/utils/util-linux/util-linux-${version}.tar.bz2"
 )
 
-patches=(
-	"http://lfs-prometheus.berlios.de/patches/util-linux-${version}-mount_move-1.patch.gz"
-	"http://www.linuxfromscratch.org/patches/downloads/util-linux/util-linux-${version}-cramfs-1.patch"
-	"http://www.linuxfromscratch.org/patches/downloads/util-linux/util-linux-${version}-nologin-1.patch"
-)
-
 function stage1_build_pkg {
 	sed -i 's@/usr/include@/tools/include@g' configure
 	./configure
@@ -25,7 +19,6 @@ function build_pkg {
 	sed -i 's%etc/adjtime%var/lib/hwclock/adjtime%' hwclock/hwclock.c
 	mkdir -p /var/lib/hwclock				# FIXME!
 
-	# echo "DISABLE_NLS=yes" >> MCONFIG
 	./configure
 	make HAVE_KILL=yes HAVE_SLN=yes
 }

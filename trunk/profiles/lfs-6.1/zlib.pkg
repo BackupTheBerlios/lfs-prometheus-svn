@@ -10,8 +10,7 @@ function build_pkg {
 	# Note: as opposed to LFS, we do _not_ build the static zlib
 	# library.
 
-	CFLAGS="$CFLAGS -fPIC" \
-	./configure --prefix=/usr --shared
+	./configure --prefix=/usr --shared --libdir=/lib
 	make
 }
 
@@ -21,6 +20,6 @@ function check_pkg {
 
 function install_pkg {
 	make install
-	mv /usr/lib/libz.so.* /lib
-	ln -sf ../../lib/libz.so.1 /usr/lib/libz.so
+	rm /lib/libz.so
+	ln -sf ../../lib/libz.so.${version} /usr/lib/libz.so
 }

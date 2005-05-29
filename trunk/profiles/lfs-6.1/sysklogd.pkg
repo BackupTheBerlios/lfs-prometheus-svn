@@ -8,11 +8,10 @@ archives=(
 
 patches=(
 	"http://www.linuxfromscratch.org/patches/downloads/sysklogd/sysklogd-${version}-fixes-1.patch"
-	"http://www.linuxfromscratch.org/patches/downloads/sysklogd/sysklogd-${version}-querymod-1.patch"
 )
 
 function build_pkg {
-	make # RPM_OPT_FLAGS="$CFLAGS"
+	make
 }
 
 function install_pkg {

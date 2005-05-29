@@ -9,8 +9,6 @@ archives=(
 
 patches=(
 	"http://www.linuxfromscratch.org/patches/downloads/glibc/glibc-${version}-fix_test-1.patch"
-	"http://lfs-prometheus.berlios.de/download/glibc-mtab.patch.bz2"
-	"http://lfs-prometheus.berlios.de/download/glibc-passwd-lock.patch.bz2"
 )
 
 archive_dirs=(
@@ -74,7 +72,6 @@ function build_pkg {
 	"${directory}"/configure --prefix=/usr --enable-add-ons \
 				 --disable-profile --enable-kernel=2.6.0
 				 --libexecdir=/usr/lib/glibc
-				# --disable-nls
 	make
 	make -C "${directory}/linuxthreads/man"
 }

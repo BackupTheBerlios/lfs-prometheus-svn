@@ -1,5 +1,8 @@
 2005-05-29 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
+	* profiles/lfs-6.1/*.pkg: Removed the (hopefully) last tracks of
+	  custom changes to the LFS instructions.
+
 	* profiles/lfs-6.1/linux.pkg: Upgraded to Linux 2.6.11.11.
 
 2005-05-22 Oliver Brakmann <oliverbrakmann@users.berlios.de>

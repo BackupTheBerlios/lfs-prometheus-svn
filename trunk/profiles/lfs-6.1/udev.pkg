@@ -4,7 +4,7 @@ homepage="http://www.kernel.org/pub/linux/utils/kernel/hotplug/udev.html"
 
 archives=(
 	"http://www.de.kernel.org/pub/linux/utils/kernel/hotplug/udev-${version}.tar.bz2"
-	"http://lfs-prometheus.berlios.de/download/25-lfs.rules"
+	"http://downloads.linuxfromscratch.org/udev-config-3.rules"
 )
 
 archive_dirs=(
@@ -22,6 +22,6 @@ function check_pkg {
 
 function install_pkg {
 	make udevdir=/dev install
-	cp 25-lfs.rules /etc/udev/rules.d/
+	cp udev-config-3.rules /etc/udev/rules.d/
 	/sbin/udevstart
 }

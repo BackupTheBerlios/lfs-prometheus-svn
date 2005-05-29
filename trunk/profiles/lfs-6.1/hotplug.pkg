@@ -10,7 +10,6 @@ function install_pkg {
 	make install
 	cp etc/hotplug/pnp.distmap /etc/hotplug
 	rm -rf /etc/init.d
-	# rm -f /etc/init.d/hotplug	# if DCIS is used
 	rm -f /etc/hotplug/net.agent
 	mkdir /lib/firmware
 }

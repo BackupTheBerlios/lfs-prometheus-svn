@@ -7,7 +7,7 @@ archives=(
 )
 
 function build_pkg {
-	make CC="gcc $CFLAGS"
+	make
 }
 
 function install_pkg {
