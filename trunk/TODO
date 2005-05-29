@@ -13,6 +13,4 @@
   optional pkgcompress, and finally `pkgadd lfs'.  Maybe a final run of Gerard's
   `check-lfs' to give people a warm fuzzy feeling.
 
-* Profiles.
-
 * we're not keeping track of installed patches. Try to find a solution.
