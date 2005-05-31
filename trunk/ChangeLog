@@ -1,3 +1,7 @@
+2005-05-31 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/bzip2.pkg: Made use of the version variable.
+
 2005-05-29 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/lfs-6.1/*.pkg: Removed the (hopefully) last tracks of

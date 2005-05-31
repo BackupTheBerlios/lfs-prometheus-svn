@@ -2,7 +2,7 @@ name="bzip2"
 version="1.0.3"
 
 archives=(
-	"ftp://sources.redhat.com/pub/bzip2/v102/bzip2-1.0.2.tar.gz"
+	"ftp://sources.redhat.com/pub/bzip2/v102/bzip2-${version}.tar.gz"
 )
 
 function stage1_install_pkg {
