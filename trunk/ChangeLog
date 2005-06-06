@@ -1,3 +1,8 @@
+2005-06-06 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/module-init-tools.pkg: Fixed instructions to ensure
+	  that the modprobe.conf man-page does not get rebuilt.
+
 2005-05-31 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/lfs-6.1/bzip2.pkg: Made use of the version variable.

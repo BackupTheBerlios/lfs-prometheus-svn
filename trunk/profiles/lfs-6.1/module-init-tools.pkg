@@ -6,8 +6,9 @@ archives=(
 )
 
 function build_pkg {
+	touch modprobe.conf.5
 	./configure --prefix="" --enable-zlib
-	make DOCBOOKTOMAN=""
+	make
 }
 
 function install_pkg {
