@@ -1,9 +1,10 @@
 name="binutils"
-version="2.15.94.0.2.2"
+version="2.16"
 homepage="http://www.gnu.org/software/binutils/"
 
 archives=(
-	"http://www.de.kernel.org/pub/linux/devel/binutils/binutils-${version}.tar.bz2"
+#	"http://www.de.kernel.org/pub/linux/devel/binutils/binutils-${version}.tar.bz2"
+	"ftp://ftp.cs.tu-berlin.de/pub/gnu/binutils/binutils-${version}.tar.gz"
 )
 
 stage0_leavefiles=yes

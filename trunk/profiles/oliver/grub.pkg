@@ -1,5 +1,5 @@
 name="GRand Unified Bootloader"
-version="0.96"
+version="0.97"
 
 archives=(
 	"ftp://alpha.gnu.org/gnu/grub/grub-${version}.tar.gz"
