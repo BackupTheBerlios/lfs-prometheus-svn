@@ -16,6 +16,17 @@
 # this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 # Place, Suite 330, Boston, MA  02111-1307  USA
 
+# FIXME: For 2.6 kernels, there is a proper way of building modules.  Also we
+# cannot rely on being able to unload the module after use.  Perhaps there is a
+# better way.
+
+# Build flags.
+CC = gcc
+KERNEL = $(shell uname -r)
+CFLAGS = -O2
+CPPFLAGS = -I/lib/modules/$(KERNEL)/build/include
+MODDIR = /lib/modules/$(KERNEL)/kernel/arch/i386/kernel
+
 include ../Makefile.defs
 
 # What to build/install.

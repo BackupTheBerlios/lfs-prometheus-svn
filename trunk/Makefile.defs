@@ -34,13 +34,6 @@ REFERENCE_PROFILE = REFERENCE.pkg
 # Where to find install-log.rc.
 INSTALL_LOG_RC = /etc/install-log.rc
 
-# x86stepping kernel module build flags.
-CC = gcc
-KERNEL = $(shell uname -r)
-CFLAGS = -O2
-CPPFLAGS = -I/lib/modules/$(KERNEL)/build/include
-MODDIR = /lib/modules/$(KERNEL)/kernel/arch/i386/kernel
-
 # Install commands.
 INSTALL = install
 INSTALL_DATA = $(INSTALL) -m644
