@@ -1,13 +1,12 @@
-* x86stepping: Support 2.6 kernels.
-
-* Use $DESTDIR instead of install-log?  Emulate $DESTDIR with chroot for
-  packages that don't support it?  Or use LD_PRELOAD trickery? - fakeroot
-  <http://alioth.debian.org/projects/fakeroot/> already does this - best option?
+* Write and use libreroot/rerootd, which will use LD_PRELOAD to intercept glibc
+  calls.  It will do something cross between fakeroot and union mounts in order
+  to build installable binary tarballs.
 
 * compressdoc based on compact.
 
-* Option to cross-compile according to the cross-compilation hint
-  (ie. using a kernel module).
+* Option to cross-compile according to the cross-compilation hint (ie. using a
+  kernel module).  Make x86stepping support 2.6 kernels.  Is this still the best
+  way?
 
 * `lfs-install' script may return as a wrapper for `pkgget (all packages)',
   optional pkgcompress, and finally `pkgadd lfs'.  Maybe a final run of Gerard's

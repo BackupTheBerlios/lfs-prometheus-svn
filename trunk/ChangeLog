@@ -3,6 +3,8 @@
 	* x86stepping/Makefile: Added build flags.
 	* Makefile.defs: Removed x86stepping build flags.
 
+	* reroot/*: Added current libreroot & rerootd sources.
+
 2005-06-06 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/lfs-6.1/module-init-tools.pkg: Fixed instructions to ensure
