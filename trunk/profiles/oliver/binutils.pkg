@@ -1,5 +1,5 @@
 name="binutils"
-version="2.16"
+version="2.16.1"
 homepage="http://www.gnu.org/software/binutils/"
 
 archives=(
@@ -34,7 +34,7 @@ function stage1_build_pkg {
 	cd "$directory"/../binutils-build
 
 	"$directory"/configure --prefix=/tools --with-lib-path=/tools/lib \
-			       --enable-shared
+			       --enable-shared --disable-nls
 	make
 }
 

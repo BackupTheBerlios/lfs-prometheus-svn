@@ -13,7 +13,8 @@ patches=(
 directory=expect
 
 function stage1_build_pkg {
-	./configure --prefix=/tools --with-tcl=/tools/lib --with-x=no
+	./configure --prefix=/tools --with-tcl=/tools/lib --with-x=no \
+		--with-tclinclude="${builddir}/tcl*"
 	make
 }
 
