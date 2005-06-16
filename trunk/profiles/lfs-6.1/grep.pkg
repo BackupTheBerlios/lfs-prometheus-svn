@@ -13,7 +13,7 @@ function stage1_build_pkg {
 }
 
 function build_pkg {
-	./configure --prefix=/usr --bindir=/bin --with-included-regexp
+	./configure --prefix=/usr --bindir=/bin
 	make
 }
 

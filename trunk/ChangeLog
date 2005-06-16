@@ -1,3 +1,11 @@
+2005-06-16 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/binutils.pkg: Added --disable-nls to stage1 build
+	  in order to remove a dependency on gettext.
+
+	* profiles/lfs-6.1/grep.pkg: Removed --with-included-regexp because
+	  those provided by grep itself are inferior to those from glibc.
+
 2005-06-15 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* x86stepping/Makefile: Added build flags.
