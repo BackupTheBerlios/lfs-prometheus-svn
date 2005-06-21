@@ -1,3 +1,15 @@
+2005-06-21 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/Makefile, reroot/rerootd/Makefile: Trivial
+	  simplification.
+
+	* reroot/libreroot/memory.c (reroot_alloc): Used `error' instead of
+	  `fputs' & `exit'.
+
+	* reroot/libreroot/ipc.c, reroot/libreroot/ipc.h: Added.
+
+	* reroot/libreroot/libc_symbols.txt: Added.
+
 2005-06-16 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/lfs-6.1/binutils.pkg: Added --disable-nls to stage1 build

@@ -1,0 +1,20 @@
+The following libc symbols are used by libreroot internally (not including
+intercepted functions).  Some of them may be gcc builtins or inlines/macros.
+
+errno
+error
+fputs
+free
+get_current_dir_name
+getenv
+malloc
+msgget
+msgrcv
+msgsnd
+setenv
+strcat
+strcmp
+strcpy
+strdupa
+strlen
+strtok_r

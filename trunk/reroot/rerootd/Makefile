@@ -35,9 +35,7 @@ dep:
 
 # Generate & include dependencies.
 %.d: %.cc
-	$(CXX) -MM $(CPPFLAGS) $< > $@.$$$$; \
-	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' $@.$$$$ > $@; \
-	rm -f $@.$$$$
+	$(CXX) -MM $(CPPFLAGS) $< | sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' > $@
 
 # Don't generate & include dependencies just to delete them again.
 ifneq ($(MAKECMDGOALS),clean)

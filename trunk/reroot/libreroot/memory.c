@@ -16,8 +16,9 @@
 // this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
-#include <stdio.h>	// fputs.
-#include <stdlib.h>	// exit, free & malloc.
+#include <errno.h>	// errno.
+#include <error.h>	// error.
+#include <stdlib.h>	// free & malloc.
 #include <string.h>	// strcat, strcpy & strlen.
 
 #include "memory.h"
@@ -28,10 +29,7 @@ reroot_alloc (unsigned const size)
 {
 	void *const restrict ptr = malloc (size);
 	if (!ptr)
-	{
-		fputs ("libreroot: malloc () failed\n", stderr);
-		exit (1);
-	}
+		error (1, errno, "libreroot: malloc () failed");
 	return ptr;
 }
 

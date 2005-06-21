@@ -24,7 +24,7 @@ LDFLAGS := -ldl -shared
 
 # What to build.
 library := libreroot.so
-objects := absolute.o libreroot.o memory.o reroot.o
+objects := absolute.o ipc.o libreroot.o memory.o reroot.o
 
 .PHONY: all clean dep
 
@@ -37,9 +37,7 @@ dep:
 
 # Generate & include dependencies.
 %.d: %.c
-	$(CC) -MM $(CPPFLAGS) $< > $@.$$$$; \
-	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' $@.$$$$ > $@; \
-	rm -f $@.$$$$
+	$(CC) -MM $(CPPFLAGS) $< | sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' > $@
 
 # Don't generate & include dependencies just to delete them again.
 ifneq ($(MAKECMDGOALS),clean)
