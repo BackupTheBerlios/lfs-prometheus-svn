@@ -1,5 +1,5 @@
 // libreroot System V IPC declarations
-// Copyright (C) 2003-2004 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
+// Copyright (C) 2003-2005 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 // Gareth Jones <gareth_jones@users.berlios.de>
 //
 // This program is free software; you can redistribute it and/or modify it under
