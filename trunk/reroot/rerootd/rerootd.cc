@@ -21,6 +21,7 @@
 #include <error.h>
 #include <string>
 #include <sys/resource.h>
+#include <sys/types.h>
 #include <unistd.h>
 
 #include "absolute.h"

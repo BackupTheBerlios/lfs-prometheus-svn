@@ -1,0 +1,41 @@
+Some ramblings about reroot follow.
+
+File types:
+	file/link
+	directory
+	symbolic link
+	pipe
+	socket
+	block device
+	character device
+
+Metadata that must be tracked:
+	real filename
+	rerooted filename
+	owner
+	group
+	permission bits including sticky, suid & sgid
+	ACL info?
+	Symbolic link destination
+	Device major & minor number
+
+Actions:
+	open
+	close
+	read
+	write
+	create
+	unlink
+	read meta
+	write meta
+
+User/group faking:
+	get effective/real user/group IDs
+	set effective/real user/group IDs
+	get login name
+	looking up users/groups
+	scanning user/group list
+	get group list for user
+	(adding user via libc is depricated)
+
+TODO: Expand on actions etc to plan what reroot functions need to do.

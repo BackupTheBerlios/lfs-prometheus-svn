@@ -19,8 +19,7 @@
 # Default build flags.
 CFLAGS := -g -pipe -Wall -W -Werror --std=gnu99 -fpic
 CPPFLAGS := -I.. -D_GNU_SOURCE
-# Need -ldl & -lgcc.  -nostartfiles vs -nodefaultlibs vs -nostdlib?
-LDFLAGS := -ldl -shared
+LDFLAGS := -pipe -ldl -shared
 
 # What to build.
 library := libreroot.so

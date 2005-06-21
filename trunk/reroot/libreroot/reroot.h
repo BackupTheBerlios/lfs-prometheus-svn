@@ -19,6 +19,8 @@
 #ifndef REROOT_H
 # define REROOT_H
 
+# include "libreroot.h"
+
 void reroot_env_init (void);
 void reroot_env_destroy (void);
 

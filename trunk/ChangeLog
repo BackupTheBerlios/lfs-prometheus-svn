@@ -8,9 +8,14 @@
 
 	* reroot/libreroot/ipc.c, reroot/libreroot/ipc.h: Added.
 
-	* reroot/libreroot/libc_symbols.txt: Added.
+	* reroot/libreroot/libc_symbols.txt: Added & removed as unneeded.
 
 	* All files with copyright notices: Updated years to include 2005.
+
+	* reroot/libreroot/libreroot.c, reroot/libreroot/libreroot.h: Prepared
+	  for dlsym use.
+
+	* reroot/README: Added.
 
 2005-06-16 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
