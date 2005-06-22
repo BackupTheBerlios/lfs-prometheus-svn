@@ -23,7 +23,7 @@ LDFLAGS := -pipe -ldl -shared
 
 # What to build.
 library := libreroot.so
-objects := absolute.o ipc.o libreroot.o memory.o reroot.o
+objects := absolute.o ipc.o libreroot.o memory.o open.o reroot.o
 
 .PHONY: all clean dep
 

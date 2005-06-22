@@ -19,7 +19,7 @@
 #include <errno.h>	// errno.
 #include <error.h>	// error.
 #include <stdlib.h>	// free & malloc.
-#include <string.h>	// strcat, strcpy & strlen.
+#include <string.h>	// memcpy, strcat & strlen.
 
 #include "memory.h"
 
@@ -58,7 +58,7 @@ reroot_stack_push (reroot_stack *const restrict stack,
 	item->next = 0;
 	item->prev = end;
 	item->length = length;
-	strcpy (item->string, string);
+	memcpy (item->string, string, length + 1);
 
 	// Append to list.
 	if (end)
@@ -86,7 +86,7 @@ reroot_stack_insert (reroot_stack *const restrict stack,
 	item->next = start;
 	item->prev = 0;
 	item->length = length;
-	strcpy (item->string, string);
+	memcpy (item->string, string, length + 1);
 
 	// Prepend to list.
 	if (start)
@@ -148,9 +148,9 @@ reroot_stack_string (reroot_stack const *const restrict stack,
 {
 	// Allocate string, allowing for deliminators & trailing null.
 	unsigned const items = stack->items;
-	char *restrict string = reroot_alloc (stack->length +
-	                                      (prefix? items : items - 1) *
-	                                      strlen (delim) + 1);
+	char *const restrict string = reroot_alloc (stack->length +
+	                                            (prefix? items : items - 1)
+	                                            * strlen (delim) + 1);
 
 	// Make sure string starts empty.
 	*string = 0;

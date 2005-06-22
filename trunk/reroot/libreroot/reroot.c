@@ -17,7 +17,7 @@
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include <stdlib.h>	// free, getenv & setenv.
-#include <string.h>	// strcat, strcpy, strdupa, strlen & strtok_r.
+#include <string.h>	// memcpy, mempcpy, strdupa, strlen & strtok_r.
 
 #include "absolute.h"
 #include "memory.h"
@@ -159,10 +159,11 @@ reroot (char *const restrict requested)
 	}
 
 	// Reroot filename.
+	unsigned const filename_length = strlen (filename);
 	char *const restrict actual =
-		reroot_alloc (reroot_false_root_length + strlen (filename) + 1);
-	strcpy (actual, reroot_false_root);
-	strcat (actual, filename);
+		reroot_alloc (reroot_false_root_length + filename_length + 1);
+	memcpy (mempcpy (actual, reroot_false_root, reroot_false_root_length),
+	        filename, filename_length + 1);
 
 	free (filename);
 	return actual;

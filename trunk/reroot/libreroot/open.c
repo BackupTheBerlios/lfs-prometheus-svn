@@ -1,4 +1,4 @@
-// libreroot libc function intercept declarations
+// libreroot opening files
 // Copyright (C) 2003-2005 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 // Gareth Jones <gareth_jones@users.berlios.de>
 //
@@ -16,19 +16,11 @@
 // this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
-#ifndef LIBREROOT_H
-# define LIBREROOT_H
+#include "reroot.h"
 
-# include <stdio.h>
-
-// Make sure pointers are external declarations except in libreroot.c.
-# ifdef LIBREROOT_C
-#  define EXTERN
-# else
-#  define EXTERN extern
-# endif
-
-// Opening files.
-EXTERN FILE *(*libc_fopen) (char const *filename, char const *opentype);
-
-#endif
+FILE *fopen (char const *const restrict filename,
+             char const *const restrict opentype)
+{
+	puts ("fopen!");
+	return libc_fopen (filename, opentype);
+}

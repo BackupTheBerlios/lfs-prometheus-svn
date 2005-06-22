@@ -1,3 +1,15 @@
+2005-06-22 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/memory.c: Used memcpy instead of strcpy.
+	* reroot/libreroot/reroot.c: Used memcpy & mempcpy instead of strcat &
+	  strcpy.
+
+	* reroot/README: Some more planning.
+
+	* reroot/libreroot/libreroot.c, reroot/libreroot/libreroot.h: Added
+	  symbol loading support code & loaded `fopen'.
+	* reroot/libreroot/open.c: Added dummy override for `fopen'.
+
 2005-06-21 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/libreroot/Makefile, reroot/rerootd/Makefile: Trivial

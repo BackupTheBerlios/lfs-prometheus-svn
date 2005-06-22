@@ -16,19 +16,42 @@
 // this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
-#include <dlfcn.h>
-// Use: libc_funcname = dlsym (RTLD_NEXT, "funcname");
-// Returns 0 if error, use dlerror () to return error string.  No need to free.
+// Make sure we get definitions rather than declarations of libc pointers.
+#define LIBREROOT_C
+
+#include <dlfcn.h>	// dlerror & dlsym.
+#include <error.h>	// error.
 
 #include "libreroot.h"
 #include "reroot.h"
+
+// Wrapper for dlopen.
+static void *
+reroot_dlsym (char const *const restrict name)
+{
+	// Return symbol address if found.
+	void *const restrict ptr = dlsym (RTLD_NEXT, name);
+	if (ptr)
+		return ptr;
+
+	// If we get this far, something's gone wrong.
+	error (1, 0, "libreroot: Cannot load symbol: %s: %s", name, dlerror ());
+	return 0;	// Never get here but prevent gcc warning.
+}
+
+// Get addresses of libc functions we override.
+static void
+reroot_overrides_init ()
+{
+	libc_fopen = reroot_dlsym ("fopen");
+}
 
 // Initialize libreroot.  This function is called automatically when libreroot
 // is loaded.
 static void __attribute__ ((constructor))
 reroot_start ()
 {
-	// Initialize global variables based on environment variables.
+	reroot_overrides_init ();
 	reroot_env_init ();
 }
 
@@ -37,6 +60,5 @@ reroot_start ()
 static void __attribute__ ((destructor))
 reroot_finish ()
 {
-	// Deallocate global variables.
 	reroot_env_destroy ();
 }

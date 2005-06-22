@@ -12,12 +12,14 @@ File types:
 Metadata that must be tracked:
 	real filename
 	rerooted filename
+	inode/device numbers?
 	owner
 	group
 	permission bits including sticky, suid & sgid
 	ACL info?
 	Symbolic link destination
 	Device major & minor number
+	Dates & times - use filesystem for this
 
 Actions:
 	open
@@ -25,9 +27,13 @@ Actions:
 	read
 	write
 	create
+	create link
 	unlink
-	read meta
-	write meta
+	read metadata
+	write metadata
+	read directory
+	clean up
+	write index
 
 User/group faking:
 	get effective/real user/group IDs
@@ -38,4 +44,53 @@ User/group faking:
 	get group list for user
 	(adding user via libc is depricated)
 
-TODO: Expand on actions etc to plan what reroot functions need to do.
+Open
+	If only opened for reading, pass straight to glibc.  Hope we have (real)
+	permissions to read file, because we cannot fake them.  Or could fake an
+	empty file, but seems a bit pointless.
+
+	If opened for writing, copy file to false root & open it.  Flag as
+	unmodified.
+
+Close
+	If opened for writing, unlink false root copy if unmodified.
+
+Read
+	Read false root version as necessary - do we need to intercept this?
+	Open has done the redirection for us...
+
+Write
+	Write false root versions as necessary, flag as modified.
+
+Create
+	Create in false root, flag modified.
+
+Create Link
+	Symbolic link created in false root but with pointed to filename
+	unmodified, simulate rerooted destination as necessary.
+
+	Hard link - simulate.  Commit to FS later.
+
+Unlink
+	Unlink false root version.  What about the original version in real root
+	if it exists?  Hopefully installs won't ever delete installed files.
+	Remember file is deleted.
+
+Read Metadata
+	Read false root metadata, or real if not in false root.
+
+Write Metadata
+	Remember changes, even for files not under false root.  Need to store
+	changes in index?
+
+Read Directory
+	Overlay false root hierarchy onto root.  This is the fun part.  Yay for
+	efficiency etc.
+
+Clean Up
+	Remove files in false root marked unmodified or ignored (e.g.
+	/etc/passwed).  Commit hard links to false root filesystem.
+
+Write Index
+	Save file list for false root.  Also include metadata.  What about
+	deleted files or unmodified files with modified metadata?
