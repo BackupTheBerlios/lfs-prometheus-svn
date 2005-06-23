@@ -85,7 +85,8 @@ Write Metadata
 
 Read Directory
 	Overlay false root hierarchy onto root.  This is the fun part.  Yay for
-	efficiency etc.
+	efficiency etc.  Read false root directory first, then real ommitting
+	duplicates.
 
 Clean Up
 	Remove files in false root marked unmodified or ignored (e.g.

@@ -10,6 +10,10 @@
 	  symbol loading support code & loaded `fopen'.
 	* reroot/libreroot/open.c: Added dummy override for `fopen'.
 
+	* reroot/libreroot/libreroot.c, reroot/libreroot/libreroot.h,
+	  reroot/libreroot/persona.c, reroot/libreroot/persona.h: Added
+	  preliminary optional support for faking root privileges.
+
 2005-06-21 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/libreroot/Makefile, reroot/rerootd/Makefile: Trivial

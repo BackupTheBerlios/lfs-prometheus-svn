@@ -1,4 +1,4 @@
-// libreroot libc function intercept declarations
+// libreroot user & group handling declarations
 // Copyright (C) 2003-2005 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 // Gareth Jones <gareth_jones@users.berlios.de>
 //
@@ -16,27 +16,9 @@
 // this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
-#ifndef LIBREROOT_H
-# define LIBREROOT_H
+#ifndef PERSONA_H
+# define PERSONA_H
 
-# include <stdio.h>
-# include <sys/types.h>
-# include <unistd.h>
-
-// Make sure pointers are external declarations except in libreroot.c.
-# ifdef LIBREROOT_C
-#  define EXTERN
-# else
-#  define EXTERN extern
-# endif
-
-// Process persona.
-EXTERN uid_t (*libc_getuid) (void);
-EXTERN gid_t (*libc_getgid) (void);
-EXTERN uid_t (*libc_geteuid) (void);
-EXTERN gid_t (*libc_getegid) (void);
-
-// Opening files.
-EXTERN FILE *(*libc_fopen) (char const *filename, char const *opentype);
+void reroot_persona_init (void);
 
 #endif

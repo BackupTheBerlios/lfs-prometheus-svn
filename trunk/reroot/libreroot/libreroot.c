@@ -23,6 +23,7 @@
 #include <error.h>	// error.
 
 #include "libreroot.h"
+#include "persona.h"
 #include "reroot.h"
 
 // Wrapper for dlopen.
@@ -43,6 +44,10 @@ reroot_dlsym (char const *const restrict name)
 static void
 reroot_overrides_init ()
 {
+	libc_getuid = reroot_dlsym ("getuid");
+	libc_getgid = reroot_dlsym ("getgid");
+	libc_geteuid = reroot_dlsym ("geteuid");
+	libc_getegid = reroot_dlsym ("getegid");
 	libc_fopen = reroot_dlsym ("fopen");
 }
 
@@ -53,6 +58,7 @@ reroot_start ()
 {
 	reroot_overrides_init ();
 	reroot_env_init ();
+	reroot_persona_init ();
 }
 
 // Destroy libreroot.  This function is called automatically when libreroot is

@@ -1,4 +1,4 @@
-// libreroot libc function intercept declarations
+// libreroot user & group handling
 // Copyright (C) 2003-2005 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 // Gareth Jones <gareth_jones@users.berlios.de>
 //
@@ -16,27 +16,47 @@
 // this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
-#ifndef LIBREROOT_H
-# define LIBREROOT_H
+#include <stdbool.h>
+#include <stdlib.h>	// getenv.
 
-# include <stdio.h>
-# include <sys/types.h>
-# include <unistd.h>
+#include "persona.h"
+#include "reroot.h"
 
-// Make sure pointers are external declarations except in libreroot.c.
-# ifdef LIBREROOT_C
-#  define EXTERN
-# else
-#  define EXTERN extern
-# endif
+// True if root privileges are not being simulated.
+static bool const reroot_limited;
 
-// Process persona.
-EXTERN uid_t (*libc_getuid) (void);
-EXTERN gid_t (*libc_getgid) (void);
-EXTERN uid_t (*libc_geteuid) (void);
-EXTERN gid_t (*libc_getegid) (void);
+// Initialize persona.  If the REROOT_LIMITED envirionment variable is set, do
+// not simulate root privileges.
+void
+reroot_persona_init ()
+{
+	*(bool *) &reroot_limited = getenv ("REROOT_LIMITED");
+}
 
-// Opening files.
-EXTERN FILE *(*libc_fopen) (char const *filename, char const *opentype);
+// Return `real' user ID.
+uid_t
+getuid ()
+{
+	return reroot_limited? libc_getuid () : 0;
+}
 
-#endif
+// Return `real' group ID.
+gid_t
+getgid ()
+{
+	return reroot_limited? libc_getgid () : 0;
+}
+
+// Return `effective' user ID.
+uid_t
+geteuid ()
+{
+	return reroot_limited? libc_geteuid () : 0;
+}
+
+// Return `effective' group ID.
+gid_t
+getegid ()
+{
+	return reroot_limited? libc_getegid () : 0;
+}
