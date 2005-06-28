@@ -154,15 +154,12 @@ reroot_stack_string (reroot_stack const *const restrict stack,
 	                                   * delim_length + 1);
 	char *position = string;
 
-	// Make sure string starts empty.
-	*string = 0;
-
 	// Construct string from stack.
 	reroot_stack_item const *restrict current = stack->start;
 	while (current)
 	{
 		// Add deliminator if not start, or prefix required.
-		if (prefix || *string)
+		if (prefix || position != string)
 			position = mempcpy (position, delim, delim_length);
 
 		position = mempcpy (position, current->string, current->length);

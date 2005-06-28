@@ -8,7 +8,8 @@
 	* reroot/libreroot/libreroot.c: Removed calls to other initializers.
 
 	* reroot/libreroot/memory.c (reroot_stack_string): Used mempcpy instead
-	  of strcat (should be faster).
+	  of strcat (should be faster).  Fixed bug resulting from an invalid
+	  assumption concerning an uninitialized string.
 
 2005-06-22 Gareth Jones <gareth_jones@users.berlios.de>
 
