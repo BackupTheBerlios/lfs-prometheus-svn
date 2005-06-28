@@ -113,7 +113,7 @@ reroot_exclude_path_init ()
 
 // Initialize reroot_false_root & reroot_exclude_path from environment
 // variables.
-void
+static void __attribute__ ((constructor))
 reroot_env_init ()
 {
 	reroot_false_root_init ();
@@ -121,7 +121,7 @@ reroot_env_init ()
 }
 
 // Free memory used by reroot_false_root & reroot_exclude_path.
-void
+static void __attribute__ ((destructor))
 reroot_env_destroy ()
 {
 	if (reroot_false_root)

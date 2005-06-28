@@ -19,7 +19,6 @@
 #include <stdbool.h>
 #include <stdlib.h>	// getenv.
 
-#include "persona.h"
 #include "reroot.h"
 
 // True if root privileges are not being simulated.
@@ -27,7 +26,7 @@ static bool const reroot_limited;
 
 // Initialize persona.  If the REROOT_LIMITED envirionment variable is set, do
 // not simulate root privileges.
-void
+static void __attribute__ ((constructor))
 reroot_persona_init ()
 {
 	*(bool *) &reroot_limited = getenv ("REROOT_LIMITED");

@@ -21,9 +21,6 @@
 
 # include "libreroot.h"
 
-void reroot_env_init (void);
-void reroot_env_destroy (void);
-
 char *reroot (char *const restrict requested);
 
 #endif

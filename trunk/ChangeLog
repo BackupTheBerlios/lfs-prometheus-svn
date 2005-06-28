@@ -1,3 +1,12 @@
+2005-06-27 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/reroot.c: Flagged constructor & destructor for gcc.
+	* reroot/libreroot/reroot.h: Removed declarations of constructor &
+	  destructor.
+	* reroot/libreroot/persona.c: Flagged constructor for gcc.
+	* reroot/libreroot/persona.h: Removed.
+	* reroot/libreroot/libreroot.c: Removed calls to other initializers.
+
 2005-06-22 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/libreroot/memory.c: Used memcpy instead of strcpy.
