@@ -16,15 +16,15 @@
 // this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
-#ifndef LIBREROOT_H
-# define LIBREROOT_H
+#ifndef LIBC_H
+# define LIBC_H
 
 # include <stdio.h>
 # include <sys/types.h>
 # include <unistd.h>
 
 // Make sure pointers are external declarations except in libreroot.c.
-# ifdef LIBREROOT_C
+# ifdef LIBC_C
 #  define EXTERN
 # else
 #  define EXTERN extern

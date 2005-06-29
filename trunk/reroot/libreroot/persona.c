@@ -19,7 +19,7 @@
 #include <stdbool.h>
 #include <stdlib.h>	// getenv.
 
-#include "reroot.h"
+#include "libc.h"
 
 // True if root privileges are not being simulated.
 static bool const reroot_limited;

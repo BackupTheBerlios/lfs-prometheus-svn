@@ -1,3 +1,14 @@
+2005-06-29 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/libreroot.c, reroot/libreroot/libreroot.h: Renamed to
+	  libc.*.
+	* reroot/libreroot/libc.c, reroot/libreroot/libc.h: Added.
+	* reroot/libreroot/reroot.h: Removed inclusion of libreroot.h.
+	* reroot/libreroot/open.c, reroot/libreroot/persona.c: Changed
+	  references to reroot.h to libc.h.
+
+	* reroot/libreroot/memory.c (reroot_stack_string): Minor optimization.
+
 2005-06-27 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/libreroot/reroot.c: Flagged constructor & destructor for gcc.

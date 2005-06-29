@@ -1,4 +1,4 @@
-// libreroot initialization
+// libreroot libc function intercepts
 // Copyright (C) 2003-2005 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 // Gareth Jones <gareth_jones@users.berlios.de>
 //
@@ -17,12 +17,12 @@
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
 // Make sure we get definitions rather than declarations of libc pointers.
-#define LIBREROOT_C
+#define LIBC_C
 
 #include <dlfcn.h>	// dlerror & dlsym.
 #include <error.h>	// error.
 
-#include "libreroot.h"
+#include "libc.h"
 
 // Wrapper for dlopen.
 static void *

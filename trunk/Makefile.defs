@@ -24,8 +24,8 @@ PROGS = $(BINPROGS) $(SBINPROGS)
 LIB = libprometheus.bash
 
 # Prometheus version & release date.
-VERSION = 0.2-20050520
-RELEASE = 2005-05-20
+VERSION = 0.2-20050629
+RELEASE = 2005-06-29
 
 # Configuration files.
 CONFIG = prometheus.conf

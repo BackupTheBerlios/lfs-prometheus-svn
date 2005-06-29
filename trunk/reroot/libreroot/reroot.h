@@ -19,8 +19,6 @@
 #ifndef REROOT_H
 # define REROOT_H
 
-# include "libreroot.h"
-
 char *reroot (char *const restrict requested);
 
 #endif
