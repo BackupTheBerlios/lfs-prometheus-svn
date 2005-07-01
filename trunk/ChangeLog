@@ -1,3 +1,7 @@
+2005-07-01 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/filesystem.c: Added.
+
 2005-06-30 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/libreroot/libc.c, reroot/libreroot/libc.h: dlsymed more persona

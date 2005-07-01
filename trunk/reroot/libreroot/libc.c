@@ -1,4 +1,4 @@
-// libreroot libc function intercepts
+// libreroot pointers to overridden libc functions initialization
 // Copyright (C) 2003-2005 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 // Gareth Jones <gareth_jones@users.berlios.de>
 //
@@ -19,8 +19,8 @@
 // Make sure we get definitions rather than declarations of libc pointers.
 #define LIBC_C
 
-#include <dlfcn.h>	// dlerror & dlsym.
-#include <error.h>	// error.
+#include <dlfcn.h>
+#include <error.h>
 
 #include "libc.h"
 
@@ -51,6 +51,8 @@ reroot_overrides_init ()
 	libc_setgid = reroot_dlsym ("setgid");
 	libc_seteuid = reroot_dlsym ("seteuid");
 	libc_setegid = reroot_dlsym ("setegid");
+
+	// Filesystem.
 
 	// Opening files.
 	libc_fopen = reroot_dlsym ("fopen");

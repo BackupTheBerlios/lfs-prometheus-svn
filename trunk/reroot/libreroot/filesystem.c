@@ -1,4 +1,4 @@
-// libreroot pointers to overridden libc functions
+// libreroot filesystem interface
 // Copyright (C) 2003-2005 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 // Gareth Jones <gareth_jones@users.berlios.de>
 //
@@ -16,33 +16,5 @@
 // this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
-#ifndef LIBC_H
-# define LIBC_H
-
-# include <stdio.h>
-# include <sys/types.h>
-# include <unistd.h>
-
-// Make sure pointers are external declarations except in libreroot.c.
-# ifdef LIBC_C
-#  define EXTERN
-# else
-#  define EXTERN extern
-# endif
-
-// Process persona.
-EXTERN uid_t (*libc_getuid) (void);
-EXTERN gid_t (*libc_getgid) (void);
-EXTERN uid_t (*libc_geteuid) (void);
-EXTERN gid_t (*libc_getegid) (void);
-EXTERN int (*libc_setuid) (uid_t);
-EXTERN int (*libc_setgid) (gid_t);
-EXTERN int (*libc_seteuid) (uid_t);
-EXTERN int (*libc_setegid) (gid_t);
-
-// Filesystem.
-
-// Opening files.
-EXTERN FILE *(*libc_fopen) (char const *, char const *);
-
-#endif
+#include "libc.h"
+#include "reroot.h"

@@ -18,7 +18,7 @@
 
 #include <errno.h>
 #include <stdbool.h>
-#include <stdlib.h>	// getenv.
+#include <stdlib.h>
 
 #include "libc.h"
 

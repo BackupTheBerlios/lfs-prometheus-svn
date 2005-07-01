@@ -16,8 +16,8 @@
 // this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
-#include <stdlib.h>	// free, getenv & setenv.
-#include <string.h>	// memcpy, mempcpy, strdupa, strlen & strtok_r.
+#include <stdlib.h>
+#include <string.h>
 
 #include "absolute.h"
 #include "memory.h"

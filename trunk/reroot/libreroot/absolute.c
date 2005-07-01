@@ -16,9 +16,9 @@
 // this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
-#include <stdlib.h>	// free.
-#include <string.h>	// strcmp, strdupa & strtok_r.
-#include <unistd.h>	// get_current_dir_name.
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 #include "absolute.h"
 #include "memory.h"
