@@ -1,3 +1,9 @@
+2005-06-30 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/libc.c, reroot/libreroot/libc.h: dlsymed more persona
+	  functions.
+	* reroot/libreroot/persona.c: Added more persona functions.
+
 2005-06-29 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/libreroot/libreroot.c, reroot/libreroot/libreroot.h: Renamed to

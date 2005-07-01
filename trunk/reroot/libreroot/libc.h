@@ -35,8 +35,12 @@ EXTERN uid_t (*libc_getuid) (void);
 EXTERN gid_t (*libc_getgid) (void);
 EXTERN uid_t (*libc_geteuid) (void);
 EXTERN gid_t (*libc_getegid) (void);
+EXTERN int (*libc_setuid) (uid_t);
+EXTERN int (*libc_setgid) (gid_t);
+EXTERN int (*libc_seteuid) (uid_t);
+EXTERN int (*libc_setegid) (gid_t);
 
 // Opening files.
-EXTERN FILE *(*libc_fopen) (char const *filename, char const *opentype);
+EXTERN FILE *(*libc_fopen) (char const *, char const *);
 
 #endif

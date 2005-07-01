@@ -42,9 +42,16 @@ reroot_dlsym (char const *const restrict name)
 static void __attribute__ ((constructor))
 reroot_overrides_init ()
 {
+	// Process persona.
 	libc_getuid = reroot_dlsym ("getuid");
 	libc_getgid = reroot_dlsym ("getgid");
 	libc_geteuid = reroot_dlsym ("geteuid");
 	libc_getegid = reroot_dlsym ("getegid");
+	libc_setuid = reroot_dlsym ("setuid");
+	libc_setgid = reroot_dlsym ("setgid");
+	libc_seteuid = reroot_dlsym ("seteuid");
+	libc_setegid = reroot_dlsym ("setegid");
+
+	// Opening files.
 	libc_fopen = reroot_dlsym ("fopen");
 }
