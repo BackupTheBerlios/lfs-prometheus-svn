@@ -1,3 +1,16 @@
+2005-07-02 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/expect.pkg: Added --with-tclinclude to configure
+	  line.
+	* profiles/lfs-6.1/findutils.pkg: Upgraded to findutils 4.2.23.
+	* profiles/lfs-6.1/flex.pkg: Upraded to latest flex patch.
+	* profiles/lfs-6.1/grep.pkg: Removed --with-included-regex from stage1
+	  build.
+	* profiles/lfs-6.1/gzip.pkg: Added compress symlink to gzip.
+	* profiles/lfs-6.1/mktemp.pkg: Upgraded to latest mktemp patch.
+	* profiles/lfs-6.1/shadow.pkg: Upgraded to shadow 4.0.9, removed
+	  lastlog patch.
+
 2005-07-01 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/libreroot/filesystem.c: Added.

@@ -1,12 +1,8 @@
 name="Shadow password suite"
-version="4.0.7"
+version="4.0.9"
 
 archives=(
 	"ftp://ftp.pld.org.pl/software/shadow/shadow-${version}.tar.bz2"
-)
-
-patches=(
-	"http://www.linuxfromscratch.org/patches/downloads/shadow/shadow-${version}-fix_lastlog-1.patch"
 )
 
 function build_pkg {

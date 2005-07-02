@@ -32,5 +32,6 @@ function install_pkg {
 	rm /usr/bin/{gunzip,zcat}
 	ln -sf gzip /bin/gunzip
 	ln -sf gzip /bin/zcat
+	ln -sf gzip /bin/compress
 	ln -sf gunzip /bin/uncompress
 }

@@ -7,8 +7,7 @@ archives=(
 )
 
 function stage1_build_pkg {
-	./configure --prefix=/tools --disable-perl-regexp \
-		    --with-included-regexp
+	./configure --prefix=/tools --disable-perl-regexp
 	make
 }
 
