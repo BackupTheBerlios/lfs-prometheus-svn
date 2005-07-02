@@ -6,7 +6,7 @@ archives=(
 )
 
 patches=(
-	"http://www.linuxfromscratch.org/patches/downloads/flex/flex-${version}-debian_fixes-2.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/flex/flex-${version}-debian_fixes-3.patch"
 	"http://www.linuxfromscratch.org/patches/downloads/flex/flex-${version}-yytext_ptr-1.patch"
 )
 

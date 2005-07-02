@@ -12,8 +12,7 @@ patches=(
 )
 
 function stage1_build_pkg {
-	./configure --prefix=/tools --disable-perl-regexp \
-		    --with-included-regexp --disable-nls
+	./configure --prefix=/tools --disable-perl-regexp --disable-nls
 	make
 }
 
