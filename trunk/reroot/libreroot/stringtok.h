@@ -1,4 +1,4 @@
-// libreroot filename parsing declarations
+// string_tok declaration
 // Copyright (C) 2003-2005 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 // Gareth Jones <gareth_jones@users.berlios.de>
 //
@@ -16,9 +16,50 @@
 // this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
-#ifndef ABSOLUTE_H
-# define ABSOLUTE_H
+#ifndef STRINGTOK_H
+# define STRINGTOK_H
 
-char *reroot_absolute_filename (char const *const restrict name);
+# include <string>
+
+namespace reroot
+{
+	class string_tok;
+}
+
+// A wrapper for the GNU C strtok_r function.  Usage is deliberately similar
+// to std::istringstream.  FIXME: Can we use istringstream instead?
+class reroot::string_tok
+{
+	public:
+		string_tok (std::string const &str, char const del);
+		~string_tok ();
+
+		string_tok &operator >> (std::string &component);
+		operator bool () const;
+
+	private:
+		// Copying makes no sense.
+		string_tok (string_tok const &);
+		string_tok const &operator = (string_tok const &);
+
+		bool okay;
+		char delim [2];
+		char *buf,
+		     *pos;
+};
+
+// D'tor.  Delete buffer.
+inline
+reroot::string_tok::~string_tok ()
+{
+	delete [] buf;
+}
+
+// Return status of tokenizer.
+inline
+reroot::string_tok::operator bool () const
+{
+	return okay;
+}
 
 #endif

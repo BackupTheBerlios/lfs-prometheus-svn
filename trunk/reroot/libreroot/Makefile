@@ -17,14 +17,13 @@
 # Place, Suite 330, Boston, MA  02111-1307  USA
 
 # Default build flags.
-CFLAGS := -g -pipe -Wall -W -Werror --std=gnu99 -O2 -fpic
-CPPFLAGS := -I.. -D_GNU_SOURCE
+CPPFLAGS := -D_GNU_SOURCE
+CXXFLAGS := -g -pipe -Wall -W -Werror -O2 -fpic
 LDFLAGS := -pipe -ldl -shared
 
 # What to build.
 library := libreroot.so
-objects := absolute.o filesystem.o ipc.o libc.o memory.o open.o persona.o \
-           reroot.o
+objects := filename.o libc.o persona.o stringlist.o stringtok.o
 
 .PHONY: all clean dep
 
@@ -36,8 +35,8 @@ clean:
 dep:
 
 # Generate & include dependencies.
-%.d: %.c
-	$(CC) -MM $(CPPFLAGS) $< | sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' > $@
+%.d: %.cc
+	$(CXX) -MM $(CPPFLAGS) $< | sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' > $@
 
 # Don't generate & include dependencies just to delete them again.
 ifneq ($(MAKECMDGOALS),clean)
@@ -45,4 +44,4 @@ ifneq ($(MAKECMDGOALS),clean)
 endif
 
 $(library): $(objects)
-	$(CC) $(LDFLAGS) -o $@ $^
+	$(CXX) $(LDFLAGS) -o $@ $^

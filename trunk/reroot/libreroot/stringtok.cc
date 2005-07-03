@@ -1,4 +1,4 @@
-// libreroot System V IPC
+// string_tok
 // Copyright (C) 2003-2005 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 // Gareth Jones <gareth_jones@users.berlios.de>
 //
@@ -16,5 +16,33 @@
 // this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
-#include "ipc.h"
-#include "packet.h"
+#include <cstring>
+#include "stringtok.h"
+
+using namespace std;
+
+// C'tor.  Initialize variables & allocate buffer.
+reroot::string_tok::string_tok (string const &str, char const del):
+	okay (true),
+	pos (0)
+{
+	string::size_type const length = str.length () + 1;
+	buf = new char [length];
+	memcpy (buf, str.c_str (), length);
+
+	delim [0] = del;
+	delim [1] = 0;
+}
+
+// Read next token into component.
+reroot::string_tok &
+reroot::string_tok::operator >> (string &component)
+{
+	char const *const comp = strtok_r (pos? 0 : buf, delim, &pos);
+	if (comp)
+		component = comp;
+	else
+		okay = false;		// No more tokens.
+
+	return *this;
+}

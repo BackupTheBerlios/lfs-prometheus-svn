@@ -1,4 +1,4 @@
-// libreroot pointers to overridden libc functions
+// Pointers to overridden libc functions
 // Copyright (C) 2003-2005 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 // Gareth Jones <gareth_jones@users.berlios.de>
 //
@@ -19,30 +19,38 @@
 #ifndef LIBC_H
 # define LIBC_H
 
-# include <stdio.h>
 # include <sys/types.h>
 # include <unistd.h>
 
-// Make sure pointers are external declarations except in libc.c.
-# ifdef LIBC_C
+// Make sure pointers are external declarations except in libc.cc.
+# ifdef LIBC_CC
 #  define EXTERN
 # else
 #  define EXTERN extern
 # endif
 
-// Process persona.
-EXTERN uid_t (*libc_getuid) (void);
-EXTERN gid_t (*libc_getgid) (void);
-EXTERN uid_t (*libc_geteuid) (void);
-EXTERN gid_t (*libc_getegid) (void);
-EXTERN int (*libc_setuid) (uid_t);
-EXTERN int (*libc_setgid) (gid_t);
-EXTERN int (*libc_seteuid) (uid_t);
-EXTERN int (*libc_setegid) (gid_t);
+namespace libc
+{
+	// Pointer to C function types.
+	extern "C"
+	{
+		// Process persona.
+		typedef uid_t (*getuid_t) ();
+		typedef gid_t (*getgid_t) ();
+		typedef int (*setuid_t) (uid_t);
+		typedef int (*setgid_t) (gid_t);
+	}
 
-// Filesystem.
+	// Process persona.
+	EXTERN getuid_t geteuid;
+	EXTERN getuid_t getuid;
+	EXTERN getgid_t getegid;
+	EXTERN getgid_t getgid;
+	EXTERN setuid_t seteuid;
+	EXTERN setuid_t setuid;
+	EXTERN setgid_t setegid;
+	EXTERN setgid_t setgid;
+}
 
-// Opening files.
-EXTERN FILE *(*libc_fopen) (char const *, char const *);
-
+# undef EXTERN
 #endif

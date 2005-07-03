@@ -1,4 +1,4 @@
-// libreroot support declarations
+// string_list
 // Copyright (C) 2003-2005 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 // Gareth Jones <gareth_jones@users.berlios.de>
 //
@@ -16,9 +16,22 @@
 // this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
-#ifndef REROOT_H
-# define REROOT_H
+#include "stringlist.h"
 
-char *reroot (char *const restrict requested);
+// Return a string built from the strings in the list.  The strings are
+// separated by the specified deliminator, which also prefixes the string.
+void
+reroot::string_list::get_string (std::string &string, char const delim) const
+{
+	// Prepare string.
+	string.clear ();
+	string.reserve (length);
 
-#endif
+	// Construct string.
+	const_iterator const final = end ();
+	for (const_iterator item = begin (); item != final; ++item)
+	{
+		string += delim;
+		string += *item;
+	}
+}
