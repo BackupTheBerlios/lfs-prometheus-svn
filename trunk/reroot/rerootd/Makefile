@@ -18,7 +18,7 @@
 
 # Default build flags.
 CPPFLAGS := -I.. -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
-CXXFLAGS := -g -pipe -Wall -W -Werror
+CXXFLAGS := -g -pipe -Wall -W -Werror -O2
 LDFLAGS := -pipe
 
 # What to build.

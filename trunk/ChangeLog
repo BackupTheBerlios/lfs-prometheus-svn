@@ -1,3 +1,12 @@
+2005-07-02 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/libc.h: Fixed error in comment.
+
+	* reroot/libreroot/persona.c: Fixed use of uid_t when gid_t should have
+	  been used.
+
+	* reroot/libreroot/Makefile, reroot/rerootd/Makefile: Enabled -O2.
+
 2005-07-02 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/lfs-6.1/expect.pkg: Added --with-tclinclude to configure

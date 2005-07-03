@@ -23,7 +23,7 @@
 # include <sys/types.h>
 # include <unistd.h>
 
-// Make sure pointers are external declarations except in libreroot.c.
+// Make sure pointers are external declarations except in libc.c.
 # ifdef LIBC_C
 #  define EXTERN
 # else

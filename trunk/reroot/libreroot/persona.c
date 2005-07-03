@@ -29,8 +29,8 @@ static bool const reroot_limited;
 // IDs.  File IDs only apply to SUID & SGID executables, which libreroot won't
 // work with anyway.
 static uid_t reroot_effective_uid = 0,
-             reroot_effective_gid = 0,
-             reroot_real_uid = 0,
+             reroot_real_uid = 0;
+static gid_t reroot_effective_gid = 0,
              reroot_real_gid = 0;
 
 // Initialize persona.  If the REROOT_LIMITED envirionment variable is set, do
