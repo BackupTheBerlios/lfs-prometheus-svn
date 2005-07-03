@@ -64,5 +64,7 @@ namespace
 		dl (libc::setuid, "setuid");
 		dl (libc::setegid, "setegid");
 		dl (libc::setgid, "setgid");
+		dl (libc::setreuid, "setreuid");
+		dl (libc::setregid, "setregid");
 	}
 }

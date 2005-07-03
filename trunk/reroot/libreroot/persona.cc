@@ -83,6 +83,9 @@ extern "C"
 		if (limited)
 			return libc::seteuid (newuid);
 
+		if (newuid == effective_uid)
+			return 0;
+
 		// Can only change effective user ID to real user ID unless
 		// privileged.
 		if (!effective_uid || newuid == real_uid)
@@ -110,7 +113,7 @@ extern "C"
 
 		// Can only change effective user ID to real user ID unless
 		// privileged.
-		if (newuid == real_uid)
+		if (newuid == real_uid || newuid == effective_uid)
 		{
 			effective_uid = newuid;
 			return 0;
@@ -126,6 +129,9 @@ extern "C"
 	{
 		if (limited)
 			return libc::setegid (newgid);
+
+		if (newgid == effective_gid)
+			return 0;
 
 		// Can only change effective group ID to real group ID unless
 		// privileged.
@@ -154,7 +160,7 @@ extern "C"
 
 		// Can only change effective group ID to real group ID unless
 		// privileged.
-		if (newgid == real_gid)
+		if (newgid == real_gid || newgid == effective_gid)
 		{
 			effective_gid = newgid;
 			return 0;
@@ -162,5 +168,59 @@ extern "C"
 
 		errno = EPERM;
 		return -1;
+	}
+
+	// For privileged processes set real & effective user IDs.  Unprivileged
+	// processes can only swap real & effective.  Values of -1 indicate not
+	// to change.
+	int
+	setreuid (uid_t const ruid, uid_t const euid)
+	{
+		if (limited)
+			return libc::setreuid (ruid, euid);
+
+		// Check we're allowed to do this.
+		if (effective_uid && ((ruid != uid_t (-1) && ruid != real_uid &&
+		    ruid != effective_uid) || (euid != uid_t (-1) &&
+		    euid != real_uid && euid != effective_uid)))
+		{
+			errno = EPERM;
+			return -1;
+		}
+
+		if (ruid != uid_t (-1))
+			real_uid = ruid;
+
+		if (euid != uid_t (-1))
+			effective_uid = euid;
+
+		return 0;
+	}
+
+	// For privileged processes set real & effective group IDs.
+	// Unprivileged processes can only swap real & effective.  Values of -1
+	// indicate not to change.
+	int
+	setregid (gid_t const rgid, gid_t const egid)
+	{
+		if (limited)
+			return libc::setregid (rgid, egid);
+
+		// Check we're allowed to do this.
+		if (effective_uid && ((rgid != gid_t (-1) && rgid != real_gid &&
+		    rgid != effective_gid) || (egid != gid_t (-1) &&
+		    egid != real_gid && egid != effective_gid)))
+		{
+			errno = EPERM;
+			return -1;
+		}
+
+		if (rgid != gid_t (-1))
+			real_gid = rgid;
+
+		if (egid != gid_t (-1))
+			effective_gid = egid;
+
+		return 0;
 	}
 }

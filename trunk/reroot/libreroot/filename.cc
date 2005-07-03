@@ -19,6 +19,7 @@
 #include <cstdlib>
 #include <string>
 
+#include "error.h"
 #include "filename.h"
 #include "stringlist.h"
 #include "stringtok.h"
@@ -29,6 +30,7 @@ namespace
 {
 	char const directory_delim = '/';
 
+	bool rerooting;
 	string const false_root;
 	reroot::string_list const exclude_path;
 
@@ -95,12 +97,22 @@ namespace
 		// Is the environment variable non-null?
 		if (fr && *fr)
 		{
+			// Get writeable reference to false_root & set it.
+			string &dir = const_cast <string &> (false_root);
+			make_absolute (dir, fr);
+
+			// If false_root is `/', clear it.
+			if (dir == "/")
+				dir.clear ();
+
 			// Save absolute false root directory back to
 			// environment incase any children change their working
 			// directories.
-			make_absolute (const_cast <string &> (false_root), fr);
 			setenv (env_var, false_root.c_str (), 1);
 		}
+
+		// Are we actually rerooting filenames?
+		rerooting = false_root.length ();
 	}
 
 	// Initialize exclude_path from the REROOT_EXCLUDE_PATH environment
@@ -141,15 +153,20 @@ namespace
 		// Insert false root directory to avoid multiple rerootings
 		// (e.g. if glibc calls back into libreroot).  By default
 		// exclude all directories if false_root not specified.
-		list.push_front (false_root.length ()? false_root : "/");
+		list.push_front (rerooting? false_root : "/");
 	}
 
 	// Initialize false_root & exclude_path from environment variables.
 	void __attribute__ ((constructor))
 	init_reroot ()
+	try
 	{
 		init_false_root ();
 		init_exclude_path ();
+	}
+	catch (exception const &x)
+	{
+		reroot::error (x);
 	}
 
 	// Remove the false root directory from the beginning of a rerooted
@@ -158,9 +175,8 @@ namespace
 	void
 	remove_false_root (string &absolute, string const &rerooted)
 	{
-		string::size_type const length = false_root.length ();
-		if (length && rerooted.find (false_root) == 0)
-			absolute = rerooted.substr (length);
+		if (rerooting && rerooted.find (false_root) == 0)
+			absolute = rerooted.substr (false_root.length ());
 		else
 			absolute = rerooted;
 	}
@@ -172,7 +188,7 @@ namespace
 	add_false_root (string &rerooted, string const &absolute)
 	{
 		// If no false root specified, don't waste time.
-		if (false_root.empty ())
+		if (!rerooting)
 		{
 			rerooted = absolute;
 			return;
@@ -194,6 +210,13 @@ namespace
 		rerooted += false_root;
 		rerooted += absolute;
 	}
+}
+
+// Return true if filenames are to be rerooted.
+bool
+reroot::rerooted ()
+{
+	return rerooting;
 }
 
 // Set the absolute filename.  Clear other names.

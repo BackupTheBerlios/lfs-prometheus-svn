@@ -4,6 +4,20 @@
 	  using C++ turned out to be incorrect, while later directory overlaying
 	  functions may be made considerably easier by using the C++ STL.
 
+	* reroot/libreroot/error.cc, reroot/libreroot/error.h: Added exception
+	  handling support function.
+	* reroot/libreroot/filename.cc (init_reroot): Added exception handling.
+
+	* reroot/libreroot/filename.cc (init_false_root): Minor bug fixed.
+
+	* reroot/libreroot/filename.cc, reroot/libreroot/filename.h: Added
+	  ability to query whether filenames should be rerooted.
+
+	* reroot/libreroot/filesystem.cc: Added but empty.
+
+	* reroot/libreroot/persona.cc: Added overrides for `setreuid' &
+	  `setregid'.
+
 2005-07-02 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/libreroot/libc.h: Fixed error in comment.

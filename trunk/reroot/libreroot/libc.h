@@ -39,6 +39,8 @@ namespace libc
 		typedef gid_t (*getgid_t) ();
 		typedef int (*setuid_t) (uid_t);
 		typedef int (*setgid_t) (gid_t);
+		typedef int (*setreuid_t) (uid_t, uid_t);
+		typedef int (*setregid_t) (gid_t, gid_t);
 	}
 
 	// Process persona.
@@ -50,6 +52,8 @@ namespace libc
 	EXTERN setuid_t setuid;
 	EXTERN setgid_t setegid;
 	EXTERN setgid_t setgid;
+	EXTERN setreuid_t setreuid;
+	EXTERN setregid_t setregid;
 }
 
 # undef EXTERN
