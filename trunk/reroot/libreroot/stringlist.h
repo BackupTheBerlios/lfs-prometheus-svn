@@ -33,24 +33,29 @@ namespace reroot
 // prefixes the string.  This is mainly intended for parsing filenames and
 // PATH-like environment variables.
 class reroot::string_list:
-	private std::list <std::string>
+	private string_list_base
 {
 	public:
+		// C'tor.
 		string_list ();
 
+		// List access.
 		void push_front (std::string const &string);
 		void push_back (std::string const &string);
 		void pop_front ();
 		void pop_back ();
 
+		// For getting the whole string.
 		void get_string (std::string &string, char const delim) const;
 
+		// Members of std::list that need to be public.
 		using string_list_base::begin;
 		using string_list_base::const_iterator;
 		using string_list_base::empty;
 		using string_list_base::end;
 
 	private:
+		// Total string length, including deliminators.
 		std::string::size_type length;
 };
 

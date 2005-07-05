@@ -25,9 +25,6 @@ using namespace std;
 
 namespace
 {
-	// True if root privileges are not being simulated.
-	bool limited;
-
 	// Simulated user & group IDs.  Simulate both real & effective IDs, but
 	// not file IDs.  File IDs only apply to SUID & SGID executables, which
 	// libreroot won't work with anyway.
@@ -36,12 +33,12 @@ namespace
 	gid_t effective_gid = 0,
 	      real_gid = 0;
 
-	// Initialize persona.  If the REROOT_LIMITED envirionment variable is
-	// set, do not simulate root privileges.
-	static void __attribute__ ((constructor))
-	init_persona ()
+	// Return true if root privileges are not being simulated.
+	inline bool
+	is_limited ()
 	{
-		limited = getenv ("REROOT_LIMITED");
+		static bool const limited = getenv ("REROOT_LIMITED");
+		return limited;
 	}
 }
 
@@ -52,35 +49,35 @@ extern "C"
 	uid_t
 	geteuid ()
 	{
-		return limited? libc::geteuid () : effective_uid;
+		return is_limited ()? libc::geteuid () : effective_uid;
 	}
 
 	// Return real user ID.
 	uid_t
 	getuid ()
 	{
-		return limited? libc::getuid () : real_uid;
+		return is_limited ()? libc::getuid () : real_uid;
 	}
 
 	// Return effective group ID.
 	gid_t
 	getegid ()
 	{
-		return limited? libc::getegid () : effective_gid;
+		return is_limited ()? libc::getegid () : effective_gid;
 	}
 
 	// Return real group ID.
 	gid_t
 	getgid ()
 	{
-		return limited? libc::getgid () : real_gid;
+		return is_limited ()? libc::getgid () : real_gid;
 	}
 
 	// Set effective user ID.
 	int
 	seteuid (uid_t const newuid)
 	{
-		if (limited)
+		if (is_limited ())
 			return libc::seteuid (newuid);
 
 		if (newuid == effective_uid)
@@ -102,7 +99,7 @@ extern "C"
 	int
 	setuid (uid_t const newuid)
 	{
-		if (limited)
+		if (is_limited ())
 			return libc::setuid (newuid);
 
 		if (!effective_uid)
@@ -127,7 +124,7 @@ extern "C"
 	int
 	setegid (gid_t const newgid)
 	{
-		if (limited)
+		if (is_limited ())
 			return libc::setegid (newgid);
 
 		if (newgid == effective_gid)
@@ -149,7 +146,7 @@ extern "C"
 	int
 	setgid (gid_t const newgid)
 	{
-		if (limited)
+		if (is_limited ())
 			return libc::setgid (newgid);
 
 		if (!effective_uid)
@@ -176,7 +173,7 @@ extern "C"
 	int
 	setreuid (uid_t const ruid, uid_t const euid)
 	{
-		if (limited)
+		if (is_limited ())
 			return libc::setreuid (ruid, euid);
 
 		// Check we're allowed to do this.
@@ -203,7 +200,7 @@ extern "C"
 	int
 	setregid (gid_t const rgid, gid_t const egid)
 	{
-		if (limited)
+		if (is_limited ())
 			return libc::setregid (rgid, egid);
 
 		// Check we're allowed to do this.

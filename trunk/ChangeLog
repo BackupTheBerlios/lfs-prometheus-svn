@@ -1,3 +1,14 @@
+2005-07-05 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/filename.h, reroot/libreroot/filename.cc: Made
+	  several anonymous namespace members in to static members of
+	  `filename'.
+
+	* reroot/libreroot/persona.cc: Replaced `limited' variable & its
+	  constructor function with `is_limited' function.
+
+	* reroot/libreroot: More comments in headers.
+
 2005-07-03 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/libreroot: All files: converted to C++.  My reason for not

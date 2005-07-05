@@ -31,21 +31,24 @@ namespace reroot
 class reroot::string_tok
 {
 	public:
+		// C'tor & d'tor.
 		string_tok (std::string const &str, char const del);
 		~string_tok ();
 
+		// For getting tokens.
 		string_tok &operator >> (std::string &component);
 		operator bool () const;
 
 	private:
-		// Copying makes no sense.
-		string_tok (string_tok const &);
-		string_tok const &operator = (string_tok const &);
-
+		// Data.
 		bool okay;
 		char delim [2];
 		char *buf,
 		     *pos;
+
+		// Copying makes no sense.
+		string_tok (string_tok const &);
+		string_tok const &operator = (string_tok const &);
 };
 
 // D'tor.  Delete buffer.
