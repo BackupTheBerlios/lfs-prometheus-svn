@@ -24,7 +24,6 @@
 
 namespace reroot
 {
-	bool rerooted ();
 	class filename;
 }
 
