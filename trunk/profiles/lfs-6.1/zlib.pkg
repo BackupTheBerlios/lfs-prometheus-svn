@@ -6,6 +6,10 @@ archives=(
 	"ftp://ftp.info-zip.org/pub/infozip/zlib/zlib-${version}.tar.gz"
 )
 
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/zlib/zlib-1.2.2-security_fix-1.patch"
+)
+
 function build_pkg {
 	# Note: as opposed to LFS, we do _not_ build the static zlib
 	# library.
