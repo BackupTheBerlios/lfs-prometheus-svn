@@ -30,174 +30,79 @@ using namespace std;
 string const reroot::filename::false_root;
 reroot::string_list const reroot::filename::exclude_path;
 
-// Set the absolute filename.  Clear other names.
+// Reset filename.
 void
-reroot::filename::set_absolute (string const &name)
+reroot::filename::clear ()
 {
-	absolute = name;
-	original.clear ();
-	rerooted.clear ();
-}
-
-// Set the original filename.  Clear other names.
-void
-reroot::filename::set_original (string const &name)
-{
-	original = name;
-	absolute.clear ();
-	rerooted.clear ();
-}
-
-// Set the rerooted filename.  Clear other names.
-void
-reroot::filename::set_rerooted (string const &name)
-{
-	rerooted = name;
-	absolute.clear ();
-	original.clear ();
+	absolute_name.clear ();
+	original_name.clear ();
+	rerooted_name.clear ();
+	status = unknown;
 }
 
 // Return the absolute filename.
 string const &
 reroot::filename::get_absolute () const
 {
-	if (absolute.empty ())
+	if (absolute_name.empty ())
 	{
-		// Can we remove the false root from the rerooted?
-		if (rerooted.length ())
-			remove_false_root (absolute, rerooted);
+		// Can we remove the false root from rerooted?
+		if (rerooted_name.length ())
+			rerooted_to_absolute ();
 
 		// Or can we make the original absolute?
-		else if (original.length ())
-			make_absolute (absolute, original);
+		else if (original_name.length ())
+			make_absolute (absolute_name, original_name);
 	}
-	return absolute;
+	return absolute_name;
 }
 
 // Return the original filename.
 string const &
 reroot::filename::get_original () const
 {
-	if (original.empty ())
-	{
-		// Can we use the absolute?
-		if (absolute.length ())
-			original = absolute;
+	// If necessary use absolute filename.
+	if (original_name.empty ())
+		original_name = get_absolute ();
 
-		// Or remove the false root from the rerooted?
-		else if (rerooted.length ())
-			remove_false_root (original, rerooted);
-	}
-	return original;
+	return original_name;
 }
 
 // Return the rerooted filename.
 string const &
 reroot::filename::get_rerooted () const
 {
-	if (rerooted.empty ())
-	{
-		// Can & should we generate the absolute?
-		if (absolute.empty () && original.length ())
-			get_absolute ();
+	// Reroot absolute if necessary & possible.
+	if (rerooted_name.empty ())
+		if (get_absolute ().length ())
+			absolute_to_rerooted ();
 
-		// Can we reroot absolute?
-		if (absolute.length ())
-			add_false_root (rerooted, absolute);
-	}
-	return rerooted;
+	return rerooted_name;
 }
 
-// Add current working directory to string list.
-void
-reroot::filename::add_working_directory (string_list &list)
+// Return true if the file is exluded, i.e. the absolute filename is under a
+// directory in the exclude path.
+bool
+reroot::filename::is_excluded () const
 {
-	// Get current working directory.
-	// FIXME: Use filesystem interface functions.
-	string const directory = getenv ("PWD")?: "/home/gareth";
+	// Have we already worked it out?
+	if (status == excluded)
+		return true;
+	if (status == rerooted)
+		return false;
 
-	// Add individual filename components to list.
-	string component;
-	string_tok tokenizer (directory, directory_delim);
-	while (tokenizer >> component)
-		list.push_back (component);
-}
-
-// Convert original filename to an absolute filename.  Don't resolve symbolic
-// links or check if the file exists.
-void
-reroot::filename::make_absolute (string &absolute, string const &original)
-{
-	string_list list;
-
-	// Add working directory if relative filename.
-	if (original [0] != directory_delim)
-		add_working_directory (list);
-
-	// Parse original filename via list.
-	string component;
-	string_tok tokenizer (original, directory_delim);
-	while (tokenizer >> component)
+	// If no rerooting is happening, can assume excluded.  Otherwise check
+	// if absolute filename is in exclude path.
+	if (!rerooting () || check_exclude_path (get_absolute ()))
 	{
-		// `..' => Up one level.
-		if (component == "..")
-		{
-			if (!list.empty ())
-				list.pop_back ();
-		}
-
-		// `.' => Skipped.
-		else if (component != ".")
-			list.push_back (component);
+		// File is excluded.
+		status = excluded;
+		return true;
 	}
 
-	// Get absolute filename from list.
-	list.get_string (absolute, directory_delim);
-
-	// If we `..'-ed past /, restore it.
-	if (absolute.empty ())
-		absolute = "/";
-}
-
-// Convert the absolute filename into a filename under the false root directory.
-// If the requested name is in an excluded directory, the rerooted filename is
-// the same as the absolute.
-void
-reroot::filename::add_false_root (string &rerooted, string const &absolute)
-{
-	// If no false root specified, don't waste time.
-	if (!is_rerooted ())
-	{
-		rerooted = absolute;
-		return;
-	}
-
-	// Check for excluded directories.
-	typedef string_list::const_iterator iterator;
-	iterator const end = exclude_path.end ();
-	for (iterator xdir = exclude_path.begin (); xdir != end; ++xdir)
-		if (absolute.find (*xdir) == 0)
-		{
-			rerooted = absolute;
-			return;
-		}
-
-	// Reroot filename.
-	rerooted.clear ();
-	rerooted.reserve (false_root.length () + absolute.length ());
-	rerooted += false_root;
-	rerooted += absolute;
-}
-
-// Remove the false root directory from the beginning of a rerooted filename, to
-// yield the absolute filename it would have were it really installed.
-void
-reroot::filename::remove_false_root (string &absolute, string const &rerooted)
-{
-	if (is_rerooted () && rerooted.find (false_root) == 0)
-		absolute = rerooted.substr (false_root.length ());
-	else
-		absolute = rerooted;
+	// No excluded directories found in filename.
+	status = rerooted;
+	return false;
 }
 
 // Initialize false_root from the REROOT_FALSE_ROOT environment variable.
@@ -261,7 +166,7 @@ reroot::filename::init_exclude_path ()
 	// Insert false root directory to avoid multiple rerootings (e.g. if
 	// glibc calls back into libreroot).  By default exclude all directories
 	// if false_root not specified.
-	list.push_front (is_rerooted ()? false_root : "/");
+	list.push_front (rerooting ()? false_root : "/");
 }
 
 // Initialize false_root & exclude_path from environment variables.
@@ -275,4 +180,101 @@ try
 catch (exception const &x)
 {
 	error (x);
+}
+
+// Return true if the absolute filename is under a directory in the exclude
+// path.
+bool
+reroot::filename::check_exclude_path (string const &absolute)
+{
+	typedef string_list::const_iterator iterator;
+
+	iterator const end = exclude_path.end ();
+	for (iterator xdir = exclude_path.begin (); xdir != end; ++xdir)
+		if (absolute.find (*xdir) == 0)
+			return true;
+
+	return false;
+}
+
+// Add current working directory to string list.
+void
+reroot::filename::add_working_directory (string_list &list)
+{
+	// Get current working directory.
+	// FIXME: Use filesystem interface functions.
+	string const directory = getenv ("PWD")?: "/home/gareth";
+
+	// Add individual filename components to list.
+	string component;
+	string_tok tokenizer (directory, directory_delim);
+	while (tokenizer >> component)
+		list.push_back (component);
+}
+
+// Convert original filename to an absolute filename.  Don't resolve symbolic
+// links or check if the file exists.
+void
+reroot::filename::make_absolute (string &absolute, string const &original)
+{
+	string_list list;
+
+	// Add working directory if relative filename.
+	if (original [0] != directory_delim)
+		add_working_directory (list);
+
+	// Parse original filename via list.
+	string component;
+	string_tok tokenizer (original, directory_delim);
+	while (tokenizer >> component)
+	{
+		// `..' => Up one level.
+		if (component == "..")
+		{
+			if (!list.empty ())
+				list.pop_back ();
+		}
+
+		// `.' => Skipped.
+		else if (component != ".")
+			list.push_back (component);
+	}
+
+	// Get absolute filename from list.
+	list.get_string (absolute, directory_delim);
+
+	// If we `..'-ed past /, restore it.
+	if (absolute.empty ())
+		absolute = "/";
+}
+
+// Convert the absolute filename into a filename under the false root directory.
+// If the absolute name is in an excluded directory, the rerooted filename is
+// the same as the absolute.
+void
+reroot::filename::absolute_to_rerooted () const
+{
+	// If in excluded directory, don't waste time.
+	if (is_excluded ())
+	{
+		rerooted_name = absolute_name;
+		return;
+	}
+
+	// Reroot filename.
+	rerooted_name.clear ();
+	rerooted_name.reserve (false_root.length () + absolute_name.length ());
+	rerooted_name += false_root;
+	rerooted_name += absolute_name;
+}
+
+// Convert the rerooted filename into a the name the file would have were it
+// really installed.
+void
+reroot::filename::rerooted_to_absolute () const
+{
+	if (rerooting () && rerooted_name.find (false_root) == 0)
+		absolute_name = rerooted_name.substr (false_root.length ());
+	else
+		absolute_name = rerooted_name;
 }

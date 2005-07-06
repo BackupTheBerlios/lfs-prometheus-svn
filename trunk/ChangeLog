@@ -1,3 +1,8 @@
+2005-07-06 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/filename.h, reroot/libreroot/filename.cc: Reorganized
+	  & improved interface to filename class.
+
 2005-07-06 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/lfs-6.1/zlib.pkg: Added fix for recent zlib vulnerability.
