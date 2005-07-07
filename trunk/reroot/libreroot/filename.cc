@@ -18,6 +18,7 @@
 
 #include <cstdlib>
 #include <string>
+#include <unistd.h>
 
 #include "error.h"
 #include "filename.h"
@@ -202,12 +203,12 @@ void
 reroot::filename::add_working_directory (string_list &list)
 {
 	// Get current working directory.
-	// FIXME: Use filesystem interface functions.
-	string const directory = getenv ("PWD")?: "/home/gareth";
+	char *const directory = getcwd (0, 0);
 
 	// Add individual filename components to list.
 	string component;
 	string_tok tokenizer (directory, directory_delim);
+	free (directory);
 	while (tokenizer >> component)
 		list.push_back (component);
 }

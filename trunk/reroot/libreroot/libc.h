@@ -19,6 +19,7 @@
 #ifndef LIBC_H
 # define LIBC_H
 
+# include <cstdlib>
 # include <sys/types.h>
 # include <unistd.h>
 
@@ -41,6 +42,13 @@ namespace libc
 		typedef int (*setgid_t) (gid_t);
 		typedef int (*setreuid_t) (uid_t, uid_t);
 		typedef int (*setregid_t) (gid_t, gid_t);
+
+		// Current working directory.
+		typedef char *(*getcwd_t) (char *, size_t);
+		typedef char *(*getwd_t) (char *);
+		typedef char *(*get_current_dir_name_t) ();
+		typedef int (*chdir_t) (char const *);
+		typedef int (*fchdir_t) (int);
 	}
 
 	// Process persona.
@@ -54,6 +62,27 @@ namespace libc
 	EXTERN setgid_t setgid;
 	EXTERN setreuid_t setreuid;
 	EXTERN setregid_t setregid;
+
+	// Current working directory.
+	EXTERN getcwd_t getcwd;
+	EXTERN getwd_t getwd;
+	EXTERN get_current_dir_name_t get_current_dir_name;
+	EXTERN chdir_t chdir;
+	EXTERN fchdir_t fchdir;
+}
+
+namespace reroot
+{
+	// Wrapper for malloc.
+	void *do_alloc (size_t const size);
+
+	// Helper to simplify tedious casting.
+	template <typename type>
+	inline type *
+	alloc (size_t const size)
+	{
+		return reinterpret_cast <type *> (do_alloc (size));
+	}
 }
 
 # undef EXTERN

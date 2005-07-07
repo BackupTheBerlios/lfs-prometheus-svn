@@ -19,6 +19,8 @@
 // Make sure we get definitions rather than declarations of libc pointers.
 #define LIBC_CC
 
+#include <cerrno>
+#include <cstdlib>
 #include <dlfcn.h>
 #include <error.h>
 
@@ -66,5 +68,25 @@ namespace
 		dl (libc::setgid, "setgid");
 		dl (libc::setreuid, "setreuid");
 		dl (libc::setregid, "setregid");
+
+		// Current working directory.
+		dl (libc::getcwd, "getcwd");
+		dl (libc::getwd, "getwd");
+		dl (libc::get_current_dir_name, "get_current_dir_name");
+		dl (libc::chdir, "chdir");
+		dl (libc::fchdir, "fchdir");
 	}
+}
+
+// Wrapper for malloc.
+void *
+reroot::do_alloc (size_t const size)
+{
+	void *ptr = malloc (size);
+
+	if (ptr)
+		return ptr;
+
+	error (1, errno, "libreroot: Cannot allocate memory");
+	return 0;	// Never get here but prevent gcc warning.
 }

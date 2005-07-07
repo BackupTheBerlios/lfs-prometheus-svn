@@ -1,7 +1,19 @@
 2005-07-06 Gareth Jones <gareth_jones@users.berlios.de>
 
-	* reroot/libreroot/filename.h, reroot/libreroot/filename.cc: Reorganized
-	  & improved interface to filename class.
+	* reroot/libreroot/filename.cc, reroot/libreroot/filename.h: Reorganized
+	  & improved interface to `filename' class.
+
+	* reroot/libreroot/filename.cc (add_working_directory): Use `getcwd'
+	  function.
+
+	* reroot/libreroot/libc.cc, reroot/libreroot/libc.h: Added `malloc'
+	  wrapper function.
+
+	* reroot/libreroot/libc.cc, reroot/libreroot/libc.h: Added current
+	  working directory functions.
+	* reroot/libreroot/filesystem.cc: Renamed to cwd.cc.
+	* reroot/libreroot/cwd.cc: Added overrides for getting current working
+	  directory, & place-holder stubs for setting it.
 
 2005-07-06 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
@@ -9,7 +21,7 @@
 
 2005-07-05 Gareth Jones <gareth_jones@users.berlios.de>
 
-	* reroot/libreroot/filename.h, reroot/libreroot/filename.cc: Made
+	* reroot/libreroot/filename.cc, reroot/libreroot/filename.h: Made
 	  several anonymous namespace members in to static members of
 	  `filename'.
 
