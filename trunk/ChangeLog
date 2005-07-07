@@ -1,3 +1,8 @@
+2005-07-07 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/Makefile: Defined LIBREROOT in CPPFLAGS.
+	* reroot/rerootd/Makefile: Defined REROOTD in CPPFLAGS.
+
 2005-07-06 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/libreroot/filename.cc, reroot/libreroot/filename.h: Reorganized
