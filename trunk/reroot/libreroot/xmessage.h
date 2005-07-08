@@ -1,4 +1,4 @@
-// Reroot communication data structures
+// Comunication exception declarations
 // Copyright (C) 2003-2005 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 // Gareth Jones <gareth_jones@users.berlios.de>
 //
@@ -16,37 +16,36 @@
 // this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
-#ifndef PACKET_H
-# define PACKET_H
+#ifndef XMESSAGE_H
+# define XMESSAGE_H
 
-// Maximum packet size, minus the PID, in bytes.
-# define packet_data_size (sizeof (reroot::packet) - sizeof (long))
-
-// Maximum packet body size in bytes.  See below.
-# define packet_body_size (512 - (sizeof (long) + \
-	sizeof (reroot::message_type) + 4 * sizeof (unsigned)))
+# include <stdexcept>
+# include <string>
 
 namespace reroot
 {
-	enum message_type;
-	struct packet;
+	class xmessage;
 }
 
-// Message types.
-enum reroot::message_type
+// Exception thrown by message handling code.
+class reroot::xmessage:
+	public std::runtime_error
 {
-	def
+	public:
+		xmessage (std::string const &action, int const errnum);
+
+		int get_error_number () const;
+
+	private:
+		// The C error number if any.
+		int const error_number;
 };
 
-// Messages are split into packets of known maximum size.
-struct reroot::packet
+// Return C error number.
+inline int
+reroot::xmessage::get_error_number () const
 {
-	long pid; // PID of sender or receiver, whichever *isn't* the daemon.
-	message_type type;		// Type of message represented in body.
-	unsigned body_size,		// Size of entire message body.
-	         packets_left,		// Number of packets left in message.
-	         packet_size;		// Size of packet, minus PID.
-	char body [packet_body_size];	// Attached data.
-};
+	return error_number;
+}
 
 #endif

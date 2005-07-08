@@ -1,3 +1,11 @@
+2005-07-08 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/xmessage.cc, reroot/libreroot/xmessage.h: Added.
+
+	* reroot/packet.h: Removed C compatibility code, moved into namespace
+	  `reroot'.  Currently this breaks rerootd build until I get round to
+	  updating it.
+
 2005-07-07 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/libreroot/Makefile: Defined LIBREROOT in CPPFLAGS.

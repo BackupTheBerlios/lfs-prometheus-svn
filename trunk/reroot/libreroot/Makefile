@@ -17,13 +17,14 @@
 # Place, Suite 330, Boston, MA  02111-1307  USA
 
 # Default build flags.
-CPPFLAGS := -DLIBREROOT -D_GNU_SOURCE
+CPPFLAGS := -I.. -D_GNU_SOURCE
 CXXFLAGS := -g -pipe -Wall -W -Werror -O2 -fpic
 LDFLAGS := -pipe -ldl -shared
 
 # What to build.
 library := libreroot.so
-objects := cwd.o error.o filename.o libc.o persona.o stringlist.o stringtok.o
+objects := cwd.o error.o filename.o libc.o persona.o stringlist.o stringtok.o \
+           xmessage.o
 
 .PHONY: all clean dep
 
