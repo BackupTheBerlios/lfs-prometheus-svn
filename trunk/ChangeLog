@@ -1,10 +1,12 @@
 2005-07-08 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/libreroot/xmessage.cc, reroot/libreroot/xmessage.h: Added.
+	* reroot/libreroot/messagequeue.cc, reroot/libreroot/messagequeue.h:
+	  Added.
 
 	* reroot/packet.h: Removed C compatibility code, moved into namespace
 	  `reroot'.  Currently this breaks rerootd build until I get round to
-	  updating it.
+	  updating it.  Minor bugs fixed.
 
 2005-07-07 Gareth Jones <gareth_jones@users.berlios.de>
 

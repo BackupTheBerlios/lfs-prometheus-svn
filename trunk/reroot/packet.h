@@ -24,24 +24,25 @@
 
 // Maximum packet body size in bytes.  See below.
 # define packet_body_size (512 - (sizeof (long) + \
-	sizeof (reroot::message_type) + 4 * sizeof (unsigned)))
+	sizeof (reroot::message_type) + 3 * sizeof (unsigned)))
 
 namespace reroot
 {
-	enum message_type;
+	// Message types.
+	enum message_type
+	{
+		def
+	};
+
 	struct packet;
 }
-
-// Message types.
-enum reroot::message_type
-{
-	def
-};
 
 // Messages are split into packets of known maximum size.
 struct reroot::packet
 {
-	long pid; // PID of sender or receiver, whichever *isn't* the daemon.
+	// PID of the sender or receiver, whichever *isn't* the daemon.
+	mutable long pid;
+
 	message_type type;		// Type of message represented in body.
 	unsigned body_size,		// Size of entire message body.
 	         packets_left,		// Number of packets left in message.

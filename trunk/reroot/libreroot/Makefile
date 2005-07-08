@@ -23,7 +23,14 @@ LDFLAGS := -pipe -ldl -shared
 
 # What to build.
 library := libreroot.so
-objects := cwd.o error.o filename.o libc.o persona.o stringlist.o stringtok.o \
+objects := cwd.o \
+           error.o \
+           filename.o \
+           libc.o \
+           messagequeue.o \
+           persona.o \
+           stringlist.o \
+           stringtok.o \
            xmessage.o
 
 .PHONY: all clean dep

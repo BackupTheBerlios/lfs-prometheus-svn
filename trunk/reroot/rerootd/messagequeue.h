@@ -34,7 +34,7 @@ class message_queue_base
 		void disown ();
 
 	protected:
-		// C'tors & d'tor are pretected to prevent this class from being
+		// C'tors & d'tor are protected to prevent this class from being
 		// used directly, as it provides no useful functionality.
 		message_queue_base (std::string const &false_root,
 			char const queue);
@@ -131,7 +131,7 @@ outbox::outbox (std::string const &false_root):
 	message_queue_base (false_root, 'o')
 {}
 
-// Full blown message queue.  (Actually two System V queues: one in, one out).
+// Full-blown message queue.  (Actually two System V queues: one in, one out).
 class message_queue:
 	public inbox,
 	public outbox
