@@ -1,3 +1,11 @@
+2005-07-09 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/messagequeue.cc (message_queue_base c'tor): Added
+	  check for null false root, used `/' instead.
+
+	* reroot/libreroot/messagequeue.h: Added function for obtaining a
+	  message queue.
+
 2005-07-08 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/libreroot/xmessage.cc, reroot/libreroot/xmessage.h: Added.

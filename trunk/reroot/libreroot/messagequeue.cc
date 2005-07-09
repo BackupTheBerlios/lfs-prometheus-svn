@@ -44,7 +44,8 @@ namespace reroot
 // created it).
 reroot::message_queue_base::message_queue_base (char const queue):
 	pid (getpid ()),
-	key (ftok (filename::get_false_root ().c_str (), queue)),
+	key (ftok (filename::rerooting ()?
+	           filename::get_false_root ().c_str () : "/", queue)),
 	qid (key == -1?: msgget (key, 0))
 {
 	if (key == -1)

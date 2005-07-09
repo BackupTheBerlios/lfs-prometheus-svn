@@ -32,6 +32,8 @@ namespace reroot
 	class inbox;
 	class outbox;
 	class message_queue;
+
+	message_queue const &get_message_queue ();
 }
 
 // Base functionality for managing a System V message queue.
@@ -118,5 +120,14 @@ class reroot::message_queue:
 	public inbox,
 	public outbox
 {};
+
+// Return a message queue for communicating with the reroot daemon.  Create the
+// queue if necessary.
+inline reroot::message_queue const &
+reroot::get_message_queue ()
+{
+	static message_queue const queue;
+	return queue;
+}
 
 #endif
