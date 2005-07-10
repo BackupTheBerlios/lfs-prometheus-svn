@@ -19,12 +19,14 @@
 #ifndef MESSAGE_H
 # define MESSAGE_H
 
+// Size of packet header, minus the PID, in bytes.
+# define packet_meta_size (sizeof (reroot::message) - sizeof (long))
+
 // Maximum packet size, minus the PID, in bytes.
 # define packet_data_size (sizeof (reroot::packet) - sizeof (long))
 
 // Maximum packet body size in bytes.  See below.
-# define packet_body_size (512 - (sizeof (long) + \
-	sizeof (reroot::message_type) + 3 * sizeof (unsigned)))
+# define packet_body_size (512 - sizeof (reroot::message))
 
 namespace reroot
 {
@@ -35,9 +37,34 @@ namespace reroot
 	};
 
 	// Base message passing structures.
-	struct packet;
+	struct meta;
 	struct message;
+	struct packet;
+
+	// For comparing received packets with expected.
+	bool operator == (meta const &m1, meta const &m2);
+	bool operator != (meta const &m1, meta const &m2);
 }
+
+// Metadata for packets & messages.
+struct reroot::meta
+{
+	message_type type;		// Type of message represented in body.
+	unsigned body_size,		// Size of entire message body.
+	         packets_left,		// Number of packets left in message.
+	         packet_size;		// Size of packet, minus PID.
+};
+
+// Messages are the same as packets (for efficiency reasons - small messages can
+// be sent as single packets), but with unlimited size.
+struct reroot::message
+{
+	// PID of the sender or receiver, whichever *isn't* the daemon.
+	long pid;
+
+	meta header;
+	char body [];			// Attached data.
+};
 
 // Messages are split into packets of known maximum size.
 struct reroot::packet
@@ -45,17 +72,25 @@ struct reroot::packet
 	// PID of the sender or receiver, whichever *isn't* the daemon.
 	mutable long pid;
 
-	message_type type;		// Type of message represented in body.
-	unsigned body_size,		// Size of entire message body.
-	         packets_left,		// Number of packets left in message.
-	         packet_size;		// Size of packet, minus PID.
+	meta header;
 	char body [packet_body_size];	// Attached data.
 };
 
-// Messages are the same as packets (for efficiency reasons - small messages can
-// be sent as packets), but with unlimited size.  Using a typedef would be more
-// obvious, but then message & packet would be considered the same type &
-// overloading the insertion & extraction operators wouldn't work.
-struct reroot::message: packet {};
+// Return true if packet metadata is equal.
+inline bool
+reroot::operator == (meta const &m1, meta const &m2)
+{
+	return m1.type == m2.type &&
+	       m1.body_size == m2.body_size &&
+	       m1.packets_left == m2.packets_left &&
+	       m1.packet_size == m2.packet_size;
+}
+
+// Return true if packet metadata is unequal.
+inline bool
+reroot::operator != (meta const &m1, meta const &m2)
+{
+	return !(m1 == m2);
+}
 
 #endif

@@ -74,7 +74,7 @@ reroot::outbox const &
 reroot::outbox::operator << (packet const &pkt) const
 {
 	// Check size is reasonable.
-	unsigned const pkt_size = pkt.packet_size;
+	unsigned const pkt_size = pkt.header.packet_size;
 	if (pkt_size > packet_data_size)
 		throw xmessage (no_send, E2BIG);
 
@@ -98,18 +98,18 @@ namespace
 	send (reroot::outbox const &out, reroot::message &msg)
 	{
 		// Get message parameters.
-		reroot::message_type const type = msg.type;
-		unsigned const size = msg.body_size;
+		reroot::meta header = msg.header;
 
 		// What's left to send?
-		unsigned size_left = size;
-		unsigned packets_left = size / packet_body_size +
-		                        size % packet_body_size? 1 : 0;
+		unsigned size_left = header.body_size;
+		header.packets_left = size_left / packet_body_size +
+		                      size_left % packet_body_size? 1 : 0;
 
 		// Send packets.  This is optimized to avoid copying large
 		// blocks of data.  The original message data will be trashed.
-		reroot::packet *pkt = &msg;
-		while (--packets_left)
+		reroot::packet *pkt =
+			reinterpret_cast <reroot::packet *> (&msg);
+		while (--header.packets_left)
 		{
 			// Calculate packet body size.
 			unsigned const bs =
@@ -117,18 +117,16 @@ namespace
 			size_left -= bs;
 
 			// Initialize packet header.
-			pkt->type = type;
-			pkt->body_size = size;
-			pkt->packets_left = packets_left;
-			pkt->packet_size = bs + sizeof (reroot::message_type) +
-			                   3 * sizeof (unsigned);
+			header.packet_size = packet_meta_size + bs;
+			pkt->header = header;
 
 			// Send packet.
 			out << *pkt;
 
 			// Increment packet pointer.
 			pkt = reinterpret_cast <reroot::packet *>
-			      (reinterpret_cast <char *> (pkt) + bs);
+			      (reinterpret_cast <char *> (pkt) +
+			       packet_body_size);
 		}
 	}
 
@@ -138,39 +136,36 @@ namespace
 	{
 		// Allocate memory & get first packet.
 		reroot::message *msg = reroot::alloc <reroot::message>
-		                       (sizeof (reroot::message));
-		in >> *msg;
+		                       (sizeof (reroot::packet));
+		in >> *reinterpret_cast <reroot::packet *> (msg);
+
+		// Get packet parameters.
+		reroot::meta header = msg->header;
 
 		// Do we have more packets?
-		unsigned packets_left = msg->packets_left;
-		if (packets_left)
+		if (header.packets_left)
 		{
-			// Get message parameters.
-			reroot::message_type const type = msg->type;
-			unsigned const size = msg->body_size;
-
 			// Reallocate memory.
-			msg = reroot::realloc (msg, size + sizeof (long) +
-			                       sizeof (reroot::message_type) +
-			                       3 * sizeof (unsigned));
+			msg = reroot::realloc (msg, sizeof (reroot::message) +
+			                            header.body_size);
 
 			// Get remaining packets.
-			void *ptr = static_cast <reroot::packet *> (msg) + 1;
-			while (packets_left--)
+			void *ptr =
+				reinterpret_cast <reroot::packet *> (msg) + 1;
+			while (header.packets_left--)
 			{
 				// Get next packet.
 				reroot::packet pkt;
 				in >> pkt;
 
 				// Check packet.
-				if (pkt.type != type || pkt.body_size != size ||
-				    pkt.packets_left != packets_left)
+				header.packet_size = pkt.header.packet_size;
+				if (pkt.header != header)
 					throw reroot::xmessage (bad_packet, 0);
 
 				// Append packet body to message.
-				ptr = mempcpy (ptr, pkt.body, pkt.packet_size -
-				      (sizeof (reroot::message_type) + 3 *
-				       sizeof (unsigned)));
+				ptr = mempcpy (ptr, pkt.body,
+					header.packet_size - packet_meta_size);
 			}
 		}
 

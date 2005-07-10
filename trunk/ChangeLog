@@ -1,3 +1,12 @@
+2005-07-10 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/message.h: Added `meta' for storing packet & message metadata.
+	  Separated `packet' & `message'.  Added `packet_meta_size'.  Added
+	  equality & inequality operators to simplify working with packet
+	  metadata.
+	* reroot/libreroot/messagequeue.cc (send, receive): Simplified & cleaned
+	  up given the above changes.
+
 2005-07-09 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/libreroot/messagequeue.cc (message_queue_base c'tor): Added
