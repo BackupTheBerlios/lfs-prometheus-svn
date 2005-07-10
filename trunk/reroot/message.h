@@ -16,8 +16,8 @@
 // this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
-#ifndef PACKET_H
-# define PACKET_H
+#ifndef MESSAGE_H
+# define MESSAGE_H
 
 // Maximum packet size, minus the PID, in bytes.
 # define packet_data_size (sizeof (reroot::packet) - sizeof (long))
@@ -34,7 +34,9 @@ namespace reroot
 		def
 	};
 
+	// Base message passing structures.
 	struct packet;
+	struct message;
 }
 
 // Messages are split into packets of known maximum size.
@@ -49,5 +51,11 @@ struct reroot::packet
 	         packet_size;		// Size of packet, minus PID.
 	char body [packet_body_size];	// Attached data.
 };
+
+// Messages are the same as packets (for efficiency reasons - small messages can
+// be sent as packets), but with unlimited size.  Using a typedef would be more
+// obvious, but then message & packet would be considered the same type &
+// overloading the insertion & extraction operators wouldn't work.
+struct reroot::message: packet {};
 
 #endif

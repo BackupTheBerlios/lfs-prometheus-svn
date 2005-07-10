@@ -16,15 +16,18 @@
 // this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
+#include <algorithm>
 #include <cerrno>
+#include <cstring>
 #include <string>
 #include <sys/ipc.h>
 #include <sys/msg.h>
 #include <unistd.h>
 
 #include "filename.h"
+#include "libc.h"
+#include "message.h"
 #include "messagequeue.h"
-#include "packet.h"
 #include "xmessage.h"
 
 using namespace std;
@@ -83,4 +86,95 @@ reroot::outbox::operator << (packet const &pkt) const
 		throw xmessage (no_send, errno);
 
 	return *this;
+}
+
+namespace
+{
+	// Error message.
+	string const bad_packet = "Unexpected packet when constructing message";
+
+	// Split message into packets & send.
+	void
+	send (reroot::outbox const &out, reroot::message &msg)
+	{
+		// Get message parameters.
+		reroot::message_type const type = msg.type;
+		unsigned const size = msg.body_size;
+
+		// What's left to send?
+		unsigned size_left = size;
+		unsigned packets_left = size / packet_body_size +
+		                        size % packet_body_size? 1 : 0;
+
+		// Send packets.  This is optimized to avoid copying large
+		// blocks of data.  The original message data will be trashed.
+		reroot::packet *pkt = &msg;
+		while (--packets_left)
+		{
+			// Calculate packet body size.
+			unsigned const bs =
+				std::min (size_left, packet_body_size);
+			size_left -= bs;
+
+			// Initialize packet header.
+			pkt->type = type;
+			pkt->body_size = size;
+			pkt->packets_left = packets_left;
+			pkt->packet_size = bs + sizeof (reroot::message_type) +
+			                   3 * sizeof (unsigned);
+
+			// Send packet.
+			out << *pkt;
+
+			// Increment packet pointer.
+			pkt = reinterpret_cast <reroot::packet *>
+			      (reinterpret_cast <char *> (pkt) + bs);
+		}
+	}
+
+	// Return message assembled from received packets.
+	reroot::message *
+	receive (reroot::inbox const &in)
+	{
+		// Allocate memory & get first packet.
+		reroot::message *msg = reroot::alloc <reroot::message>
+		                       (sizeof (reroot::message));
+		in >> *msg;
+
+		// Do we have more packets?
+		unsigned packets_left = msg->packets_left;
+		if (packets_left)
+		{
+			// Get message parameters.
+			reroot::message_type const type = msg->type;
+			unsigned const size = msg->body_size;
+
+			// Reallocate memory.
+			msg = reroot::realloc (msg, size + sizeof (long) +
+			                       sizeof (reroot::message_type) +
+			                       3 * sizeof (unsigned));
+
+			// Get remaining packets.
+			void *ptr = static_cast <reroot::packet *> (msg) + 1;
+			while (packets_left--)
+			{
+				// Get next packet.
+				reroot::packet pkt;
+				in >> pkt;
+
+				// Check packet.
+				if (pkt.type != type || pkt.body_size != size ||
+				    pkt.packets_left != packets_left)
+					throw reroot::xmessage (bad_packet, 0);
+
+				// Append packet body to message.
+				ptr = mempcpy (ptr, pkt.body, pkt.packet_size -
+				      (sizeof (reroot::message_type) + 3 *
+				       sizeof (unsigned)));
+			}
+		}
+
+		// Return complete message.
+		return msg;
+	}
 }

@@ -30,6 +30,9 @@ using namespace std;
 
 namespace
 {
+	// Error message.
+	char const alloc_error [] = "libreroot: Cannot allocate memory";
+
 	// Wrapper for dlopen.
 	void *
 	load_symbol (char const *const name)
@@ -79,7 +82,7 @@ namespace
 }
 
 // Wrapper for malloc.
-void *
+void * __attribute__ ((malloc))
 reroot::do_alloc (size_t const size)
 {
 	void *ptr = malloc (size);
@@ -87,6 +90,19 @@ reroot::do_alloc (size_t const size)
 	if (ptr)
 		return ptr;
 
-	error (1, errno, "libreroot: Cannot allocate memory");
+	error (1, errno, alloc_error);
+	return 0;	// Never get here but prevent gcc warning.
+}
+
+// Wrapper for realloc.
+void * __attribute__ ((malloc))
+reroot::do_realloc (void *ptr, size_t const newsize)
+{
+	ptr = realloc (ptr, newsize);
+
+	if (ptr)
+		return ptr;
+
+	error (1, errno, alloc_error);
 	return 0;	// Never get here but prevent gcc warning.
 }

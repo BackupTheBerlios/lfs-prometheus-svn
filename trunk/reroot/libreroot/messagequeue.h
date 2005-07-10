@@ -24,15 +24,17 @@
 # include <sys/msg.h>
 # include <sys/types.h>
 
-# include "packet.h"
+# include "message.h"
 
 namespace reroot
 {
+	// Message queues.
 	class message_queue_base;
 	class inbox;
 	class outbox;
 	class message_queue;
 
+	// For obtaining a message queue.
 	message_queue const &get_message_queue ();
 }
 

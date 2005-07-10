@@ -73,15 +73,25 @@ namespace libc
 
 namespace reroot
 {
-	// Wrapper for malloc.
-	void *do_alloc (size_t const size);
+	// Wrappers for C-style memory allocation.
+	void *do_alloc (size_t const size) __attribute__ ((malloc));
+	void *do_realloc (void *const ptr, size_t const newsize)
+		__attribute__ ((malloc));
 
-	// Helper to simplify tedious casting.
+	// Helper to simplify tedious casting with alloc.
 	template <typename type>
-	inline type *
+	inline type * __attribute__ ((malloc))
 	alloc (size_t const size)
 	{
 		return reinterpret_cast <type *> (do_alloc (size));
+	}
+
+	// Helper to simplify tedious casting with realloc.
+	template <typename type>
+	inline type * __attribute__ ((malloc))
+	realloc (type *const ptr, size_t const newsize)
+	{
+		return reinterpret_cast <type *> (do_realloc (ptr, newsize));
 	}
 }
 

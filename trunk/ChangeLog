@@ -6,6 +6,15 @@
 	* reroot/libreroot/messagequeue.h: Added function for obtaining a
 	  message queue.
 
+	* reroot/libreroot/libc.cc, reroot/libreroot/libc.h: Added wrappers for
+	  `realloc'.  Restored __attribute__ ((malloc)).
+
+	* reroot/packet.h: Renamed to message.h.
+	* reroot/message.h: Added `reroot::message'.
+	* reroot/libreroot/messagequeue.cc: Added functions for splitting
+	  messages into packets & sending them, & receiving packets &
+	  concatenating them into messages.
+
 2005-07-08 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/libreroot/xmessage.cc, reroot/libreroot/xmessage.h: Added.

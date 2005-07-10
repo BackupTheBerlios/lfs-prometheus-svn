@@ -1,5 +1,8 @@
 Some ramblings about reroot follow.
 
+Should use __attribute__ ((visibility ("hidden/default"))) liberally.  Best wait
+for GCC 4.0 so can apply it to classes.  Also see -fvisibility.
+
 File types:
 	file/link
 	directory
