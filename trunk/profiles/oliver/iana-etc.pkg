@@ -1,5 +1,5 @@
 name=iana-etc
-version="1.04"
+version="1.10"
 homepage="http://www.sethwklein.net/projects/iana-etc/"
 
 archives=(
