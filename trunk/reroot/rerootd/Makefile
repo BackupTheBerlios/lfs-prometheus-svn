@@ -23,7 +23,8 @@ LDFLAGS := -pipe
 
 # What to build.
 program := rerootd
-objects := absolute.o message.o messagequeue.o rerootd.o xmessage.o
+objects := messagequeue.o \
+           rerootd.o
 
 .PHONY: all clean dep
 

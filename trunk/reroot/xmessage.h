@@ -1,4 +1,4 @@
-// rerootd comunication exception
+// Reroot comunication exception declarations
 // Copyright (C) 2003-2005 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 // Gareth Jones <gareth_jones@users.berlios.de>
 //
@@ -16,18 +16,45 @@
 // this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
-#include <cstring>
-#include <string>
+#ifndef XMESSAGE_H
+# define XMESSAGE_H
 
-#include "xmessage.h"
+# include <cstring>
+# include <stdexcept>
+# include <string>
 
-// We're using C functions, some of which may be in the std namespace, some of
-// which are global.
-using namespace std;
+namespace reroot
+{
+	class xmessage;
+}
+
+// Exception thrown by message handling code.
+class reroot::xmessage:
+	public std::runtime_error
+{
+	public:
+		xmessage (std::string const &action, int const errnum);
+
+		int get_error_number () const;
+
+	private:
+		// The C error number if any.
+		int const error_number;
+};
 
 // Construct xmessage with an error string & also the C error number.
-xmessage::xmessage (string const &action, int const errnum):
-	runtime_error (action +
-	               (errnum? string (": ") + strerror (errnum) : "")),
+inline
+reroot::xmessage::xmessage (std::string const &action, int const errnum):
+	runtime_error (action + (errnum? std::string (": ") +
+	                         std::strerror (errnum) : "")),
 	error_number (errnum)
 {}
+
+// Return C error number.
+inline int
+reroot::xmessage::get_error_number () const
+{
+	return error_number;
+}
+
+#endif

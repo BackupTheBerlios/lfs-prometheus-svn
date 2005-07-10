@@ -12,6 +12,13 @@
 	* reroot/libreroot/messagequeue.cc (send): Fixed bug, small
 	  optimization.
 
+	* reroot/libreroot/xmessage.cc: Removed.
+	* reroot/libreroot/xmessage.h: Moved to reroot/xmessage.h.
+	* reroot/xmessage.h: Added constructor from xmessage.c as inline.
+
+	* reroot/rerootd: Removed unneeded: absolute.cc, absolute.h, message.cc,
+	  message.h, xmessage.cc, & xmessage.h.
+
 2005-07-09 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/libreroot/messagequeue.cc (message_queue_base c'tor): Added

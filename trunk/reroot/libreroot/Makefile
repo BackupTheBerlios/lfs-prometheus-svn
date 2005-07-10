@@ -30,8 +30,7 @@ objects := cwd.o \
            messagequeue.o \
            persona.o \
            stringlist.o \
-           stringtok.o \
-           xmessage.o
+           stringtok.o
 
 .PHONY: all clean dep
 
