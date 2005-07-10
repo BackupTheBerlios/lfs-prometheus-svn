@@ -109,11 +109,10 @@ namespace
 		// blocks of data.  The original message data will be trashed.
 		reroot::packet *pkt =
 			reinterpret_cast <reroot::packet *> (&msg);
-		while (--header.packets_left)
+		while (header.packets_left--)
 		{
 			// Calculate packet body size.
-			unsigned const bs =
-				std::min (size_left, packet_body_size);
+			unsigned const bs = min (size_left, packet_body_size);
 			size_left -= bs;
 
 			// Initialize packet header.
@@ -124,9 +123,10 @@ namespace
 			out << *pkt;
 
 			// Increment packet pointer.
-			pkt = reinterpret_cast <reroot::packet *>
-			      (reinterpret_cast <char *> (pkt) +
-			       packet_body_size);
+			if (header.packets_left)
+				pkt = reinterpret_cast <reroot::packet *>
+				      (reinterpret_cast <char *> (pkt) +
+				       packet_body_size);
 		}
 	}
 

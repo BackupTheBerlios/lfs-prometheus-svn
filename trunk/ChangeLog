@@ -7,6 +7,11 @@
 	* reroot/libreroot/messagequeue.cc (send, receive): Simplified & cleaned
 	  up given the above changes.
 
+	* reroot/message.h: Optimized `meta' inequality operator.
+
+	* reroot/libreroot/messagequeue.cc (send): Fixed bug, small
+	  optimization.
+
 2005-07-09 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/libreroot/messagequeue.cc (message_queue_base c'tor): Added

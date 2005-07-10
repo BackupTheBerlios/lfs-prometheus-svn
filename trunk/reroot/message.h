@@ -90,7 +90,10 @@ reroot::operator == (meta const &m1, meta const &m2)
 inline bool
 reroot::operator != (meta const &m1, meta const &m2)
 {
-	return !(m1 == m2);
+	return m1.type != m2.type ||
+	       m1.body_size != m2.body_size ||
+	       m1.packets_left != m2.packets_left ||
+	       m1.packet_size != m2.packet_size;
 }
 
 #endif
