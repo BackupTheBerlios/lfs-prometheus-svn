@@ -10,6 +10,11 @@
 	* reroot/rerootd/messagequeue.cc, reroot/rerootd/messagequeue.h:
 	  Rewritten based on their libreroot counterparts.
 
+	* reroot/rerootd/rerootd.cc, reroot/rerootd/rerootd.h: Made aware of
+	  namespace `reroot'.  Use `canonize_file_name' instead of specially
+	  written function.  Improved error reporting.  rerootd actually
+	  compiles again.
+
 2005-07-10 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/message.h: Added `meta' for storing packet & message metadata.

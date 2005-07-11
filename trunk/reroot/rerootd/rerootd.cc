@@ -17,20 +17,18 @@
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include <argp.h>
+#include <cerrno>
 #include <cstdio>
+#include <cstdlib>
 #include <error.h>
+#include <exception>
 #include <string>
 #include <sys/resource.h>
-#include <sys/types.h>
 #include <unistd.h>
 
-#include "absolute.h"
 #include "messagequeue.h"
 #include "rerootd.h"
-#include "xmessage.h"
 
-// We're using C functions, some of which may be in the std namespace, some of
-// which are global.
 using namespace std;
 
 // Values used by default --version & --help handlers.
@@ -39,7 +37,7 @@ char const *argp_program_bug_address =
 	"Gareth Jones <gareth_jones@users.berlios.de>";
 
 // False root directory.
-string const false_root;
+string const reroot::false_root;
 
 namespace
 {
@@ -140,7 +138,7 @@ namespace
 
 	// Fork child daemon in background & exit.
 	void
-	daemonize (message_queue &queue)
+	daemonize (reroot::message_queue &queue)
 	{
 		// Get maximum possible number of open file descriptors.
 		rlimit lim;
@@ -185,12 +183,22 @@ try
 	parse_commandline (args, argc, argv);
 
 	// Set false_root constant.
-	absolute_filename (args.false_root);
-	const_cast <string &> (false_root) = args.false_root;
+	{
+		char *false_root =
+			canonicalize_file_name (args.false_root.c_str ());
+		if (false_root)
+		{
+			const_cast <string &> (reroot::false_root) = false_root;
+			free (false_root);
+		}
+		else
+			error (1, errno, "Cannot get absolute filename of false"
+			                 " root directory");
+	}
 
 	// Create message System V IPC queues.  Static to ensure it is destroyed
 	// on exit.
-	static message_queue queue (false_root);
+	static reroot::message_queue queue (reroot::false_root);
 
 	// If necessary background daemon.
 	if (args.background)
@@ -204,12 +212,17 @@ try
 
 	return 0;
 }
-catch (...)
+
+// Prevent unhandled exceptions resulting in abortion, which would not
+// deallocate the System V IPC message queue.  Apart from wasting memory until
+// manually unallocated, libreroot processes would hang waiting for replies
+// rather than aborting.
+catch (exception const &x)	// All standard & reroot exceptions.
 {
-	// Prevent unhandled exceptions resulting in abortion, which would not
-	// deallocate the System V IPC message queue.  Apart from wasting memory
-	// until manually unallocated, libreroot processes would hang waiting
-	// for replies rather than aborting.
-	// FIXME: Some kind of error reporting/logging?
-	return 1;
+	error (1, 0, "Caught exception: %s", x.what ());
+}
+catch (...)			// Should never get here!
+{
+	error (1, errno, "Caught unrecognized exception, "
+	                 "possible error may follow");
 }

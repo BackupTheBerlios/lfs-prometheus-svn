@@ -16,8 +16,8 @@
 // this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
-#ifndef MESSAGE_H
-# define MESSAGE_H
+#ifndef PACKET_H
+# define PACKET_H
 
 // Size of packet header, minus the PID, in bytes.
 # define packet_meta_size (sizeof (reroot::message_data) - sizeof (long))

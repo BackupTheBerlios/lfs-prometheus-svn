@@ -21,6 +21,9 @@
 
 # include <string>
 
-extern std::string const false_root;
+namespace reroot
+{
+	extern std::string const false_root;
+}
 
 #endif
