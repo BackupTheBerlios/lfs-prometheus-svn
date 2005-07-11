@@ -1,4 +1,4 @@
-// rerootd message queue declarations
+// Message queue declarations
 // Copyright (C) 2003-2005 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 // Gareth Jones <gareth_jones@users.berlios.de>
 //
@@ -24,48 +24,56 @@
 # include <sys/msg.h>
 
 # include "packet.h"
-# include "xmessage.h"
+
+namespace reroot
+{
+	// Message queues.
+	class message_queue_base;
+	class inbox;
+	class outbox;
+	class message_queue;
+}
 
 // Base functionality for managing a System V message queue.
-class message_queue_base
+class reroot::message_queue_base
 {
 	public:
 		// For daemonizing safely.
 		void disown ();
 
 	protected:
-		// C'tors & d'tor are protected to prevent this class from being
+		// C'tor & d'tor are protected to prevent this class from being
 		// used directly, as it provides no useful functionality.
 		message_queue_base (std::string const &false_root,
 			char const queue);
 		~message_queue_base ();
 
 		// Descendants need access to queue.
-		int get_queue_id () const;
+		int get_qid () const;
 
 	private:
+		// Error messages.
+		static std::string const no_key,
+		                         no_queue;
+
+		// Message queue data.
+		bool own;
+		key_t const key;
+		int const qid;
+
 		// Compiler generated copy c'tor & assignment operator could
 		// cause problems (queue could be unallocated multiple or zero
 		// times). It makes no sence to copy a System V message queue.
 		message_queue_base (message_queue_base const &);
 		message_queue_base const &operator =
 			(message_queue_base const &);
-
-		// Message queue data.
-		bool own;
-		key_t const key;
-		int const queue_id;
-
-		// Error messages.
-		static std::string const no_key,
-		                         no_queue;
 };
 
 // Prevent message queue from being unallocated by the destructor.  Used after
 // daemon forks to prevent parent destroying the queue when it exits, which
 // would cause the child to fail.
 inline void
-message_queue_base::disown ()
+reroot::message_queue_base::disown ()
 {
 	own = false;
 }
@@ -75,21 +83,21 @@ message_queue_base::disown ()
 // exceptions.)  Then again, there's nothing we can do about it if this fails
 // anyway.
 inline
-message_queue_base::~message_queue_base ()
+reroot::message_queue_base::~message_queue_base ()
 {
 	if (own)
-		msgctl (queue_id, IPC_RMID, 0);
+		msgctl (qid, IPC_RMID, 0);
 }
 
 // Return queue identifier.
 inline int
-message_queue_base::get_queue_id () const
+reroot::message_queue_base::get_qid () const
 {
-	return queue_id;
+	return qid;
 }
 
 // Message queue for receiving messages.
-class inbox:
+class reroot::inbox:
 	public message_queue_base
 {
 	public:
@@ -105,12 +113,12 @@ class inbox:
 
 // Construct message queue.
 inline
-inbox::inbox (std::string const &false_root):
+reroot::inbox::inbox (std::string const &false_root):
 	message_queue_base (false_root, 'i')
 {}
 
 // Message queue for sending messages.
-class outbox:
+class reroot::outbox:
 	public message_queue_base
 {
 	public:
@@ -120,19 +128,17 @@ class outbox:
 		outbox const &operator << (packet const &pkt) const;
 
 	private:
-		// Error messages.
-		static std::string const no_send,
-		                         bad_pid;
+		// Error message.
+		static std::string const no_send;
 };
 
 // Construct message queue.
 inline
-outbox::outbox (std::string const &false_root):
+reroot::outbox::outbox (std::string const &false_root):
 	message_queue_base (false_root, 'o')
 {}
 
-// Full-blown message queue.  (Actually two System V queues: one in, one out).
-class message_queue:
+class reroot::message_queue:
 	public inbox,
 	public outbox
 {
@@ -145,7 +151,7 @@ class message_queue:
 
 // Construct message queues.
 inline
-message_queue::message_queue (std::string const &false_root):
+reroot::message_queue::message_queue (std::string const &false_root):
 	inbox (false_root),
 	outbox (false_root)
 {}
@@ -155,7 +161,7 @@ message_queue::message_queue (std::string const &false_root):
 // would cause the child to fail.  This wraps the base classes' versions to
 // resolve the ambiguous call.
 inline void
-message_queue::disown ()
+reroot::message_queue::disown ()
 {
 	inbox::disown ();
 	outbox::disown ();

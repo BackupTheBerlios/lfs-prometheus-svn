@@ -16,18 +16,18 @@
 // this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
-#include <algorithm>
+#include <algorithm>	// FIXME.
 #include <cerrno>
-#include <cstring>
+#include <cstring>	// FIXME.
 #include <string>
 #include <sys/ipc.h>
 #include <sys/msg.h>
 #include <unistd.h>
 
 #include "filename.h"
-#include "libc.h"
-#include "message.h"
+#include "libc.h"	// FIXME.
 #include "messagequeue.h"
+#include "packet.h"
 #include "xmessage.h"
 
 using namespace std;
@@ -42,9 +42,9 @@ namespace reroot
 	             outbox::no_send = "Cannot send packet";
 }
 
-// Construct IPC key from the false root directory & use it to obtain a System
-// V IPC message queue.  Fail if queue doesn't exist (rerootd should have
-// created it).
+// Construct IPC key from the false root directory & use it to obtain a System V
+// IPC message queue.  Fail if queue doesn't exist (rerootd should have created
+// it).
 reroot::message_queue_base::message_queue_base (char const queue):
 	pid (getpid ()),
 	key (ftok (filename::rerooting ()?
@@ -88,6 +88,7 @@ reroot::outbox::operator << (packet const &pkt) const
 	return *this;
 }
 
+// FIXME: The following will be encapslated by reroot::message.
 namespace
 {
 	// Error message.
@@ -95,7 +96,7 @@ namespace
 
 	// Split message into packets & send.
 	void
-	send (reroot::outbox const &out, reroot::message &msg)
+	send (reroot::outbox const &out, reroot::message_data &msg)
 	{
 		// Get message parameters.
 		reroot::meta header = msg.header;
@@ -131,12 +132,12 @@ namespace
 	}
 
 	// Return message assembled from received packets.
-	reroot::message *
+	reroot::message_data *
 	receive (reroot::inbox const &in)
 	{
 		// Allocate memory & get first packet.
-		reroot::message *msg = reroot::alloc <reroot::message>
-		                       (sizeof (reroot::packet));
+		reroot::message_data *msg = reroot::alloc <reroot::message_data>
+		                            (sizeof (reroot::packet));
 		in >> *reinterpret_cast <reroot::packet *> (msg);
 
 		// Get packet parameters.
@@ -146,8 +147,9 @@ namespace
 		if (header.packets_left)
 		{
 			// Reallocate memory.
-			msg = reroot::realloc (msg, sizeof (reroot::message) +
-			                            header.body_size);
+			msg = reroot::realloc (msg,
+			                       sizeof (reroot::message_data) +
+			                       header.body_size);
 
 			// Get remaining packets.
 			void *ptr =

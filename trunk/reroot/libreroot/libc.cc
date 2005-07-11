@@ -30,8 +30,9 @@ using namespace std;
 
 namespace
 {
-	// Error message.
-	char const alloc_error [] = "libreroot: Cannot allocate memory";
+	// Error messages.
+	char const symbol_error [] = "libreroot: Cannot load symbol: %s: %s",
+	           alloc_error [] = "libreroot: Cannot allocate memory";
 
 	// Wrapper for dlopen.
 	void *
@@ -43,8 +44,7 @@ namespace
 			return ptr;
 
 		// If we get this far, something's gone wrong.
-		error (1, 0, "libreroot: Cannot load symbol: %s: %s", name,
-		       dlerror ());
+		error (1, 0, symbol_error, name, dlerror ());
 		return 0;	// Never get here but prevent gcc warning.
 	}
 

@@ -1,3 +1,15 @@
+2005-07-11 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/libc.cc: Tidied error messages.
+
+	* reroot/message.h: Renamed to packet.h.
+	* reroot/packet.h: Renamed `reroot::message' to `reroot::message_data'.
+	* reroot/libreroot/messagequeue.cc: Changed references to `message' into
+	  references to `message_data'.
+
+	* reroot/rerootd/messagequeue.cc, reroot/rerootd/messagequeue.h:
+	  Rewritten based on their libreroot counterparts.
+
 2005-07-10 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/message.h: Added `meta' for storing packet & message metadata.

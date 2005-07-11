@@ -1,4 +1,4 @@
-// rerootd message queue
+// Message queue
 // Copyright (C) 2003-2005 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 // Gareth Jones <gareth_jones@users.berlios.de>
 //
@@ -17,7 +17,6 @@
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include <cerrno>
-#include <cstdlib>
 #include <string>
 #include <sys/ipc.h>
 #include <sys/msg.h>
@@ -26,63 +25,56 @@
 #include "packet.h"
 #include "xmessage.h"
 
-// FIXME: Check error code options for msg* functions.  May have ideas?
-
-// We're using C functions, some of which may be in the std namespace, some of
-// which are global.
 using namespace std;
 
 // Error messages are constructed here to avoid having to allocate them in
 // possible low memory situations.
-string const message_queue_base::no_key = "Cannot get IPC key",
-             message_queue_base::no_queue = "Cannot create message queue",
-             inbox::no_receive = "Cannot receive packet",
-             outbox::no_send = "Cannot send packet",
-             outbox::bad_pid = ": Invalid destination PID";
+namespace reroot
+{
+	string const message_queue_base::no_key = "Cannot get IPC key",
+	             message_queue_base::no_queue = "Cannot get message queue",
+	             inbox::no_receive = "Cannot receive packet",
+	             outbox::no_send = "Cannot send packet";
+}
 
-// Construct IPC key from the false root directory & use it to construct a
-// message queue.  Fail if queue is already in use.
-message_queue_base::message_queue_base (string const &false_root,
-                                        char const queue):
+// Construct IPC key from the false root directory & use it to create a System V
+// IPC message queue.  Fail if queue is already in use.
+reroot::message_queue_base::message_queue_base (string const &false_root,
+                                                char const queue):
 	own (true),
 	key (ftok (false_root.c_str (), queue)),
-	queue_id (key == -1?: msgget (key, IPC_CREAT | IPC_EXCL | 0600))
+	qid (key == -1?: msgget (key, IPC_CREAT | IPC_EXCL | 0600))
 {
 	if (key == -1)
 		throw xmessage (no_key, errno);
 
-	if (queue_id == -1)
+	if (qid == -1)
 		throw xmessage (no_queue, errno);
 }
 
 // Receive a packet from PID specified therein (zero means get packet from any
 // PID).
-inbox const &
-inbox::operator >> (packet &pkt) const
+reroot::inbox const &
+reroot::inbox::operator >> (packet &pkt) const
 {
 	// Receive packet.
-	if (msgrcv (get_queue_id (), &pkt, packet_data_size, pkt.pid, 0) == -1)
+	if (msgrcv (get_qid (), &pkt, packet_data_size, pkt.pid, 0) == -1)
 		throw xmessage (no_receive, errno);
 
 	return *this;
 }
 
-// Send a packet.
-outbox const &
-outbox::operator << (packet const &pkt) const
+// Send a packet to the PID specified therein.
+reroot::outbox const &
+reroot::outbox::operator << (packet const &pkt) const
 {
-	// Check destination PID is valid.  FIXME: msgsnd checks this?
-	if (pkt.pid < 1)
-		throw xmessage (no_send + bad_pid, 0);
-
 	// Check size is reasonable.
-	// FIXME: Too small?
-	unsigned const pkt_size = pkt.packet_size;
+	unsigned const pkt_size = pkt.header.packet_size;
 	if (pkt_size > packet_data_size)
 		throw xmessage (no_send, E2BIG);
 
 	// Send packet.
-	if (msgsnd (get_queue_id (), &pkt, pkt_size, 0))
+	if (msgsnd (get_qid (), &pkt, pkt_size, 0))
 		throw xmessage (no_send, errno);
 
 	return *this;

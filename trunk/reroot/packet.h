@@ -20,13 +20,13 @@
 # define MESSAGE_H
 
 // Size of packet header, minus the PID, in bytes.
-# define packet_meta_size (sizeof (reroot::message) - sizeof (long))
+# define packet_meta_size (sizeof (reroot::message_data) - sizeof (long))
 
 // Maximum packet size, minus the PID, in bytes.
 # define packet_data_size (sizeof (reroot::packet) - sizeof (long))
 
 // Maximum packet body size in bytes.  See below.
-# define packet_body_size (512 - sizeof (reroot::message))
+# define packet_body_size (512 - sizeof (reroot::message_data))
 
 namespace reroot
 {
@@ -38,7 +38,7 @@ namespace reroot
 
 	// Base message passing structures.
 	struct meta;
-	struct message;
+	struct message_data;
 	struct packet;
 
 	// For comparing received packets with expected.
@@ -57,7 +57,7 @@ struct reroot::meta
 
 // Messages are the same as packets (for efficiency reasons - small messages can
 // be sent as single packets), but with unlimited size.
-struct reroot::message
+struct reroot::message_data
 {
 	// PID of the sender or receiver, whichever *isn't* the daemon.
 	long pid;

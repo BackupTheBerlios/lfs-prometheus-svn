@@ -24,7 +24,7 @@
 # include <sys/msg.h>
 # include <sys/types.h>
 
-# include "message.h"
+# include "packet.h"
 
 namespace reroot
 {
@@ -42,9 +42,9 @@ namespace reroot
 class reroot::message_queue_base
 {
 	protected:
-		// C'tors & d'tor are protected to prevent this class from being
-		// used directly, as it provides no useful functionality.
-		message_queue_base (char const queue);
+		// C'tor is protected to prevent this class from being used
+		// directly, as it provides no useful functionality.
+		explicit message_queue_base (char const queue);
 
 		// Descendants need access to IDs.
 		pid_t get_pid () const;
