@@ -19,8 +19,6 @@
 // Make sure we get definitions rather than declarations of libc pointers.
 #define LIBC_CC
 
-#include <cerrno>
-#include <cstdlib>
 #include <dlfcn.h>
 #include <error.h>
 
@@ -30,9 +28,8 @@ using namespace std;
 
 namespace
 {
-	// Error messages.
-	char const symbol_error [] = "libreroot: Cannot load symbol: %s: %s",
-	           alloc_error [] = "libreroot: Cannot allocate memory";
+	// Error message.
+	char const symbol_error [] = "libreroot: Cannot load symbol: %s: %s";
 
 	// Wrapper for dlopen.
 	void *
@@ -79,30 +76,4 @@ namespace
 		dl (libc::chdir, "chdir");
 		dl (libc::fchdir, "fchdir");
 	}
-}
-
-// Wrapper for malloc.
-void * __attribute__ ((malloc))
-reroot::do_alloc (size_t const size)
-{
-	void *ptr = malloc (size);
-
-	if (ptr)
-		return ptr;
-
-	error (1, errno, alloc_error);
-	return 0;	// Never get here but prevent gcc warning.
-}
-
-// Wrapper for realloc.
-void * __attribute__ ((malloc))
-reroot::do_realloc (void *ptr, size_t const newsize)
-{
-	ptr = realloc (ptr, newsize);
-
-	if (ptr)
-		return ptr;
-
-	error (1, errno, alloc_error);
-	return 0;	// Never get here but prevent gcc warning.
 }

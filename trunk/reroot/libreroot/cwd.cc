@@ -23,6 +23,7 @@
 #include <cstring>
 #include <string>
 
+#include "alloc.h"
 #include "error.h"
 #include "filename.h"
 #include "libc.h"

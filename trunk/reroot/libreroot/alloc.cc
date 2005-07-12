@@ -1,4 +1,4 @@
-// Shared reroot comunication exception declarations
+// malloc & realloc wrapper functions
 // Copyright (C) 2003-2005 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 // Gareth Jones <gareth_jones@users.berlios.de>
 //
@@ -16,36 +16,40 @@
 // this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
-#ifndef XMESSAGE_H
-# define XMESSAGE_H
+#include <cerrno>
+#include <cstdlib>
+#include <error.h>
 
-# include <stdexcept>
-# include <string>
+#include "alloc.h"
 
-namespace reroot
+namespace
 {
-	class xmessage;
+	// Error message.
+	char const alloc_error [] = "libreroot: Cannot allocate memory";
 }
 
-// Exception thrown by message handling code.
-class reroot::xmessage:
-	public std::runtime_error
+// Wrapper for malloc.
+void * __attribute__ ((malloc))
+reroot::do_alloc (size_t const size)
 {
-	public:
-		xmessage (std::string const &action, int const errnum);
+	void *ptr = malloc (size);
 
-		int get_error_number () const;
+	if (ptr)
+		return ptr;
 
-	private:
-		// The C error number if any.
-		int const error_number;
-};
-
-// Return C error number.
-inline int
-reroot::xmessage::get_error_number () const
-{
-	return error_number;
+	error (1, errno, alloc_error);
+	return 0;	// Never get here but prevent gcc warning.
 }
 
-#endif
+// Wrapper for realloc.
+void * __attribute__ ((malloc))
+reroot::do_realloc (void *ptr, size_t const newsize)
+{
+	ptr = realloc (ptr, newsize);
+
+	if (ptr)
+		return ptr;
+
+	error (1, errno, alloc_error);
+	return 0;	// Never get here but prevent gcc warning.
+}

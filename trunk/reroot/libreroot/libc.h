@@ -19,7 +19,6 @@
 #ifndef LIBC_H
 # define LIBC_H
 
-# include <cstdlib>
 # include <sys/types.h>
 # include <unistd.h>
 
@@ -69,30 +68,6 @@ namespace libc
 	EXTERN get_current_dir_name_t get_current_dir_name;
 	EXTERN chdir_t chdir;
 	EXTERN fchdir_t fchdir;
-}
-
-namespace reroot
-{
-	// Wrappers for C-style memory allocation.
-	void *do_alloc (size_t const size) __attribute__ ((malloc));
-	void *do_realloc (void *const ptr, size_t const newsize)
-		__attribute__ ((malloc));
-
-	// Helper to simplify tedious casting with alloc.
-	template <typename type>
-	inline type * __attribute__ ((malloc))
-	alloc (size_t const size)
-	{
-		return reinterpret_cast <type *> (do_alloc (size));
-	}
-
-	// Helper to simplify tedious casting with realloc.
-	template <typename type>
-	inline type * __attribute__ ((malloc))
-	realloc (type *const ptr, size_t const newsize)
-	{
-		return reinterpret_cast <type *> (do_realloc (ptr, newsize));
-	}
 }
 
 # undef EXTERN

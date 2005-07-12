@@ -23,12 +23,14 @@ LDFLAGS := -pipe -ldl -shared
 
 # What to build.
 library := libreroot.so
-objects := cwd.o \
+objects := alloc.o \
+           cwd.o \
            error.o \
            filename.o \
            libc.o \
            messagequeue.o \
            persona.o \
+           shared.o \
            stringlist.o \
            stringtok.o
 

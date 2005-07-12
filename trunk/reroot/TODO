@@ -1,5 +1,0 @@
-- libreroot: Intercept some glibc functions.
-- libreroot: Get IPC working.
-- rerootd: Get IPC working.
-- rerootd: Get file database implemented & save to index file on exit.
-- libreroot: Complete glibc function wrappers.

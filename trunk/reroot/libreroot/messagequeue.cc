@@ -24,8 +24,8 @@
 #include <sys/msg.h>
 #include <unistd.h>
 
+#include "alloc.h"	// FIXME.
 #include "filename.h"
-#include "libc.h"	// FIXME.
 #include "messagequeue.h"
 #include "packet.h"
 #include "xmessage.h"
@@ -87,7 +87,7 @@ reroot::outbox::operator << (packet const &pkt) const
 
 	return *this;
 }
-
+/*
 // FIXME: The following will be encapslated by reroot::message.
 namespace
 {
@@ -174,4 +174,4 @@ namespace
 		// Return complete message.
 		return msg;
 	}
-}
+}*/

@@ -1,4 +1,4 @@
-// Shared reroot comunication exception declarations
+// malloc & realloc wrapper function declarations
 // Copyright (C) 2003-2005 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 // Gareth Jones <gareth_jones@users.berlios.de>
 //
@@ -16,36 +16,33 @@
 // this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
-#ifndef XMESSAGE_H
-# define XMESSAGE_H
+#ifndef ALLOC_H
+# define ALLOC_H
 
-# include <stdexcept>
-# include <string>
+# include <cstdlib>
 
 namespace reroot
 {
-	class xmessage;
-}
+	// Wrappers for C-style memory allocation.
+	void *do_alloc (size_t const size) __attribute__ ((malloc));
+	void *do_realloc (void *const ptr, size_t const newsize)
+		__attribute__ ((malloc));
 
-// Exception thrown by message handling code.
-class reroot::xmessage:
-	public std::runtime_error
-{
-	public:
-		xmessage (std::string const &action, int const errnum);
+	// Helper to simplify tedious casting with alloc.
+	template <typename type>
+	inline type * __attribute__ ((malloc))
+	alloc (size_t const size)
+	{
+		return reinterpret_cast <type *> (do_alloc (size));
+	}
 
-		int get_error_number () const;
-
-	private:
-		// The C error number if any.
-		int const error_number;
-};
-
-// Return C error number.
-inline int
-reroot::xmessage::get_error_number () const
-{
-	return error_number;
+	// Helper to simplify tedious casting with realloc.
+	template <typename type>
+	inline type * __attribute__ ((malloc))
+	realloc (type *const ptr, size_t const newsize)
+	{
+		return reinterpret_cast <type *> (do_realloc (ptr, newsize));
+	}
 }
 
 #endif

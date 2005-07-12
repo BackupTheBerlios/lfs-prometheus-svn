@@ -1,3 +1,22 @@
+2005-07-12 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/alloc.cc, reroot/libreroot/alloc.h: Added.
+	* reroot/libreroot/libc.cc, reroot/libreroot/libc.h: Moved memory
+	  allocation functions to alloc.cc & alloc.h.
+
+	* reroot/shared_implementation.cc: Added.
+	* reroot/libreroot/shared.cc: Added.  Includes shared_implementation.cc.
+	* reroot/xmessage.h: `xmessage' c'tor moved to shared_implementation.cc.
+	* reroot/packet.h: Message metadata comparison operators moved to
+	  shared_implementation.cc.
+
+	* reroot/rerootd/messagequeue.cc: Commented out `send' & `receive'
+	  functions.
+
+	* reroot/message.h: Added, currently unused.
+
+	* reroot/TODO: Removed for stating the obvious & being in the way.
+
 2005-07-11 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/libreroot/libc.cc: Tidied error messages.

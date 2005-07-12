@@ -1,4 +1,4 @@
-// Reroot communication data structures
+// Shared reroot communication data structure declarations
 // Copyright (C) 2003-2005 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 // Gareth Jones <gareth_jones@users.berlios.de>
 //
@@ -40,10 +40,6 @@ namespace reroot
 	struct meta;
 	struct message_data;
 	struct packet;
-
-	// For comparing received packets with expected.
-	bool operator == (meta const &m1, meta const &m2);
-	bool operator != (meta const &m1, meta const &m2);
 }
 
 // Metadata for packets & messages.
@@ -75,25 +71,5 @@ struct reroot::packet
 	meta header;
 	char body [packet_body_size];	// Attached data.
 };
-
-// Return true if packet metadata is equal.
-inline bool
-reroot::operator == (meta const &m1, meta const &m2)
-{
-	return m1.type == m2.type &&
-	       m1.body_size == m2.body_size &&
-	       m1.packets_left == m2.packets_left &&
-	       m1.packet_size == m2.packet_size;
-}
-
-// Return true if packet metadata is unequal.
-inline bool
-reroot::operator != (meta const &m1, meta const &m2)
-{
-	return m1.type != m2.type ||
-	       m1.body_size != m2.body_size ||
-	       m1.packets_left != m2.packets_left ||
-	       m1.packet_size != m2.packet_size;
-}
 
 #endif
