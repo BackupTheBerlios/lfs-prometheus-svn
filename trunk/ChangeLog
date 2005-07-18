@@ -2,6 +2,19 @@
 
 	* reroot/rerootd/shared.cc: Added.  Includes shared_implementation.cc.
 
+	* reroot/libreroot/alloc.h: Moved to reroot/alloc.h.
+	* reroot/libreroot/alloc.cc (do_realloc): Made sure `std::realloc' is
+	  called, not a recursive call to `reroot::realloc'.
+
+	* reroot/rerootd/alloc.cc: Copied from libreroot/alloc.cc, throws
+	  `std::bad_alloc' exception instead of calling `error' if allocation
+	  fails.
+
+	* reroot/message.h: Fixed including of libreroot/rerootd specific
+	  headers.  Removed non-inline functions.
+	* reroot/shared_implementation.cc: Added non-inline functions from
+	  message.h.
+
 2005-07-12 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/libreroot/alloc.cc, reroot/libreroot/alloc.h: Added.

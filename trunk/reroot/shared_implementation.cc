@@ -21,6 +21,7 @@
 
 # include <cstring>
 
+# include "message.h"
 # include "packet.h"
 # include "xmessage.h"
 
@@ -54,6 +55,29 @@ namespace
 		       m1.packets_left != m2.packets_left ||
 		       m1.packet_size != m2.packet_size;
 	}
+}
+
+// FIXME.
+reroot::inbox const &
+reroot::operator >> (inbox const &in, message &/*msg*/)
+{
+	return in;
+}
+
+// FIXME.
+reroot::outbox const &
+reroot::operator << (outbox const &out, message const &/*msg*/)
+{
+	return out;
+}
+
+// Allocate message data.
+reroot::message::message (message_type const type, unsigned const size):
+	data (alloc <message_data> (sizeof (message_data) + size))
+{
+	data->pid = 0;
+	data->header.type = type;
+	data->header.body_size = size;
 }
 
 #endif

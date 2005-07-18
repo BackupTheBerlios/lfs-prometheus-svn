@@ -22,8 +22,16 @@
 # include <cstdlib>
 
 # include "alloc.h"
-# include "messagequeue.h"
 # include "packet.h"
+
+// Some header files specific to libreroot or rerootd are needed.
+# if defined LIBREROOT
+#  include "libreroot/messagequeue.h"
+# elif defined REROOTD
+#  include "rerootd/messagequeue.h"
+# else
+#  error "Neither LIBREROOT nor REROOTD defined"
+# endif
 
 namespace reroot
 {
@@ -37,8 +45,8 @@ namespace reroot
 class reroot::message
 {
 	public:
-		// C'tor & d'tor.
-		explicit message (message_type const type = 0,
+		// C'tor & d'tor.  FIXME: Change default type.
+		explicit message (message_type const type = def,
 			unsigned const size = packet_body_size);
 		~message ();
 
@@ -67,19 +75,6 @@ class reroot::message
 	friend outbox const &operator << (outbox const &out,
 		message const &msg);
 };
-
-reroot::inbox const &reroot::operator >> (inbox const &in, message &msg); // FIXME.
-
-reroot::outbox const &reroot::operator << (outbox const &out, message const &msg); // FIXME.
-
-// Allocate message data.
-reroot::message::message (message_type const type, unsigned const size):
-	data (alloc <message_data> (sizeof (message_data) + size))
-{
-	data->pid = 0;
-	data->header.type = type;
-	data->header.body_size = size;
-}
 
 // Free message data.
 inline

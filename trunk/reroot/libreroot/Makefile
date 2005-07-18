@@ -17,7 +17,7 @@
 # Place, Suite 330, Boston, MA  02111-1307  USA
 
 # Default build flags.
-CPPFLAGS := -I.. -D_GNU_SOURCE
+CPPFLAGS := -I.. -DLIBREROOT -D_GNU_SOURCE
 CXXFLAGS := -g -pipe -Wall -W -Werror -O2 -fpic
 LDFLAGS := -pipe -ldl -shared
 

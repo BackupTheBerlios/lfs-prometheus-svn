@@ -16,17 +16,10 @@
 // this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
-#include <cerrno>
 #include <cstdlib>
-#include <error.h>
+#include <new>
 
 #include "alloc.h"
-
-namespace
-{
-	// Error message.
-	char const alloc_error [] = "libreroot: Cannot allocate memory";
-}
 
 // Wrapper for malloc.
 void * __attribute__ ((malloc))
@@ -37,8 +30,7 @@ reroot::do_alloc (size_t const size)
 	if (ptr)
 		return ptr;
 
-	error (1, errno, alloc_error);
-	return 0;	// Never get here but prevent gcc warning.
+	throw std::bad_alloc ();
 }
 
 // Wrapper for realloc.
@@ -50,6 +42,5 @@ reroot::do_realloc (void *ptr, size_t const newsize)
 	if (ptr)
 		return ptr;
 
-	error (1, errno, alloc_error);
-	return 0;	// Never get here but prevent gcc warning.
+	throw std::bad_alloc ();
 }
