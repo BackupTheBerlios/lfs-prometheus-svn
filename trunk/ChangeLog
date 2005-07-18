@@ -11,9 +11,13 @@
 	  fails.
 
 	* reroot/message.h: Fixed including of libreroot/rerootd specific
-	  headers.  Removed non-inline functions.
+	  headers.  Removed non-inline functions.  Fixed friend declarations to
+	  use operators from namespace `reroot'.
 	* reroot/shared_implementation.cc: Added non-inline functions from
-	  message.h.
+	  message.h.  Removed packet metadata equality operator (inequality
+	  operator is sufficient).  Wrote message sending & receiving operators.
+	* reroot/libreroot/messagequeue.cc: Removed commented out `send' &
+	  `receive' functions.
 
 2005-07-12 Gareth Jones <gareth_jones@users.berlios.de>
 

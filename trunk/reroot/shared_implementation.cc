@@ -19,8 +19,10 @@
 #ifndef SHARED_IMPLEMENTATION_CC
 # define SHARED_IMPLEMENTATION_CC
 
+# include <algorithm>
 # include <cstring>
 
+# include "alloc.h"
 # include "message.h"
 # include "packet.h"
 # include "xmessage.h"
@@ -36,15 +38,8 @@ reroot::xmessage::xmessage (string const &action, int const errnum):
 
 namespace
 {
-	// Return true if packet metadata is equal.
-	bool
-	operator == (reroot::meta const &m1, reroot::meta const &m2)
-	{
-		return m1.type == m2.type &&
-		       m1.body_size == m2.body_size &&
-		       m1.packets_left == m2.packets_left &&
-		       m1.packet_size == m2.packet_size;
-	}
+	// Error message.
+	string const bad_packet = "Unexpected packet when constructing message";
 
 	// Return true if packet metadata is unequal.
 	bool
@@ -57,17 +52,86 @@ namespace
 	}
 }
 
-// FIXME.
+// Receive a message by assembling received packets.
 reroot::inbox const &
-reroot::operator >> (inbox const &in, message &/*msg*/)
+reroot::operator >> (inbox const &in, message &msg)
 {
+	// Reserve memory for first packet & receive it.
+	msg.data = realloc (msg.data, sizeof (packet));
+	in >> *reinterpret_cast <packet *> (msg.data);
+
+	// Get packet parameters.
+	meta header = msg.data->header;
+
+	// Do we have more packets?
+	if (header.packets_left)
+	{
+		// Reallocate memory.
+		msg.data = realloc (msg.data,
+		                    sizeof (message_data) + header.body_size);
+
+		// Get address to append body data to.
+		void *ptr = reinterpret_cast <packet *> (msg.data) + 1;
+
+		// Get remaining packets.
+		while (header.packets_left--)
+		{
+			// Get next packet.
+			packet pkt;
+			in >> pkt;
+
+			// Check packet.
+			header.packet_size = pkt.header.packet_size;
+			if (pkt.header != header)
+				throw xmessage (bad_packet, 0);
+
+			// Append packet body to message.
+			ptr = mempcpy (ptr, pkt.body,
+			               header.packet_size - packet_meta_size);
+		}
+	}
+
 	return in;
 }
 
-// FIXME.
+// Send a message by splitting into packets to send.  Message data may be
+// trashed after sending.
 reroot::outbox const &
-reroot::operator << (outbox const &out, message const &/*msg*/)
+reroot::operator << (outbox const &out, message &msg)
 {
+	// Get message parameters.
+	meta header = msg.data->header;
+
+	// What's left to send?
+	unsigned size_left = header.body_size;
+	header.packets_left = size_left / packet_body_size +
+	                      size_left % packet_body_size? 1 : 0;
+
+	// Send packets.  This is optimized to avoid copying large blocks of
+	// data.  The original message data will be trashed if multiple packets
+	// are sent.
+	packet *pkt = reinterpret_cast <packet *> (&msg);
+	while (header.packets_left--)
+	{
+		// Calculate packet body size.
+		unsigned const bs = min (size_left, packet_body_size);
+		size_left -= bs;
+
+		// Intialize packet header.
+		header.packet_size = packet_meta_size + bs;
+		pkt->header = header;
+
+		// Send packet.
+		out << *pkt;
+
+		// Increment packet pointer so that the next unsent body section
+		// can be turned into another packet & sent.
+		if (header.packets_left)
+			pkt = reinterpret_cast <packet *>
+			      (reinterpret_cast <char *> (pkt) +
+			       packet_body_size);
+	}
+
 	return out;
 }
 

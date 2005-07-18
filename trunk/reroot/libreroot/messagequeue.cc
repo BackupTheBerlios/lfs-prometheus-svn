@@ -16,15 +16,12 @@
 // this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
-#include <algorithm>	// FIXME.
 #include <cerrno>
-#include <cstring>	// FIXME.
 #include <string>
 #include <sys/ipc.h>
 #include <sys/msg.h>
 #include <unistd.h>
 
-#include "alloc.h"	// FIXME.
 #include "filename.h"
 #include "messagequeue.h"
 #include "packet.h"
@@ -87,91 +84,3 @@ reroot::outbox::operator << (packet const &pkt) const
 
 	return *this;
 }
-/*
-// FIXME: The following will be encapslated by reroot::message.
-namespace
-{
-	// Error message.
-	string const bad_packet = "Unexpected packet when constructing message";
-
-	// Split message into packets & send.
-	void
-	send (reroot::outbox const &out, reroot::message_data &msg)
-	{
-		// Get message parameters.
-		reroot::meta header = msg.header;
-
-		// What's left to send?
-		unsigned size_left = header.body_size;
-		header.packets_left = size_left / packet_body_size +
-		                      size_left % packet_body_size? 1 : 0;
-
-		// Send packets.  This is optimized to avoid copying large
-		// blocks of data.  The original message data will be trashed.
-		reroot::packet *pkt =
-			reinterpret_cast <reroot::packet *> (&msg);
-		while (header.packets_left--)
-		{
-			// Calculate packet body size.
-			unsigned const bs = min (size_left, packet_body_size);
-			size_left -= bs;
-
-			// Initialize packet header.
-			header.packet_size = packet_meta_size + bs;
-			pkt->header = header;
-
-			// Send packet.
-			out << *pkt;
-
-			// Increment packet pointer.
-			if (header.packets_left)
-				pkt = reinterpret_cast <reroot::packet *>
-				      (reinterpret_cast <char *> (pkt) +
-				       packet_body_size);
-		}
-	}
-
-	// Return message assembled from received packets.
-	reroot::message_data *
-	receive (reroot::inbox const &in)
-	{
-		// Allocate memory & get first packet.
-		reroot::message_data *msg = reroot::alloc <reroot::message_data>
-		                            (sizeof (reroot::packet));
-		in >> *reinterpret_cast <reroot::packet *> (msg);
-
-		// Get packet parameters.
-		reroot::meta header = msg->header;
-
-		// Do we have more packets?
-		if (header.packets_left)
-		{
-			// Reallocate memory.
-			msg = reroot::realloc (msg,
-			                       sizeof (reroot::message_data) +
-			                       header.body_size);
-
-			// Get remaining packets.
-			void *ptr =
-				reinterpret_cast <reroot::packet *> (msg) + 1;
-			while (header.packets_left--)
-			{
-				// Get next packet.
-				reroot::packet pkt;
-				in >> pkt;
-
-				// Check packet.
-				header.packet_size = pkt.header.packet_size;
-				if (pkt.header != header)
-					throw reroot::xmessage (bad_packet, 0);
-
-				// Append packet body to message.
-				ptr = mempcpy (ptr, pkt.body,
-					header.packet_size - packet_meta_size);
-			}
-		}
-
-		// Return complete message.
-		return msg;
-	}
-}*/

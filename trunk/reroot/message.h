@@ -38,7 +38,7 @@ namespace reroot
 	class message;
 
 	inbox const &operator >> (inbox const &in, message &msg);
-	outbox const &operator << (outbox const &out, message const &msg);
+	outbox const &operator << (outbox const &out, message &msg);
 }
 
 // A wrapper around reroot::message_data to handle memory allocation.
@@ -70,10 +70,11 @@ class reroot::message
 		// The actual message data.
 		message_data *data;
 
-	// For working with message queues.
-	friend inbox const &operator >> (inbox const &in, message &msg);
-	friend outbox const &operator << (outbox const &out,
-		message const &msg);
+	// For working with message queues.  FIXME: reroot:: specification
+	// unnecessary accoring to standard & GCC 4.  GCC 3 needs it currently.
+	friend inbox const &reroot::operator >> (inbox const &in, message &msg);
+	friend outbox const &reroot::operator << (outbox const &out,
+		message &msg);
 };
 
 // Free message data.
