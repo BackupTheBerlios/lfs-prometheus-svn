@@ -68,29 +68,33 @@ namespace
 	argument_parser (int key, char arg [], argp_state *state)
 	{
 		arguments &args = *static_cast <arguments *> (state->input);
+
 		switch (key)
 		{
-			case 'f':
-				args.background = false;
-				break;
+		case 'f':
+			args.background = false;
+			break;
 
-			case 'i':
-				if (!args.index_file.empty ())
-					argp_failure (state, 1, 0, "index file "
-					              "specified twice");
-				args.index_file = arg;
-				break;
+		case 'i':
+			if (!args.index_file.empty ())
+				argp_failure (state, 1, 0, "index file "
+				                           "specified twice");
 
-			case ARGP_KEY_ARG:
-				if (!args.false_root.empty ())
-					argp_failure (state, 1, 0, "false root "
-					              "specified twice");
-				args.false_root = arg;
-				break;
+			args.index_file = arg;
+			break;
 
-			default:
-				return ARGP_ERR_UNKNOWN;
+		case ARGP_KEY_ARG:
+			if (!args.false_root.empty ())
+				argp_failure (state, 1, 0, "false root "
+				                           "specified twice");
+
+			args.false_root = arg;
+			break;
+
+		default:
+			return ARGP_ERR_UNKNOWN;
 		}
+
 		return 0;
 	}
 
@@ -146,30 +150,30 @@ namespace
 
 		switch (pid_t pid = fork ())
 		{
-			case 0:
-				// This is the child.  Safely close all streams
-				// & their file descriptors.
-				// FIXME: C++ streams?
-				fcloseall ();
+		case 0:
+			// This is the child.  Safely close all streams & their
+			// file descriptors.
+			// FIXME: C++ streams?
+			fcloseall ();
 
-				// Close any remaining file descriptors.
-				// FIXME: There's gotta be a better way...
-				for (unsigned i = 0; i < lim.rlim_cur; ++i)
-					close (i);
+			// Close any remaining file descriptors.
+			// FIXME: There's gotta be a better way...
+			for (unsigned i = 0; i < lim.rlim_cur; ++i)
+				close (i);
 
-				// Create new session for daemon.
-				setsid ();
-				break;
+			// Create new session for daemon.
+			setsid ();
+			break;
 
-			case -1:
-				error (1, errno, "Cannot fork child process");
+		case -1:
+			error (1, errno, "Cannot fork child process");
 
-			default:
-				// This is the parent.  Report child's PID &
-				// exit.  Do not deallocate message queue.
-				queue.disown ();
-				printf ("%i\n", pid);
-				exit (0);
+		default:
+			// This is the parent.  Report child's PID & exit.  Do
+			// not deallocate message queue.
+			queue.disown ();
+			printf ("%i\n", pid);
+			exit (0);
 		}
 	}
 }
@@ -210,13 +214,14 @@ try
 		fflush (stdout);
 	}
 
-	return 0;
+	reroot::message_loop (queue);
 }
 
 // Prevent unhandled exceptions resulting in abortion, which would not
 // deallocate the System V IPC message queue.  Apart from wasting memory until
 // manually unallocated, libreroot processes would hang waiting for replies
-// rather than aborting.
+// rather than aborting.  FIXME: stderr may be closed.  Need some other way to
+// report errors.
 catch (exception const &x)	// All standard & reroot exceptions.
 {
 	error (1, 0, "Caught exception: %s", x.what ());

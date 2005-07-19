@@ -20,10 +20,14 @@
 # define REROOTD_H
 
 # include <string>
+# include "messagequeue.h"
 
 namespace reroot
 {
 	extern std::string const false_root;
+
+	void message_loop (message_queue const &queue)
+		__attribute__ ((noreturn));
 }
 
 #endif

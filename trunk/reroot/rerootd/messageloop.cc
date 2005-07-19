@@ -1,4 +1,4 @@
-// malloc & realloc wrapper functions
+// Message handling loop
 // Copyright (C) 2003-2005 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 // Gareth Jones <gareth_jones@users.berlios.de>
 //
@@ -16,40 +16,29 @@
 // this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
-#include <cerrno>
-#include <cstdlib>
-#include <error.h>
+#include "file.h"
+#include "message.h"
+#include "messagequeue.h"
+#include "rerootd.h"
 
-#include "alloc.h"
-
-namespace
+// Message loop - wait for a message, deal with it (maybe reply), loop.
+void __attribute__ ((noreturn))
+reroot::message_loop (message_queue const &queue)
 {
-	// Error message.
-	char const alloc_error [] = "libreroot: Cannot allocate memory";
-}
+	file_db db;
+	message msg;
 
-// Wrapper for malloc.
-void * __attribute__ ((malloc))
-reroot::do_alloc (size_t const size)
-{
-	void *ptr = std::malloc (size);
+	// The message loop.
+	while (true)
+	{
+		// Get message.
+		queue >> msg;
 
-	if (ptr)
-		return ptr;
-
-	error (1, errno, alloc_error);
-	return 0;	// Never get here but prevent gcc warning.
-}
-
-// Wrapper for realloc.
-void * __attribute__ ((malloc))
-reroot::do_realloc (void *ptr, size_t const newsize)
-{
-	ptr = std::realloc (ptr, newsize);
-
-	if (ptr)
-		return ptr;
-
-	error (1, errno, alloc_error);
-	return 0;	// Never get here but prevent gcc warning.
+		// Choose appropriate handler.
+		switch (msg.get_type ())
+		{
+		case def:
+			;
+		}
+	}
 }

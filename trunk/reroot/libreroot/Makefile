@@ -23,8 +23,7 @@ LDFLAGS := -pipe -ldl -shared
 
 # What to build.
 library := libreroot.so
-objects := alloc.o \
-           cwd.o \
+objects := cwd.o \
            error.o \
            filename.o \
            libc.o \

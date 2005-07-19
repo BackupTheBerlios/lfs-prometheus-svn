@@ -178,10 +178,7 @@ try
 	init_false_root ();
 	init_exclude_path ();
 }
-catch (exception const &x)
-{
-	error (x);
-}
+catch_all
 
 // Return true if the absolute filename is under a directory in the exclude
 // path.

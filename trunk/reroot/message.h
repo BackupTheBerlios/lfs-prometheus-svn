@@ -71,7 +71,7 @@ class reroot::message
 		message_data *data;
 
 	// For working with message queues.  FIXME: reroot:: specification
-	// unnecessary accoring to standard & GCC 4.  GCC 3 needs it currently.
+	// unnecessary according to standard & GCC 4?  GCC 3 needs it currently.
 	friend inbox const &reroot::operator >> (inbox const &in, message &msg);
 	friend outbox const &reroot::operator << (outbox const &out,
 		message &msg);

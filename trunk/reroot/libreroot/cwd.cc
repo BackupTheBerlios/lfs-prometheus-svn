@@ -30,7 +30,6 @@
 
 using namespace std;
 using reroot::alloc;
-using reroot::error;
 using reroot::filename;
 
 namespace
@@ -61,10 +60,7 @@ namespace
 			free (pwd);
 		}
 	}
-	catch (exception const &x)
-	{
-		error (x);
-	}
+	catch_all
 }
 
 // Ensure overrides can be called by C code.
@@ -114,10 +110,7 @@ extern "C"
 		memcpy (buffer, working_directory.c_str (), len);
 		return buffer;
 	}
-	catch (exception const &x)
-	{
-		error (x);
-	}
+	catch_all
 
 	// Return absolute filename of current working directory.  Use given
 	// buffer, which is assumed to be large enough.  This is a deprecated
@@ -152,10 +145,7 @@ extern "C"
 		memcpy (buffer, working_directory.c_str (), len);
 		return buffer;
 	}
-	catch (exception const &x)
-	{
-		error (x);
-	}
+	catch_all
 
 	// Return absolute filename of current working directory.
 	// FIXME: Check for permission to read/traverse working directory.
@@ -174,10 +164,7 @@ extern "C"
 		memcpy (buffer, working_directory.c_str (), len);
 		return buffer;
 	}
-	catch (exception const &x)
-	{
-		error (x);
-	}
+	catch_all
 
 	int
 	chdir (char const *const name)

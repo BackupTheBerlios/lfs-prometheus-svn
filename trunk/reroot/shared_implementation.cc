@@ -20,7 +20,9 @@
 # define SHARED_IMPLEMENTATION_CC
 
 # include <algorithm>
+# include <cstdlib>
 # include <cstring>
+# include <new>
 
 # include "alloc.h"
 # include "message.h"
@@ -28,6 +30,30 @@
 # include "xmessage.h"
 
 using namespace std;
+
+// Wrapper for malloc.
+void * __attribute__ ((malloc))
+reroot::do_alloc (size_t const size)
+{
+	void *ptr = std::malloc (size);
+
+	if (ptr)
+		return ptr;
+
+	throw bad_alloc ();
+}
+
+// Wrapper for realloc.
+void * __attribute__ ((malloc))
+reroot::do_realloc (void *ptr, size_t const newsize)
+{
+	ptr = std::realloc (ptr, newsize);
+
+	if (ptr)
+		return ptr;
+
+	throw bad_alloc ();
+}
 
 // Construct xmessage with an error string & also the C error number.
 reroot::xmessage::xmessage (string const &action, int const errnum):

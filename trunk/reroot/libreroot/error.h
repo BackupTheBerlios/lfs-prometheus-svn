@@ -21,6 +21,9 @@
 
 # include <exception>
 
+// Catch block for all exceptions.  Use for C functions & DSO constructors.
+# define catch_all catch (std::exception const &x) {reroot::error (x);}
+
 namespace reroot
 {
 	void error (std::exception const &x) __attribute__ ((noreturn));
