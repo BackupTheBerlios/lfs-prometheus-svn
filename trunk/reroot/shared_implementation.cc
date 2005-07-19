@@ -87,6 +87,7 @@ reroot::operator >> (inbox const &in, message &msg)
 	in >> *reinterpret_cast <packet *> (msg.data);
 
 	// Get packet parameters.
+	long const pid = msg.data->pid;
 	meta header = msg.data->header;
 
 	// Do we have more packets?
@@ -102,8 +103,9 @@ reroot::operator >> (inbox const &in, message &msg)
 		// Get remaining packets.
 		while (header.packets_left--)
 		{
-			// Get next packet.
+			// Get next packet in message.
 			packet pkt;
+			pkt.pid = pid;
 			in >> pkt;
 
 			// Check packet.

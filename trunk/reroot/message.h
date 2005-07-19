@@ -45,8 +45,8 @@ namespace reroot
 class reroot::message
 {
 	public:
-		// C'tor & d'tor.  FIXME: Change default type.
-		explicit message (message_type const type = def,
+		// C'tor & d'tor.
+		explicit message (message_type const type = save_and_exit,
 			unsigned const size = packet_body_size);
 		~message ();
 

@@ -21,6 +21,7 @@
 
 # include <map>
 # include <string>
+# include <sys/types.h>
 
 namespace reroot
 {
@@ -41,8 +42,17 @@ class reroot::file
 			removed
 		};
 
+		// For storing file metadata.
+		struct file_meta
+		{
+			mode_t mode;
+			uid_t uid;
+			gid_t gid;
+		};
+
 		// C'tor.
-		file (file_status const s = unmodified);
+		explicit file (file_meta const &meta,
+			file_status const s = unmodified);
 
 		// For accessing file status.
 		file_status get_status () const;
@@ -50,19 +60,29 @@ class reroot::file
 		void modify ();
 		void remove ();
 
+		// For accessing data status.
+		bool is_stale () const;
+
 		// For accessing file metadata status.
 		bool metadata_is_modified () const;
+		file_meta const &get_metadata () const;
+		void set_metadata (file_meta const &meta);
 
 	private:
+		// Data.
 		file_status status;
+		bool stale;
 		bool metadata_modified;
+		file_meta metadata;
 };
 
-// Initialize file status.
+// Initialize file status & metadata.
 inline
-reroot::file::file (file_status const s):
+reroot::file::file (file_meta const &meta, file_status const s):
 	status (s),
-	metadata_modified (false)
+	stale (false),
+	metadata_modified (false),
+	metadata (meta)
 {}
 
 // Return file status.
@@ -76,9 +96,7 @@ reroot::file::get_status () const
 inline void
 reroot::file::create ()
 {
-	// If file was previously removed, mark as modified (we have effectively
-	// unremoved it & modified it).  Otherwise simply flag as created.
-	status = (status == removed? modified : created);
+	status = created;
 }
 
 // Set status to reflect that the file has been modified.
@@ -94,12 +112,18 @@ reroot::file::modify ()
 inline void
 reroot::file::remove ()
 {
-	// If file was originally created here, mark it as unmodified as it
-	// didn't exist in the first place.  Otherwise flag as removed.
-	status = (status == created? unmodified : removed);
+	// If the file was first created here, we can forget about it now.
+	if (status == created)
+		stale = true;
 
-	// Reset metadata in case the file is recreated.  FIXME: Reset metadata.
-	metadata_modified = false;
+	status = removed;
+}
+
+// Return true if this entry should be removed from the file database.
+inline bool
+reroot::file::is_stale () const
+{
+	return stale;
 }
 
 // Return metadata status.
@@ -107,6 +131,21 @@ inline bool
 reroot::file::metadata_is_modified () const
 {
 	return metadata_modified;
+}
+
+// Return file metadata.
+inline reroot::file::file_meta const &
+reroot::file::get_metadata () const
+{
+	return metadata;
+}
+
+// Set file metadata.
+inline void
+reroot::file::set_metadata (file_meta const &meta)
+{
+	metadata = meta;
+	metadata_modified = true;
 }
 
 #endif

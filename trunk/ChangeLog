@@ -6,15 +6,22 @@
 	* reroot/libreroot/filename.cc: Uses `catch_all'.
 
 	* reroot/shared_implementation.cc: Added `do_malloc' & `do_realloc' from
-	  reroot/rerootd/alloc.cc.
+	  reroot/rerootd/alloc.cc.  Ensure when receiving messages, packets from
+	  the same sender are assembled.
 	* reroot/libreroot/alloc.cc: Removed.
 	* reroot/rerootd/alloc.cc: Removed.
 
-	* reroot/rerootd/file.h: Added.
+	* reroot/rerootd/file.h: Added.  Tidied & added metadata handling.
 
 	* reroot/rerootd/messageloop.cc: Added.
 	* reroot/rerootd/rerootd.h: Added `message_loop' declaration.
 	* reroot/rerootd/rerootd.cc (main): Added call to `message_loop'.
+
+	* reroot/packet.h: Added message types `save_and_exit' & `cleanup_db'.
+	* reroot/rerootd/messagequeue.cc, reroot/rerootd/messagequeue.h: Added
+	  `signal_handler'.
+	* reroot/rerootd/rerootd.cc: Register signal handlers before entering
+	  message loop.
 
 2005-07-18 Gareth Jones <gareth_jones@users.berlios.de>
 

@@ -18,6 +18,7 @@
 
 #include <argp.h>
 #include <cerrno>
+#include <csignal>
 #include <cstdio>
 #include <cstdlib>
 #include <error.h>
@@ -44,10 +45,11 @@ namespace
 	// For storing arguments after parsing.
 	struct arguments
 	{
-		arguments (): background (true) {}
 		bool background;
 		string false_root,
 		       index_file;
+
+		arguments (): background (true) {}
 	};
 
 	// --help documentation.
@@ -214,6 +216,24 @@ try
 		fflush (stdout);
 	}
 
+	// Register signal handlers.
+	{
+		// Initialize signal handler data structure.
+		struct sigaction handler;
+		handler.sa_handler = reroot::signal_handler;
+		handler.sa_flags = SA_RESTART;
+
+		// Ensure HUP & USR1 are mutually blocking.
+		sigemptyset (&handler.sa_mask);
+		sigaddset (&handler.sa_mask, SIGHUP);
+		sigaddset (&handler.sa_mask, SIGUSR1);
+
+		// Register handlers.
+		sigaction (SIGHUP, &handler, 0);
+		sigaction (SIGUSR1, &handler, 0);
+	}
+
+	// Start message loop.
 	reroot::message_loop (queue);
 }
 

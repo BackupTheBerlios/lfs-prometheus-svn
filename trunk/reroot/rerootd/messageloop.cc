@@ -37,8 +37,11 @@ reroot::message_loop (message_queue const &queue)
 		// Choose appropriate handler.
 		switch (msg.get_type ())
 		{
-		case def:
-			;
+		case save_and_exit:
+			break;
+
+		case cleanup_db:
+			break;
 		}
 	}
 }

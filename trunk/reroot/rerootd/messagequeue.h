@@ -32,6 +32,12 @@ namespace reroot
 	class inbox;
 	class outbox;
 	class message_queue;
+
+	// Signal handler.
+	extern "C"
+	{
+		void signal_handler (int const signum);
+	}
 }
 
 // Base functionality for managing a System V message queue.

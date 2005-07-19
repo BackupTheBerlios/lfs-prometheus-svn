@@ -17,12 +17,15 @@
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include <cerrno>
+#include <cstdlib>
+#include <csignal>
 #include <string>
 #include <sys/ipc.h>
 #include <sys/msg.h>
 
 #include "messagequeue.h"
 #include "packet.h"
+#include "rerootd.h"
 #include "xmessage.h"
 
 using namespace std;
@@ -78,4 +81,55 @@ reroot::outbox::operator << (packet const &pkt) const
 		throw xmessage (no_send, errno);
 
 	return *this;
+}
+
+// Signal handler.  Convert signals to System V IPC messages to self.  HUP
+// becomes save & exit, USR1 becomes cleanup database.
+// FIXME: Error reporting.
+void
+reroot::signal_handler (int const signum)
+{
+	message_type type;
+
+	// Identify signal type, & hence message type.
+	switch (signum)
+	{
+	case SIGHUP:
+		type = save_and_exit;
+		break;
+
+	case SIGUSR1:
+		type = cleanup_db;
+		break;
+
+	default:
+		abort ();
+	}
+
+	// Create message to send.
+	packet const pkt =
+	{
+		1,
+		{
+			type,
+			0,
+			0,
+			packet_meta_size
+		},
+		""
+	};
+
+	// Get System V IPC key.
+	key_t const key = ftok (false_root.c_str (), 'i');
+	if (key == -1)
+		abort ();
+
+	// Get System V IPC message queue ID.
+	int const qid = msgget (key, 0);
+	if (qid == -1)
+		abort ();
+
+	// Send message.
+	if (msgsnd (qid, &pkt, pkt.header.packet_size, 0))
+		abort ();
 }
