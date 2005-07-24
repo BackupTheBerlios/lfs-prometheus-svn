@@ -35,9 +35,12 @@ namespace
 	void
 	handle_signal (int const signum, reroot::message_queue const &queue)
 	{
-		reroot::message_type type;
+		// Error message.
+		static char const bad_signal [] =
+			"handle_signal: Bad signal number";
 
 		// Identify signal type, & hence message type to send.
+		reroot::message_type type;
 		switch (signum)
 		{
 		case SIGHUP:
@@ -49,8 +52,7 @@ namespace
 			break;
 
 		default:
-			throw std::invalid_argument ("handle_signal: Bad signal"
-			                             " number");
+			throw std::invalid_argument (bad_signal);
 		}
 
 		// Send message to self.
@@ -67,13 +69,15 @@ reroot::signal_handler (int const signum)
 }
 
 // Message loop - wait for a message, deal with it (maybe reply), loop.
-void __attribute__ ((noreturn))
+void
 reroot::message_loop (message_queue const &queue)
 {
+	// Initialize file database.
 	file_db db;
-	message msg;
+	read_index (db);
 
 	// The message loop.
+	message msg;
 	while (true)
 	{
 		// Have we received any signals?
@@ -90,9 +94,19 @@ reroot::message_loop (message_queue const &queue)
 		switch (msg.get_type ())
 		{
 		case save_and_exit:
-			break;
+			// Write index file & exit.
+			write_index (db);
+			return;
 
 		case cleanup_db:
+			// Cleanup file database.
+			cleanup (db);
+			break;
+
+		case metadata:		// FIXME.
+			break;
+
+		case get_metadata:	// FIXME.
 			break;
 		}
 	}

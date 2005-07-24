@@ -8,6 +8,22 @@
 	* reroot/rerootd/messageloop.cc (message_loop): Added conditional call
 	  to `handle_signal'.
 
+	* reroot/shared_implementation.cc, reroot/libreroot/messagequeue.cc,
+	  reroot/libreroot/messagequeue.h, reroot/rerootd/messagequeue.cc,
+	  reroot/rerootd/messagequeue.h, reroot/rerootd/messageloop.cc: Made
+	  error messages local to functions that use them.
+
+	* reroot/packet.h: Added message types for working with file metadata.
+	* reroot/messages.h: Added.
+	* reroot/rerootd/messageloop.cc (message_loop): Added new message types
+	  to switch statement.  Basic handling for `save_and_exit' &
+	  `cleanup_db'.
+	* reroot/rerootd/file.cc, reroot/rerootd/file.h: Added interface for
+	  reading/writing index file, & cleaning up database.
+
+	* reroot/rerootd/rerootd.cc (main), reroot/rerootd/rerootd.h: Set
+	  `index_file' global constant.
+
 2005-07-19 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/libreroot/error.h: Added `catch_all' macro for simplifying

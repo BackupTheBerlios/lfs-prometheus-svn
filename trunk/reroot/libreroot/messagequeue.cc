@@ -29,16 +29,6 @@
 
 using namespace std;
 
-// Error messages are constructed here to avoid having to allocate them in
-// possible low memory situations.
-namespace reroot
-{
-	string const message_queue_base::no_key = "Cannot get IPC key",
-	             message_queue_base::no_queue = "Cannot get message queue",
-	             inbox::no_receive = "Cannot receive packet",
-	             outbox::no_send = "Cannot send packet";
-}
-
 // Construct IPC key from the false root directory & use it to obtain a System V
 // IPC message queue.  Fail if queue doesn't exist (rerootd should have created
 // it).
@@ -48,6 +38,10 @@ reroot::message_queue_base::message_queue_base (char const queue):
 	           filename::get_false_root ().c_str () : "/", queue)),
 	qid (key == -1?: msgget (key, 0))
 {
+	// Error messages.
+	static char const no_key [] = "Cannot get IPC key",
+	                  no_queue [] = "Cannot get message queue";
+
 	if (key == -1)
 		throw xmessage (no_key, errno);
 
@@ -59,6 +53,9 @@ reroot::message_queue_base::message_queue_base (char const queue):
 reroot::inbox const &
 reroot::inbox::operator >> (packet &pkt) const
 {
+	// Error message.
+	static char const no_receive [] = "Cannot receive packet";
+
 	// Receive packet.
 	if (msgrcv (get_qid (), &pkt, packet_data_size, get_pid (), 0) == -1)
 		throw xmessage (no_receive, errno);
@@ -70,6 +67,9 @@ reroot::inbox::operator >> (packet &pkt) const
 reroot::outbox const &
 reroot::outbox::operator << (packet const &pkt) const
 {
+	// Error message.
+	static char const no_send [] = "Cannot send packet";
+
 	// Check size is reasonable.
 	unsigned const pkt_size = pkt.header.packet_size;
 	if (pkt_size > packet_data_size)

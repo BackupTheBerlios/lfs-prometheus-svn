@@ -34,12 +34,14 @@ namespace reroot
 	enum message_type
 	{
 		// rerootd sends itself these in response to signals.
-		save_and_exit,	// HUP
-		cleanup_db	// USR1
+		save_and_exit,	// HUP.
+		cleanup_db,	// USR1.
 
-		// Notifications from libreroot.
-		// Requests from libreroot.
-		// Replies from rerootd.
+		// Notifications & requested data.
+		metadata,	// File metadata.
+
+		// Requests for data.
+		get_metadata,	// Get file metadata.
 	};
 
 	// Base message passing structures.

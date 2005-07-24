@@ -1,4 +1,4 @@
-// File metadata
+// File metadata declarations
 // Copyright (C) 2003-2005 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 // Gareth Jones <gareth_jones@users.berlios.de>
 //
@@ -21,12 +21,19 @@
 
 # include <map>
 # include <string>
-# include <sys/types.h>
+
+# include "messages.h"
 
 namespace reroot
 {
+	// File metadata database.
 	class file;
 	typedef std::map <std::string, file> file_db;
+
+	// For manipulating the file database.
+	void read_index (file_db &db);
+	void write_index (file_db const &db);
+	void cleanup (file_db &db);
 }
 
 // Stores file metadata & status information.
@@ -40,14 +47,6 @@ class reroot::file
 			modified,
 			created,
 			removed
-		};
-
-		// For storing file metadata.
-		struct file_meta
-		{
-			mode_t mode;
-			uid_t uid;
-			gid_t gid;
 		};
 
 		// C'tor.
@@ -134,7 +133,7 @@ reroot::file::metadata_is_modified () const
 }
 
 // Return file metadata.
-inline reroot::file::file_meta const &
+inline reroot::file_meta const &
 reroot::file::get_metadata () const
 {
 	return metadata;

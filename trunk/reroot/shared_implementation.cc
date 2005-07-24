@@ -64,9 +64,6 @@ reroot::xmessage::xmessage (string const &action, int const errnum):
 
 namespace
 {
-	// Error message.
-	string const bad_packet = "Unexpected packet when constructing message";
-
 	// Return true if packet metadata is unequal.
 	bool
 	operator != (reroot::meta const &m1, reroot::meta const &m2)
@@ -82,6 +79,10 @@ namespace
 reroot::inbox const &
 reroot::operator >> (inbox const &in, message &msg)
 {
+	// Error message.
+	static char const bad_packet [] =
+		"Unexpected packet when constructing message";
+
 	// Reserve memory for first packet & receive it.
 	msg.data = realloc (msg.data, sizeof (packet));
 	in >> *reinterpret_cast <packet *> (msg.data);

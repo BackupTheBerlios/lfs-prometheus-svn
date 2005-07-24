@@ -24,7 +24,8 @@ LDFLAGS := -pipe
 
 # What to build.
 program := rerootd
-objects := messageloop.o \
+objects := file.o \
+           messageloop.o \
            messagequeue.o \
            rerootd.o \
            shared.o

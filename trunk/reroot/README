@@ -99,7 +99,6 @@ Clean Up
 	Remove files in false root marked unmodified or ignored (e.g.
 	/etc/passwed).  Commit hard links to false root filesystem.
 	Diff modified files, remove those that haven't actually changed.
-	Transfer filename database from real to rerooted filenames for tar.
 
 Write Index
 	Save file list for false root.  Also include metadata.  What about

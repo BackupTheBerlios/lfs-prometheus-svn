@@ -37,8 +37,9 @@ char const *argp_program_version = "rerootd 0.00";
 char const *argp_program_bug_address =
 	"Gareth Jones <gareth_jones@users.berlios.de>";
 
-// False root directory.
-string const reroot::false_root;
+// False root directory & index file name.
+string const reroot::false_root,
+             reroot::index_file = "index";
 
 namespace
 {
@@ -78,7 +79,7 @@ namespace
 			break;
 
 		case 'i':
-			if (!args.index_file.empty ())
+			if (args.index_file.length ())
 				argp_failure (state, 1, 0, "index file "
 				                           "specified twice");
 
@@ -86,7 +87,7 @@ namespace
 			break;
 
 		case ARGP_KEY_ARG:
-			if (!args.false_root.empty ())
+			if (args.false_root.length ())
 				argp_failure (state, 1, 0, "false root "
 				                           "specified twice");
 
@@ -202,6 +203,10 @@ try
 			                 " root directory");
 	}
 
+	// Set index_file constant if specified.
+	if (args.index_file.length ())
+		const_cast <string &> (reroot::index_file) = args.index_file;
+
 	// Create message System V IPC queues.  Static to ensure it is destroyed
 	// on exit.
 	static reroot::message_queue queue (reroot::false_root);
@@ -235,6 +240,8 @@ try
 
 	// Start message loop.
 	reroot::message_loop (queue);
+
+	return 0;
 }
 
 // Prevent unhandled exceptions resulting in abortion, which would not

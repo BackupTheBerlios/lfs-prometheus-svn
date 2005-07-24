@@ -1,4 +1,4 @@
-// rerootd support declarations
+// Data structures used in IPC messages.
 // Copyright (C) 2003-2005 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 // Gareth Jones <gareth_jones@users.berlios.de>
 //
@@ -16,25 +16,31 @@
 // this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
-#ifndef REROOTD_H
-# define REROOTD_H
+#ifndef MESSAGES_H
+# define MESSAGES_H
 
-# include <string>
-# include "messagequeue.h"
+# include <sys/types.h>
 
 namespace reroot
 {
-	extern std::string const false_root,
-	                         index_file;
-
-	// Signal handler.
-	extern "C"
-	{
-		void signal_handler (int const signum);
-	}
-
-	// Message handling loop.
-	void message_loop (message_queue const &queue);
+	// For working with file metadata.
+	struct file_meta;
+	struct file_info;
 }
+
+// For storing file metadata.
+struct reroot::file_meta
+{
+	mode_t mode;
+	uid_t uid;
+	gid_t gid;
+};
+
+// For associating file metadata with a filename.
+struct reroot::file_info
+{
+	file_meta meta;
+	char name [];
+};
 
 #endif

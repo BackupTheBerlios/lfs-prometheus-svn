@@ -52,10 +52,6 @@ class reroot::message_queue_base
 		int get_qid () const;
 
 	private:
-		// Error messages.
-		static std::string const no_key,
-		                         no_queue;
-
 		// Message queue data.
 		bool own;
 		key_t const key;
@@ -108,11 +104,6 @@ class reroot::inbox:
 
 		// For receiving packets.
 		inbox const &operator >> (packet &pkt) const;
-
-	private:
-		// Error message.
-		static std::string const no_send,
-		                         no_receive;
 };
 
 // Construct message queue.
@@ -130,10 +121,6 @@ class reroot::outbox:
 
 		// For sending packets.
 		outbox const &operator << (packet const &pkt) const;
-
-	private:
-		// Error message.
-		static std::string const no_send;
 };
 
 // Construct message queue.
