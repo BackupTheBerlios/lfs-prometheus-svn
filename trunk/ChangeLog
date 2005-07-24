@@ -1,3 +1,13 @@
+2005-07-24 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/rerootd/rerootd.h: Added `signal_handler' declaration.
+	* reroot/rerootd/messagequeue.cc, reroot/rerootd/messagequeue.h: Removed
+	  `signal_handler'.  Added `inbox::send_self'.
+	* reroot/rerootd/messageloop.cc: Added `handle_signal' &
+	  `signal_handler'.
+	* reroot/rerootd/messageloop.cc (message_loop): Added conditional call
+	  to `handle_signal'.
+
 2005-07-19 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/libreroot/error.h: Added `catch_all' macro for simplifying

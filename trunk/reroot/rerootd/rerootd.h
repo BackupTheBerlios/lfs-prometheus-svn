@@ -26,6 +26,13 @@ namespace reroot
 {
 	extern std::string const false_root;
 
+	// Signal handler.
+	extern "C"
+	{
+		void signal_handler (int const signum);
+	}
+
+	// Message handling loop.
 	void message_loop (message_queue const &queue)
 		__attribute__ ((noreturn));
 }

@@ -32,12 +32,6 @@ namespace reroot
 	class inbox;
 	class outbox;
 	class message_queue;
-
-	// Signal handler.
-	extern "C"
-	{
-		void signal_handler (int const signum);
-	}
 }
 
 // Base functionality for managing a System V message queue.
@@ -109,12 +103,16 @@ class reroot::inbox:
 	public:
 		explicit inbox (std::string const &false_root);
 
+		// So daemon can message itself in response to signals.
+		void send_self (message_type const type) const;
+
 		// For receiving packets.
 		inbox const &operator >> (packet &pkt) const;
 
 	private:
 		// Error message.
-		static std::string const no_receive;
+		static std::string const no_send,
+		                         no_receive;
 };
 
 // Construct message queue.
