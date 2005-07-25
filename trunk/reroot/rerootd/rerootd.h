@@ -20,7 +20,6 @@
 # define REROOTD_H
 
 # include <string>
-# include "messagequeue.h"
 
 namespace reroot
 {
@@ -34,7 +33,7 @@ namespace reroot
 	}
 
 	// Message handling loop.
-	void message_loop (message_queue const &queue);
+	void message_loop ();
 }
 
 #endif

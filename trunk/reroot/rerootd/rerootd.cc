@@ -145,7 +145,7 @@ namespace
 
 	// Fork child daemon in background & exit.
 	void
-	daemonize (reroot::message_queue &queue)
+	daemonize ()
 	{
 		// Get maximum possible number of open file descriptors.
 		rlimit lim;
@@ -172,9 +172,7 @@ namespace
 			error (1, errno, "Cannot fork child process");
 
 		default:
-			// This is the parent.  Report child's PID & exit.  Do
-			// not deallocate message queue.
-			queue.disown ();
+			// This is the parent.  Report child's PID & exit.
 			printf ("%i\n", pid);
 			exit (0);
 		}
@@ -207,19 +205,18 @@ try
 	if (args.index_file.length ())
 		const_cast <string &> (reroot::index_file) = args.index_file;
 
-	// Create message System V IPC queues.  Static to ensure it is destroyed
-	// on exit.
-	static reroot::message_queue queue (reroot::false_root);
-
 	// If necessary background daemon.
 	if (args.background)
-		daemonize (queue);
+		daemonize ();
 	else
 	{
 		// Run in foreground.  Report PID.
 		printf ("%i\n", getpid ());
 		fflush (stdout);
 	}
+
+	// Create System V IPC message queue.
+	reroot::get_message_queue ();
 
 	// Register signal handlers.
 	{
@@ -239,7 +236,7 @@ try
 	}
 
 	// Start message loop.
-	reroot::message_loop (queue);
+	reroot::message_loop ();
 
 	return 0;
 }

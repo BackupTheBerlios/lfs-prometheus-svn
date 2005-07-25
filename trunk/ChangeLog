@@ -1,3 +1,21 @@
+2005-07-25 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/rerootd/messagequeue.h: Added `get_message_queue'.  Removed
+	  `disown' & dependence on `false_root' argument for contructors.
+	* reroot/rerootd/messagequeue.cc: Used global `false_root' instead of
+	  `false_root' parameter in constructors.  Made << & >> operators retry
+	  automatically if interrupted by signal handling.
+	* reroot/rerootd/rerootd.cc (daemonize): Don't disown message queue.
+	* reroot/rerootd/rerootd.cc (main): Used `get_message_queue' instead of
+	  a variable.
+
+	* reroot/rerootd/messageloop.cc (signal_handler): Send messages
+	  directly instead of setting `signal_number'.  This is safe.
+	* reroot/rerootd/messageloop.cc (message_loop): Removed `signal_number'
+	  check.  Used `get_message_queue' instead of `queue' parameter.
+	* reroot/rerootd/messageloop.cc: Removed `signal_number' &
+	  `handle_signal'.
+
 2005-07-24 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/rerootd/rerootd.h: Added `signal_handler' declaration.

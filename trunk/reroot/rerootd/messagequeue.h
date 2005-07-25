@@ -19,7 +19,6 @@
 #ifndef MESSAGEQUEUE_H
 # define MESSAGEQUEUE_H
 
-# include <string>
 # include <sys/ipc.h>
 # include <sys/msg.h>
 
@@ -32,20 +31,18 @@ namespace reroot
 	class inbox;
 	class outbox;
 	class message_queue;
+
+	// For obtaining a message queue.
+	message_queue const &get_message_queue ();
 }
 
 // Base functionality for managing a System V message queue.
 class reroot::message_queue_base
 {
-	public:
-		// For daemonizing safely.
-		void disown ();
-
 	protected:
 		// C'tor & d'tor are protected to prevent this class from being
 		// used directly, as it provides no useful functionality.
-		message_queue_base (std::string const &false_root,
-			char const queue);
+		explicit message_queue_base (char const queue);
 		~message_queue_base ();
 
 		// Descendants need access to queue.
@@ -53,7 +50,6 @@ class reroot::message_queue_base
 
 	private:
 		// Message queue data.
-		bool own;
 		key_t const key;
 		int const qid;
 
@@ -65,15 +61,6 @@ class reroot::message_queue_base
 			(message_queue_base const &);
 };
 
-// Prevent message queue from being unallocated by the destructor.  Used after
-// daemon forks to prevent parent destroying the queue when it exits, which
-// would cause the child to fail.
-inline void
-reroot::message_queue_base::disown ()
-{
-	own = false;
-}
-
 // Deallocate message queue.  This shouldn't fail due to encapsulation, but if
 // it does, we have no means to report it!  (Destructors shouldn't throw
 // exceptions.)  Then again, there's nothing we can do about it if this fails
@@ -81,8 +68,7 @@ reroot::message_queue_base::disown ()
 inline
 reroot::message_queue_base::~message_queue_base ()
 {
-	if (own)
-		msgctl (qid, IPC_RMID, 0);
+	msgctl (qid, IPC_RMID, 0);
 }
 
 // Return queue identifier.
@@ -97,7 +83,7 @@ class reroot::inbox:
 	public message_queue_base
 {
 	public:
-		explicit inbox (std::string const &false_root);
+		inbox ();
 
 		// So daemon can message itself in response to signals.
 		void send_self (message_type const type) const;
@@ -108,8 +94,8 @@ class reroot::inbox:
 
 // Construct message queue.
 inline
-reroot::inbox::inbox (std::string const &false_root):
-	message_queue_base (false_root, 'i')
+reroot::inbox::inbox ():
+	message_queue_base ('i')
 {}
 
 // Message queue for sending messages.
@@ -117,7 +103,7 @@ class reroot::outbox:
 	public message_queue_base
 {
 	public:
-		explicit outbox (std::string const &false_root);
+		outbox ();
 
 		// For sending packets.
 		outbox const &operator << (packet const &pkt) const;
@@ -125,37 +111,22 @@ class reroot::outbox:
 
 // Construct message queue.
 inline
-reroot::outbox::outbox (std::string const &false_root):
-	message_queue_base (false_root, 'o')
+reroot::outbox::outbox ():
+	message_queue_base ('o')
 {}
 
+// Full-blown message queue.  (Actually two System V queues: one in, one out).
 class reroot::message_queue:
 	public inbox,
 	public outbox
+{};
+
+// Return the message queue, creating it if necessary.
+inline reroot::message_queue const &
+reroot::get_message_queue ()
 {
-	public:
-		explicit message_queue (std::string const &false_root);
-
-		// Resolve ambiguity if disown is called.
-		void disown ();
-};
-
-// Construct message queues.
-inline
-reroot::message_queue::message_queue (std::string const &false_root):
-	inbox (false_root),
-	outbox (false_root)
-{}
-
-// Prevent message queue from being unallocated by the destructor.  Used after
-// daemon forks to prevent parent destroying the queue when it exits, which
-// would cause the child to fail.  This wraps the base classes' versions to
-// resolve the ambiguous call.
-inline void
-reroot::message_queue::disown ()
-{
-	inbox::disown ();
-	outbox::disown ();
+	static message_queue const queue;
+	return queue;
 }
 
 #endif

@@ -17,7 +17,6 @@
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include <cerrno>
-#include <string>
 #include <sys/ipc.h>
 #include <sys/msg.h>
 
@@ -30,9 +29,7 @@ using namespace std;
 
 // Construct IPC key from the false root directory & use it to create a System V
 // IPC message queue.  Fail if queue is already in use.
-reroot::message_queue_base::message_queue_base (string const &false_root,
-                                                char const queue):
-	own (true),
+reroot::message_queue_base::message_queue_base (char const queue):
 	key (ftok (false_root.c_str (), queue)),
 	qid (key == -1?: msgget (key, IPC_CREAT | IPC_EXCL | 0600))
 {
@@ -81,11 +78,15 @@ reroot::inbox::operator >> (packet &pkt) const
 	// Error message.
 	static char const no_receive [] = "Cannot receive packet";
 
-	// Receive packet.
-	if (msgrcv (get_qid (), &pkt, packet_data_size, pkt.pid, 0) == -1)
-		throw xmessage (no_receive, errno);
+	// Receive packet.  Retry if interrupted by a signal.
+	do
+		// msgrcv returns -1 on failure.
+		if (msgrcv (get_qid (), &pkt, packet_data_size, pkt.pid, 0) + 1)
+			return *this;
+	while (errno == EINTR);
 
-	return *this;
+	// Only get here if an error occurs.
+	throw xmessage (no_receive, errno);
 }
 
 // Send a packet to the PID specified therein.
@@ -100,9 +101,13 @@ reroot::outbox::operator << (packet const &pkt) const
 	if (pkt_size > packet_data_size)
 		throw xmessage (no_send, E2BIG);
 
-	// Send packet.
-	if (msgsnd (get_qid (), &pkt, pkt_size, 0))
-		throw xmessage (no_send, errno);
+	// Send packet.  Retry if interrupted by a signal.
+	do
+		// msgsnd returns 0 on success.
+		if (!msgsnd (get_qid (), &pkt, pkt_size, 0))
+			return *this;
+	while (errno == EINTR);
 
-	return *this;
+	// Only get here if an error occurs.
+	throw xmessage (no_send, errno);
 }

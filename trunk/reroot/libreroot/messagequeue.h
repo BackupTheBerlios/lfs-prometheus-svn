@@ -19,7 +19,6 @@
 #ifndef MESSAGEQUEUE_H
 # define MESSAGEQUEUE_H
 
-# include <string>
 # include <sys/ipc.h>
 # include <sys/msg.h>
 # include <sys/types.h>

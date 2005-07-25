@@ -16,7 +16,10 @@
 // this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
+#include <cerrno>
 #include <csignal>
+#include <error.h>
+#include <exception>
 #include <stdexcept>
 
 #include "file.h"
@@ -24,53 +27,55 @@
 #include "messagequeue.h"
 #include "rerootd.h"
 
-namespace
-{
-	// Stores number of signal most recently caught by signal handler.
-	int volatile signal_number = 0;
+using namespace std;
 
-	// Signal handler implementation.  Convert signals to System V IPC
-	// messages to self.  HUP becomes save & exit, USR1 becomes cleanup
-	// database.
-	void
-	handle_signal (int const signum, reroot::message_queue const &queue)
-	{
-		// Error message.
-		static char const bad_signal [] =
-			"handle_signal: Bad signal number";
-
-		// Identify signal type, & hence message type to send.
-		reroot::message_type type;
-		switch (signum)
-		{
-		case SIGHUP:
-			type = reroot::save_and_exit;
-			break;
-
-		case SIGUSR1:
-			type = reroot::cleanup_db;
-			break;
-
-		default:
-			throw std::invalid_argument (bad_signal);
-		}
-
-		// Send message to self.
-		queue.send_self (type);
-	}
-}
-
-// Signal handler.  Store values of caught signals for processing in message
-// loop.
+// Signal handler.  Convert signals to System V IPC messages to self.  HUP
+// becomes save & exit, USR1 becomes cleanup database.
 void
 reroot::signal_handler (int const signum)
+try
 {
-	signal_number = signum;
+	// Error message.
+	static char const bad_signal [] = "signal_handler: Bad signal number";
+
+	// Identify signal type, & hence message type to send.
+	reroot::message_type type;
+	switch (signum)
+	{
+	case SIGHUP:
+		type = reroot::save_and_exit;
+		break;
+
+	case SIGUSR1:
+		type = reroot::cleanup_db;
+		break;
+
+	default:
+		throw invalid_argument (bad_signal);
+	}
+
+	// Send message to self.
+	reroot::get_message_queue ().send_self (type);
+}
+
+// Prevent unhandled exceptions resulting in abortion, which would not
+// deallocate the System V IPC message queue.  Apart from wasting memory until
+// manually unallocated, libreroot processes would hang waiting for replies
+// rather than aborting.  FIXME: stderr may be closed.  Need some other way to
+// report errors.
+catch (exception const &x)	// All standard & reroot exceptions.
+{
+	error (1, 0, "Caught exception: %s", x.what ());
+}
+catch (...)			// Should never get here!
+{
+	error (1, errno, "Caught unrecognized exception, "
+	                 "possible error may follow");
 }
 
 // Message loop - wait for a message, deal with it (maybe reply), loop.
 void
-reroot::message_loop (message_queue const &queue)
+reroot::message_loop ()
 {
 	// Initialize file database.
 	file_db db;
@@ -80,15 +85,8 @@ reroot::message_loop (message_queue const &queue)
 	message msg;
 	while (true)
 	{
-		// Have we received any signals?
-		if (int const signum = signal_number)
-		{
-			signal_number = 0;	// Could lose new signals here.
-			handle_signal (signum, queue);
-		}
-
 		// Get message.
-		queue >> msg;
+		get_message_queue () >> msg;
 
 		// Choose appropriate handler.
 		switch (msg.get_type ())
