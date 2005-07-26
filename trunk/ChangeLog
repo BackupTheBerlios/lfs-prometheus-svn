@@ -1,3 +1,23 @@
+2005-07-26 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/packet.h (message_type): Removed `save_and_exit' &
+	  `cleanup_db'.  Added `cleanup_and_save' (SIGUSR1) & `dump_db'
+	  (SIGUSR2).
+	* reroot/rerootd/messageloop.cc: Added `signal_exit' to handle HUP, INT
+	  & TERM.
+	* reroot/rerootd/messageloop.cc (signal_handler): Used SIGUSR1 & SIGUSR2
+	  instead of HUP & USR1.
+	* reroot/rerootd/messageloop.cc (message_loop): Don't read index file
+	  on start.  Optimize loop for single call to `get_message_queue'.
+	  Recognize `cleanup_and_save' & `dump_db' messages instead of
+	  `save_and_exit' & `cleanup_db'.
+	* reroot/rerootd/rerootd.cc (main): Deferred creation of message queue
+	  until `message_loop'.  Registered handlers for SIGHUP, SIGINT,
+	  SIGTERM, SIGUSR1, & SIGUSR2.
+
+	* reroot/rerootd/file.cc: Removed code for reading index file.  Finished
+	  code for writing index file, but not yet for cleaning up.
+
 2005-07-25 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/rerootd/messagequeue.h: Added `get_message_queue'.  Removed

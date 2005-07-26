@@ -46,7 +46,7 @@ class reroot::message
 {
 	public:
 		// C'tor & d'tor.
-		explicit message (message_type const type = save_and_exit,
+		explicit message (message_type const type = cleanup_and_save,
 			unsigned const size = packet_body_size);
 		~message ();
 

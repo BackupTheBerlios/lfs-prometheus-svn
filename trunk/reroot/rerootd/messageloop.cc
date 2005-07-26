@@ -18,6 +18,7 @@
 
 #include <cerrno>
 #include <csignal>
+#include <cstdlib>
 #include <error.h>
 #include <exception>
 #include <stdexcept>
@@ -29,8 +30,16 @@
 
 using namespace std;
 
-// Signal handler.  Convert signals to System V IPC messages to self.  HUP
-// becomes save & exit, USR1 becomes cleanup database.
+// Termination signal handler.  Call exit so that the message queue is properly
+// destroyed.  The default handlers would leave the queue allocated.
+void __attribute__ ((noreturn))
+reroot::signal_exit (int)
+{
+	exit (0);
+}
+
+// Signal handler.  Convert signals to System V IPC messages to self.  USR1
+// cleanup & save, USR2 becomes dump database.
 void
 reroot::signal_handler (int const signum)
 try
@@ -42,12 +51,12 @@ try
 	reroot::message_type type;
 	switch (signum)
 	{
-	case SIGHUP:
-		type = reroot::save_and_exit;
+	case SIGUSR1:
+		type = reroot::cleanup_and_save;
 		break;
 
-	case SIGUSR1:
-		type = reroot::cleanup_db;
+	case SIGUSR2:
+		type = reroot::dump_db;
 		break;
 
 	default:
@@ -74,31 +83,33 @@ catch (...)			// Should never get here!
 }
 
 // Message loop - wait for a message, deal with it (maybe reply), loop.
-void
+void __attribute__ ((noreturn))
 reroot::message_loop ()
 {
-	// Initialize file database.
 	file_db db;
-	read_index (db);
 
 	// The message loop.
+	message_queue const &queue = get_message_queue ();
 	message msg;
 	while (true)
 	{
 		// Get message.
-		get_message_queue () >> msg;
+		queue >> msg;
 
 		// Choose appropriate handler.
 		switch (msg.get_type ())
 		{
-		case save_and_exit:
-			// Write index file & exit.
-			write_index (db);
-			return;
+		case cleanup_and_save:
+			// Write an index file suitable for use in package
+			// management.  Prepare the database for archiving the
+			// false root directory.
+			write_index (db, false);
+			break;
 
-		case cleanup_db:
-			// Cleanup file database.
-			cleanup (db);
+		case dump_db:
+			// Dump database to the index file unmodified.  This is
+			// mainly used for debugging.
+			write_index (db, true);
 			break;
 
 		case metadata:		// FIXME.

@@ -18,48 +18,95 @@
 
 #include <fstream>
 #include <stdexcept>
+#include <string>
 
 #include "file.h"
 #include "rerootd.h"
 
+using namespace std;
+
 namespace
 {
-	std::ifstream &operator >> (std::ifstream &is, reroot::file &/*file*/) {return is;} // FIXME.
+	// Write file metadata to file stream.
+	inline ostream &
+	operator << (ostream &os, reroot::file_meta const &meta)
+	{
+		return os << meta.mode << '\t' << meta.uid << '\t' << meta.gid;
+	}
 
-	std::ofstream &operator << (std::ofstream &os, reroot::file const &/*file*/) {return os;} // FIXME.
+	// Write file database entry to file stream.
+	ostream &
+	operator << (ostream &os, reroot::file const &file)
+	{
+		// Create string describing file status.
+		string status;
+		switch (file.get_status ())
+		{
+		case reroot::file::unmodified:
+			status = "unmodified";
+			break;
 
-	std::ifstream &operator >> (std::ifstream &is, reroot::file_db &/*db*/) {return is;} // FIXME.
+		case reroot::file::modified:
+			status = "modified";
+			break;
 
-	std::ofstream &operator << (std::ofstream &os, reroot::file_db const &/*db*/) {return os;} // FIXME.
-}
+		case reroot::file::created:
+			status = "created";
+			break;
 
-// If index file exists, read it into file database.
-void
-reroot::read_index (file_db &db)
-{
-	std::ifstream is (index_file.c_str ());
-	if (is)
-		is >> db;
+		case reroot::file::removed:
+			status = "removed";
+		}
+
+		// Write file information.
+		os << status << '\t'
+		   << file.metadata_is_modified () << '\t'
+		   << file.get_metadata ();
+
+		return os;
+	}
+
+	// Write file database to file stream.
+	ostream &
+	operator << (ostream &os, reroot::file_db const &db)
+	{
+		typedef reroot::file_db::const_iterator iterator;
+
+		// Write 1 record per line, metadata first, then filename.
+		// Ignore stale entries.
+		iterator const end = db.end ();
+		for (iterator i = db.begin (); os && i != end; ++i)
+			if (!i->second.is_stale ())
+				os << i->second << '\t' << i->first << endl;
+
+		return os;
+	}
+
+	void write_clean (ostream &/*os*/, reroot::file_db &/*db*/) {} // FIXME.
 }
 
 // Write file database to index file.
 void
-reroot::write_index (file_db const &db)
+reroot::write_index (file_db &db, bool const dump)
 {
 	// Error message.
 	static char const file_error [] = "Cannot open index file: ",
 	                  write_error [] = "Error writing to index file: ";
 
 	// Try to open & write file.
-	std::ofstream os (index_file.c_str ());
+	ofstream os (index_file.c_str ());
 	if (os)
-		os << db;
+	{
+		// Is this a clean index or simple database dump?
+		if (dump)
+			os << db;
+		else
+			write_clean (os, db);
+	}
 	else
-		throw std::runtime_error (file_error + index_file);
+		throw runtime_error (file_error + index_file);
 
 	// Check write succeeded.
 	if (!os)
-		throw std::runtime_error (write_error + index_file);
+		throw runtime_error (write_error + index_file);
 }
-
-void reroot::cleanup (file_db &/*db*/) {} // FIXME.

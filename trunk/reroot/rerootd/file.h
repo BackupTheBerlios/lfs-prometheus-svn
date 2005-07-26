@@ -31,9 +31,7 @@ namespace reroot
 	typedef std::map <std::string, file> file_db;
 
 	// For manipulating the file database.
-	void read_index (file_db &db);
-	void write_index (file_db const &db);
-	void cleanup (file_db &db);
+	void write_index (file_db &db, bool const dump);
 }
 
 // Stores file metadata & status information.
@@ -49,7 +47,8 @@ class reroot::file
 			removed
 		};
 
-		// C'tor.
+		// C'tors.
+		file () {}
 		explicit file (file_meta const &meta,
 			file_status const s = unmodified);
 

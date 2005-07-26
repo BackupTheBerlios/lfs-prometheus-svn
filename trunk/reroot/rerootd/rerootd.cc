@@ -215,24 +215,37 @@ try
 		fflush (stdout);
 	}
 
-	// Create System V IPC message queue.
-	reroot::get_message_queue ();
-
-	// Register signal handlers.
+	// Register signal handlers for manipulating the file database.
 	{
 		// Initialize signal handler data structure.
 		struct sigaction handler;
 		handler.sa_handler = reroot::signal_handler;
 		handler.sa_flags = SA_RESTART;
 
-		// Ensure HUP & USR1 are mutually blocking.
+		// Ensure USR1 & USR2 are mutually blocking.
 		sigemptyset (&handler.sa_mask);
-		sigaddset (&handler.sa_mask, SIGHUP);
 		sigaddset (&handler.sa_mask, SIGUSR1);
+		sigaddset (&handler.sa_mask, SIGUSR2);
 
 		// Register handlers.
-		sigaction (SIGHUP, &handler, 0);
 		sigaction (SIGUSR1, &handler, 0);
+		sigaction (SIGUSR2, &handler, 0);
+	}
+
+	// Register termination signal handlers to ensure the System V IPC
+	// message queue is properly deallocated on exit.
+	{
+		// Initialize signal handler data structure.
+		struct sigaction handler;
+		handler.sa_handler = reroot::signal_exit;
+		handler.sa_flags = 0;
+		sigemptyset (&handler.sa_mask);
+
+		// Register handlers for HUP, INT & TERM.  Other termination
+		// signals should leave the queue allocated for debugging.
+		sigaction (SIGHUP, &handler, 0);
+		sigaction (SIGINT, &handler, 0);
+		sigaction (SIGTERM, &handler, 0);
 	}
 
 	// Start message loop.

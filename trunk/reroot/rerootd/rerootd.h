@@ -26,14 +26,15 @@ namespace reroot
 	extern std::string const false_root,
 	                         index_file;
 
-	// Signal handler.
+	// Signal handlers.
 	extern "C"
 	{
+		void signal_exit (int) __attribute__ ((noreturn));
 		void signal_handler (int const signum);
 	}
 
 	// Message handling loop.
-	void message_loop ();
+	void message_loop () __attribute__ ((noreturn));
 }
 
 #endif

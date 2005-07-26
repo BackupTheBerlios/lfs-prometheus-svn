@@ -34,8 +34,8 @@ namespace reroot
 	enum message_type
 	{
 		// rerootd sends itself these in response to signals.
-		save_and_exit,	// HUP.
-		cleanup_db,	// USR1.
+		cleanup_and_save,	// USR1.
+		dump_db,		// USR2.
 
 		// Notifications & requested data.
 		metadata,	// File metadata.
