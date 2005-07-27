@@ -1,13 +1,9 @@
 name="zlib"
-version="1.2.2"
-homepage="http://www.gzip.org/zlib/"
+version="1.2.3"
+homepage="http://www.zlib.net"
 
 archives=(
-	"ftp://ftp.info-zip.org/pub/infozip/zlib/zlib-${version}.tar.gz"
-)
-
-patches=(
-	"http://www.linuxfromscratch.org/patches/downloads/zlib/zlib-1.2.2-security_fix-1.pattch"
+	"http://www.gzip.org/zlib/zlib-${version}.tar.bz2"
 )
 
 function build_pkg {

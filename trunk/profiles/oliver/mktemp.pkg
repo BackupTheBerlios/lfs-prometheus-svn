@@ -7,7 +7,7 @@ archives=(
 )
 
 patches=(
-	"http://www.linuxfromscratch.org/patches/downloads/mktemp/mktemp-${version}-add_tempfile-2.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/mktemp/mktemp-${version}-add_tempfile-3.patch"
 )
 
 function build_pkg {

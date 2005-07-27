@@ -1,5 +1,5 @@
 name=udev
-version="062"
+version="064"
 homepage="http://www.kernel.org/pub/linux/utils/kernel/hotplug/udev.html"
 
 archives=(
