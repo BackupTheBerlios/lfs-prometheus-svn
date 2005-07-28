@@ -30,8 +30,8 @@ namespace reroot
 	class file;
 	typedef std::map <std::string, file> file_db;
 
-	// For manipulating the file database.
-	void write_index (file_db &db, bool const dump);
+	// For writing the file database to a file.
+	void write_index (file_db &db, bool const dump_all);
 }
 
 // Stores file metadata & status information.

@@ -1,3 +1,19 @@
+2005-07-28 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/message.h,
+	  reroot/shared_implementation.cc (reroot::message c'tor): Removed
+	  message type parameter.
+
+	* reroot/rerootd/rerootd.cc: Gathered error messages.  Corrected help
+	  text.  Added check for missing false root argument on command line.
+
+	* reroot/rerootd/file.cc: Renamed `file_db' operator << to `dump', made
+	  it flag stale entries rather than ignore them.
+
+	* reroot/rerootd/messageloop.cc (send_meta): Added.
+	* reroot/rerootd/messageloop.cc (message_loop): Can now reply to request
+	  from libreroot for file metadata.
+
 2005-07-26 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/packet.h (message_type): Removed `save_and_exit' &

@@ -165,11 +165,10 @@ reroot::operator << (outbox const &out, message &msg)
 }
 
 // Allocate message data.
-reroot::message::message (message_type const type, unsigned const size):
+reroot::message::message (unsigned const size):
 	data (alloc <message_data> (sizeof (message_data) + size))
 {
 	data->pid = 0;
-	data->header.type = type;
 	data->header.body_size = size;
 }
 

@@ -30,10 +30,40 @@
 
 using namespace std;
 
+namespace
+{
+	// Respond to a request for file metadata.
+	void
+	send_meta (reroot::outbox const &queue,
+	           reroot::file_db const &db,
+	           reroot::message const &request)
+	{
+		// Error message.
+		static char const not_found [] = "File is not in database: ";
+
+		// Get entry for file identified in request.
+		string const name = &request.get_body <char> ();
+		reroot::file_db::const_iterator const entry = db.find (name);
+
+		if (entry == db.end ())
+			throw runtime_error (not_found + name);
+
+		// Prepare reply.
+		reroot::message reply (sizeof (reroot::file_meta));
+		reply.set_pid (request.get_pid ());
+		reply.set_type (reroot::metadata);
+		reply.get_body <reroot::file_meta> () =
+			entry->second.get_metadata ();
+
+		// Send reply.
+		queue << reply;
+	}
+}
+
 // Termination signal handler.  Call exit so that the message queue is properly
 // destroyed.  The default handlers would leave the queue allocated.
 void __attribute__ ((noreturn))
-reroot::signal_exit (int)
+reroot::signal_exit (int const)
 {
 	exit (0);
 }
@@ -86,6 +116,10 @@ catch (...)			// Should never get here!
 void __attribute__ ((noreturn))
 reroot::message_loop ()
 {
+	// Error message.
+	static char const bad_type [] = "Received message has invalid type";
+
+	// The file metadata database.
 	file_db db;
 
 	// The message loop.
@@ -112,11 +146,13 @@ reroot::message_loop ()
 			write_index (db, true);
 			break;
 
-		case metadata:		// FIXME.
+		case get_metadata:
+			// Reply to request for file metadata.
+			send_meta (queue, db, msg);
 			break;
 
-		case get_metadata:	// FIXME.
-			break;
+		default:
+			throw runtime_error (bad_type);
 		}
 	}
 }

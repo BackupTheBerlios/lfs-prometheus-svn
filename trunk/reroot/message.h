@@ -46,8 +46,7 @@ class reroot::message
 {
 	public:
 		// C'tor & d'tor.
-		explicit message (message_type const type = cleanup_and_save,
-			unsigned const size = packet_body_size);
+		explicit message (unsigned const size = packet_body_size);
 		~message ();
 
 		// For accessing the sender/receiver PID.

@@ -66,28 +66,33 @@ namespace
 		return os;
 	}
 
-	// Write file database to file stream.
-	ostream &
-	operator << (ostream &os, reroot::file_db const &db)
+	// Dump file database to file stream.
+	void
+	dump (ostream &os, reroot::file_db const &db)
 	{
 		typedef reroot::file_db::const_iterator iterator;
 
 		// Write 1 record per line, metadata first, then filename.
-		// Ignore stale entries.
 		iterator const end = db.end ();
 		for (iterator i = db.begin (); os && i != end; ++i)
-			if (!i->second.is_stale ())
-				os << i->second << '\t' << i->first << endl;
-
-		return os;
+		{
+			if (i->second.is_stale ())
+				os << "STALE:\t";
+			os << i->second << '\t' << i->first << endl;
+		}
 	}
 
-	void write_clean (ostream &/*os*/, reroot::file_db &/*db*/) {} // FIXME.
+	// Write file database to file stream, cleaning database on the fly.
+	void
+	write_clean (ostream &/*os*/, reroot::file_db &/*db*/)
+	{
+		// FIXME.
+	}
 }
 
 // Write file database to index file.
 void
-reroot::write_index (file_db &db, bool const dump)
+reroot::write_index (file_db &db, bool const dump_all)
 {
 	// Error message.
 	static char const file_error [] = "Cannot open index file: ",
@@ -98,8 +103,8 @@ reroot::write_index (file_db &db, bool const dump)
 	if (os)
 	{
 		// Is this a clean index or simple database dump?
-		if (dump)
-			os << db;
+		if (dump_all)
+			dump (os, db);
 		else
 			write_clean (os, db);
 	}

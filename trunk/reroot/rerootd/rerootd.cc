@@ -54,24 +54,27 @@ namespace
 	};
 
 	// --help documentation.
-	char const args_doc [] = "[ROOT]";
+	char const args_doc [] = "ROOT";
 	char const doc [] =
 		"The reroot daemon maintains file metadata for processes that "
 		"have been rerooted via libreroot.  The cached metadata are "
 		"typically permissions and ownership (such as setuid root) that"
 		" cannot be committed to the filesystem due to a lack of "
-		"privileges.\vIf specified, ROOT is the directory to use as a "
-		"false root directory, otherwise the current working directory "
-		"is used.  Cached metadata are saved to an index file, whose "
-		"name may be specified as an absolute filename, or relative to "
-		"ROOT.";
+		"privileges.\vROOT is the directory to use as a false root "
+		"directory.  Cached metadata are saved to an index file.";
 
 	// Commandline argument parser for use by argp.
 	error_t
 	argument_parser (int key, char arg [], argp_state *state)
 	{
+		// Error messages.
+		static char const index_dupe [] = "Index file specified twice",
+		                  root_dupe [] = "False root specified twice";
+
+		// Get argument structure.
 		arguments &args = *static_cast <arguments *> (state->input);
 
+		// Recognize argument.
 		switch (key)
 		{
 		case 'f':
@@ -80,16 +83,14 @@ namespace
 
 		case 'i':
 			if (args.index_file.length ())
-				argp_failure (state, 1, 0, "index file "
-				                           "specified twice");
+				argp_failure (state, 1, 0, index_dupe);
 
 			args.index_file = arg;
 			break;
 
 		case ARGP_KEY_ARG:
 			if (args.false_root.length ())
-				argp_failure (state, 1, 0, "false root "
-				                           "specified twice");
+				argp_failure (state, 1, 0, root_dupe);
 
 			args.false_root = arg;
 			break;
@@ -147,6 +148,9 @@ namespace
 	void
 	daemonize ()
 	{
+		// Error message.
+		static char const fork_error [] = "Cannot fork child process";
+
 		// Get maximum possible number of open file descriptors.
 		rlimit lim;
 		getrlimit (RLIMIT_NOFILE, &lim);
@@ -169,7 +173,7 @@ namespace
 			break;
 
 		case -1:
-			error (1, errno, "Cannot fork child process");
+			error (1, errno, fork_error);
 
 		default:
 			// This is the parent.  Report child's PID & exit.
@@ -183,12 +187,20 @@ int
 main (int const argc, char *argv [])
 try
 {
+	// Error messages.
+	static char const no_root [] = "False root directory not specified",
+	                  abs_fail [] = "Cannot get absolute filename of false"
+	                                " root directory";
+
 	// Parse arguments.
 	arguments args;
 	parse_commandline (args, argc, argv);
 
 	// Set false_root constant.
 	{
+		if (args.false_root.empty ())
+			error (1, errno, no_root);
+
 		char *false_root =
 			canonicalize_file_name (args.false_root.c_str ());
 		if (false_root)
@@ -197,8 +209,7 @@ try
 			free (false_root);
 		}
 		else
-			error (1, errno, "Cannot get absolute filename of false"
-			                 " root directory");
+			error (1, errno, abs_fail);
 	}
 
 	// Set index_file constant if specified.

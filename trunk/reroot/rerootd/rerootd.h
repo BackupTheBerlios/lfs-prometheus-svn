@@ -29,7 +29,7 @@ namespace reroot
 	// Signal handlers.
 	extern "C"
 	{
-		void signal_exit (int) __attribute__ ((noreturn));
+		void signal_exit (int const signum) __attribute__ ((noreturn));
 		void signal_handler (int const signum);
 	}
 

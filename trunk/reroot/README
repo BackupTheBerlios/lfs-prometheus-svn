@@ -27,8 +27,6 @@ Metadata that must be tracked:
 Actions:
 	open
 	close
-	read
-	write
 	mmap
 	create
 	create link
@@ -55,17 +53,10 @@ Open
 	empty file, but seems a bit pointless.
 
 	If opened for writing, copy file to false root & open it.  Flag as
-	unmodified.
+	modified.
 
 Close
 	If opened for writing, unlink false root copy if unmodified.
-
-Read
-	Read false root version as necessary - do we need to intercept this?
-	Open has done the redirection for us...
-
-Write
-	Write false root versions as necessary, flag as modified.
 
 Mmap
 	Mark as modified etc.
