@@ -7,7 +7,7 @@ archives=(
 )
 
 patches=(
-	"http://www.linuxfromscratch.org/patches/downloads/vim/vim-6.3-security_fix-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/vim/vim-6.3-security_fix-2.patch"
 )
 
 directory="vim63"

@@ -17,4 +17,5 @@ function check_pkg {
 
 function install_pkg {
 	make install
+	chown -R root:root /usr/share/libtool/libltdl
 }

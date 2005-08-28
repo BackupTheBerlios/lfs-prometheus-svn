@@ -1,5 +1,5 @@
 name="Shadow password suite"
-version="4.0.11.1"
+version="4.0.12"
 
 archives=(
 	"ftp://ftp.pld.org.pl/software/shadow/shadow-${version}.tar.bz2"

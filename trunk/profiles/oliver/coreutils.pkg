@@ -37,9 +37,8 @@ function check_pkg {
 
 function install_pkg {
 	make install
-	mv /usr/bin/{[,basename,cat,chgrp,chmod,chown,cp,dd,df,date,echo} /bin
-	mv /usr/bin/{false,head,install,ln,ls,mkdir,mknod,mv,pwd,rm} /bin
-	mv /usr/bin/{rmdir,sync,sleep,stty,test,touch,true,uname} /bin
+	mv /usr/bin/{cat,chgrp,chmod,chown,cp,dd,df,date,echo} /bin
+	mv /usr/bin/{false,head,ln,ls,mkdir,mknod,mv,pwd,rm} /bin
+	mv /usr/bin/{rmdir,sync,sleep,stty,touch,true,uname} /bin
 	mv /usr/bin/chroot /usr/sbin
-	ln -sf ../../bin/install /usr/bin
 }
