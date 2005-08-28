@@ -101,7 +101,7 @@ The global prometheus configuration file.
 
 .I "~prometheus/installed/profiles/*
 .br
-.I "~prometheus/insatlled/indices/*
+.I "~prometheus/installed/indices/*
 .RS
 Prometheus' meta data about installed packages.
 .RE
