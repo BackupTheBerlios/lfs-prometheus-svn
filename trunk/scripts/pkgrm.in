@@ -34,6 +34,7 @@ Options (must precede package list):
 -c, --config <config_file>	Specify alternative configuration file
 -f, --force			Non-interactive mode. Do not prompt
 -b, --backup			Create a backup of the removed package
+-p, --purge			Remove config and variable data (/etc and /var)
 --				Treat remaining arguments as packages
 
 -h, -?, --help			Show this help screen
@@ -49,7 +50,7 @@ function get_privileges {
 	if [[ "$install_as_root" == yes ]] && (( $(id -u) != 0 )); then
 		echo "You must be root to remove $name."
 		exec su -c "'$0' --config='$config' ${backup:+--backup} \
-			${force:+--force} $package'"
+			${force:+--force} ${purge:+--purge} $package'"
 	fi
 }
 
@@ -57,34 +58,36 @@ function get_privileges {
 # Backup an installed package
 function do_backup {
 
-	[[ -r "${logdir}/${package_list[0]}" ]] ||
-	error "cannot read ${package_list[0]} log file"
-
-	[[ -d "$backupdir" ]] || 
-	error "$backupdir does not exist"
-
-	[[ -w "$backupdir" ]] ||
-	error "$backupdir is not writable"
+	[[ -d ~prometheus/backup ]] || 
+	install -d -g prometheus -o prometheus -m775 ~prometheus/backup
 
 	# xargs -r aborts if stdin is empty.
 	# tar -P does not strip leading slashes in filenames.
 	# tar --ignore-failed-read ignores non-existant files.
-	sed -e 's/# Old # //' -e '/# Del #.*/d' "${logdir}/${package_list[0]}" |
-	xargs -r tar cjPf "${backupdir}/${package_list[0]}.pkg.tar.bz2" \
-		--ignore-failed-read 2> /dev/null ||
+	cut -f6 ~prometheus/installed/indices/"$pkg" | \
+	if [ -n "$purge" ]; then
+		egrep -v '^/(etc|var)'
+	else
+		cat
+	fi | \
+	xargs -r tar cjPf ~prometheus/backup/"$pkg".tar.bz2 \
+		--ignore-failed-read 2> /dev/null \
+		~/prometheus/installed/{profiles,indices}/"$pkg" &&
+	chown prometheus:prometheus ~prometheus/backup/"$pkg".tar.bz2 ||
 	error "backup failed"
 }
 
 # Usage: create_dep_list
-# Build a list of packages that depend on our current one.
+# Build a list of packages that depend on the one to be removed.
 function create_dep_list {
 
-	local pkg
+	local p
+	unset dep_list
 
-	for pkg in $(pkginfo --installed 2> /dev/null | cut -f1 -d\ ); do
-		if pkginfo --dependencies "$pkg" 2> /dev/null |
-			grep ${package_list[0]} > /dev/null; then
-			dep_list="${dep_list}\n$pkg"
+	for p in $(pkginfo --installed 2> /dev/null | cut -f1 -d\ ); do
+		if pkginfo --dependencies "$p" 2> /dev/null |
+			grep "$pkg" > /dev/null; then
+			dep_list="${dep_list}\n$p"
 		fi
 	done
 
@@ -96,55 +99,53 @@ function create_dep_list {
 # and remove all empty ones.
 function remove_empty_tree {
 
-	(( $(wc -c "${logdir}/${package_list[0]}" | cut -f1 -d\ ) > 0 )) ||
+	(( $(wc -c ~prometheus/installed/indices/"$pkg" | cut -f1 -d\ ) > 0 )) ||
 		return 1
 
 	local dir
 
-	# Do not remove '# Del #'eleted items from the list. Even though
-	# the files may be gone, the directories might still exist.
-	sed -e 's/# Old # //' -e 's/# Del # //' "${package_list[0]}" | \
+	cut -f6 ~prometheus/installed/indices/"$pkg" | \
 	while read dir; do
 		echo "${dir%/*}"
-	done | sort --unique | xargs --no-run-if-empty \
-				 rmdir --parents --ignore-fail-on-non-empty
+	done | \
+	sort --unique | \
+	if [ -n "$purge" ]; then
+		egrep -v '^/(etc|var)'
+	else
+		cat
+	fi | \
+	xargs --no-run-if-empty  rmdir --parents --ignore-fail-on-non-empty
 }
 
 # Usage: remove_files
-# Remove all files that were logged during installation
+# Remove the package and meta data
 function remove_files {
 
-	# Weed out `# Old #' markings and remove lines marked `# Del #'
-	sed -e 's/# Old # //' -e '/# Del #.*/d' "${logdir}/${package_list[0]}" | \
-	xargs --no-run-if-empty rm -f ||
-	return 1
+	cut -f6 ~prometheus/installed/indices/"$pkg" | \
+	if [ -n "$purge" ]; then
+		egrep -v '^/(etc|var)'
+	else
+		cat
+	fi | xargs --no-run-if-empty rm -f ||
+        return 1
 
 	remove_empty_tree
 
-	return 0
-}
+	if is_func pkg_post_remove; then
+		pkg_post_remove || \
+		{ echo "The package's post_remove script failed.";
+		  echo "You may have to clean up after it manually.";
+		  return 1; }
+	fi
 
-# Usage: remove_logs
-# Remove install-log log file and vtab entry
-function remove_logs {
-
-	local tmpfile=$(mktemp -t vtab.XXXXXXXXXX)
-
-	# remove vtab entry
-	sed "/^$1	/d" "$version_table" > $tmpfile &&
-	mv $tmpfile "$version_table" ||
-	failure "could not update $version_table"
-
-	# remove install-log log file
-	rm -f "${logdir}/${package_list[0]}" ||
-	error "could not remove install-log log file"
+	rm -f ~prometheus/installed/{profiles,indices}/"$pkg"
 
 	return 0
 }
 
 # --------------------------- START EXECUTION HERE --------------------------- #
 
-unset backup force dep_list
+unset backup force purge dep_list
 
 # Check for options.
 while [[ "$1" == -* ]]; do
@@ -159,6 +160,8 @@ while [[ "$1" == -* ]]; do
 		(-b|--backup)			backup=backup ;;
 
 		(-f|--force)			force=force ;;
+
+		(-p|--purge)			purge=purge ;;
 
 		(-V|--version)			version ;;
 
@@ -183,48 +186,49 @@ source_config
 if (( ${#package_list[@]} > 1 )); then
 	for package in "${package_list[@]}"; do
 		"$0" --config="$config" ${backup:+--backup} \
-			${force:+--force} "$package" ||
+			${force:+--force} ${purge:+--purge} "$package" ||
 		error "removal of $package failed"
 	done
 	finish
 fi
 
 # There is only one package to remove.  Do so in this instance.
-source_profile ${package_list[0]}
+pkg="${package_list[0]}"
+
+### FIXME! ###
+source_profile "$pkg"
 
 # Test whether the package is actually installed.
 # This also tests whether the logfile is readable, btw.
-if pkginfo ${package_list[0]} | grep --invert-match "not installed"; then
+if pkginfo "$pkg" | grep --invert-match "not installed"; then
 	get_privileges
 
-	installed_version="$(get_installed_version "${package_list[0]}")"
-	installed_name="$name${installed_version:+ $installed_version}"
-
+	name="${name:-$pkg}"
 	if [[ -z "$force" ]]; then
 		create_dep_list
 		if [[ -n "$dep_list" ]]; then
-			echo "The following packages depend on ${package_list[0]}:"
+			echo "The following packages depend on ${name}:"
 			echo -e $dep_list | sort
 			echo
 		fi
-		echo -n "Do you really want to remove ${package_list[0]}? [y/n] "
-		choice || error "${package_list[0]} has not been removed"
+		echo -n "Do you really want to remove ${name}? [y/n] "
+		choice || error "${name} has not been removed"
 
 		if [[ -n "$backup" ]]; then
 			echo -n "Do you want to create a backup prior to \
-removing ${package_list[0]}? [y/n] "
+removing ${name}? [y/n] "
 			choice && backup=backup || unset backup
 		fi
 	fi
 
 	[[ -n "$backup" ]] && do_backup
 
-	echo "Removing ${installed_name}..."
-	remove_files &&
-	remove_logs ||
-	error "${package_list[0]} could not be removed"
+	echo "Removing ${name}..."
+	remove_files ||
+	error "${name} could not be removed"
+	sync_system
 else
-	error "${package_list[0]} is not installed"
+	error "${pkg} is not installed"
 fi
 
 finish

@@ -1,3 +1,10 @@
+2005-08-28 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* scripts/libprometheus.bash.in: Added sync_system function.
+	* scripts/pkgrm.in: Rewritten to work with the new rerootd concept,
+	  added "purge" feature.
+	* scripts/pkgrm.8.in: Updated to reflect the recent code changes.
+
 2005-07-28 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/message.h,

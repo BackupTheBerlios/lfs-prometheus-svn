@@ -40,6 +40,20 @@ declare -i stage=2
 
 # ------------------------------ EXIT HANDLING ------------------------------- #
 
+# Usage: sync_system
+# Keep the system's databases and catalogues up to date
+function sync_system {
+	makewhatis
+	
+	local f
+	rm /usr/share/info/dir
+	for f in /usr/share/info/dir/*; do
+		install-info $f /usr/share/info/dir
+	done
+
+	return 0
+}
+
 # Usage: finish
 # Clean-up, exit & return number of failures.
 function finish {
