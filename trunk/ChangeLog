@@ -1,3 +1,8 @@
+2005-09-04 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* scripts/libprometheus.bash.in: Made the sync_system a little bit more
+	  foolproof.
+
 2005-08-28 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* scripts/libprometheus.bash.in: Added sync_system function.

@@ -43,14 +43,18 @@ declare -i stage=2
 # Usage: sync_system
 # Keep the system's databases and catalogues up to date
 function sync_system {
-	makewhatis
-	
-	local f
-	rm /usr/share/info/dir
-	for f in /usr/share/info/dir/*; do
-		install-info $f /usr/share/info/dir
-	done
+	if which makewhatis >/dev/null 2>&1; then
+		makewhatis
+	fi
 
+	if which install-info >/dev/null 2>&1 &&
+	   [[ -f /usr/share/info/dir ]]; then
+		local f
+		rm -f /usr/share/info/dir
+		for f in /usr/share/info/dir/*; do
+			install-info $f /usr/share/info/dir
+		done
+	fi
 	return 0
 }
 
@@ -308,21 +312,22 @@ function source_config {
 
 	source_file "$config" "prometheus configuration file"
 
-	# Check essential variables.
-	[[ -z "$backupdir" ]] && error "backupdir not set in \`$config'"
-	[[ -z "$builddir" ]] && error "builddir not set in \`$config'"
-	[[ -z "$install_log_rc" ]] &&
-		error "install_log_rc not set in \`$config'"
-	[[ -z "$profiles" ]] && error "profiles not set in \`$config'"
-	[[ -z "$srcdir" ]] && error "srcdir not set in \`$config'"
-
-	# Set some useful variables.
-	logdir=$(sed -n 's/^LOGDIR=//p' "$install_log_rc")
-	[[ -z "$logdir" ]] &&
-	error "could not extract log directory from \`$install_log_rc'"
-
-	timestamp="$logdir/.timestamp"
-	version_table="$logdir/.vtab"
+# This is probably not needed any more
+#	# Check essential variables.
+#	[[ -z "$backupdir" ]] && error "backupdir not set in \`$config'"
+#	[[ -z "$builddir" ]] && error "builddir not set in \`$config'"
+#	[[ -z "$install_log_rc" ]] &&
+#		error "install_log_rc not set in \`$config'"
+#	[[ -z "$profiles" ]] && error "profiles not set in \`$config'"
+#	[[ -z "$srcdir" ]] && error "srcdir not set in \`$config'"
+#
+#	# Set some useful variables.
+#	logdir=$(sed -n 's/^LOGDIR=//p' "$install_log_rc")
+#	[[ -z "$logdir" ]] &&
+#	error "could not extract log directory from \`$install_log_rc'"
+#
+#	timestamp="$logdir/.timestamp"
+#	version_table="$logdir/.vtab"
 }
 
 # ----------------------------- PROFILE HANDLING ----------------------------- #
