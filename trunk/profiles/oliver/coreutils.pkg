@@ -9,6 +9,7 @@ archives=(
 patches=(
 	"http://www.linuxfromscratch.org/patches/downloads/coreutils/coreutils-${version}-uname-3.patch"
 	"http://www.linuxfromscratch.org/patches/downloads/coreutils/coreutils-${version}-suppress_hostname_uptime_kill_su-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/coreutils/coreutils-5.2.1-echo_posix-1.patch"
 )
 
 function stage1_build_pkg {

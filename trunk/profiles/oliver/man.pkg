@@ -1,5 +1,5 @@
 name="man"
-version="1.6a"
+version="1.6b"
 
 archives=(
 	"ftp://ftp.de.kernel.org/pub/linux/utils/man/man-${version}.tar.bz2"

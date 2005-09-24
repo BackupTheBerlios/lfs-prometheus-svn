@@ -1,5 +1,5 @@
 name=udev
-version="068"
+version="070"
 homepage="http://www.kernel.org/pub/linux/utils/kernel/hotplug/udev.html"
 
 archives=(
@@ -13,7 +13,7 @@ archive_dirs=(
 )
 
 function build_pkg {
-	make udevdir=/dev
+	make
 }
 
 function check_pkg {
@@ -21,7 +21,7 @@ function check_pkg {
 }
 
 function install_pkg {
-	make udevdir=/dev install
+	make install
 	install -m644 -D docs/writing_udev_rules/index.html \
 		/usr/share/doc/udev-${version}/index.html
 	cp 25-lfs.rules /etc/udev/rules.d/
