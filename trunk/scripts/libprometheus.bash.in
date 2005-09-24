@@ -332,21 +332,29 @@ function source_config {
 
 # ----------------------------- PROFILE HANDLING ----------------------------- #
 
-# Usage: source_profile <package>
+# Usage: source_profile <mode> <package>
 # Source <package>'s profile.  Set global variables $package, $profile, $name &
 # $name_ver accordingly.
+# Mode is one of the strings "pool", "inst" or "fallback".
+# pool: Retrieve the working copy profile from ~prometheus/profiles.
+# inst: Retrieve the installed profile from ~prometheus/installed/profiles.
+# fallback: Try "inst" first if available, fall back to "pool" otherwise.
 function source_profile {
-	if (( $# != 1 )) || [[ -z "$1" ]]; then
-		usage_error "source_profile" "<package>" "$*"
+	if (( $# != 2 )) || [[ -z "$1" || -z "$2" ]]; then
+		usage_error "source_profile" "<mode>" "<package>" "$*"
 	fi
 
-	package="$1"
-	profile="$package.pkg"
+	package="$2"
 
-	# If $profiles_cwd is `yes', search for profile in current working
-	# directory before trying the profile directory.
-	[[ "$profiles_cwd" == yes && -f "$profile" ]] ||
-	profile="$profiles/$profile"
+	case "$1" in
+		(pool)	profile="~prometheus/profiles/${package}" ;;
+		(inst)	profile="~prometheus/installed/profiles/${package}" ;;
+		(fallback)
+			[[ -f "~prometheus/installed/profiles/${pacakge}" ]] &&
+			profile="~prometheus/installed/profiles/${package}" ||
+			profile="~prometheus/profiles/${package}" ;;
+		(*)	usage_error "source_profile" "<mode>" "<package>" "$*" ;;
+	esac
 
 	source_file "$profile" "\`$package' package profile"
 
@@ -355,32 +363,22 @@ function source_profile {
 	name_ver="$name${version:+ $version}"
 }
 
-# Usage: get_profile_var <variable> <package>
-# Echo the value of <variable> in <package>'s profile, without sourcing the
-# profile in this shell.
-function get_profile_var {
-	if (( $# != 2 )) || [[ -z "$1" || -z "$2" ]]; then
-		usage_error "get_profile_var" "<variable> <package>" "$*"
-	fi
-
-	(
-		source_profile "$2"
-		echo "${!1}"
-	)
-}
-
-# Usage: get_profile_array <array> <package>
+# Usage: get_profile_array <mode> <array> <package>
 # Echo the value of <array> in <package>'s profile, without sourcing the
 # profile in this shell.  The array is echoed as a single line suitable for
 # assignment to another array.
+# Mode is one of the strings "pool", "inst" or "fallback".
+# pool: Retrieve the working copy profile from ~prometheus/profiles.
+# inst: Retrieve the installed profile from ~prometheus/installed/profiles.
+# fallback: Try "inst" first if available, fall back to "pool" otherwise.
 function get_profile_array {
-	if (( $# != 2 )) || [[ -z "$1" || -z "$2" ]]; then
-		usage_error "get_profile_array" "<array> <package>" "$*"
+	if (( $# != 3 )) || [[ -z "$1" || -z "$2" || -z "$3" ]]; then
+		usage_error "get_profile_array" "<mode>" "<array> <package>" "$*"
 	fi
 
 	(
-		source_profile "$2"
-		eval "echo_array \"\${$1[@]}\""
+		source_profile "$1" "$3"
+		eval "echo_array \"\${$2[@]}\""
 	)
 }
 
@@ -582,20 +580,29 @@ function remove_dupes {
 	eval "$1=( \"\${processed[@]}\" )"
 }
 
-# Usage: get_deps <package_list>
+# Usage: get_deps <mode> <package_list>
 # Echo the packages required to be installed before the packages in
 # <package_list>, in order of installation, one per line.  Used internally by
 # get_dependencies.
+# Mode is one of the strings "pool", "inst" or "fallback".
+# pool: Retrieve the working copy profile from ~prometheus/profiles.
+# inst: Retrieve the installed profile from ~prometheus/installed/profiles.
+# fallback: Try "inst" first if available, fall back to "pool" otherwise.
 function get_deps {
-	[[ -z "$*" ]] && usage_error "get_deps" "<package_list>"
+	if (( $# <= 1 )) || [[ -z "$1" || -z "$2" ]]; then
+		usage_error "get_deps" "<mode>" "<package_list>"
+	fi
 
 	local -a deps
-	local dep package
+	local mode dep package
+
+	mode="$1"
+	shift
 
 	for package in "$@"; do
 
 		# Get immediate dependencies.
-		eval "deps=$(get_profile_array deps "$1")"
+		eval "deps=$(get_profile_array "$mode" deps "$package")"
 
 		# Echo each dependency preceded by its own dependencies.
 		for dep in "${deps[@]}"; do
@@ -605,20 +612,29 @@ function get_deps {
 	done
 }
 
-# Usage: get_dependencies <package_list>
+# Usage: get_dependencies <mode> <package_list>
 # Fill $dependencies with the packages required to be installed before packages
 # in <package_list>, in order of installation & avoiding duplicates.
+# Mode is one of the strings "pool", "inst" or "fallback".
+# pool: Retrieve the working copy profile from ~prometheus/profiles.
+# inst: Retrieve the installed profile from ~prometheus/installed/profiles.
+# fallback: Try "inst" first if available, fall back to "pool" otherwise.
 function get_dependencies {
-	[[ -z "$*" ]] && usage_error "get_dependencies" "<package_list>"
+	if (( $# <= 1 )) || [[ -z "$1" || -z "$2" ]]; then
+		usage_error "get_dependencies" "<mode>" "<package_list>"
+	fi
 
 	unset dependencies
-	local dep
+	local dep mode
+
+	mode="$1"
+	shift
 
 	# Read dependencies into $dependencies array.  Use process substitution
 	# instead of pipe to avoid while loop running in a subshell.
 	while read dep; do
 		dependencies[${#dependencies[@]}]="$dep"
-	done < <(get_deps "$@")
+	done < <(get_deps "$mode" "$@")
 
 	# Remove any repeated packages.
 	remove_dupes dependencies
