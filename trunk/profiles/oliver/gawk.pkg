@@ -1,5 +1,5 @@
 name="GNU awk"
-version="3.1.4"
+version="3.1.5"
 homepage="http://www.gnu.org/software/gawk/"
 
 archives=(
@@ -7,16 +7,20 @@ archives=(
 )
 
 patches=(
-	"http://www.linuxfromscratch.org/patches/downloads/gawk/gawk-${version}-datadir-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/gawk/gawk-${version}-segfault_fix-1.patch"
 )
 
 function stage1_build_pkg {
 	./configure --prefix=/tools --disable-nls
+	echo "#define HAVE_LANGINFO_CODESET 1" >> config.h
+	echo "#define HAVE_LC_MESSAGES 1" >> config.h
 	make
 }
 
 function build_pkg {
 	./configure --prefix=/usr --libexecdir=/usr/lib --disable-nls
+	echo "#define HAVE_LANGINFO_CODESET 1" >> config.h
+	echo "#define HAVE_LC_MESSAGES 1" >> config.h
 	make
 }
 

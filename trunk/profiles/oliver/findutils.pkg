@@ -1,5 +1,5 @@
 name="GNU findutils"
-version="4.2.25"
+version="4.2.26"
 homepage="http://www.gnu.org/software/findutils/"
 
 archives=(

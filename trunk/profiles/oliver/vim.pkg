@@ -1,16 +1,12 @@
 name="vim"
-version="6.3"
+version="6.4"
 homepage="http://www.vim.org/"
 
 archives=(
 	"ftp://ftp.vim.org/pub/editors/vim/unix/vim-${version}.tar.bz2"
 )
 
-patches=(
-	"http://www.linuxfromscratch.org/patches/downloads/vim/vim-6.3-security_fix-2.patch"
-)
-
-directory="vim63"
+directory="vim64"
 
 function build_pkg {
 	echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
@@ -28,6 +24,6 @@ function check_pkg {
 }
 
 function install_pkg {
-	make install
+	make HELPSUBLOC=/usr/share/doc/vim-${version} install
 	ln -sf vim /usr/bin/vi
 }
