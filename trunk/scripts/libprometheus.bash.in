@@ -246,16 +246,6 @@ details.
 	finish
 }
 
-# Usage: get_installed_version <package>
-# Echo installed version of <package>.
-function get_installed_version {
-	if (( $# != 1 )) || [[ -z "$1" ]]; then
-		usage_error "get_installed_version" "<package>" "$*"
-	fi
-
-	sed -n "s/^$1	//p" "$version_table"
-}
-
 # ----------------------------- USER INTERACTION ----------------------------- #
 
 # Usage: choice
