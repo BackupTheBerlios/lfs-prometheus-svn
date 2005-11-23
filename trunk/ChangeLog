@@ -1,3 +1,7 @@
+2005-11-23 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* scripts/pkginfo.in: Re-wrote pkginfo.
+
 2005-09-11 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* scripts/libprometheus.bash.in: Changed source_profile and its callees

@@ -49,64 +49,48 @@ Options:
 }
 
 
-# Usage: _query_package
+# Usage: query_package
 # Gather and display information about a package
-function _query_package {
-	local date pkg_version size
+function query_package {
 
-	if [[ -f "${logdir}/${arg}" ]]; then
-		date="not installed"
+	local date size inst_ver
+
+	if [[ -f "~prometheus/installed/profiles/${arg}.pkg" ]]; then
+		date="$(date -r "~prometheus/installed/profiles/${arg}.pkg" \
+			"+%Y-%m-%d %H:%M (%a)")"
+		inst_ver="$(source_profile inst ${arg}; echo $version)"
 	else
-		date="$(date -r "${logdir}/${arg}" "+%Y-%m-%d %H:%M (%a)")"
+		date="not installed"
 	fi
 
 	[[ -n "$verbose" ]] &&
-	if [[ -r "${logdir}/${arg}" ]]; then
+	if [[ -r "~prometheus/installed/indices/${arg}" ]]; then
 		local i
 		size=0
 
-		for i in $(sed -e 's/# Old # //' -e '/# Del #.*/d' \
-				"${logdir}/${arg}" 2> /dev/null)
-		do
-			[[ -e "$i" ]] &&
-			size=$(( $size + $(ls -l "$i" 2> /dev/null | \
-					awk -F\  '{ print $5; }' ) ))
-		done
+		size=$(cut -f6 "~prometheus/installed/indices/${arg}" | \
+		xargs -r du -bc | tail -1 | cut -f1 -d\ )
+
 		size=$(( $size / 1024 ))
 	fi
 
-	[[ -f "$version_table" ]] &&
-	if [[ "$(grep "^$arg	" "$version_table" | sed -e 's/	//')"x != x ]]
-	then
-		[[ ! -f "$logdir/$arg" ]] && date="orphaned entry"
-		log_version="$(sed -n "s/^$arg	//p" "$version_table")"
-	fi
-
-	[[ -f "${profiles}/${arg}.pkg" ]] && source_profile "$arg"
-
+	[[ -f "~prometheus/profiles/${arg}.pkg" ]] && \
+		source_profile pool "$arg"
 
 
 	if [[ -n "$verbose" ]]; then
 		echo
 		echo "Package  : ${name:-$arg}"
-		echo "Version  : ${log_version:-n/a} / ${version:-n/a}"
+		echo "Version  : ${version:-n/a} / ${inst_ver:-n/a}"
 		[[ -n "$homepage" ]] && echo "Homepage : $homepage"
 		echo "Installed: $date"
 		echo -n "Size     : "
 		[[ -n "$size" ]] && echo "$size kb" || echo "n/a"
 		echo
 	else
-		printf "%-32.32s " "$arg"
-
-		if [[ -n "$log_version" ]]; then
-			 printf "%-24.24s" "$log_version"
-		else
-			if [[ -f "${logdir}/${arg}" ]]; then
-				printf "%-24.24s" "n/a${version:+ ($version)}"
-			else
-				printf "%-24.24s" "$version"
-			fi
-		fi
+		printf  "%-22.22s "  "$arg"
+		printf  "%-17.17s"   "$version"
+		printf  "%-17.17s"   "$inst_ver"
 		printf " %-22.22s\n" "$date"
 	fi
 
@@ -114,41 +98,32 @@ function _query_package {
 }
 
 
-# Usage: _query_installed
-# Run _query_package on every installed package
-function _query_installed {
-	# All installed packages should have a corresponding log file in
-	# $logdir, so we check those first.
-
-	ls -rt "$logdir"/* 2> /dev/null | sed -e 's/.*\///' | \
-	xargs -r pkginfo ${verbose:+--verbose}
-
-	# It is theoretically possible that a package has an entry in .vtab,
-	# but no corresponding log file.  This part finds those packages.
-	local i
-
-	sed -e 's/	.*//' "$logdir/.vtab" 2> /dev/null | \
-	while read i; do
-		[[ ! -f "$logdir/$i" ]] &&
-		echo "$i"
-	done | xargs -r pkginfo  ${verbose:+--verbose}
+# Usage: query_installed
+# Run query_package on every installed package
+function query_installed {
+	ls -rt "~prometheus/installed/profiles/*" 2> /dev/null | \
+	sed 's@.*/\(.*\)\.pkg$@\1@' | \
+	xargs -r $0 ${verbose:+--verbose}
 }
 
 
-# Usage: _query_all
-# Run _query_package on all packages that have `log_install=yes'
+# Usage: query_all
+# Run query_package on all packages that have `log_install=yes'
 # in their .pkg profile
-function _query_all {
-	grep -L "^[ 	]*log_install=no" "$profiles"/*.pkg 2> /dev/null | \
-	sed -e '/REFERENCE/d' -e 's/.*\///' -e 's/\.pkg//' | \
-	xargs pkginfo ${verbose:+--verbose}
+function query_all {
+
+	{ grep -L "^[ 	]*log_install=no" ~prometheus/profiles/* 2> /dev/null;
+	  ls ~/prometheus/installed/profiles/* } | sed 's@.*/\(.*\)\.pkg$@\1@' | \
+	sort -u | xargs $0 ${verbose:+--verbose}
 }
 
 
 # Usage: print_deps
 # List dependencies of a package.
 function print_deps {
-	get_dependencies "$arg"
+	[[ "$action" == "dependencies" ]] &&
+		get_dependencies fallback "$arg" ||
+		get_dependencies pool
 
 	local i
 	for (( i=0; i < ${#dependencies[0]}; i++ )); do
@@ -161,10 +136,12 @@ function print_deps {
 # Usage: print_patches
 # List patches in a package's profile. (Not for stage1/2)
 function print_patches {
-	source_profile "$arg"
+	[[ "$action" == "patches" ]] &&
+		source_profile fallback "$arg" ||
+		source_profile pool "$arg"
 
 	local i
-	for (( i=0; i < ${#patches[0]}; i++ )); do
+	for (( i=0; i < ${#patches[@]}; i++ )); do
 		echo "$(basename $(remove_compression_suffix "${patches[$i]}"))"
 
 		if [[ -n "$verbose" ]]; then
@@ -181,11 +158,28 @@ function print_patches {
 # Usage: print_files
 # List all files installed by a package.
 function print_files {
-	[[ -f "${logdir}/${arg}" ]] || error "$arg is not installed."
+	[[ -f "~prometheus/installed/indices/${arg}" ]] ||
+		error "$arg is not installed."
 
-	sed -e 's/# Old # //' -e '/# Del #.*/d' "${logdir}/${arg}"
+	cut -f6 "~prometheus/installed/indices/${arg}"
 }
 
+
+# Usage print_sources
+# List the source files needed for package.
+function print_sources {
+	[[ "$action" == "sources" ]] &&
+		source_profile fallback "$arg" ||
+		source_profile pool "$arg"
+
+	local i
+	for ((i=0 ; i<${#archives[@]} ; ++i )); do
+		echo "${archives[$i]}"
+	done
+	for ((i=0 ; i<${#patches[@]} ; ++i )); do
+		echo "${patches[$i]}"
+	done
+}
 
 # Usage: find_owner
 # Find the package that a file belongs to.
@@ -196,23 +190,22 @@ function find_owner {
 		arg="$(echo $(pwd)/$arg | sed -e 's@[^/]*/\.\./@@g' -e 's@\./@@g')"
 	fi
 
-	[[ -e "$arg" ]] || error "\"$arg\" does not exist."
+	[[ -e "$arg" ]] || error "${arg}: No such file or directory."
 
 	local pkg
 
-	egrep -l "(^# Old # |^)$arg$" "$logdir"/* 2> /dev/null | \
-	sed -e 's@.*/\(.*\)$@\1@' | while read pkg
+	grep -l "$arg" ~prometheus/installed/indices/* 2> /dev/null | \
+	cut -f6 | while read pkg
 	do
-		(( "x$verbose" == xverbose )) &&
-			echo "$pkg" "$(get_installed_version "$pkg")"  ||
+		#(( "x$verbose" == xverbose )) &&
+		#	{ arg="$pkg"; query_package; } ||
 			echo "$pkg"
 	done
 }
 
 # --------------------------- START EXECUTION HERE --------------------------- #
 
-unset verbose query_all query_installed dependencies patches list which
-unset arg_list arg
+unset verbose action arg_list arg
 
 # Check for options.
 while [[ "$1" == -* ]]; do
@@ -224,27 +217,47 @@ while [[ "$1" == -* ]]; do
 
 		(-v|--verbose)			verbose=verbose ;;
 
-		(-a|--query-all)		query_all=query_all
+		(-q|--query)			action=query
 						shift
 						break ;;
 
-		(-i|--query-installed)		query-installed=query-installed
+		(-a|--query-all)		action=query-all
 						shift
 						break ;;
 
-		(-d|--dependencies)		dependencies=dependencies
+		(-i|--query-installed)		action=query-installed
 						shift
 						break ;;
 
-		(-p|--patches)			patches=patches
+		(-d|--dependencies)		action=dependencies
 						shift
 						break ;;
 
-		(-l|--list)			list=list
+		(-D|--Dependencies)		action=Dependencies
 						shift
 						break ;;
 
-		(-w|--which)			which=which
+		(-p|--patches)			action=patches
+						shift
+						break ;;
+
+		(-P|--Patches)			action=Patches
+						shift
+						break ;;
+
+		(-s|--sources)			action=sources
+						shift
+						break ;;
+
+		(-S|--Sources)			action=Sources
+						shift
+						break ;;
+
+		(-l|--list)			action=list
+						shift
+						break ;;
+
+		(-w|--which)			action=which
 						shift
 						break ;;
 
@@ -260,43 +273,44 @@ while [[ "$1" == -* ]]; do
 	shift
 done
 
-# Boy, the argument handling is ugly!
-# Anyone come up with an idea to solve this in a clean way?
+# If no action has been specified, run a simple query on every argument.
+if [[ -z "$action" ]]; then
+	# "query" is the default action.
+	action=query
 
-# If no option has been specified, run a simple query on every argument.
-if [[ -z "${query_installed}${query_all}${dependencies}${patches}${list}${which}" ]]; then
 	# The remaining arguments should all be packages.
-	(( $# == 0 )) && script_usage_err "no package specified"
+	(( $# == 0 )) && script_usage_err "missing argument"
 
-	# Remove duplicates from parameter list.
 	arg_list=( "$@" )
-	remove_dupes arg_list
 
 	# If there is more than one argument, handle each in its own instance.
 	if (( ${#arg_list[@]} > 1 )); then
-        	for arg in "${arg_list[@]}"; do
-                	"$0" --config="$config" "$arg"
+		remove_dupes arg_list
+
+       		for arg in "${arg_list[@]}"; do
+               		"$0" --config="$config" --query "$arg"
 		done
 		finish
-	else
-		arg="$1"
 	fi
 fi
 
-if [[ -n "${dependencies}${patches}${list}${which}" ]]; then
+if [[ "$action" != "query-installed" && "$action" != "query-all" ]]; then
 	arg="$1"
-	[[ x != x"$arg" ]] || error "missing argument"
+	[[ x != x"$arg" ]] || script_usage_error "missing argument"
 fi
 
 source_config
 
-if   [[ -n "$query_all"       ]]; then	_query_all
-elif [[ -n "$query_installed" ]]; then	_query_installed
-elif [[ -n "$dependencies"    ]]; then	print_deps
-elif [[ -n "$patches"         ]]; then	print_patches
-elif [[ -n "$list"            ]]; then	print_files
-elif [[ -n "$which"           ]]; then	find_owner
-else					_query_package
-fi
+case "$action" in
+	(query)			query_package ;;
+	(query-all)		query_all ;;
+	(query-installed)	query_installed ;;
+	([dD]ependencies)	print_deps ;;
+	([pP]atches)		print_patches ;;
+	([sS]ources)		print_sources ;;
+	(list)			print_files ;;
+	(which)			find_owner ;;
+	(*)			query_package ;;# we should never get here ;-)
+esac
 
 finish
