@@ -1,5 +1,6 @@
 2005-11-26 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
+	* man/pkginfo.1.in: Updated pkginfo's man page.
 	* scripts/pkginfo.in: Updated help screen.
 
 2005-11-23 Oliver Brakmann <oliverbrakmann@users.berlios.de>
