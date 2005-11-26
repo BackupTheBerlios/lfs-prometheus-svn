@@ -24,6 +24,6 @@ function check_pkg {
 }
 
 function install_pkg {
-	make HELPSUBLOC=/usr/share/doc/vim-${version} install
+	make install
 	ln -sf vim /usr/bin/vi
 }

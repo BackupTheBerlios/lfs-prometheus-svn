@@ -4,19 +4,12 @@ homepage="http://www.gnu.org/software/libc/"
 
 archives=(
 	"ftp://ftp.cs.tu-berlin.de/pub/gnu/glibc/glibc-${version}.tar.bz2"
-	"ftp://ftp.cs.tu-berlin.de/pub/gnu/glibc/glibc-linuxthreads-${version}.tar.bz2"
 )
 
 patches=(
 #	"http://www.linuxfromscratch.org/patches/downloads/glibc/glibc-${version}-fix_test-1.patch"
 	"http://lfs-prometheus.berlios.de/download/glibc-mtab.patch.bz2"
 	"http://lfs-prometheus.berlios.de/download/glibc-passwd-lock.patch.bz2"
-)
-
-archive_dirs=(
-	""
-	"@d"
-)
 
 optimize=no
 
@@ -76,7 +69,6 @@ function build_pkg {
 				 --libexecdir=/usr/lib/glibc \
 				 --disable-nls
 	make
-	make -C "${directory}/linuxthreads/man"
 }
 
 function check_pkg {
@@ -90,7 +82,6 @@ function install_pkg {
 	touch /etc/ld.so.conf
 
 	make install
-	make -C "${directory}/linuxthreads/man" install
 	make localedata/install-locales
 
 	rm -rf "${builddir}/glibc-build"
