@@ -34,16 +34,25 @@ Options:
 -c, --config <config_file>      Specify alternative configuration file
 -v, --verbose			Be verbose, where appropriate
 
+-q, --query <pkg>		Query a package
 -a, --query-all			List all packages
 -i, --query-installed		List all installed packages
 -d, --dependencies <pkg>	List dependencies of packages
+-D, --Dependencies <pkg>	List dependencies of packages
 -p, --patches <pkg>		List patches to be applied to packages
+-P, --Patches <pkg>		List patches to be applied to packages
+-s, --sources <pkg>		List the sources for packages
+-S, --Sources <pkg>		List the sources for packages
 -l, --list <pkg>		List all files installed by packages
 -w, --which <file>		List package a file belongs to
 --                              Treat remaining arguments as packages
 
 -h, -?, --help                  Show this help screen
 -V, --version                   Show version information
+
+Options which come in both upper and lower case variants work as follows:
+The lower case ones operate on installed packages if available, and on pool
+packages otherwise. The upper case ones work on pool packages only.
 	EOF
 	finish
 }
