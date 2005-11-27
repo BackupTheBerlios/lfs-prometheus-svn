@@ -23,7 +23,9 @@ include ../Makefile.defs
 all: $(PROGS) $(LIB)
 
 %: %.in
-	sed -e 's|%LIBPROMETHEUS%|$(LIBDIR)/$(LIB)|' $< > $@
+	sed -e 's|%LIBPROMETHEUS%|$(LIBDIR)/$(LIB)|' \
+	    -e 's|%LIBDIR%|$(LIBDIR)|' \
+	    $< > $@
 
 $(LIB): $(LIB).in
 	sed -e 's|%CONFFILE%|$(CONFDIR)/$(CONFIG)|' \
@@ -38,5 +40,6 @@ install: all
 	$(INSTALL_DIR) $(DESTDIR)$(BINDIR) $(DESTDIR)$(SBINDIR) \
 		       $(DESTDIR)$(LIBDIR)
 	$(INSTALL_DATA) $(LIB) $(DESTDIR)$(LIBDIR)
+	$(INSTALL_PROG) $(LIBPROGS) $(DESTDIR)$(LIBDIR)
 	$(INSTALL_PROG) $(BINPROGS) $(DESTDIR)$(BINDIR)
 	$(INSTALL_PROG) $(SBINPROGS) $(DESTDIR)$(SBINDIR)

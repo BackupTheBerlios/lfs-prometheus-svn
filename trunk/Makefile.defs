@@ -7,7 +7,7 @@ PREFIX = /usr
 # Where to install executables.
 BINDIR = $(PREFIX)/bin
 SBINDIR = $(PREFIX)/sbin
-LIBDIR = $(PREFIX)/lib
+LIBDIR = $(PREFIX)/lib/prometheus
 
 # Where to install documentation.
 MANDIR = $(PREFIX)/share/man
@@ -17,15 +17,15 @@ CONFDIR = /etc/prometheus
 PROFDIR = $(CONFDIR)/profiles
 
 # Which programs to install.
-# FIXME: Should pkgadd be in BINDIR if it uses pkginstall?
-BINPROGS = compact pkgbuild pkgcheck pkgget pkginfo pkgunpack
-SBINPROGS = pkgadd pkginstall pkgrm
-PROGS = $(BINPROGS) $(SBINPROGS)
+BINPROGS = pkgget pkginfo
+SBINPROGS = pkgadd pkgrm
+LIBPROGS = compact pkgbuild pkgcheck pkginstall pkgunpack
+PROGS = $(BINPROGS) $(SBINPROGS) $(LIBPROGS)
 LIB = libprometheus.bash
 
 # Prometheus version & release date.
-VERSION = 0.2-20050828
-RELEASE = 2005-08-28
+VERSION = 0.2-20051127
+RELEASE = 2005-11-27
 
 # Configuration files.
 CONFIG = prometheus.conf

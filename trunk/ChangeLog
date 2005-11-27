@@ -1,3 +1,8 @@
+2005-11-27 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* Makefile.defs, scripts/Makefile: moved the helper scripts
+	  out of /usr/bin and into /usr/lib/prometheus.
+
 2005-11-26 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* man/pkginfo.1.in: Updated pkginfo's man page.
