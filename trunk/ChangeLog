@@ -1,5 +1,6 @@
 2005-12-03 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
+	* scripts/libprometheus.bash.in: Removed dependency on `which'.
 	* scripts/pkgadd.in: Completed move of helper scripts to
 	  /usr/lib/prometheus.
 	* scripts/*: Removed obsolete profile_cwd variable.

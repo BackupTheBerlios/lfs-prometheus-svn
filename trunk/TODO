@@ -14,5 +14,3 @@
 
 * re-create /usr/share/info/dir and whatis database before installing and after
   removing a package.
-
-* make libprometheus aware of the changes wrt rerootd

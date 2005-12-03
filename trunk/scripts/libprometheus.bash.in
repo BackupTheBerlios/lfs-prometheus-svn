@@ -42,11 +42,11 @@ declare -i stage=2
 # Usage: sync_system
 # Keep the system's databases and catalogues up to date
 function sync_system {
-	if which makewhatis >/dev/null 2>&1; then
+	if type -p makewhatis >/dev/null 2>&1; then
 		makewhatis
 	fi
 
-	if which install-info >/dev/null 2>&1 &&
+	if type -p install-info >/dev/null 2>&1 &&
 	   [[ -f /usr/share/info/dir ]]; then
 		local f
 		rm -f /usr/share/info/dir
