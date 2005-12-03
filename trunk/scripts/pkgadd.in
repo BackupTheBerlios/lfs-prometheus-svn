@@ -168,14 +168,14 @@ log_echo "	----- $name_ver -----"
 # Unarchive & patch package.
 log_echo
 log_echo "Unarchiving & patching $name..."
-pkgunpack --config="$config" --stage=$stage "$package" ||
+%LIBDIR%/pkgunpack --config="$config" --stage=$stage "$package" ||
 error "unarchiving or patching $name failed"
 
 # Build package if it needs building.
 if is_func build_pkg; then
 	log_echo
 	log_echo "Building $name..."
-	pkgbuild --config="$config" --stage=$stage "$package" ||
+	%LIBDIR%/pkgbuild --config="$config" --stage=$stage "$package" ||
 	error "building $name failed"
 fi
 
@@ -183,14 +183,14 @@ fi
 if [[ "$check" == yes ]]; then
 	log_echo
 	log_echo "Running $name testsuite..."
-	pkgcheck --config="$config" --stage=$stage "$package" ||
+	%LIBDIR%/pkgcheck --config="$config" --stage=$stage "$package" ||
 	error "testsuite failed for $name"
 fi
 
 # Install package.
 log_echo
 log_echo "Installing $name..."
-pkginstall --config="$config" ${installed:+--$installed-installed} \
+%LIBDIR%/pkginstall --config="$config" ${installed:+--$installed-installed} \
 	   ${failed:+--$failed-failed} --stage=$stage "$package" ||
 error "installation of $name failed"
 
