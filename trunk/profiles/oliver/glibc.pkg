@@ -10,6 +10,7 @@ patches=(
 #	"http://www.linuxfromscratch.org/patches/downloads/glibc/glibc-${version}-fix_test-1.patch"
 	"http://lfs-prometheus.berlios.de/download/glibc-mtab.patch.bz2"
 	"http://lfs-prometheus.berlios.de/download/glibc-passwd-lock.patch.bz2"
+)
 
 optimize=no
 

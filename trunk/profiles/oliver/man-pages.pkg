@@ -1,5 +1,5 @@
 name="Manual pages"
-version="2.14"
+version="2.16"
 
 archives=(
     "ftp://ftp.de.kernel.org/pub/linux/docs/manpages/man-pages-${version}.tar.bz2"

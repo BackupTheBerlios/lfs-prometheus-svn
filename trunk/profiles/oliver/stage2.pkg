@@ -14,57 +14,57 @@ pkglist=(
 	glibc
 	binutils
 	gcc
-	install-log
 	coreutils
-	zlib
-	mktemp
 	iana-etc
-	findutils
-	gawk
-	ncurses
-	readline
-	vim
 	m4
-	bison
-	less
-	groff
-	sed
-	flex
-	gettext
-	inetutils
-	iproute2
-#	net-tools
+	ncurses
 	perl
-	texinfo
+	readline
+	sed
+	zlib
 	autoconf
 	automake
 	bash
-	file
-	libtool
+	bison
 	bzip2
 	diffutils
-#	ed
-	kbd
 	e2fsprogs
+#	ed
+	file
+	findutils
+	flex
+	gawk
+	gettext
 	grep
+	groff
 	grub
 	gzip
 	hotplug
-	man
+	inetutils
+	install-log
+	iproute2
+	kbd
+	less
+	libtool
 	make
+	man
+	mktemp
 	module-init-tools
+	net-tools
 	patch
 #	procinfo
 	procps
+	prometheus
 	psmisc
 	shadow
 	sysklogd
 	sysvinit
 	tar
+	texinfo
 	udev
 	util-linux
+	vim
 	lfs-bootscripts
-	prometheus
 )
 
 directory="/tools"

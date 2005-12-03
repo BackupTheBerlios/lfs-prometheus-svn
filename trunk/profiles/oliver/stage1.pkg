@@ -15,28 +15,26 @@ pkglist=(
 	dejagnu
 	gcc
 	binutils
-	gawk
-	coreutils
+	ncurses
+	bash
 	bzip2
-	gzip	
+	coreutils
 	diffutils
 	findutils
-	make
-	grep
-	sed
+	gawk
 	gettext
-	ncurses
+	grep
+	gzip
+	install-log
+	m4
+	make
 	patch
+	perl
+	prometheus
+	sed
 	tar
 	texinfo
-	bash
-	m4
-	bison
-	flex
 	util-linux
-	perl
-	install-log
-	prometheus
 )
 
 directory="/tools"
