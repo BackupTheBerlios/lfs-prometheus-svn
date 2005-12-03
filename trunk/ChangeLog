@@ -1,3 +1,10 @@
+2005-12-03 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* scripts/pkginfo.in, scripts/libprometheus.bash.in: Fixed a quoting
+	  bug.
+	* scripts/libprometheus.bash.in: Made libprometheus use the directories
+	  below ~prometheus (ie. ~prometheus/{sources,build}).
+
 2005-11-27 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* Makefile.defs, scripts/Makefile: moved the helper scripts

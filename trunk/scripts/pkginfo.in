@@ -64,8 +64,8 @@ function query_package {
 
 	local date size inst_ver
 
-	if [[ -f "~prometheus/installed/profiles/${arg}.pkg" ]]; then
-		date="$(date -r "~prometheus/installed/profiles/${arg}.pkg" \
+	if [[ -f ~prometheus/installed/profiles/"${arg}".pkg ]]; then
+		date="$(date -r ~prometheus/installed/profiles/"${arg}".pkg \
 			"+%Y-%m-%d %H:%M (%a)")"
 		inst_ver="$(source_profile inst ${arg}; echo $version)"
 	else
@@ -73,17 +73,17 @@ function query_package {
 	fi
 
 	[[ -n "$verbose" ]] &&
-	if [[ -r "~prometheus/installed/indices/${arg}" ]]; then
+	if [[ -r ~prometheus/installed/indices/"${arg}" ]]; then
 		local i
 		size=0
 
-		size=$(cut -f6 "~prometheus/installed/indices/${arg}" | \
+		size=$(cut -f6 ~prometheus/installed/indices/"${arg}" | \
 		xargs -r du -bc | tail -1 | cut -f1 -d\ )
 
 		size=$(( $size / 1024 ))
 	fi
 
-	[[ -f "~prometheus/profiles/${arg}.pkg" ]] && \
+	[[ -f ~prometheus/profiles/"${arg}".pkg ]] && \
 		source_profile pool "$arg"
 
 
@@ -110,7 +110,7 @@ function query_package {
 # Usage: query_installed
 # Run query_package on every installed package
 function query_installed {
-	ls -rt "~prometheus/installed/profiles/*" 2> /dev/null | \
+	ls -rt ~prometheus/installed/profiles/* 2> /dev/null | \
 	sed 's@.*/\(.*\)\.pkg$@\1@' | \
 	xargs -r $0 ${verbose:+--verbose}
 }
@@ -167,10 +167,10 @@ function print_patches {
 # Usage: print_files
 # List all files installed by a package.
 function print_files {
-	[[ -f "~prometheus/installed/indices/${arg}" ]] ||
+	[[ -f ~prometheus/installed/indices/"${arg}" ]] ||
 		error "$arg is not installed."
 
-	cut -f6 "~prometheus/installed/indices/${arg}"
+	cut -f6 ~prometheus/installed/indices/"${arg}"
 }
 
 
