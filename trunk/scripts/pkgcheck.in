@@ -90,7 +90,6 @@ if (( ${#package_list[@]} > 1 )); then
 fi
 
 # There is only one package to check.  Do so in this instance.
-profiles_cwd=yes
 open_package "${package_list[0]}"
 
 # Only run check if told to.

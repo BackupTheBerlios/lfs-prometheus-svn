@@ -1,5 +1,6 @@
 2005-12-03 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
+	* scripts/*: Removed obsolete profile_cwd variable.
 	* scripts/pkginfo.in, scripts/libprometheus.bash.in: Fixed a quoting
 	  bug.
 	* scripts/libprometheus.bash.in: Made libprometheus use the directories
