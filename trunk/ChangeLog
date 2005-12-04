@@ -1,3 +1,8 @@
+2005-12-04 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/lfs.pkg: Simplified checks for existing lfs user and
+	  group.
+
 2005-12-03 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* scripts/libprometheus.bash.in: Removed dependency on `which'.

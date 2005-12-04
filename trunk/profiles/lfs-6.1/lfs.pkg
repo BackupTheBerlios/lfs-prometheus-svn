@@ -63,13 +63,11 @@ function install_pkg {
 	echo "Preparing stage 0..."
 
 	# Add an lfs user and group if necessary.
-	if [[ "x$(grep ^${lfs_grp}: /etc/group | awk -F: '{print $1}')" \
-	      != "x${lfs_grp}" ]]; then
+	if ! getent group ${lfs_grp} >/dev/null 2>&1; then
 		groupadd lfs ||
 		error "${package}: could not add group: $lfs_grp"
 	fi
-	if [[ "x$(grep ^${lfs_user}: /etc/passwd | awk -F: '{print $1}')" \
-	      != "x${lfs_user}" ]]; then
+	if ! getent passwd ${lfs_user} >/dev/null 2>&1; then
 		useradd -s /bin/bash -m -k /dev/null -g lfs "$lfs_user" ||
 		error "${package}: could not add user: $lfs_user"
 	fi
