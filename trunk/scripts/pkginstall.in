@@ -60,22 +60,6 @@ function get_privileges {
 	fi
 }
 
-# Usage: add_version_entry <version>
-# Update version table.
-function add_version_entry {
-	if (( $# != 1 )) || [[ -z "$1" ]]; then
-		usage_error "add_version_entry" "<version>" "$*"
-	fi
-
-	touch "$version_table" &&
-	grep --invert-match "^$package	" "$version_table" > \
-	     "$version_table.$$" &&
-	echo -e "$package\t$1" >> "$version_table.$$" &&
-	sort -u "$version_table.$$" > "$version_table" &&
-	rm "$version_table.$$" ||
-	failure "updating version table \`$version_table' failed"
-}
-
 # Usage: remove_installed
 # Deal with any existing installation of $package.
 function remove_installed {
@@ -84,7 +68,7 @@ function remove_installed {
 	pkginfo "$package" | grep "not installed" > /dev/null && return
 
 	# Get version of installed $package.
-	installed_version="$(get_installed_version "$package")"
+	installed_version="$(source_profile inst ${package}; echo $version)"
 	installed_name="$name${installed_version:+ $installed_version}"
 
 	# $installed wasn't set on the command line.  Go interactive.
@@ -145,22 +129,34 @@ function init_install {
 }
 
 # Usage: finish_install
-# If necessary, install $profile into $profiles, & run install-log.
+# Run install-log, collect meta data and update info and man-page db's.
 function finish_install {
-
-	# Install profile if not already in $profiles.
-	if [[ "$profile" != "$profiles/$package.pkg" ]]; then
-		install -m644 "$profile" "$profiles" ||
-		warning "could not install profile \`$profile' in \`$profiles'"
-	fi
 
 	# Run install-log & clean up.
 	if [[ "$log_install" == yes ]];
+		install -m644 -o prometheus -g prometheus "$profile" \
+			~prometheus/installed/profiles/
+
 		if install-log --force "$package"; then
-			add_version_entry "$version"
+			rm ~prometheus/installed/indices/"$package"
+			install -m644 -o prometheus -g prometheus /dev/null \
+				~prometheus/installed/indices/"$package"
+
+			# Convert the install-log log file to the reroot format.
+			local f
+			while read f; do
+				echo -n "created        false   "
+				stat "$f" | \
+				sed -n 's@.*(\(.*\)/.*( *\(.*\)/.*( *\(.*\)/.*$@\1       \2      \3     @p' | \
+				sed "s@\$@$f@"
+			done < "${logdir}/${package}" >> ~/prometheus/installed/indices/"$package"
+
+			rm "${logdir}/${package}"
 		else
 			error "running install-log failed"
 		fi
+
+		(( stage == 2 )) && sync_system
 
 		# Release lock.
 		rm "$timestamp" || error "releasing lock failed"
@@ -182,15 +178,10 @@ function cleanup_failed {
 
 	# Did we backup a previous install?  If so, restore it & related
 	# install-log files.
-	# FIXME: pkgrm should include install-log log in tarball.  Then use
-	#	 unpack to restore backup.
 	if [[ "$backed_up" == yes ]]; then
 		echo "Restoring backup of $installed_name..."
-		tar xvjf "$backupdir/$package.bak.tar.bz2" > \
-			 "$logdir/$package" ||
+		tar xjf ~prometheus/backup/"${package}".tar.bz2 ||
 		failure "restoring backup failed"
-
-		add_version_entry "$installed_version"
 	fi
 }
 

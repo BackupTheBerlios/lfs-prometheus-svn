@@ -1,5 +1,7 @@
 2005-12-10 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
+	* scripts/pkginstall.in: Rewrote parts to use the new install-log/
+	  reroot setup.
 	* scripts/libprometheus.bash.in, scripts/pkgget.in, scripts/pkgrm.in:
 	  Cleaned up `source_profile' invocations, other cleanups.
 	* scripts/pkginfo.in: Removed occurences of .pkg extensions.
