@@ -1,5 +1,5 @@
 name="module-init-tools"
-version="3.2.1"
+version="3.2.2"
 
 archives=(
 	"http://www.de.kernel.org/pub/linux/utils/kernel/module-init-tools/module-init-tools-${version}.tar.bz2"

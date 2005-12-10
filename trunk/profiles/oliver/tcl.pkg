@@ -1,5 +1,5 @@
 name="tcl"
-version="8.4.11"
+version="8.4.12"
 homepage="http://tcl.sourceforge.net/"
 
 archives=(
