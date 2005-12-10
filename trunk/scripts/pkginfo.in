@@ -64,8 +64,8 @@ function query_package {
 
 	local date size inst_ver
 
-	if [[ -f ~prometheus/installed/profiles/"${arg}".pkg ]]; then
-		date="$(date -r ~prometheus/installed/profiles/"${arg}".pkg \
+	if [[ -f ~prometheus/installed/profiles/"${arg}" ]]; then
+		date="$(date -r ~prometheus/installed/profiles/"${arg}" \
 			"+%Y-%m-%d %H:%M (%a)")"
 		inst_ver="$(source_profile inst ${arg}; echo $version)"
 	else
@@ -83,7 +83,7 @@ function query_package {
 		size=$(( $size / 1024 ))
 	fi
 
-	[[ -f ~prometheus/profiles/"${arg}".pkg ]] && \
+	[[ -f ~prometheus/profiles/"${arg}" ]] && \
 		source_profile pool "$arg"
 
 
@@ -111,19 +111,18 @@ function query_package {
 # Run query_package on every installed package
 function query_installed {
 	ls -rt ~prometheus/installed/profiles/* 2> /dev/null | \
-	sed 's@.*/\(.*\)\.pkg$@\1@' | \
 	xargs -r $0 ${verbose:+--verbose}
 }
 
 
 # Usage: query_all
 # Run query_package on all packages that have `log_install=yes'
-# in their .pkg profile
+# in their profile
 function query_all {
 
 	{ grep -L "^[ 	]*log_install=no" ~prometheus/profiles/* 2> /dev/null;
-	  ls ~/prometheus/installed/profiles/* } | sed 's@.*/\(.*\)\.pkg$@\1@' | \
-	sort -u | xargs $0 ${verbose:+--verbose}
+	  ls ~/prometheus/installed/profiles/* } | sort -u | \
+	  xargs $0 ${verbose:+--verbose}
 }
 
 
