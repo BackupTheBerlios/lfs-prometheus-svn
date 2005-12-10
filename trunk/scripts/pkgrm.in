@@ -195,8 +195,7 @@ fi
 # There is only one package to remove.  Do so in this instance.
 pkg="${package_list[0]}"
 
-### FIXME! ###
-source_profile "$pkg"
+source_profile inst "$pkg"
 
 # Test whether the package is actually installed.
 # This also tests whether the logfile is readable, btw.

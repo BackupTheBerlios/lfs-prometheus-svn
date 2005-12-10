@@ -76,7 +76,7 @@ function list_missing {
 
 	# Run in a subshell to avoid contamination between packages.
 	(
-		source_profile "$1"
+		source_profile pool "$1"
 		list_files | remove_found
 	)
 }

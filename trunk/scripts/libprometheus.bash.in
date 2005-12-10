@@ -37,6 +37,8 @@ declare -i failures=0
 # `--stage' options.
 declare -i stage=2
 
+# workaround for `location_of' and pkgget (The tilde doesn't expand in quotes)
+declare -r srcdir=~prometheus/sources
 # ------------------------------ EXIT HANDLING ------------------------------- #
 
 # Usage: sync_system
@@ -306,7 +308,6 @@ function source_config {
 		error "install_log_rc not set in \`$config'"
 
 	# Set some useful variables.
-	srcdir=~prometheus/sources	# workaround for `location_of'
 	logdir=$(sed -n 's/^LOGDIR=//p' "$install_log_rc")
 	[[ -z "$logdir" ]] &&
 	error "could not extract log directory from \`$install_log_rc'"
@@ -525,7 +526,7 @@ function open_package {
 		usage_error "open_package" "<package>" "$*"
 	fi
 
-	source_profile "$1"
+	source_profile pool "$1"
 
 	stage_overrides
 	set_directory
