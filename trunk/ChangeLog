@@ -1,3 +1,9 @@
+2005-12-11 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* scripts/libprometheus.bash.in, scripts/pkgrm.in, scripts/pkgbuild.in,
+	  scripts/pkgcheck.in, scripts/pkgget.in, scripts/pkgunpack.in,
+	  scripts/pkginstall.in: Rewrote privilege handling.
+
 2005-12-10 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* scripts/pkginstall.in: Rewrote parts to use the new install-log/

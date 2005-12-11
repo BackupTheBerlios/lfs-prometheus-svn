@@ -97,6 +97,8 @@ function apply_patches {
 
 # --------------------------- START EXECUTION HERE --------------------------- #
 
+drop_privileges $@
+
 unset package_list
 
 # Check for options.

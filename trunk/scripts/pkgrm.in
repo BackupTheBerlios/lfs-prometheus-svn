@@ -44,16 +44,6 @@ Options (must precede package list):
 	finish
 }
 
-# Usage: get_privileges
-# Rerun as root if necessary.
-function get_privileges {
-	if [[ "$install_as_root" == yes ]] && (( $(id -u) != 0 )); then
-		echo "You must be root to remove $name."
-		exec su -c "'$0' --config='$config' ${backup:+--backup} \
-			${force:+--force} ${purge:+--purge} $package'"
-	fi
-}
-
 # Usage: do_backup
 # Backup an installed package
 function do_backup {
@@ -200,7 +190,7 @@ source_profile inst "$pkg"
 # Test whether the package is actually installed.
 # This also tests whether the logfile is readable, btw.
 if pkginfo "$pkg" | grep --invert-match "not installed"; then
-	get_privileges
+	get_privileges $@
 
 	name="${name:-$pkg}"
 	if [[ -z "$force" ]]; then

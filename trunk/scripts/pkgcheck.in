@@ -44,6 +44,8 @@ Options (must precede package list):
 
 # --------------------------- START EXECUTION HERE --------------------------- #
 
+drop_privileges $@
+
 unset package_list
 
 # Check for options.

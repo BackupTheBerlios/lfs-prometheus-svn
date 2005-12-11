@@ -149,6 +149,8 @@ function list_downloads {
 
 # --------------------------- START EXECUTION HERE --------------------------- #
 
+drop_privileges $@
+
 unset listonly package_list
 
 # Check for options.

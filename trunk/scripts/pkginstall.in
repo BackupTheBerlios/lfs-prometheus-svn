@@ -49,17 +49,6 @@ Options (must precede package list):
 	finish
 }
 
-# Usage: get_privileges
-# Rerun as root if necessary.
-function get_privileges {
-	if [[ "$install_as_root" == yes ]] && (( $(id -u) != 0 )); then
-		echo "You must be root to install $name."
-		exec su -c "'$0' --config='$config' --stage=$stage \
-				 ${installed:+--$installed-installed} \
-				 ${failed:+--$failed-failed} '$package'"
-	fi
-}
-
 # Usage: remove_installed
 # Deal with any existing installation of $package.
 function remove_installed {
@@ -253,7 +242,7 @@ if is_func install_pkg; then
 
 	# Ensure we the have necessary privileges, (optionally) remove any
 	# existing installation of $package & initialize install-log.
-	get_privileges
+	get_privileges $@
 	remove_installed
 	init_install
 
