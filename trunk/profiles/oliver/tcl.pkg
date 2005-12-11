@@ -12,6 +12,8 @@ stage1_leavefiles=yes
 
 function stage1_build_pkg {
 	cd unix
+	cp configure{,.orig}
+	sed "s/relid'/relid/" configure.orig > configure
 	./configure --prefix=/tools
 	make
 }

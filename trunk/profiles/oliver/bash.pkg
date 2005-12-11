@@ -1,14 +1,9 @@
 name="GNU Bourne Again Shell"
-version="3.0"
+version="3.1"
 homepage="http://www.gnu.org/software/bash/bash.html"
 
 archives=(
 	"ftp://ftp.cs.tu-berlin.de/pub/gnu/bash/bash-${version}.tar.gz"
-)
-
-patches=(
-	"http://www.linuxfromscratch.org/patches/downloads/bash/bash-3.0-fixes-3.patch"
-	"http://www.linuxfromscratch.org/patches/downloads/bash/bash-3.0-avoid_WCONTINUED-1.patch"
 )
 
 function stage1_build_pkg {
