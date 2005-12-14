@@ -1,3 +1,7 @@
+2005-12-14 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/*.pkg: Removed the .pkg extension from the profiles.
+
 2005-12-11 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* scripts/libprometheus.bash.in, scripts/pkgrm.in, scripts/pkgbuild.in,
