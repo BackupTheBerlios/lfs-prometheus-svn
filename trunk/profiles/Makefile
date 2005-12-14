@@ -18,7 +18,7 @@
 
 include ../Makefile.defs
 
-PROFILE_LIST = $(shell ls $(PROFILES)/*.pkg)
+PROFILE_LIST = $(shell ls $(PROFILES)/*)
 
 .PHONY: all clean install
 
