@@ -8,8 +8,6 @@ archives=(
 
 directory="tcl${version}"
 
-stage1_leavefiles=yes
-
 function stage1_build_pkg {
 	cd unix
 	cp configure{,.orig}
@@ -21,5 +19,6 @@ function stage1_build_pkg {
 function stage1_install_pkg {
 	cd unix
 	make install
+	make install-private-headers
 	ln -s tclsh8.4 /tools/bin/tclsh
 }

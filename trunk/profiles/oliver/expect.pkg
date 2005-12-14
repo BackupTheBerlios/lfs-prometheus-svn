@@ -14,11 +14,10 @@ directory=expect
 
 function stage1_build_pkg {
 	./configure --prefix=/tools --with-tcl=/tools/lib --with-x=no \
-		--with-tclinclude="${builddir}/tcl*"
+		--with-tclinclude=/tools/include
 	make
 }
 
 function stage1_install_pkg {
 	make SCRIPTS="" install
-	rm -rf "${builddir}/tcl*"
 }

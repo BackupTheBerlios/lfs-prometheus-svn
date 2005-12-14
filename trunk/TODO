@@ -11,6 +11,3 @@
 * `lfs-install' script may return as a wrapper for `pkgget (all packages)',
   optional pkgcompress, and finally `pkgadd lfs'.  Maybe a final run of Gerard's
   `check-lfs' to give people a warm fuzzy feeling.
-
-* re-create /usr/share/info/dir and whatis database before installing and after
-  removing a package.
