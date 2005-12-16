@@ -64,7 +64,10 @@ function get_package_list {
 	fi
 
 	# Get array of dependencies for <package_list>.
-	get_dependencies "$@"
+	## FIXME: "fallback" isn't entirely right: we'd want the first profile
+	# lookup from the pool, all subsequent ones (the dependencies) should
+	# be fallback. Solution?
+	get_dependencies "fallback" "$@"
 
 	# Fill not_installed with missing dependencies.
 	local -a not_installed

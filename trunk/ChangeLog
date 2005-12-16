@@ -1,3 +1,7 @@
+2005-12-16 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* scripts/pkgadd.in: Corrected call to `get_dependencies'.
+
 2005-12-14 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/lfs-6.1/*.pkg: Removed the .pkg extension from the profiles.
