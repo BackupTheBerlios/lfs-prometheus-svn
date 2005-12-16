@@ -1,5 +1,6 @@
 2005-12-16 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
+	* etc/prometheus.conf.in: Removed unused config variables.
 	* scripts/pkgadd.in: Corrected call to `get_dependencies'.
 
 2005-12-14 Oliver Brakmann <oliverbrakmann@users.berlios.de>

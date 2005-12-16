@@ -4,11 +4,6 @@ profiles="%PROFDIR%"
 # Where to find install-log.rc.
 install_log_rc="%INSTALL_LOG_RC%"
 
-# Other file locations.
-backupdir="/var/tmp"
-builddir="/var/tmp"
-srcdir="/usr/src"
-
 # The following values may be overridden per package in package profiles.  All
 # can be further overridden by additional variables with the same names but
 # prefixed with `stage<n>_', where <n> is an integer.  For example, stage 1
