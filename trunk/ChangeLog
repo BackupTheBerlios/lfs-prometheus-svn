@@ -1,5 +1,7 @@
 2005-12-17 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
+	* profiles/libprometheus.bash.in: Fixed positinal parameters in
+	  privilege handling functions.
 	* profiles/libprometheus.bash.in: `get_compression_suffix' is called
 	  `get_suffix' nowadays.
 	* profiles/lfs-6.1/expect: Added a missing quote.

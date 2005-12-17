@@ -84,14 +84,14 @@ trap terminated HUP INT QUIT
 function get_privileges {
         if [[ "$install_as_root" == yes ]] && (( $(id -u) != 0 )); then
                 echo "Only root can do this."
-                exec su -c "'$0' $@"
+                exec su -c "'$0' $*"
         fi
 }
 
 # Usage: drop_privileges <parameter list>
 # Rerun as user prometheus.
 function drop_privileges {
-        (( $(id -u) == 0 )) && exec su - prometheus -c "'$0' $@"
+        (( $(id -u) == 0 )) && exec su - prometheus -c "'$0' $*"
 }
 
 # ----------------------------- PIPELINE SUPPORT ----------------------------- #
