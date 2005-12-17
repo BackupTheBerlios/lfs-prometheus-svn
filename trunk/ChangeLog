@@ -1,3 +1,7 @@
+2005-12-17 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* scripts/pkginfo.in: Fixed a bug in the `query_all' function.
+
 2005-12-16 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* etc/prometheus.conf.in: Removed unused config variables.

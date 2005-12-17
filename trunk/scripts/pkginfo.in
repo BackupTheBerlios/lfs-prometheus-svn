@@ -120,9 +120,10 @@ function query_installed {
 # in their profile
 function query_all {
 
-	{ grep -L "^[ 	]*log_install=no" ~prometheus/profiles/* 2> /dev/null;
-	  ls ~/prometheus/installed/profiles/* } | sort -u | \
-	  xargs $0 ${verbose:+--verbose}
+	{
+		grep -L "^[ 	]*log_install=no" ~prometheus/profiles/* 2> /dev/null
+		ls ~/prometheus/installed/profiles/* 2> /dev/null
+	} | sed 's@.*/@@' | sort -u | xargs $0 ${verbose:+--verbose}
 }
 
 
