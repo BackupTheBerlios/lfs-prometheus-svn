@@ -498,8 +498,8 @@ function set_directory {
 	fi
 
 	# Set package's build directory.  ${archive_dirs[0]} overrides
-	# $builddir if set to a non-null value.
-	package_builddir="${archive_dirs[0]:-~prometheus/build}/$package"
+	# the default ~/prometheus/build if set to a non-null value.
+	package_builddir="${archive_dirs[0]:-~prometheus/build}"
 
 	# Make $directory absolute.
 	directory="$package_builddir/$directory"

@@ -1,8 +1,11 @@
 2005-12-17 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
+	* etc/REFERENCE.pkg: Corrected mention of default build dir.
+	* profiles/libprometheus.bash.in: Fixed setting `package_builddir'
+	  to a wrong value.
 	* profiles/libprometheus.bash.in: Fixed a call to `get_deps' with a
 	  missing "mode" parameter.
-	* profiles/libprometheus.bash.in: Fixed positinal parameters in
+	* profiles/libprometheus.bash.in: Fixed positional parameters in
 	  privilege handling functions.
 	* profiles/libprometheus.bash.in: `get_compression_suffix' is called
 	  `get_suffix' nowadays.

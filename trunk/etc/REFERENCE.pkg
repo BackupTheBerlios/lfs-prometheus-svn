@@ -72,13 +72,12 @@ patches=(
 directory="package123"
 
 # The directories to unpack the archives in.  If this array is omitted, or an
-# element is null, the default is $builddir from prometheus.conf.  `@d' is
-# analogous to $directory with a full path specification, but works even if
-# $directory is not explicitly defined.  Use `:' to prevent an archive (& any
-# following it in the array) being unpacked automatically.  Note that as a
-# special case, the first element must either be null, or the absolute path of a
-# directory that overrides $builddir.  `@d' is not expanded in the first
-# element.
+# element is null, the default is ~prometheus/build.  `@d' is analogous to
+# $directory with a full path specification, but works even if $directory is
+# not explicitly defined.  Use `:' to prevent an archive (& any following it in
+# the array) being unpacked automatically.  Note that as a special case, the
+# first element must either be null, or the absolute path of a directory that
+# overrides $builddir.  `@d' is not expanded in the first element.
 archive_dirs=(
 	""
 	"@d/addons"
