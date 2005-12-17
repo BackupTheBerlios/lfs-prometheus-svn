@@ -1,5 +1,6 @@
 2005-12-17 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
+	* profiles/libprometheus.bash.in: Fixed calls to `usage_error'.
 	* etc/REFERENCE.pkg: Corrected mention of default build dir.
 	* profiles/libprometheus.bash.in: Fixed setting `package_builddir'
 	  to a wrong value.

@@ -343,7 +343,7 @@ function source_config {
 # fallback: Try "inst" first if available, fall back to "pool" otherwise.
 function source_profile {
 	if (( $# != 2 )) || [[ -z "$1" || -z "$2" ]]; then
-		usage_error "source_profile" "<mode>" "<package>" "$*"
+		usage_error "source_profile" "<mode> <package>" "$*"
 	fi
 
 	package="$2"
@@ -355,7 +355,7 @@ function source_profile {
 			[[ -f ~prometheus/installed/profiles/"${pacakge}" ]] &&
 			profile=~prometheus/installed/profiles/"${package}" ||
 			profile=~prometheus/profiles/"${package}" ;;
-		(*)	usage_error "source_profile" "<mode>" "<package>" "$*" ;;
+		(*)	usage_error "source_profile" "<mode> <package>" "$*" ;;
 	esac
 
 	source_file "$profile" "\`$package' package profile"
@@ -375,7 +375,7 @@ function source_profile {
 # fallback: Try "inst" first if available, fall back to "pool" otherwise.
 function get_profile_array {
 	if (( $# != 3 )) || [[ -z "$1" || -z "$2" || -z "$3" ]]; then
-		usage_error "get_profile_array" "<mode>" "<array> <package>" "$*"
+		usage_error "get_profile_array" "<mode> <array> <package>" "$*"
 	fi
 
 	(
@@ -592,7 +592,7 @@ function remove_dupes {
 # fallback: Try "inst" first if available, fall back to "pool" otherwise.
 function get_deps {
 	if (( $# <= 1 )) || [[ -z "$1" || -z "$2" ]]; then
-		usage_error "get_deps" "<mode>" "<package_list>"
+		usage_error "get_deps" "<mode> <package_list>" "$*"
 	fi
 
 	local -a deps
@@ -623,7 +623,7 @@ function get_deps {
 # fallback: Try "inst" first if available, fall back to "pool" otherwise.
 function get_dependencies {
 	if (( $# <= 1 )) || [[ -z "$1" || -z "$2" ]]; then
-		usage_error "get_dependencies" "<mode>" "<package_list>"
+		usage_error "get_dependencies" "<mode> <package_list>" "$*"
 	fi
 
 	unset dependencies
