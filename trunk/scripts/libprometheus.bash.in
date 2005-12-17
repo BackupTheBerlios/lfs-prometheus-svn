@@ -694,7 +694,7 @@ function unpack {
 		usage_error "unpack" "<archive>" "$*"
 	fi
 
-	case "$(get_compression_suffix "$1")" in
+	case "$(get_suffix "$1")" in
 		(.tar)					tar xf "$1" ;;
 		(.tar.gz|.tar.z|.tar.Z|.tgz|.taz)	tar xzf "$1" ;;
 		(.tar.bz2|.tbz*)			tar xjf "$1" ;;
@@ -710,7 +710,7 @@ function cat_file {
 		usage_error "cat_file" "<file>" "$*"
 	fi
 
-	case "$(get_compression_suffix "$1")" in
+	case "$(get_suffix "$1")" in
 		(*bz*)	bzcat "$1" ;;
 		(*z|*Z) zcat "$1" ;;
 		(*)	cat "$1"
