@@ -18,6 +18,7 @@ pkglist=(
 	iana-etc
 	m4
 	ncurses
+	procps
 	perl
 	readline
 	sed
@@ -53,7 +54,6 @@ pkglist=(
 	net-tools
 	patch
 #	procinfo
-	procps
 	prometheus
 	psmisc
 	shadow
@@ -75,12 +75,12 @@ function install_pkg {
 	# Sanity checks.
 	(( $(id -u) != 0 )) && error "${package}: stage 2 must be built as root"
 
-	touch /var/log/install-logs/.timestamp
+	touch /tmp/.timestamp
 
 	cat > /etc/install-log.rc <<-"EOF"
 		INCLUDE=/bin:/sbin:/lib:/usr:/opt
 		EXCLUDE=/lib/modules:/usr/src:/usr/local/src:/usr/etc:/usr/share/info/dir:/usr/share/man/whatis
-		LOGDIR=/var/log/install-logs
+		LOGDIR=/tmp
 	EOF
 
 	mount -t proc proc $lfs/proc
