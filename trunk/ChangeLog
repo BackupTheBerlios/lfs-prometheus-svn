@@ -1,5 +1,6 @@
 2005-12-17 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
+	* profiles/lfs-6.1/expect: Added a missing quote.
 	* scripts/pkginfo.in: Fixed a bug in the `query_all' function.
 
 2005-12-16 Oliver Brakmann <oliverbrakmann@users.berlios.de>

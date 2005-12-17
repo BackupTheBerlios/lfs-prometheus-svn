@@ -14,7 +14,7 @@ directory=expect
 
 function stage1_build_pkg {
 	./configure --prefix=/tools --with-x=no --with-tcl=/tools/lib \
-		--with-tclinclude="${builddir}/tcl*
+		--with-tclinclude="${builddir}/tcl*"
 	make
 }
 

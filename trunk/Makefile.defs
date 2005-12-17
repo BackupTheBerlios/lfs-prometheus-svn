@@ -1,3 +1,7 @@
+# Prometheus version & release date.
+VERSION = 0.2-20051217
+RELEASE = 2005-12-17
+
 # Which profile set to install (see contents of the profiles directory).
 PROFILES = lfs-6.1
 
@@ -22,10 +26,6 @@ SBINPROGS = pkgadd pkgrm
 LIBPROGS = compact pkgbuild pkgcheck pkginstall pkgunpack
 PROGS = $(BINPROGS) $(SBINPROGS) $(LIBPROGS)
 LIB = libprometheus.bash
-
-# Prometheus version & release date.
-VERSION = 0.2-20051127
-RELEASE = 2005-11-27
 
 # Configuration files.
 CONFIG = prometheus.conf
