@@ -608,7 +608,7 @@ function get_deps {
 
 		# Echo each dependency preceded by its own dependencies.
 		for dep in "${deps[@]}"; do
-			get_deps "$dep"
+			get_deps "$mode" "$dep"
 			echo "$dep"
 		done
 	done
