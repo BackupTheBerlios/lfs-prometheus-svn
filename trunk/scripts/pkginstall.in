@@ -122,12 +122,12 @@ function init_install {
 function finish_install {
 
 	# Run install-log & clean up.
-	if [[ "$log_install" == yes ]];
+	if [[ "$log_install" == yes ]]; then
 		install -m644 -o prometheus -g prometheus "$profile" \
 			~prometheus/installed/profiles/
 
 		if install-log --force "$package"; then
-			rm ~prometheus/installed/indices/"$package"
+			rm -f ~prometheus/installed/indices/"$package" 2> /dev/null
 			install -m644 -o prometheus -g prometheus /dev/null \
 				~prometheus/installed/indices/"$package"
 

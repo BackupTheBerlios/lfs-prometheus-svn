@@ -352,7 +352,7 @@ function source_profile {
 		(pool)	profile=~prometheus/profiles/"${package}" ;;
 		(inst)	profile=~prometheus/installed/profiles/"${package}" ;;
 		(fallback)
-			[[ -f ~prometheus/installed/profiles/"${pacakge}" ]] &&
+			[[ -f ~prometheus/installed/profiles/"${package}" ]] &&
 			profile=~prometheus/installed/profiles/"${package}" ||
 			profile=~prometheus/profiles/"${package}" ;;
 		(*)	usage_error "source_profile" "<mode> <package>" "$*" ;;
@@ -380,7 +380,7 @@ function get_profile_array {
 
 	(
 		source_profile "$1" "$3"
-		eval "echo_array \"\${$2[@]}\""
+		is_set "$2" && eval "echo_array \"\${$2[@]}\""
 	)
 }
 
@@ -608,8 +608,11 @@ function get_deps {
 
 		# Echo each dependency preceded by its own dependencies.
 		for dep in "${deps[@]}"; do
-			get_deps "$mode" "$dep"
-			echo "$dep"
+			# get_profile_array may sometimes return empty values.
+			if [[ -n "$dep" ]]; then
+				get_deps "$mode" "$dep"
+				echo "$dep"
+			fi
 		done
 	done
 }

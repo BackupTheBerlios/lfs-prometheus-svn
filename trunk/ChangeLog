@@ -1,3 +1,10 @@
+2005-12-18 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/prometheus: Fixed a syntax error.
+	* scripts/pkgadd.in, scripts/pkginstall.in, scripts/pkginfo.in,
+	  scripts/libprometheus.bash.in: Fixed a lot of bugs, syntax errors
+	  and oversights.
+
 2005-12-17 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/libprometheus.bash.in: Fixed calls to `usage_error'.

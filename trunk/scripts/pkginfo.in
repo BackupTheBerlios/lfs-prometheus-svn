@@ -111,7 +111,7 @@ function query_package {
 # Run query_package on every installed package
 function query_installed {
 	ls -rt ~prometheus/installed/profiles/* 2> /dev/null | \
-	xargs -r $0 ${verbose:+--verbose}
+	sed | 's@.*/@@' | xargs -r $0 ${verbose:+--verbose}
 }
 
 
@@ -132,10 +132,10 @@ function query_all {
 function print_deps {
 	[[ "$action" == "dependencies" ]] &&
 		get_dependencies fallback "$arg" ||
-		get_dependencies pool
+		get_dependencies pool "$arg"
 
 	local i
-	for (( i=0; i < ${#dependencies[0]}; i++ )); do
+	for (( i=0; i < ${#dependencies[@]}; i++ )); do
 		echo ${dependencies[$i]}
 		# FIXME: Do we need verbose output?
 	done
