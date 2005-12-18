@@ -2,7 +2,7 @@ name="prometheus"
 version="0.2"
 homepage="http://lfs-prometheus.berlios.de"
 
-dep=install-log
+dep=( install-log )
 
 archives=(
 	"prometheus-${version}.tar.bz2"

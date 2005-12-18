@@ -7,7 +7,7 @@ archives=(
 
 function build_pkg {
 	touch modprobe.conf.5
-	./configure --prefix="" --enable-zlib
+	./configure --prefix=/ --enable-zlib
 	make
 }
 
