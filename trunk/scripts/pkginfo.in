@@ -111,7 +111,7 @@ function query_package {
 # Run query_package on every installed package
 function query_installed {
 	ls -rt ~prometheus/installed/profiles/* 2> /dev/null | \
-	sed | 's@.*/@@' | xargs -r $0 ${verbose:+--verbose}
+	sed 's@.*/@@' | xargs -r $0 ${verbose:+--verbose}
 }
 
 
