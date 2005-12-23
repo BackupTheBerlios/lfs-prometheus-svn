@@ -1,5 +1,6 @@
 2005-12-23 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
+	* scripts/pkgadd.in: Fixed saying one thing and doing another. D'oh!
 	* scripts/pkgunpack.in, scripts/pkginstall.in: Moved `init_install'
 	  function from pkginstall to pkgunpack.
 
