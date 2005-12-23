@@ -1,5 +1,6 @@
 2005-12-23 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
+	* profiles/lfs-6.1/install-log: Resurrected install-log.
 	* scripts/pkgrm.in, scripts/pkginfo.in, scripts/pkginstall.in:
 	  Fixed various bugs.
 	* scripts/pkgadd.in: Fixed saying one thing and doing another. D'oh!
