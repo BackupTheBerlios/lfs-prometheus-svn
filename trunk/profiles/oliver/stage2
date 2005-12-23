@@ -30,7 +30,7 @@ pkglist=(
 	bzip2
 	diffutils
 	e2fsprogs
-#	ed
+	ed
 	file
 	findutils
 	flex
@@ -53,7 +53,7 @@ pkglist=(
 	module-init-tools
 	net-tools
 	patch
-#	procinfo
+	procinfo
 	prometheus
 	psmisc
 	shadow
@@ -75,16 +75,8 @@ function install_pkg {
 	# Sanity checks.
 	(( $(id -u) != 0 )) && error "${package}: stage 2 must be built as root"
 
-	touch /tmp/.timestamp
-
-	cat > /etc/install-log.rc <<-"EOF"
-		INCLUDE=/bin:/sbin:/lib:/usr:/opt
-		EXCLUDE=/lib/modules:/usr/src:/usr/local/src:/usr/etc:/usr/share/info/dir:/usr/share/man/whatis
-		LOGDIR=/tmp
-	EOF
-
-	mount -t proc proc $lfs/proc
-	mount -t sysfs sysfs $lfs/sys
+	mount -t proc proc /proc
+	mount -t sysfs sysfs /sys
 
 	chown -R 0:0 /
 

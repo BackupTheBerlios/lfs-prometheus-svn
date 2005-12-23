@@ -10,10 +10,9 @@ function install_pkg {
 	[[ -z "$lfs" ]] && error "${package}: lfs not set"
 
 	install -d ${lfs}/{bin,boot,dev,etc/opt,home,lib,mnt,proc}
-	install -d ${lfs}/{sbin,srv,sys,usr/local,var,opt}
+	install -d ${lfs}/{sbin,sys,usr/local,var}
 	install -d ${lfs}/root -m 0750
 	install -d ${lfs}/tmp /var/tmp -m 1777
-	install -d ${lfs}/media/{floppy,cdrom}
 	install -d ${lfs}/usr/{bin,include,lib,sbin,share,src}
 	ln -s share/{man,doc,info} ${lfs}/usr
 	install -d ${lfs}/usr/share/{doc,info,locale,man}
@@ -26,8 +25,7 @@ function install_pkg {
 	install -d ${lfs}/usr/local/share/man/man{1,2,3,4,5,6,7,8}
 	install -d ${lfs}/var/{lock,log,mail,run,spool}
 	install -d ${lfs}/var/{opt,cache,lib/{misc,locate},local}
-	install -d ${lfs}/opt/{bin,doc,include,info}
-	install -d ${lfs}/opt/{lib,man/man{1,2,3,4,5,6,7,8}}
+	ln -s usr/local ${lfs}/opt
 
 	mknod -m 600 ${lfs}/dev/console c 5 1
 	mknod -m 666 ${lfs}/dev/null c 1 3
