@@ -95,6 +95,25 @@ function apply_patches {
 	done
 }
 
+# Usage: init_install
+# Prepare install_log if necessary.
+function init_install {
+	if [[ "$log_install" == yes ]]; then
+		if [[ -e "$timestamp" ]]; then
+
+			# install-log timestamp doubles as a lock so only one
+			# installation may occur at once.  Otherwise install-log
+			# will confuse installed files between packages.
+			warning "install-log appears to already be in use"
+			error "if not, delete \`$timestamp' and try again"
+		else
+
+			# Create timestamp.
+			touch "$timestamp"
+		fi
+	fi
+}
+
 # --------------------------- START EXECUTION HERE --------------------------- #
 
 drop_privileges $@
@@ -146,6 +165,8 @@ fi
 
 # There is only one package to unpack.  Do so in this instance.
 open_package "${package_list[0]}"
+
+init_install
 
 unpack_archives &&
 apply_patches

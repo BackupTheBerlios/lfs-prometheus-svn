@@ -98,25 +98,6 @@ function remove_installed {
 	esac
 }
 
-# Usage: init_install
-# Prepare install_log if necessary.
-function init_install {
-	if [[ "$log_install" == yes ]]; then
-		if [[ -e "$timestamp" ]]; then
-
-			# install-log timestamp doubles as a lock so only one
-			# installation may occur at once.  Otherwise install-log
-			# will confuse installed files between packages.
-			warning "install-log appears to already be in use"
-			error "if not, delete \`$timestamp' and try again"
-		else
-
-			# Create timestamp.
-			touch --reference="$directory" "$timestamp"
-		fi
-	fi
-}
-
 # Usage: finish_install
 # Run install-log, collect meta data and update info and man-page db's.
 function finish_install {
@@ -138,7 +119,7 @@ function finish_install {
 				stat "$f" | \
 				sed -n 's@.*(\(.*\)/.*( *\(.*\)/.*( *\(.*\)/.*$@\1       \2      \3     @p' | \
 				sed "s@\$@$f@"
-			done < "${logdir}/${package}" >> ~/prometheus/installed/indices/"$package"
+			done < "${logdir}/${package}" >> ~prometheus/installed/indices/"$package"
 
 			rm "${logdir}/${package}"
 		else
@@ -244,7 +225,6 @@ if is_func install_pkg; then
 	# existing installation of $package & initialize install-log.
 	get_privileges $@
 	remove_installed
-	init_install
 
 	# Run the install commands from the package's profile. finish_install
 	# must be run even if we fail, so capture the return value for later.
