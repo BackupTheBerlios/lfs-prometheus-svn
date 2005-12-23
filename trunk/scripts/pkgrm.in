@@ -189,7 +189,7 @@ source_profile inst "$pkg"
 
 # Test whether the package is actually installed.
 # This also tests whether the logfile is readable, btw.
-if pkginfo "$pkg" | grep --invert-match "not installed"; then
+if pkginfo "$pkg" | grep --invert-match "not installed" > /dev/null; then
 	get_privileges $@
 
 	name="${name:-$pkg}"
@@ -203,7 +203,7 @@ if pkginfo "$pkg" | grep --invert-match "not installed"; then
 		echo -n "Do you really want to remove ${name}? [y/n] "
 		choice || error "${name} has not been removed"
 
-		if [[ -n "$backup" ]]; then
+		if [[ -z "$backup" ]]; then
 			echo -n "Do you want to create a backup prior to \
 removing ${name}? [y/n] "
 			choice && backup=backup || unset backup

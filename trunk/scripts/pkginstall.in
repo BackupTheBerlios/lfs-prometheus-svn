@@ -115,9 +115,9 @@ function finish_install {
 			# Convert the install-log log file to the reroot format.
 			local f
 			while read f; do
-				echo -n "created        false   "
+				echo -n "created	false	"
 				stat "$f" | \
-				sed -n 's@.*(\(.*\)/.*( *\(.*\)/.*( *\(.*\)/.*$@\1       \2      \3     @p' | \
+				sed -n 's@.*(\(.*\)/.*( *\(.*\)/.*( *\(.*\)/.*$@\1	\2	\3	@p' | \
 				sed "s@\$@$f@"
 			done < "${logdir}/${package}" >> ~prometheus/installed/indices/"$package"
 

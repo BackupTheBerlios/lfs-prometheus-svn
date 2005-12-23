@@ -78,7 +78,7 @@ function query_package {
 		size=0
 
 		size=$(cut -f6 ~prometheus/installed/indices/"${arg}" | \
-		xargs -r du -bc | tail -1 | cut -f1 -d\ )
+		xargs -r du -bc | tail -1 | cut -f1)
 
 		size=$(( $size / 1024 ))
 	fi
@@ -305,7 +305,7 @@ fi
 
 if [[ "$action" != "query-installed" && "$action" != "query-all" ]]; then
 	arg="$1"
-	[[ x != x"$arg" ]] || script_usage_error "missing argument"
+	[[ x != x"$arg" ]] || script_usage_err "missing argument"
 fi
 
 source_config
