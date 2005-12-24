@@ -74,7 +74,7 @@ function create_dep_list {
 	local p
 	unset dep_list
 
-	for p in $(pkginfo --installed 2> /dev/null | cut -f1 -d\ ); do
+	for p in $(pkginfo --query-installed 2> /dev/null | cut -f1 -d\ ); do
 		if pkginfo --dependencies "$p" 2> /dev/null |
 			grep "$pkg" > /dev/null; then
 			dep_list="${dep_list}\n$p"
@@ -89,7 +89,7 @@ function create_dep_list {
 # and remove all empty ones.
 function remove_empty_tree {
 
-	(( $(wc -c ~prometheus/installed/indices/"$pkg" | cut -f1 -d\ ) > 0 )) ||
+	(( $(wc -c ~prometheus/installed/indices/"$pkg" | awk '{ print $1};') > 0 )) ||
 		return 1
 
 	local dir

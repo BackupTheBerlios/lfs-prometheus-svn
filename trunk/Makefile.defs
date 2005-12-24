@@ -1,6 +1,6 @@
 # Prometheus version & release date.
-VERSION = 0.2-20051217
-RELEASE = 2005-12-17
+VERSION = 0.2-20051224
+RELEASE = 2005-12-24
 
 # Which profile set to install (see contents of the profiles directory).
 PROFILES = lfs-6.1
