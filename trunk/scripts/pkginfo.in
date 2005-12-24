@@ -204,7 +204,7 @@ function find_owner {
 	local pkg
 
 	grep -l "$arg" ~prometheus/installed/indices/* 2> /dev/null | \
-	cut -f6 | while read pkg
+	sed 's@.*/@@' | while read pkg
 	do
 		#(( "x$verbose" == xverbose )) &&
 		#	{ arg="$pkg"; query_package; } ||
