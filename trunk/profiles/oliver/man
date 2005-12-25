@@ -2,7 +2,7 @@ name="man"
 version="1.6b"
 
 archives=(
-	"ftp://ftp.de.kernel.org/pub/linux/utils/man/man-${version}.tar.bz2"
+	"http://primates.ximian.com/~flucifredi/man/man-${version}.tar.gz"
 )
 
 function build_pkg {

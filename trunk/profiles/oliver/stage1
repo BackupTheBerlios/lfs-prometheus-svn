@@ -26,7 +26,6 @@ pkglist=(
 	grep
 	gzip
 	install-log
-	m4
 	make
 	patch
 	perl
@@ -46,15 +45,15 @@ function install_pkg {
 	(( $(id -u) == 0 )) &&
 	error "${package}: stage 1 should not be built as root"
 
-	[[ -z "$lfs" ]] && error "$package: lfs not set"
+	[[ -z "$lfs" ]] && error "${package}: lfs not set"
 
 	export PATH="/tools/bin:$PATH"
 
 	# Install packages in pkglist.
 	local pkg
 	for pkg in "${pkglist[@]}"; do
-		lfs="$lfs" stage=1 \
-		%PKGADD% --config "$pkgconfig" "$pkg" ||
+		lfs="$lfs" \
+		%PKGADD% --config "$config" --stage=1 "$pkg" ||
 		error "${package}: could not install $pkg"
 	done
 }

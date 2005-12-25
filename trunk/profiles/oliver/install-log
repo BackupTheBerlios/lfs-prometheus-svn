@@ -12,7 +12,7 @@ function build_pkg {
 
 function stage1_install_pkg {
 	cp install-log /tools/bin
-	cat > ${lfs}/etc/install-log.rc <<-EOF
+	cat > /tools/etc/install-log.rc <<-EOF
 		INCLUDE=/bin:/sbin:/lib:/usr
 		EXCLUDE=/lib/modules:/usr/src:/usr/local/src:/usr/local/etc:/usr/share/info/dir:/usr/share/man/whatis
 		LOGDIR=/var/lib/prometheus/installed

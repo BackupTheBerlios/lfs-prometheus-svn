@@ -7,7 +7,7 @@ archives=(
 )
 
 patches=(
-	"http://www.lfs-matrix.de/patches/downloads/expect/expect-${version}-spawn-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/expect/expect-${version}-spawn-1.patch"
 )
 
 directory=expect

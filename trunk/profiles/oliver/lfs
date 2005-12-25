@@ -2,7 +2,7 @@
 
 name="Linux From Scratch"
 version="6.1"
-homepage="http://linuxfromscratch.org/view/testing/"
+homepage="http://linuxfromscratch.org/view/${version}/"
 log_install=no
 
 # LFS specific configuration.
@@ -11,13 +11,10 @@ mount_lfs=yes		# Ensure $lfs is mounted.
 lfs_device="/dev/hda1"	# This must already exist & contain a filesystem.
 lfs_user="lfs"		# User to build stage 1 as.
 lfs_grp="lfs"		# Group the $lfs_user belongs to.
-bind_src=no		# Bind $srcdir to $lfs$srcdir.
-enable_devfs=yes	# Want devfs & host kernel supports it.
 lfs_builddir=/tools/build
 			# Temporary location for the source trees to be built.
 			# This _must_ be the same for stage0/1 and the chroot'ed
 			# stage2 (ie. place it somewhere below /tools)!
-lfs_srcdir=/tools/src	# Location for the source files for the LFS build.
 
 
 function install_pkg {
@@ -27,7 +24,7 @@ function install_pkg {
 	lv=${lv%%-*}
 
 	if [[ "${lv%.*}" == "2.6" ]]; then
-		(( "${lv##*.} -lt 2 )) &&
+		(( "${lv##*.}" -lt 2 )) &&
 		error "$package: Minimum required kernel version to build LFS is 2.6.2."
 	else
 		error "$package: Minimum required kernel version to build LFS is 2.6.2."
@@ -63,11 +60,11 @@ function install_pkg {
 	echo "Preparing stage 0..."
 
 	# Add an lfs user and group if necessary.
-	if ! getent group ${lfs_grp} > /dev/null 2>&1; then
+	if ! getent group ${lfs_grp} >/dev/null 2>&1; then
 		groupadd lfs ||
 		error "${package}: could not add group: $lfs_grp"
 	fi
-	if ! getent passwd ${lfs_user} > /dev/null 2>&1; then
+	if ! getent passwd ${lfs_user} >/dev/null 2>&1; then
 		useradd -s /bin/bash -m -k /dev/null -g lfs "$lfs_user" ||
 		error "${package}: could not add user: $lfs_user"
 	fi
@@ -81,30 +78,38 @@ function install_pkg {
 	ln -sf "${lfs}/tools" / ||
 	error "${package}: could not create ${lfs}/tools and /tools."
 
-	if [[ ! -d "${lfs}${lfs_builddir}" || ! -d "${lfs}${lfs_srcdir}" ]]; then
+	if [[ ! -d "${lfs}${lfs_builddir}" ]]; then
 		[[ ! -e "${lfs}${lfs_builddir}" ]] || rm -f "${lfs}${lfs_builddir}"
-		[[ ! -e "${lfs}${lfs_srcdir}"   ]] || rm -f "${lfs}${lfs_srcdir}"
-		mkdir -p "${lfs}${lfs_builddir}" "${lfs}${lfs_srcdir}"
+		mkdir -p "${lfs}${lfs_builddir}"
 	fi &&
-	chown -R "$lfs_user" "${lfs}${lfs_builddir}" "${lfs}${lfs_srcdir}" ||
-	error "${package}: could not create ${lfs}${lfs_builddir} and/or ${lfs}${lfs_srcdir}."
+	chown -R "$lfs_user" "${lfs}${lfs_builddir}" ||
+	error "${package}: could not create ${lfs}${lfs_builddir}."
 
 	# Create the root filesystem directory tree.
-	lfs="$lfs" lfs_builddir="${lfs}${lfs_builddir}" stage=0 \
-	pkgadd --config "$pkgconfig" rootfs ||
+	lfs="$lfs" lfs_builddir="$lfs_builddir" \
+	%PKGADD% --config "$config" --stage=0 rootfs ||
 	error "${package}: could not create root filesystem directory tree in $lfs"
 
 	# Build stage 0.
-	lfs="$lfs" stage=0 lfs_builddir="$lfs_builddir" \
-	su "$lfs_user" -c "%PKGADD% --config '$pkgconfig' stage0" ||
+	lfs="$lfs" lfs_builddir="$lfs_builddir" \
+	su "$lfs_user" -c "%PKGADD% --config '$config' --stage=0 stage0" ||
 	error "${package}: could not build stage 0"
 
 	echo "Preparing stage 1..."
 
 	# Build stage 1.
-	lfs="$lfs" stage=1 lfs_builddir="$lfs_builddir" lfs_srcdir="$lfs_srcdir" \
-	su "$lfs_user" -c "%PKGADD% --config '$pkgconfig' stage1" ||
+	lfs="$lfs" lfs_builddir="$lfs_builddir" \
+	su "$lfs_user" -c "%PKGADD% --config '$config' --stage=1 stage1" ||
 	error "${package}: could not build stage 1"
+
+
+	# This is an ugly hack to install Prometheus into /tools and still
+	# create the proper home directory within ${lfs}/var/lib/
+	# (which needs root privs, which we don't have in stage1)
+	lfs_builddir="$lfs_builddir" \
+	%PKGADD% --config '$config' --stage=1 prometheus
+	%PKGADD% --config '$config' --stage=1 users
+	chown -R 15:15 ${lfs}/var/lib/prometheus
 
 	# Remove the /tools symlink.
 	rm /tools
@@ -112,15 +117,12 @@ function install_pkg {
 	echo "Preparing stage 2..."
 
 	# Make sure package source is available in chroot.
-	if [[ "$bind_src" == yes ]]; then
-		mount --bind "$srcdir" "${lfs}${lfs_srcdir}" ||
-		error "${package}: could not bind $srcdir to ${lfs}${lfs_srcdir}"
-	else
-		echo "Copying packages to LFS system..."
-		cp -r "${srcdir}"/* "${lfs}${lfs_srcdir}" ||
-		error "${package}: could not copy packages to LFS system"
-	fi
+	local srcdir=~prometheus/sources
+	mount --bind "$srcdir" "${lfs}${srcdir}" ||
+		error "${package}: could not bind $srcdir to ${lfs}${srcdir}"
 
+	mount -t proc proc ${lfs}/proc
+	mount -t sysfs sysfs ${lfs}/sys
 	mount -f -t ramfs ramfs ${lfs}/dev
 	mount -f -t tmpfs tmpfs ${lfs}/dev/shm
 	mount -f -t devpts -o gid=4,mode=620 devpts ${lfs}/dev/pts
@@ -128,7 +130,7 @@ function install_pkg {
 	# Build stage 2.
 	chroot "$lfs" /tools/bin/env -i HOME=/root TERM="$TERM" \
 		PATH="/usr/bin:/usr/sbin:/bin:/sbin:/tools/bin" \
-		stage=2 pkgadd --config /tools/etc/prometheus.conf stage2 ||
+		%PKGADD% --config /tools/etc/prometheus.conf --stage=2 stage2 ||
 	error "${package}: could not build stage 2"
 
 	find ${lfs}/{,usr/}{bin,lib,sbin} -type f \
@@ -136,10 +138,7 @@ function install_pkg {
 
 	#FIXME: Cleaning up - kernel, bootloader, pwconv, config...
 
-	if [[ "$bind_src" == yes ]]; then
-		mount | grep "${lfs}${lfs_srcdir}" &> /dev/null &&
-		umount "${lfs}${lfs_srcdir}"
-	fi
+	grep "${lfs}${srcdir}" /proc/mounts &> /dev/null && umount "${lfs}${srcdir}"
 	grep "${lfs}/dev/shm" /proc/mounts &> /dev/null && umount "${lfs}/dev/shm"
 	grep "${lfs}/dev/pts" /proc/mounts &> /dev/null && umount "${lfs}/dev/pts"
 	grep "${lfs}/dev"  /proc/mounts &> /dev/null && umount "${lfs}/dev"

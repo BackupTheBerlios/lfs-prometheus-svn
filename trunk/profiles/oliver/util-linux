@@ -2,7 +2,7 @@ name="util-linux"
 version="2.12r"
 
 archives=(
-	"ftp://ftp.de.kernel.org/pub/linux/utils/util-linux/util-linux-${version}.tar.bz2"
+	"http://www.de.kernel.org/pub/linux/utils/util-linux/util-linux-${version}.tar.bz2"
 )
 
 patches=(

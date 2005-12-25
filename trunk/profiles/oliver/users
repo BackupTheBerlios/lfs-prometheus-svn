@@ -5,10 +5,24 @@ name="/etc/group & /etc/passwd"
 
 log_install=no
 
+# Another ugly hack :/
+function stage1_install_pkg {
+	[[ -z "$lfs" ]] && error "${package}: lfs not set"
+
+	cat > ${lfs}/etc/group <<-"EOF"
+		root:x:0:
+		prometheus:x:15:
+	EOF
+
+	cat > ${lfs}/etc/passwd <<-"EOF"
+		root:x:0:0:root:/root:/bin/bash
+		prometheus:x:15:15::/var/lib/prometheus:/bin/false
+	EOF
+
 function install_pkg {
 
 	# /etc/group.
-	cat > /etc/group <<-"EOF" &&
+	cat > /etc/group <<-"EOF"
 		root:x:0:
 		bin:x:1:
 		sys:x:2:
@@ -24,10 +38,14 @@ function install_pkg {
 		video:x:12:
 		utmp:x:13:
 		usb:x:14:
+		prometheus:x:15:
 	EOF
 
 	# /etc/passwd.
-	echo "root:x:0:0:root:/root:/bin/bash" > /etc/passwd
+	cat > ${lfs}/etc/passwd <<-"EOF"
+		root:x:0:0:root:/root:/bin/bash
+		prometheus:x:15:15:Prometheus Package Manager:/var/lib/prometheus:/bin/false
+	EOF
 
 	touch /var/run/utmp /var/log/{btmp,lastlog,wtmp}
 	chgrp utmp /var/run/utmp /var/log/lastlog
