@@ -1,5 +1,8 @@
 2005-12-25 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
+	* Makefile, profiles/Makefile, profiles/lfs-6.1/*,
+	  scripts/libprometheus.bash.in: Made many changes needed for the
+	  LFS build script to work.
 	* Makefile.defs, Makefile, profiles/Makefile: Finished `make install'
 	  target in the Makefile.
 
