@@ -75,17 +75,6 @@ function install_pkg {
 	# Sanity checks.
 	(( $(id -u) != 0 )) && error "${package}: stage 2 must be built as root"
 
-	touch /var/log/install-logs/.timestamp
-
-	cat > /etc/install-log.rc <<-"EOF"
-		INCLUDE=/bin:/sbin:/lib:/usr:/opt
-		EXCLUDE=/lib/modules:/usr/src:/usr/local/src:/usr/etc:/usr/share/info/dir:/usr/share/man/whatis
-		LOGDIR=/var/log/install-logs
-	EOF
-
-	mount -t proc proc $lfs/proc
-	mount -t sysfs sysfs $lfs/sys
-
 	chown -R 0:0 /
 
 	# Critical symlinks
@@ -95,7 +84,8 @@ function install_pkg {
 	ln -s bash /bin/sh
 
 	# Devices
-	mount -n -t ramfs ramfs /dev
+	mount -n -t tmpfs tmpfs /dev
+
 	mknod -m 622 /dev/console c 5 1
 	mknod -m 666 /dev/null c 1 3
 	mknod -m 666 /dev/zero c 1 5
@@ -120,7 +110,7 @@ function install_pkg {
 	# Install packages in pkglist.
 	local pkg
 	for pkg in "${pkglist[@]}"; do
-		stage=2 pkgadd --config "$pkgconfig" "$pkg" ||
+		%PKGADD% --config "$config" --stage=2 "$pkg" ||
 		error "${package}: could not install $pkg"
 	done
 }

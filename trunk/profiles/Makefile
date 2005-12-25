@@ -23,7 +23,7 @@ PROFILE_LIST = $(shell ls $(PROFILES)/*)
 .PHONY: all clean install
 
 all:
-
+	sed -i 's@%PKGADD%@$(SBINDIR)/pkgadd@' $(PROFILE_LIST)
 clean:
 
 install:

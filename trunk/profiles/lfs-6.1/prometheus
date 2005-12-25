@@ -8,17 +8,15 @@ archives=(
 )
 
 function stage1_build_pkg {
-	# Adjust config file for stage2 build.
-	egrep -v "^(build|src)dir=" etc/prometheus.conf.in > template.conf
-        echo -e "\nbuilddir=${lfs_builddir}" >> template.conf
-        echo "srcdir=${lfs_srcdir}" >> template.conf
-	mv template.conf etc/prometheus.conf.in
-
-	make prefix=/tools sbindir='$(bindir)' confdir=/tools/etc
+	make PREFIX=/tools SBINDIR='$(BINDIR)' CONFDIR=/tools/etc \
+		HOMEDIR="${lfs}/var/lib/prometheus" \
+		INSTALL_LOG_RC=/tools/etc/install-log.rc
 }
 
 function stage1_install_pkg {
-	make PREFIX=/tools SBINDIR='$(bindir)' CONFDIR=/tools/etc install
+	make PREFIX=/tools SBINDIR='$(BINDIR)' CONFDIR=/tools/etc \
+		HOMEDIR="${lfs}/var/lib/prometheus" \
+		INSTALL_LOG_RC=/tools/etc/install-log.rc install
 }
 
 function build_pkg {

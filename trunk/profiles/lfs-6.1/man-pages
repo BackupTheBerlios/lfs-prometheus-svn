@@ -2,7 +2,7 @@ name="Manual pages"
 version="2.01"
 
 archives=(
-    "ftp://ftp.de.kernel.org/pub/linux/docs/manpages/man-pages-${version}.tar.bz2"
+    "http://www.de.kernel.org/pub/linux/docs/manpages/man-pages-${version}.tar.bz2"
 )
 
 function install_pkg {

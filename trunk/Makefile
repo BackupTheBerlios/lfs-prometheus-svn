@@ -40,10 +40,16 @@ clean:
 	$(MAKE) -C testsuite clean
 #	$(MAKE) -C x86stepping clean
 
-install: all update
+user:
 	groupadd -f prometheus
 	if ! getent passwd prometheus; then \
 		useradd -d $(HOMEDIR) -g prometheus -s /bin/false prometheus \
+	fi
+
+install: all update
+	if ! (getent group prometheus && getent passwd prometheus); then \
+		echo The prometheus user and/or group is/are missing! \
+		false \
 	fi
 	$(INSTALL_DIR_HOME) $(HOMEDIR)/backup
 	$(INSTALL_DIR_HOME) $(HOMEDIR)/build

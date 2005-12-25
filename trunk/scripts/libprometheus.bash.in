@@ -329,7 +329,7 @@ function source_config {
 	[[ -z "$logdir" ]] &&
 	error "could not extract log directory from \`$install_log_rc'"
 
-	timestamp="$logdir/.timestamp"
+	timestamp="${logdir}/.timestamp"
 }
 
 # ----------------------------- PROFILE HANDLING ----------------------------- #
@@ -497,9 +497,17 @@ function set_directory {
 		directory="${archive%$suffix}"
 	fi
 
+	if is_set lfs_builddir; then
+		# LFS build directory may be different from the host's.
+		builddir="$lfs_builddir"
+	else
+		builddir=~prometheus/build
+	fi
+	export builddir
+
 	# Set package's build directory.  ${archive_dirs[0]} overrides
 	# the default ~/prometheus/build if set to a non-null value.
-	package_builddir="${archive_dirs[0]:-~prometheus/build}"
+	package_builddir="${archive_dirs[0]:-"$builddir"}"
 
 	# Make $directory absolute.
 	directory="$package_builddir/$directory"
@@ -529,10 +537,6 @@ function prepare_build_env {
 	unset LINGUAS LC_ALL
 	is_set linguas && export LINGUAS="$linguas"
 	is_set lc_all && export LC_ALL="$lc_all"
-
-	# LFS build directory may be different from the host's.
-	# FIXME: better way?
-	is_set lfs_builddir && export builddir="$lfs_builddir"
 }
 
 # Usage: open_package <package>

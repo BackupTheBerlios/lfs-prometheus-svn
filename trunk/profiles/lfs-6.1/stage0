@@ -25,8 +25,8 @@ function install_pkg {
 	# Install packages in pkglist.
 	local pkg
 	for pkg in "${pkglist[@]}"; do
-		lfs="$lfs" stage=0 \
-		%PKGADD% --config "$pkgconfig" "$pkg" ||
+		lfs="$lfs" \
+		%PKGADD% --config "$config" --stage=0 "$pkg" ||
 		error "${package}: could not install $pkg"
 	done
 }
