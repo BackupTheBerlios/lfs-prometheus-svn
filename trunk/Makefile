@@ -41,6 +41,16 @@ clean:
 #	$(MAKE) -C x86stepping clean
 
 install: all update
+	groupadd -f prometheus
+	if ! getent passwd prometheus; then \
+		useradd -d $(HOMEDIR) -g prometheus -s /bin/false prometheus \
+	fi
+	$(INSTALL_DIR_HOME) $(HOMEDIR)/backup
+	$(INSTALL_DIR_HOME) $(HOMEDIR)/build
+	$(INSTALL_DIR_HOME) $(HOMEDIR)/installed/indices
+	$(INSTALL_DIR_HOME) $(HOMEDIR)/installed/profiles
+	$(INSTALL_DIR_HOME) $(HOMEDIR)/profiles
+	$(INSTALL_DIR_HOME) $(HOMEDIR)/sources
 	$(MAKE) -C etc install
 	$(MAKE) -C profiles install
 

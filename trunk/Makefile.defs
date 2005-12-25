@@ -1,6 +1,6 @@
 # Prometheus version & release date.
-VERSION = 0.2-20051224
-RELEASE = 2005-12-24
+VERSION = 0.2-20051225
+RELEASE = 2005-12-25
 
 # Which profile set to install (see contents of the profiles directory).
 PROFILES = lfs-6.1
@@ -18,7 +18,11 @@ MANDIR = $(PREFIX)/share/man
 
 # Where to install configuration & profiles.
 CONFDIR = /etc/prometheus
-PROFDIR = $(CONFDIR)/profiles
+HOMEDIR = $(shell echo ~prometheus)
+ifeq ($(HOMEDIR),~prometheus)
+	HOMEDIR=/var/lib/prometheus
+endif
+PROFDIR = $(HOMEDIR)/profiles
 
 # Which programs to install.
 BINPROGS = pkgget pkginfo
@@ -36,9 +40,11 @@ INSTALL_LOG_RC = /etc/install-log.rc
 
 # Install commands.
 INSTALL = install
-INSTALL_DATA = $(INSTALL) -m644
 INSTALL_PROG = $(INSTALL) -m755
+INSTALL_DATA = $(INSTALL) -m644
+INSTALL_DATA_HOME = $(INSTALL) -m664 -g prometheus -o prometheus
 INSTALL_DIR = $(INSTALL) -d -m755
+INSTALL_DIR_HOME = $(INSTALL) -d -m775 -g prometheus -o prometheus
 
 # Suppress output unless error.
 .SILENT:
