@@ -1,12 +1,13 @@
 name="bzip2"
 version="1.0.3"
+homepage="http://www.bzip.org"
 
 archives=(
-	"ftp://sources.redhat.com/pub/bzip2/v102/bzip2-${version}.tar.gz"
+	"http://www.bzip.org/${version}/bzip2-${version}.tar.gz"
 )
 
 patches=(
-	"http://www.linuxfromscratch.org/patches/downloads/bzip2/bzip2-${version}-use_mktemp-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/bzip2/bzip2-1.0.2-use_mktemp-1.patch"
 	"http://www.linuxfromscratch.org/patches/downloads/bzip2/bzip2-${version}-bzgrep_security-1.patch"
 	"http://www.linuxfromscratch.org/patches/downloads/bzip2/bzip2-${version}-install_docs-1.patch"
 )

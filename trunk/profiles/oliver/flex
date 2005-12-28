@@ -2,7 +2,7 @@ name="flex"
 version="2.5.31"
 
 archives=(
-	"http://belnet.dl.sourceforge.net/sourceforge/lex/flex-${version}.tar.bz2"
+	"http://surfnet.dl.sourceforge.net/sourceforge/lex/flex-${version}.tar.bz2"
 )
 
 patches=(

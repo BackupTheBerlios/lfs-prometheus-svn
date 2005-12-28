@@ -3,7 +3,7 @@ version="1.9"
 homepage="http://install-log.sourceforge.net"
 
 archives=(
-	"http://belnet.dl.sourceforge.net/sourceforge/install-log/install-log-${version}.tar.bz2"
+	"http://surfnet.dl.sourceforge.net/sourceforge/install-log/install-log-${version}.tar.bz2"
 )
 
 function build_pkg {

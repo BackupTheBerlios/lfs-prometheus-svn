@@ -3,7 +3,7 @@ version="4.2.27"
 homepage="http://www.gnu.org/software/findutils/"
 
 archives=(
-	"ftp://alpha.gnu.org/gnu/findutils/findutils-${version}.tar.gz"
+	"ftp://ftp.cs.tu-berlin.de/pub/gnu/findutils/findutils-${version}.tar.gz"
 )
 
 function stage1_build_pkg {
