@@ -1,8 +1,9 @@
 name="bzip2"
 version="1.0.3"
+homepage="http://www.bzip.org"
 
 archives=(
-	"ftp://sources.redhat.com/pub/bzip2/v102/bzip2-${version}.tar.gz"
+	"http://www.bzip.org/${version}/bzip2-${version}.tar.gz"
 )
 
 function stage1_install_pkg {

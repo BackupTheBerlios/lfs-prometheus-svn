@@ -2,7 +2,8 @@ name="file"
 version="4.13"
 
 archives=(
-	"ftp://ftp.astron.com/pub/file/file-${version}.tar.gz"
+#	"ftp://ftp.astron.com/pub/file/file-${version}.tar.gz"
+	"ftp://ftp.linuxfromscratch.org/pub/lfs/conglomeration/file/file-${version}.tar.bz2"
 )
 
 function build_pkg {
