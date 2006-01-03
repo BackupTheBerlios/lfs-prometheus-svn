@@ -1,3 +1,8 @@
+2006-01-03 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* scripts/pkginstall.in: Fixed a sed that broke when installing glibc
+	  (because of "@" characters in the file names).
+
 2005-12-28 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/lfs-6.1/*: Fixed all out-of-date download locations.
