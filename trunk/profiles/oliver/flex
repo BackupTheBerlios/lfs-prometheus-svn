@@ -16,6 +16,10 @@ function stage1_build_pkg {
 	make
 }
 
+function stage1_install_pkg {
+	make install
+}
+
 function build_pkg {
 	touch doc/flex.1
 	./configure --prefix=/usr

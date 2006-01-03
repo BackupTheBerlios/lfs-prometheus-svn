@@ -49,6 +49,7 @@ function stage1_build_pkg {
 			       --with-local-prefix=/tools --with-clocale=gnu \
 			       --enable-shared --enable-threads=posix \
 			       --enable-__cxa_atexit --enable-languages=c,c++ \
+			       --with-dynamic-linker=/tools/lib/ld-linux.so.2 \
 			       --disable-libstdcxx-pch
 	make
 }

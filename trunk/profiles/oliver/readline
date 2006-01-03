@@ -6,6 +6,10 @@ archives=(
 	"ftp://ftp.cs.tu-berlin.de/pub/gnu/readline/readline-${version}.tar.gz"
 )
 
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/readline/readline-${version}-fixes-1.patch"
+)
+
 function build_pkg {
 	./configure --prefix=/usr --libdir=/lib
 	make SHLIB_LIBS=-lncurses
