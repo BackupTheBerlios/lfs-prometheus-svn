@@ -1,5 +1,7 @@
 2006-01-03 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
+	* All files with copyright notices: Updated years to include 2006.
+
 	* scripts/pkginstall.in: Fixed a sed that broke when installing glibc
 	  (because of "@" characters in the file names).
 

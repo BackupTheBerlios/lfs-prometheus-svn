@@ -1,5 +1,5 @@
 // string_tok
-// Copyright (C) 2003-2005 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
+// Copyright (C) 2003-2006 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
 // Gareth Jones <gareth_jones@users.berlios.de>
 //
 // This program is free software; you can redistribute it and/or modify it under
