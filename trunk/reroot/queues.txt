@@ -1,0 +1,29 @@
+rerootd
+	In
+		Create
+			Create | Exclusive
+			Read only
+		Destroy
+			Close
+			Unlink
+	Out
+		Create
+			Open
+			Write only
+			Unlink
+		Destroy
+			Close
+reroot.so
+	In
+		Create
+			Create | Exclusive
+			Read only
+		Destroy
+			Close
+			Unlink?  Should already be unlinked by rerootd.
+	Out
+		Create
+			Open
+			Write only
+		Destroy
+			Close

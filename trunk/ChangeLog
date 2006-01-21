@@ -2,6 +2,11 @@
 
 	* reroot/ => oldreroot: Renamed to make room for new reroot.
 
+	* reroot/libreroot: Added reroot IPC library.
+	* reroot/reroot: Reseved for reroot.so, currently empty.
+	* reroot/rerootctl: Added reroot daemon control program.
+	* reroot/rerootd: Added simplified reroot daemon.
+
 2006-01-03 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* All files with copyright notices: Updated years to include 2006.
