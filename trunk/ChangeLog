@@ -1,3 +1,7 @@
+2006-01-21 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/ => oldreroot: Renamed to make room for new reroot.
+
 2006-01-03 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* All files with copyright notices: Updated years to include 2006.
