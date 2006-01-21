@@ -3,7 +3,7 @@
 	* reroot/ => oldreroot: Renamed to make room for new reroot.
 
 	* reroot/libreroot: Added reroot IPC library.
-	* reroot/reroot: Reseved for reroot.so, currently empty.
+	* reroot/reroot: Reserved for reroot.so, currently empty.
 	* reroot/rerootctl: Added reroot daemon control program.
 	* reroot/rerootd: Added simplified reroot daemon.
 
