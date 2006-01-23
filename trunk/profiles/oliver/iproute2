@@ -1,5 +1,5 @@
 name=iproute2
-version="051007"
+version="2.6.15-060110"
 homepage="http://developer.osdl.org/dev/iproute2/"
 
 archives=(

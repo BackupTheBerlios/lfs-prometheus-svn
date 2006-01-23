@@ -1,5 +1,5 @@
 name="Linux Kernel"
-version="2.6.15"
+version="2.6.15.1"
 homepage="http://kernel.org"
 
 archives=(

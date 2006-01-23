@@ -13,6 +13,7 @@ function stage1_build_pkg {
 
 function build_pkg {
 	./configure --prefix=/usr --disable-nls
+#	echo '#define YYENABLE_NLS 1' >> config.h
 	make
 }
 
