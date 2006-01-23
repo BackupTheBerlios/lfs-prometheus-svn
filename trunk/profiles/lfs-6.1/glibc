@@ -70,7 +70,7 @@ function build_pkg {
 	cd "${builddir}/glibc-build"
 
 	"${directory}"/configure --prefix=/usr --enable-add-ons \
-				 --disable-profile --enable-kernel=2.6.0
+				 --disable-profile --enable-kernel=2.6.0 \
 				 --libexecdir=/usr/lib/glibc
 	make
 	make -C "${directory}/linuxthreads/man"

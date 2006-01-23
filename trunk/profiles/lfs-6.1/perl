@@ -4,7 +4,7 @@ version="5.8.6"
 homepage="http://www.perl.org/"
 
 archives=(
-	"http://www.perl.com/CPAN/src/5.0/perl-${version}.tar.gz"
+	"http://www.perl.com/CPAN/src/5.0/perl-${version}.tar.bz2"
 )
 
 stage1_patches=(

@@ -1,3 +1,8 @@
+2006-01-23 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/glibc, profiles/lfs-6.1/flex, profiles/lfs-6.1/perl:
+	  Fixed profile errors.
+
 2006-01-21 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/ => oldreroot: Renamed to make room for new reroot.
