@@ -62,7 +62,7 @@ void Message::describe (ostream &os) const
 {
 	os << endl
 	   << "== Message Details ==" << endl
-	   << "Sender = " << get_sender () << endl
+	   << "Sender PID = " << get_sender () << endl
 	   << "Type = " << get_type () << endl
 	   << "Text = " << get_text () << endl;
 }

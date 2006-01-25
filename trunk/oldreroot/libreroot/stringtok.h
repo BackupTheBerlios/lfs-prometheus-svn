@@ -27,7 +27,8 @@ namespace reroot
 }
 
 // A wrapper for the GNU C strtok_r function.  Usage is deliberately similar
-// to std::istringstream.  FIXME: Can we use istringstream instead?
+// to std::istringstream.  FIXME: Can we use istringstream instead? Yes with
+// getline(stream, string, delim)
 class reroot::string_tok
 {
 	public:

@@ -108,6 +108,7 @@ namespace
 		switch (key)
 		{
 		case 'i':	// --save-index FILE.
+			// FIXME: Canonicalize filename.
 			args.append_action (Message (Message::save_index, arg));
 			break;
 
