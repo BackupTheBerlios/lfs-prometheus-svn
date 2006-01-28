@@ -37,20 +37,20 @@ namespace
 
 // Message c'tor.
 Message::Message (Type const t, string const &txt):
-	type (t),
-	text (txt),
+	message_type (t),
+	message_text (txt),
 	buffer (0),
-	sender (0),
+	sender_pid (0),
 	id (0)
 {
 }
 
 // Message copy c'tor.
 Message::Message (Message const &message):
-	type (message.type),
-	text (message.text),
+	message_type (message.message_type),
+	message_text (message.message_text),
 	buffer (message.buffer),
-	sender (message.sender),
+	sender_pid (message.sender_pid),
 	id (message.id)
 {
 	if (buffer)
@@ -62,9 +62,9 @@ void Message::describe (ostream &os) const
 {
 	os << endl
 	   << "== Message Details ==" << endl
-	   << "Sender PID = " << get_sender () << endl
-	   << "Type = " << get_type () << endl
-	   << "Text = " << get_text () << endl;
+	   << "Sender PID = " << sender () << endl
+	   << "Type = " << type () << endl
+	   << "Text = " << text () << endl;
 }
 
 // Get the next packet in message.
@@ -80,8 +80,8 @@ Message const &Message::operator >> (Packet &packet) const
 		IPCError::error (*this, packet, error);
 
 	// Set packet header.
-	packet.header.sender = sender;
-	packet.header.id = id;
+	packet.header.sender_pid = sender_pid;
+	packet.header.message_id = id;
 	packet.header.number = number++;
 	packet.header.size_left = size_left;
 
@@ -117,8 +117,8 @@ Message &Message::operator << (Packet const &packet)
 	if (!buffer)
 	{
 		// Initialize buffer & variables.
-		sender = packet.header.sender;
-		id = packet.header.id;
+		sender_pid = packet.header.sender_pid;
+		id = packet.header.message_id;
 		number = 0;
 		size_left = packet.header.size_left;
 		pos = buffer = new char [size_left];
@@ -132,9 +132,9 @@ Message &Message::operator << (Packet const &packet)
 			error_message = conversion_error;
 
 		// Check packet fits.
-		else if (packet.header.sender != sender)
+		else if (packet.header.sender_pid != sender_pid)
 			error_message = string (wrong) + sender_error;
-		else if (packet.header.id != id)
+		else if (packet.header.message_id != id)
 			error_message = string (wrong) + id_error;
 		else if (packet.header.size_left != size_left)
 			error_message = string (wrong) + size_error;
@@ -174,9 +174,9 @@ Message const &Message::operator = (Message const &message)
 	reset_buffer ();
 
 	// Copy message.
-	type = message.type;
-	text = message.text;
-	sender = message.sender;
+	message_type = message.message_type;
+	message_text = message.message_text;
+	sender_pid = message.sender_pid;
 	id = message.id;
 
 	return *this;
@@ -191,7 +191,7 @@ void Message::create_buffer () const
 	                             "Message is uninitialized";
 
 	// Fail if message uninitialized.
-	if (type == uninitialized)
+	if (message_type == uninitialized)
 		IPCError::error (*this, error);
 
 	// Make sure ids are consistant.
@@ -200,29 +200,30 @@ void Message::create_buffer () const
 
 	// Initialize variables.
 	conversion = read_packets;
-	sender = pid;
+	sender_pid = pid;
 	id = current_id++;
 	number = 0;
-	size_left = sizeof (type);
+	size_left = sizeof (message_type);
 
 	// Size depends on message type.
-	switch (type)
+	switch (message_type)
 	{
 	case terminate:
 		break;
 
 	default:
-		size_left += text.length () + 1;
+		size_left += message_text.length () + 1;
 	}
 
 	// Allocate a buffer large enough to hold the message data.
 	char *p = pos = buffer = new char [size_left];
 
 	// Copy message type to the buffer.
-	p = static_cast <char *> (mempcpy (p, &type, sizeof (type)));
+	p = static_cast <char *> (mempcpy (p, &message_type,
+	                          sizeof (message_type)));
 
 	// Copy message data to the buffer.
-	switch (type)
+	switch (message_type)
 	{
 	case terminate:
 		break;
@@ -230,7 +231,7 @@ void Message::create_buffer () const
 	// FIXME: Cases with extra data then fall through to default (no break).
 
 	default:
-		strcpy (p, text.c_str ());
+		strcpy (p, message_text.c_str ());
 	}
 }
 
@@ -240,20 +241,20 @@ void Message::parse_buffer ()
 	char *p = buffer;
 
 	// Copy message type from the buffer.
-	memcpy (&type, p, sizeof (type));
-	p += sizeof (type);
+	memcpy (&message_type, p, sizeof (message_type));
+	p += sizeof (message_type);
 
 	// Copy message data from the buffer.
-	switch (type)
+	switch (message_type)
 	{
 	case terminate:
-		text.clear ();
+		message_text.clear ();
 		break;
 
 	// FIXME: Cases with extra data then fall through to default (no break).
 
 	default:
-		text = p;
+		message_text = p;
 	}
 
 	// Free buffer.

@@ -7,6 +7,9 @@
 
 	* reroot/libreroot/stringlist.h, reroot/libreroot/tokenizer.h: Added.
 
+	* reroot/*: Removed `until' define, removed get_ prefix from function
+	  names.
+
 2006-01-23 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/lfs-6.1/glibc, profiles/lfs-6.1/flex, profiles/lfs-6.1/perl:

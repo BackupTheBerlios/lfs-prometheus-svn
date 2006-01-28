@@ -35,7 +35,7 @@ void reroot::message_loop (Arguments const &args)
 	// Create a message queue for receiving messages, & report its name to
 	// stdout.
 	MultiInbox inbox ("rerootd");
-	cout << inbox.get_name () << endl;
+	cout << inbox.name () << endl;
 
 	// The loop.
 	while (true)
@@ -49,11 +49,11 @@ void reroot::message_loop (Arguments const &args)
 			message.describe (cout);
 
 		// Interpret message.
-		switch (message.get_type ())
+		switch (message.type ())
 		{
 		case Message::save_index:
 			// FIXME: Save the index file.
-			cout << "Save index to " << message.get_text () << endl;
+			cout << "Save index to " << message.text () << endl;
 			break;
 
 		case Message::terminate:

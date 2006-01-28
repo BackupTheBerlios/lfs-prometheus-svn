@@ -25,6 +25,6 @@ using namespace std;
 // error string.
 IPCError::IPCError (string const &what, int const errnum):
 	runtime_error (errnum? what + ": " + strerror (errnum) : what),
-	error_number (errnum)
+	error_num (errnum)
 {
 }

@@ -56,15 +56,15 @@ public:
 	void describe (std::ostream &os) const;
 
 	// For accessing the message type.
-	Type get_type () const;
+	Type type () const;
 	void set_type (Type t);
 
 	// For accessing the message text.
-	std::string const &get_text () const;
+	std::string const &text () const;
 	void set_text (std::string const &txt);
 
 	// For accessing the message sender.
-	pid_t get_sender () const;
+	pid_t sender () const;
 
 	// Return true if a message has been completely converted to packets, or
 	// all the packets in a message have been assembled.
@@ -89,13 +89,13 @@ private:
 	};
 
 	// Message data.
-	Type type;
-	std::string text;
+	Type message_type;
+	std::string message_text;
 
 	// Used when converting between messages & packets.
 	mutable Conversion conversion;
 	mutable char *buffer, *pos;
-	mutable pid_t sender;
+	mutable pid_t sender_pid;
 	mutable Packet::MessageID id;
 	mutable unsigned number;
 	mutable std::size_t size_left;
@@ -114,33 +114,33 @@ inline reroot::Message::~Message ()
 }
 
 // Return the message type.
-inline reroot::Message::Type reroot::Message::get_type () const
+inline reroot::Message::Type reroot::Message::type () const
 {
-	return type;
+	return message_type;
 }
 
 // Set the message type.
 inline void reroot::Message::set_type (Type const t)
 {
-	type = t;
+	message_type = t;
 }
 
 // Return the message text.
-inline std::string const &reroot::Message::get_text () const
+inline std::string const &reroot::Message::text () const
 {
-	return text;
+	return message_text;
 }
 
 // Set the message text.
 inline void reroot::Message::set_text (std::string const &txt)
 {
-	text = txt;
+	message_text = txt;
 }
 
 // Return the PID of the message sender.
-inline pid_t reroot::Message::get_sender () const
+inline pid_t reroot::Message::sender () const
 {
-	return sender;
+	return sender_pid;
 }
 
 // Return true if a message has been completely converted to packets, or all the

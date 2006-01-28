@@ -41,7 +41,7 @@ public:
 		static void error (Item const &item, std::string const &what);
 	template <typename Item1, typename Item2> __attribute__ ((noreturn))
 		static void error (Item1 const &item1, Item2 const &item2,
-		                   std::string const &what);
+		std::string const &what);
 
 	// C'tor.  Requires a description of what failed.  If errnum is
 	// non-zero, it is interpreted as a C error number & converted to a
@@ -49,11 +49,11 @@ public:
 	IPCError (std::string const &what, int errnum = 0);
 
 	// So that the C error number can be queried.
-	int get_error_number () const;
+	int error_number () const;
 
 private:
 	// The C error number.
-	int const error_number;
+	int const error_num;
 };
 
 // Throw an exception regarding item.
@@ -80,9 +80,9 @@ void reroot::IPCError::error (Item1 const &item1,
 }
 
 // Return the C error number associated with the exception.
-inline int reroot::IPCError::get_error_number () const
+inline int reroot::IPCError::error_number () const
 {
-	return error_number;
+	return error_num;
 }
 
 #endif

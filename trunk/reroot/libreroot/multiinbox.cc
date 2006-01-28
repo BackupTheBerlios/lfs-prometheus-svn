@@ -50,7 +50,7 @@ namespace
 	// Return true if message is from sender.
 	inline bool FromSender::operator () (Value const &value) const
 	{
-		return value.second.get_sender () == sender;
+		return value.second.sender () == sender;
 	}
 
 	// Return true if the message associated with value is complete.
@@ -103,7 +103,8 @@ MultiInbox &MultiInbox::operator >> (Message &message)
 
 		// Append the packet to its message.  Create a new message if
 		// necessary.
-		messages [MessageKey (packet.header.sender, packet.header.id)]
+		messages [MessageKey (packet.header.sender_pid,
+		                      packet.header.message_id)]
 			<< packet;
 
 		// Search for a complete message.

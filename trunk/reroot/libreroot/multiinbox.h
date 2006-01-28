@@ -41,7 +41,7 @@ class shared reroot::MultiInbox:
 {
 public:
 	// For identifying the message a packet belongs to.
-	struct MessageKey
+	struct shared MessageKey
 	{
 		typedef Packet::MessageID MessageID;
 
@@ -57,10 +57,10 @@ public:
 
 	// C'tors.
 	MultiInbox (std::string const &prefix,
-	            std::string const &suffix = "inbox",
-		    UnlinkFlag uflag = on_close);
+		std::string const &suffix = "inbox",
+		UnlinkFlag uflag = on_close);
 	MultiInbox (std::string const &name, OpenFlag oflag,
-	            UnlinkFlag uflag = never);
+		UnlinkFlag uflag = never);
 
 	// Drop any partially received messages from sender.
 	void drop_messages_from (pid_t sender);

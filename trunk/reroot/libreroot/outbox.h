@@ -38,9 +38,9 @@ class shared reroot::Outbox:
 public:
 	// C'tors.
 	Outbox (std::string const &prefix, std::string const &suffix = "outbox",
-	        UnlinkFlag uflag = on_close);
+		UnlinkFlag uflag = on_close);
 	Outbox (std::string const &name, OpenFlag oflag,
-	        UnlinkFlag uflag = never);
+		UnlinkFlag uflag = never);
 
 	// For sending messages.
 	Outbox &operator << (Packet const &packet);

@@ -28,7 +28,4 @@
 #  define shared
 # endif
 
-// Makes some loops more readable.
-# define until(x) while (!(x))
-
 #endif

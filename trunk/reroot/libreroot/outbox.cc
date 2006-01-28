@@ -44,7 +44,7 @@ Outbox &Outbox::operator << (Packet const &packet)
 	while (errno == EINTR);	// Retry if interrupted by a signal.
 
 	// We only get this far if there was an error.
-	throw IPCError (error + get_name () + '\'', errno);
+	throw IPCError (error + name () + '\'', errno);
 }
 
 // Send a message to the queue.
@@ -58,7 +58,7 @@ Outbox &Outbox::operator << (Message const &message)
 		message >> packet;
 		outbox << packet;
 	}
-	until (message.is_complete ());
+	while (!message.is_complete ());
 
 	return outbox;
 }

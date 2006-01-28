@@ -37,7 +37,7 @@ void Action::run (Inbox &inbox, Outbox &outbox) const
 		inbox >> message;
 
 		// Process reply.
-		switch (Message::Type const type = message.get_type ())
+		switch (Message::Type const type = message.type ())
 		{
 		// Unexpected message types.
 		case Message::uninitialized:

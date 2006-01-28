@@ -25,8 +25,8 @@ void Packet::describe (ostream &os) const
 {
 	os << endl
 	   << "== Packet Details ==" << endl
-	   << "Sender PID = " << header.sender << endl
-	   << "Message ID = " << header.id << endl
+	   << "Sender PID = " << header.sender_pid << endl
+	   << "Message ID = " << header.message_id << endl
 	   << "Packet number = " << header.number << endl
 	   << "Size left = " << header.size_left << endl;
 }

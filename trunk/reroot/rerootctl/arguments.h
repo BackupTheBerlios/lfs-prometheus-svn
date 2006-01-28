@@ -41,14 +41,14 @@ public:
 	void set_message_queue (std::string const &q);
 	bool unlink_queue () const;
 	void set_unlink_queue (bool u);
-	Actions const &get_actions () const;
+	Actions const &actions () const;
 	void append_action (Action const &action);
 
 private:
 	// Data.
 	std::string queue;
 	bool unlink;
-	Actions actions;
+	Actions action_queue;
 };
 
 // Return the name of the message queue.
@@ -76,15 +76,15 @@ inline void reroot::Arguments::set_unlink_queue (bool u)
 }
 
 // Return a vector of actions to perform.
-inline reroot::Actions const &reroot::Arguments::get_actions () const
+inline reroot::Actions const &reroot::Arguments::actions () const
 {
-	return actions;
+	return action_queue;
 }
 
 // Append an action.
 inline void reroot::Arguments::append_action (Action const &action)
 {
-	actions.push_back (action);
+	action_queue.push_back (action);
 }
 
 #endif

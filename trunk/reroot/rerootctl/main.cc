@@ -39,7 +39,7 @@ try
 		MessageQueue::unlink_queue (args.message_queue (), true);
 	else
 		// Process actions.
-		args.get_actions ().run (args.message_queue ());
+		args.actions ().run (args.message_queue ());
 
 	return EXIT_SUCCESS;
 }

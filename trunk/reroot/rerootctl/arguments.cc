@@ -132,7 +132,7 @@ namespace
 				argp_failure (state, EXIT_FAILURE, 0, no_queue);
 
 			// Cannot unlink queue & also send messages.
-			if (args.unlink_queue () && args.get_actions ().size ())
+			if (args.unlink_queue () && args.actions ().size ())
 				argp_failure (state, EXIT_FAILURE, 0, unlink);
 			break;
 

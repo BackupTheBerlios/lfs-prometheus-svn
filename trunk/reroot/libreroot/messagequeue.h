@@ -63,13 +63,13 @@ public:
 
 	// C'tors & d'tor.
 	MessageQueue (std::string const &prefix, std::string const &suffix,
-	              AccessFlag aflag, UnlinkFlag uflag = on_close);
+		AccessFlag aflag, UnlinkFlag uflag = on_close);
 	MessageQueue (std::string const &n, OpenFlag oflag, AccessFlag aflag,
-	              UnlinkFlag uflag = never);
+		UnlinkFlag uflag = never);
 	~MessageQueue ();
 
 	// For accessing the queue name.
-	std::string const &get_name () const;
+	std::string const &name () const;
 
 protected:
 	// Subclasses may need the queue descriptor.
@@ -77,7 +77,7 @@ protected:
 
 private:
 	// The name of the queue.
-	std::string const name;
+	std::string const queue_name;
 
 	// The file descriptor corresponding to the queue.
 	mqd_t const mqd;
@@ -92,9 +92,9 @@ private:
 };
 
 // Return the name of the message queue.
-inline std::string const &reroot::MessageQueue::get_name () const
+inline std::string const &reroot::MessageQueue::name () const
 {
-	return name;
+	return queue_name;
 }
 
 // Return the file descriptor corresponding to the POSIX message queue.

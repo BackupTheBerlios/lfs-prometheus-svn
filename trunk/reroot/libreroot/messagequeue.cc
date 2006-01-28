@@ -92,8 +92,8 @@ MessageQueue::MessageQueue (string const &prefix,
                             string const &suffix,
                             AccessFlag const aflag,
                             UnlinkFlag const uflag):
-	name (generate_name (prefix, suffix)),
-	mqd (open_queue (name, create | aflag, uflag == on_open)),
+	queue_name (generate_name (prefix, suffix)),
+	mqd (open_queue (queue_name, create | aflag, uflag == on_open)),
 	unlink (uflag == on_close)
 {
 }
@@ -103,8 +103,8 @@ MessageQueue::MessageQueue (string const &n,
                             OpenFlag const oflag,
                             AccessFlag const aflag,
                             UnlinkFlag const uflag):
-	name (n),
-	mqd (open_queue (name, oflag | aflag, uflag == on_open)),
+	queue_name (n),
+	mqd (open_queue (queue_name, oflag | aflag, uflag == on_open)),
 	unlink (uflag == on_close)
 {
 }
@@ -115,5 +115,5 @@ MessageQueue::~MessageQueue ()
 	mq_close (queue ());
 
 	if (unlink)
-		unlink_queue (name);
+		unlink_queue (queue_name);
 }

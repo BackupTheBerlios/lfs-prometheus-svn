@@ -38,9 +38,9 @@ class shared reroot::Inbox:
 public:
 	// C'tors.
 	Inbox (std::string const &prefix, std::string const &suffix = "inbox",
-	       UnlinkFlag uflag = on_close);
+		UnlinkFlag uflag = on_close);
 	Inbox (std::string const &name, OpenFlag oflag,
-	       UnlinkFlag uflag = never);
+		UnlinkFlag uflag = never);
 
 	// For receiving messages.
 	Inbox &operator >> (Packet &packet);

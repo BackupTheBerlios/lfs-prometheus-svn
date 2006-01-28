@@ -26,12 +26,14 @@
 # include <iostream>
 # include <sys/types.h>
 
+# include "libreroot.h"
+
 namespace reroot
 {
 	struct Packet;
 }
 
-struct reroot::Packet
+struct shared reroot::Packet
 {
 	// The maximum size of a packet in bytes.
 	static std::size_t const size = 8192;
@@ -41,11 +43,11 @@ struct reroot::Packet
 
 	// Header containing information about a packet or the message of which
 	// it's part.
-	struct Header
+	struct shared Header
 	{
 		// These identify the message of which the packet is part.
-		pid_t sender;
-		MessageID id;
+		pid_t sender_pid;
+		MessageID message_id;
 
 		// The packets in a message are numbered in order, with the
 		// first being zero.
@@ -62,7 +64,7 @@ struct reroot::Packet
 	// Used to figure out the size of a packet's body.  This is not as
 	// simple as subtracting the size of the header because there may be
 	// padding for alignment purposes.
-	struct Empty
+	struct shared  Empty
 	{
 		Header header;
 		char body [];

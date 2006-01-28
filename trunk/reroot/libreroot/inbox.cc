@@ -38,7 +38,7 @@ Inbox &Inbox::operator >> (Packet &packet)
 	while (errno == EINTR);	// Retry if interrupted by a signal.
 
 	// We only get this far if there was an error.
-	throw IPCError (error + get_name () + '\'', errno);
+	throw IPCError (error + name () + '\'', errno);
 }
 
 // Receive a message from the queue.
@@ -52,7 +52,7 @@ Inbox &Inbox::operator >> (Message &message)
 		inbox >> packet;
 		message << packet;
 	}
-	until (message.is_complete ());
+	while (!message.is_complete ());
 
 	return inbox;
 }
