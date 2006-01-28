@@ -10,7 +10,7 @@ patches=(
 	"http://www.linuxfromscratch.org/patches/downloads/expect/expect-${version}-spawn-1.patch"
 )
 
-directory=expect
+directory="expect-5.43"
 
 function stage1_build_pkg {
 	./configure --prefix=/tools --with-x=no --with-tcl=/tools/lib \

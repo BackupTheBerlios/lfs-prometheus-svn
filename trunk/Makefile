@@ -43,7 +43,7 @@ clean:
 user:
 	groupadd -f prometheus
 	if ! getent passwd prometheus; then \
-		useradd -d $(HOMEDIR) -g prometheus -s /bin/false prometheus; \
+		useradd -d $(HOMEDIR) -g prometheus prometheus; \
 	fi
 
 install: all update

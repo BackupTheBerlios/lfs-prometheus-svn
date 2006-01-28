@@ -1,6 +1,10 @@
 2006-01-28 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
-	* Makefile: Fixed some syntax errors.
+	* profiles/lfs-6.1/expect: Fixed wrong `directory' value.
+	* Makefile.defs: Fixed permissions of directories within the
+	  prometheus user's home directory.
+	* Makefile: Fixed some syntax errors.  Fixed useradd command for the
+	  promtheus user: the login shell has to be a real shell.
 	* profiles/lfs-6.1/man-pages: Added a missing quote.
 
 2006-01-28 Gareth Jones <gareth_jones@users.berlios.de>

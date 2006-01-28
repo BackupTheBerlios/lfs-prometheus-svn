@@ -44,7 +44,7 @@ INSTALL_PROG = $(INSTALL) -m755
 INSTALL_DATA = $(INSTALL) -m644
 INSTALL_DATA_HOME = $(INSTALL) -m664 -g prometheus -o prometheus
 INSTALL_DIR = $(INSTALL) -d -m755
-INSTALL_DIR_HOME = $(INSTALL) -d -m775 -g prometheus -o prometheus
+INSTALL_DIR_HOME = $(INSTALL) -d -m2775 -g prometheus -o prometheus
 
 # Suppress output unless error.
 .SILENT:
