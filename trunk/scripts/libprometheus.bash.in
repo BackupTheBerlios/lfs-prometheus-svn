@@ -91,6 +91,11 @@ function get_privileges {
 # Usage: drop_privileges <parameter list>
 # Rerun as user prometheus.
 function drop_privileges {
+	# When building stage2, su isn't available from the start.
+	if ! type -p su >/dev/null 2>&1; then
+		return
+	fi
+
         (( $(id -u) == 0 )) && exec su - prometheus -c "'$0' $*"
 }
 

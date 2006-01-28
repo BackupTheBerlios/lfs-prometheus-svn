@@ -1,5 +1,8 @@
 2006-01-28 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
+	* scripts/libprometheus.bash.in: Fixed `drop_privileges' so that it
+	  only actually does something if the `su' command is available instead
+	  of failing. (This makes the build script work again)
 	* profiles/lfs-6.1/expect: Fixed wrong `directory' value.
 	* Makefile.defs: Fixed permissions of directories within the
 	  prometheus user's home directory.
