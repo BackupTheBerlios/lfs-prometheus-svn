@@ -1,3 +1,7 @@
+2006-01-28 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/man-pages: Added a missing quote.
+
 2006-01-28 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/libreroot/stringlist.h, reroot/libreroot/tokenizer.h: Added.
