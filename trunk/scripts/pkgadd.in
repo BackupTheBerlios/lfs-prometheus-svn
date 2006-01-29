@@ -201,7 +201,7 @@ error "installation of $name failed"
 if [[ "$leavefiles" != yes ]]; then
 	echo
 	echo "Removing build directory: \`$directory'..."
-	rm -r "$directory" ||
+	rm -rf "$directory" ||
 	warning "could not remove \`$directory'"
 fi
 
