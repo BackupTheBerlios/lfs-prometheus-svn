@@ -1,5 +1,7 @@
 2006-01-29 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
+	* scripts/pkginstall.in: Don't run cleanup_failed on "virtual"
+	  packages.
 	* scripts/pkgadd.in: Fixed removal of build directories so that rm
 	  does not prompt anymore when it encounters r/o files.
 
