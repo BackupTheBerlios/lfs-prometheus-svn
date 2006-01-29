@@ -238,7 +238,7 @@ if is_func install_pkg; then
 	# Clean up if the install failed.
 	if (( retval != 0 )); then
 		failure "installation of $name_ver failed"
-		cleanup_failed
+		[[ "$log_install" == yes ]] && cleanup_failed
 	fi
 
 else
