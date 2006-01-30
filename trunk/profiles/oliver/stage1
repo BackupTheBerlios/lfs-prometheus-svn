@@ -29,14 +29,12 @@ pkglist=(
 	make
 	patch
 	perl
-	prometheus
 	sed
 	tar
 	texinfo
 	util-linux
 )
 
-directory="/tools"
 stage=1
 
 function install_pkg {

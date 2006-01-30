@@ -106,9 +106,8 @@ function install_pkg {
 	# This is an ugly hack to install Prometheus into /tools and still
 	# create the proper home directory within ${lfs}/var/lib/
 	# (which needs root privs, which we don't have in stage1)
-	lfs_builddir="$lfs_builddir" \
-	%PKGADD% --config '$config' --stage=1 prometheus
-	%PKGADD% --config '$config' --stage=1 users
+	%PKGADD% --config "$config" --stage=1 prometheus
+	%PKGADD% --config "$config" --stage=1 users
 	chown -R 15:15 ${lfs}/var/lib/prometheus
 
 	# Remove the /tools symlink.
@@ -117,7 +116,6 @@ function install_pkg {
 	echo "Preparing stage 2..."
 
 	# Make sure package source is available in chroot.
-	local srcdir=~prometheus/sources
 	mount --bind "$srcdir" "${lfs}${srcdir}" ||
 		error "${package}: could not bind $srcdir to ${lfs}${srcdir}"
 

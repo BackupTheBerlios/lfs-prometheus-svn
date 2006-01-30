@@ -9,7 +9,6 @@ log_install=no
 # Packages to install in stage 0 (in order).
 pkglist=(binutils gcc)
 
-directory="/tools"
 stage=0
 
 function install_pkg {
