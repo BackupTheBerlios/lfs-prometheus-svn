@@ -36,10 +36,8 @@ pkglist=(
 	util-linux
 	perl
 	install-log
-	prometheus
 )
 
-directory="/tools"
 stage=1
 
 function install_pkg {

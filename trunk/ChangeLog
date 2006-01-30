@@ -1,3 +1,7 @@
+2006-01-30 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/*: Fixed various bugs found in testing.
+
 2006-01-29 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* scripts/pkginstall.in: Don't run cleanup_failed on "virtual"

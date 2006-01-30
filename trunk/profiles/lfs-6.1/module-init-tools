@@ -2,7 +2,7 @@ name="module-init-tools"
 version="3.1"
 
 archives=(
-	"http://www.de.kernel.org/pub/linux/utils/kernel/module-init-tools/module-init-tools-${version}.tar.bz2"
+	"ftp://ftp.linuxfromscratch.org/pub/lfs/conglomeration/module-init-tools/module-init-tools-${version}.tar.bz2"
 )
 
 function build_pkg {

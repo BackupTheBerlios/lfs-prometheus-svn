@@ -18,6 +18,7 @@ function stage1_install_pkg {
 		root:x:0:0:root:/root:/bin/bash
 		prometheus:x:15:15::/var/lib/prometheus:/bin/false
 	EOF
+}
 
 function install_pkg {
 

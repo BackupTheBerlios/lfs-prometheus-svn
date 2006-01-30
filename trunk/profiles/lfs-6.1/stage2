@@ -67,7 +67,6 @@ pkglist=(
 	prometheus
 )
 
-directory="/tools"
 stage=2
 
 function install_pkg {
