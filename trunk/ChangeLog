@@ -1,3 +1,9 @@
+2006-02-03 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/absolute.cc, reroot/libreroot/absolute.h,
+	  reroot/libreroot/stringlist.cc, reroot/libreroot/tokenizer.cc: Added.
+	* reroot/libreroot/stringlist.h: Simplified.
+
 2006-01-30 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* profiles/lfs-6.1/*: Fixed various bugs found in testing.

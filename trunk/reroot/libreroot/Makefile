@@ -33,13 +33,16 @@ CXXFLAGS := -g -pipe -Wall -W -Werror -O2 -fpic -fvisibility=hidden \
 LDFLAGS := -pipe -shared -Wl,-soname,$(soname) -lrt
 
 # What to build.
-objects := inbox.o \
+objects := absolute.o \
+           inbox.o \
            ipcerror.o \
            message.o \
            messagequeue.o \
            multiinbox.o \
            outbox.o \
-           packet.o
+           packet.o \
+           stringlist.o \
+           tokenizer.o
 
 .PHONY: all clean dep
 

@@ -49,7 +49,7 @@ public:
 	bool operator ! () const;
 
 private:
-	char deliminator;
+	char delim;
 };
 
 // Tokenizer c'tor.
@@ -69,13 +69,6 @@ inline char reroot::Tokenizer::deliminator () const
 inline void reroot::Tokenizer::set_deliminator (char const d)
 {
 	delim = d;
-}
-
-// Get the next token.
-inline reroot::Tokenizer &reroot::Tokenizer::operator >> (std::string &token)
-{
-	std::getline (*this, token, delim);
-	return *this;
 }
 
 // Return false if last token was read.
