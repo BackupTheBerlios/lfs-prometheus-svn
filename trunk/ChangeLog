@@ -1,6 +1,8 @@
 2006-02-03 Oliver Brakmann <olivebrakmann@users.berlios.de>
 
 	* scripts/libprometheus.bash.in: Fixed rebuilding the 'info' directory.
+	  Made the rebuilding of info nodes quiet. Fixed PATH after dropping
+	  privileges in LFS builds. 
 
 2006-02-03 Gareth Jones <gareth_jones@users.berlios.de>
 
