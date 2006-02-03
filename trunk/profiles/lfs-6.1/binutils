@@ -51,24 +51,18 @@ function stage1_install_pkg {
 	make -C ld LIB_PATH=/usr/lib:/lib
 }
 
-function stage2_build_pkg {
-	cd "$directory"/../binutils-build/
-	make -C ld INSTALL=/tools/bin/install install
-	cd "$directory"/..
-	rm -rf binutils-build
+function build_pkg {
+	if [[ -d "${directory}"/../binutils-build && -d /tools ]]; then
+		cd "${directory}"/../binutils-build/
+		make -C ld INSTALL=/tools/bin/install install
+		cd "$directory"/..
+		rm -rf binutils-build
 
-	perl -pi -e 's@ /tools/lib/ld-linux.so.2@ /lib/ld-linux.so.2@g;' \
+		perl -pi -e 's@ /tools/lib/ld-linux.so.2@ /lib/ld-linux.so.2@g;' \
 		 -e 's@\*startfile_prefix_spec:\n@$_/usr/lib/ @g;' \
 		`gcc --print-file specs`
+	fi
 
-	mkdir "$directory"/../binutils-build
-	cd "$directory"/../binutils-build
-
-	"$directory"/configure --prefix=/usr --enable-shared
-	make tooldir=/usr
-}
-
-function build_pkg {
 	mkdir "$directory"/../binutils-build
 	cd "$directory"/../binutils-build
 

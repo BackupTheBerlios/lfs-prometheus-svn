@@ -106,9 +106,8 @@ function install_pkg {
 	# This is an ugly hack to install Prometheus into /tools and still
 	# create the proper home directory within ${lfs}/var/lib/
 	# (which needs root privs, which we don't have in stage1)
-	%PKGADD% --config "$config" --stage=1 prometheus
-	%PKGADD% --config "$config" --stage=1 users
-	chown -R 15:15 ${lfs}/var/lib/prometheus
+	lfs="$lfs" %PKGADD% --config "$config" --stage=1 prometheus
+	lfs="$lfs" %PKGADD% --config "$config" --stage=1 users
 
 	# Remove the /tools symlink.
 	rm /tools
@@ -125,10 +124,15 @@ function install_pkg {
 	mount -f -t tmpfs tmpfs ${lfs}/dev/shm
 	mount -f -t devpts -o gid=4,mode=620 devpts ${lfs}/dev/pts
 
+	ln -s /tools/bin/bash /mnt/lfs/bin
+	ln -s bash /mnt/lfs/bin/sh
+
 	# Build stage 2.
 	chroot "$lfs" /tools/bin/env -i HOME=/root TERM="$TERM" \
 		PATH="/usr/bin:/usr/sbin:/bin:/sbin:/tools/bin" \
-		%PKGADD% --config /tools/etc/prometheus.conf --stage=2 stage2 ||
+		lfs_builddir="$lfs_builddir" \
+		/tools/bin/pkgadd --config /tools/etc/prometheus.conf \
+		--stage=2 stage2 ||
 	error "${package}: could not build stage 2"
 
 	find ${lfs}/{,usr/}{bin,lib,sbin} -type f \

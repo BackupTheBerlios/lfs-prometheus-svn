@@ -5,6 +5,10 @@ archives=(
 	"ftp://ftp.linuxfromscratch.org/pub/lfs/conglomeration/module-init-tools/module-init-tools-${version}.tar.bz2"
 )
 
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/module-init-tools/module-init-tools-${version}-nostatic-1.patch"
+)
+
 function build_pkg {
 	touch modprobe.conf.5
 	./configure --prefix="" --enable-zlib

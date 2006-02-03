@@ -1,5 +1,8 @@
 2006-02-03 Oliver Brakmann <olivebrakmann@users.berlios.de>
 
+	* profiles/lfs-6.1/*: Fixed another round of bugs in the profiles.
+	  LFS should compile now from start to finish.
+
 	* scripts/pkginstall.in: Fixed a sed that broke on files installed by
 	  glibc. Again.
 

@@ -9,7 +9,7 @@ archives=(
 
 function stage1_build_pkg {
 	make PREFIX=/tools SBINDIR='$(BINDIR)' CONFDIR=/tools/etc \
-		HOMEDIR="${lfs}/var/lib/prometheus" \
+		HOMEDIR="/var/lib/prometheus" \
 		INSTALL_LOG_RC=/tools/etc/install-log.rc
 }
 

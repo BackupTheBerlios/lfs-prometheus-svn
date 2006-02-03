@@ -9,7 +9,7 @@ archives=(
 
 archive_dirs=(
 	""
-	"@d"
+	":"
 )
 
 function build_pkg {
@@ -22,6 +22,7 @@ function check_pkg {
 
 function install_pkg {
 	make udevdir=/dev install
-	cp udev-config-3.rules /etc/udev/rules.d/
+	cat_file "$(location_of "${archives[1]}")" > \
+		/etc/udev/rules.d/udev-config-3.rules
 	/sbin/udevstart
 }
