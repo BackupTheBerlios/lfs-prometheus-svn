@@ -47,21 +47,13 @@ function stage1_install_pkg {
 	localedef -i ja_JP -f EUC-JP ja_JP
 
 	rm -rf "${builddir}/glibc-build"
-
-	# Adjusting the toolchain pt.1
-	cd "${builddir}/binutils-build"
-	make -C ld install
-	cd "${builddir}"
-
-	rm -rf "${builddir}/"binutils*
-
-	sed -i 's@ /lib/ld-linux.so.2@ /tools/lib/ld-linux.so.2@g' \
-                `gcc --print-file specs`
-
-	rm -f /tools/lib/gcc/*/*/include/{pthread.h,bits/sigthread.h}
 }
 
 function build_pkg {
+	sed -i \
+	's|libs -o|libs -L/usr/lib -Wl,-dynamic-linker=/lib/ld-linux.so.2 -o|' \
+	scripts/test-installation.pl
+
 	mkdir "${builddir}/glibc-build"
 	cd "${builddir}/glibc-build"
 

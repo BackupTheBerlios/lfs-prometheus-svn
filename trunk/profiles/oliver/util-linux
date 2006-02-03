@@ -24,7 +24,6 @@ function stage1_install_pkg {
 
 function build_pkg {
 	sed -i 's%etc/adjtime%var/lib/hwclock/adjtime%' hwclock/hwclock.c
-	mkdir -p /var/lib/hwclock				# FIXME!
 
 	echo "DISABLE_NLS=yes" >> MCONFIG
 	./configure
@@ -32,6 +31,7 @@ function build_pkg {
 }
 
 function install_pkg {
+	mkdir -p /var/lib/hwclock
 	make HAVE_KILL=yes HAVE_SLN=yes install
 	mv /usr/bin/logger /bin
 }

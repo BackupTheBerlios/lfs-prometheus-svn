@@ -6,8 +6,6 @@ archives=(
 	"http://www.sethwklein.net/projects/iana-etc/downloads/iana-etc-${version}.tar.bz2"
 )
 
-log_install=no
-
 function build_pkg {
 	make
 }

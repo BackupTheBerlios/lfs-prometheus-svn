@@ -12,6 +12,7 @@ pkglist=(
 	linux-libc-headers
 	man-pages
 	glibc
+	re-adjusting
 	binutils
 	gcc
 	coreutils
@@ -75,12 +76,12 @@ function install_pkg {
 	(( $(id -u) != 0 )) && error "${package}: stage 2 must be built as root"
 
 	chown -R 0:0 /
+	chown -R 15:15 /var/lib/prometheus
 
 	# Critical symlinks
-	ln -s /tools/bin/{bash,cat,pwd,stty} /bin
+	ln -s /tools/bin/{cat,pwd,stty} /bin
 	ln -s /tools/bin/perl /usr/bin
 	ln -s /tools/lib/libgcc_s.so{,.1} /usr/lib
-	ln -s bash /bin/sh
 
 	# Devices
 	mount -n -t tmpfs tmpfs /dev

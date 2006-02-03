@@ -11,13 +11,10 @@ mount_lfs=yes		# Ensure $lfs is mounted.
 lfs_device="/dev/hda1"	# This must already exist & contain a filesystem.
 lfs_user="lfs"		# User to build stage 1 as.
 lfs_grp="lfs"		# Group the $lfs_user belongs to.
-lfs_builddir=/tools/build
-			# Temporary location for the source trees to be built.
-			# This _must_ be the same for stage0/1 and the chroot'ed
-			# stage2 (ie. place it somewhere below /tools)!
-
 
 function install_pkg {
+
+	export lfs
 
 	# Sanity checks.
 	local lv=$(uname -r)
@@ -65,7 +62,8 @@ function install_pkg {
 		error "${package}: could not add group: $lfs_grp"
 	fi
 	if ! getent passwd ${lfs_user} >/dev/null 2>&1; then
-		useradd -s /bin/bash -m -k /dev/null -g lfs "$lfs_user" ||
+		useradd -s /bin/bash -m -k /dev/null \
+			-g lfs -G prometheus "$lfs_user" ||
 		error "${package}: could not add user: $lfs_user"
 	fi
 
@@ -78,27 +76,17 @@ function install_pkg {
 	ln -sf "${lfs}/tools" / ||
 	error "${package}: could not create ${lfs}/tools and /tools."
 
-	if [[ ! -d "${lfs}${lfs_builddir}" ]]; then
-		[[ ! -e "${lfs}${lfs_builddir}" ]] || rm -f "${lfs}${lfs_builddir}"
-		mkdir -p "${lfs}${lfs_builddir}"
-	fi &&
-	chown -R "$lfs_user" "${lfs}${lfs_builddir}" ||
-	error "${package}: could not create ${lfs}${lfs_builddir}."
-
 	# Create the root filesystem directory tree.
-	lfs="$lfs" lfs_builddir="$lfs_builddir" \
 	%PKGADD% --config "$config" --stage=0 rootfs ||
 	error "${package}: could not create root filesystem directory tree in $lfs"
 
 	# Build stage 0.
-	lfs="$lfs" lfs_builddir="$lfs_builddir" \
 	su "$lfs_user" -c "%PKGADD% --config '$config' --stage=0 stage0" ||
 	error "${package}: could not build stage 0"
 
 	echo "Preparing stage 1..."
 
 	# Build stage 1.
-	lfs="$lfs" lfs_builddir="$lfs_builddir" \
 	su "$lfs_user" -c "%PKGADD% --config '$config' --stage=1 stage1" ||
 	error "${package}: could not build stage 1"
 
@@ -108,7 +96,6 @@ function install_pkg {
 	# (which needs root privs, which we don't have in stage1)
 	%PKGADD% --config "$config" --stage=1 prometheus
 	%PKGADD% --config "$config" --stage=1 users
-	chown -R 15:15 ${lfs}/var/lib/prometheus
 
 	# Remove the /tools symlink.
 	rm /tools
@@ -125,10 +112,14 @@ function install_pkg {
 	mount -f -t tmpfs tmpfs ${lfs}/dev/shm
 	mount -f -t devpts -o gid=4,mode=620 devpts ${lfs}/dev/pts
 
+	ln -s /tools/bin/bash /mnt/lfs/bin
+	ln -s bash /mnt/lfs/bin/sh
+
 	# Build stage 2.
 	chroot "$lfs" /tools/bin/env -i HOME=/root TERM="$TERM" \
 		PATH="/usr/bin:/usr/sbin:/bin:/sbin:/tools/bin" \
-		%PKGADD% --config /tools/etc/prometheus.conf --stage=2 stage2 ||
+		/tools/bin/pkgadd --config /tools/etc/prometheus.conf \
+		--stage=2 stage2 ||
 	error "${package}: could not build stage 2"
 
 	find ${lfs}/{,usr/}{bin,lib,sbin} -type f \

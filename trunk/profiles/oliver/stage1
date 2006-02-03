@@ -10,6 +10,7 @@ log_install=no
 pkglist=(
 	linux-libc-headers
 	glibc
+	re-adjusting
 	tcl
 	expect
 	dejagnu
