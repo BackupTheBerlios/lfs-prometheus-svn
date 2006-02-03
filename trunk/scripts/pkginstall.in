@@ -118,7 +118,7 @@ function finish_install {
 				echo -n "created	false	"
 				stat "$f" | \
 				sed -n 's@.*(\(.*\)/.*( *\(.*\)/.*( *\(.*\)/.*$@\1	\2	\3	@p' | \
-				sed "s,\$,$f,"
+				sed "s|\$|$f|"
 			done < "${logdir}/${package}" >> ~prometheus/installed/indices/"$package"
 
 			rm "${logdir}/${package}"

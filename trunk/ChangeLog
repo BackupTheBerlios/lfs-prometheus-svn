@@ -1,5 +1,8 @@
 2006-02-03 Oliver Brakmann <olivebrakmann@users.berlios.de>
 
+	* scripts/pkginstall.in: Fixed a sed that broke on files installed by
+	  glibc. Again.
+
 	* scripts/libprometheus.bash.in: Fixed rebuilding the 'info' directory.
 	  Made the rebuilding of info nodes quiet. Fixed PATH after dropping
 	  privileges in LFS builds. 
