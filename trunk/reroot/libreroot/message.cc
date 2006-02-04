@@ -140,7 +140,7 @@ Message &Message::operator << (Packet const &packet)
 			error_message = string (wrong) + size_error;
 
 		// Was there an error?
-		if (error_message.length ())
+		if (!error_message.empty ())
 			IPCError::error (*this, packet, error + error_message);
 	}
 

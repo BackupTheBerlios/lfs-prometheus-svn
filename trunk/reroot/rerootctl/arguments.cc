@@ -121,7 +121,7 @@ namespace
 			break;
 
 		case ARGP_KEY_ARG:	// Message queue name.
-			if (args.message_queue ().length ())
+			if (!args.message_queue ().empty ())
 				argp_failure (state, EXIT_FAILURE, 0, q_dupe);
 			args.set_message_queue (arg);
 			break;

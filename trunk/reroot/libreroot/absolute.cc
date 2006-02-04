@@ -15,10 +15,10 @@
 // this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
-#include <cstdlib>
 #include <unistd.h>
 
 #include "absolute.h"
+#include "cstringptr.h"
 #include "stringlist.h"
 #include "tokenizer.h"
 
@@ -34,13 +34,12 @@ void reroot::absolute (string &abs, string const &orig)
 	// Add working directory if filename is relative.
 	if (orig [0] != '/')
 	{
-		char *const cwd = getcwd (0, 0);
+		CStringPtr cwd = getcwd (0, 0);
 		list.append_string (cwd);
-		free (cwd);
 	}
 
 	// Parse original filename.
-	if (orig.length ())
+	if (!orig.empty ())
 		list.append_filename (orig);
 
 	// Get absolute filename from list.
@@ -52,5 +51,9 @@ void reroot::absolute (string &abs, string const &orig)
 }
 
 void reroot::relative (string &/*rel*/, string const &/*orig*/)
+{
+}
+
+void reroot::relative (string &/*rel*/, string const &/*orig*/, string const &/*dir*/)
 {
 }

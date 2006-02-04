@@ -1,3 +1,12 @@
+2006-02-04 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/cstringptr.h: Added.
+	* reroot/libreroot/absolute.cc: Use CStringPtr instead of char *, use
+	  empty instead of length, added new relative function.
+
+	* reroot/libreroot/message.cc, reroot/rerootctl/arguments.cc: Use empty
+	  instead of length.
+
 2006-02-03 Oliver Brakmann <olivebrakmann@users.berlios.de>
 
 	* profiles/lfs-6.1/*: Fixed another round of bugs in the profiles.

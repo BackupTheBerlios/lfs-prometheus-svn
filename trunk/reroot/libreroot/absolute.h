@@ -27,6 +27,8 @@ namespace reroot
 {
 	shared void absolute (std::string &abs, std::string const &orig);
 	shared void relative (std::string &rel, std::string const &orig);
+	shared void relative (std::string &rel, std::string const &orig,
+		std::string const &dir);
 }
 
 #endif
