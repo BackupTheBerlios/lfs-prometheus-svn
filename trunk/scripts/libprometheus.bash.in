@@ -98,7 +98,7 @@ function drop_privileges {
 
 	# The path hack is needed for the LFS build script. Without it,
 	# su removes /tools/bin from the PATH. See man su.
-        (( $(id -u) == 0 )) && exec su - prometheus -c "PATH=$PATH '$0' $*"
+        (( $(id -u) == 0 )) && exec su prometheus -c "PATH=$PATH '$0' $*"
 }
 
 # ----------------------------- PIPELINE SUPPORT ----------------------------- #
