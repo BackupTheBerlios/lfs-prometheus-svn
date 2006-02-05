@@ -1,0 +1,6 @@
+** Command: output 'tylycp stdout' 0
+** Command: echo 'stdout: tylycp stdout'
+stdout: tylycp stdout
+** Command: echo 'stderr: tylycp stdout'
+stderr: tylycp stdout
+** Command: return 0

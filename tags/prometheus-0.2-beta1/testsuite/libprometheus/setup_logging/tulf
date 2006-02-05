@@ -1,0 +1,15 @@
+# Test `setup_logging' with $terminal_output undefined & $logfile=/some/file.
+
+_testing="libprometheus/setup_logging"
+_description="file"
+_expect=pass
+
+function _check {
+	source "$_lib" || exit 1
+
+	unset terminal_output
+	logfile="/some/file"
+
+	setup_logging
+	[[ "$log_target" == '>> "/some/file" 2>&1' ]]
+}

@@ -1,0 +1,12 @@
+# Check stdout output of `error'.
+
+_testing="libprometheus/error"
+_description="output only to stderr"
+_expect=pass
+
+function _check {
+	source "$_lib" || exit 1
+
+	local out="$(error "this is an error")"
+	[[ -z "$out" ]]
+}

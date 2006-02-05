@@ -1,0 +1,19 @@
+name="groff"
+version="1.19.1"
+homepage="http://www.gnu.org/software/groff/"
+
+archives=(
+	"ftp://ftp.cs.tu-berlin.de/pub/gnu/groff/groff-${version}.tar.gz"
+)
+
+function build_pkg {
+	PAGE=A4 ./configure --prefix=/usr
+	make
+}
+
+function install_pkg {
+	make install
+	ln -sf soelim /usr/bin/zsoelim
+	ln -sf eqn /usr/bin/geqn
+	ln -sf tbl /usr/bin/gtbl
+}

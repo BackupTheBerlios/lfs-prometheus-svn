@@ -1,0 +1,25 @@
+Prometheus Testsuite
+
+Before running the testsuite, you must have already run `make install'.  If you
+wish to avoid installation until after testing, you should adjust Makefile.defs
+to install into a temporary prefix before running `make'.  Make sure that the
+temporary bin and sbin directories are at the front of your $PATH so that the
+testsuite can find the tools it wants to check.
+
+To run the testsuite, invoke:
+
+	make check
+
+The testsuite will halt on the first failure and tell you which log file is
+relevant for debugging the error.
+
+If you installed prometheus into a temporary prefix for checking, you can
+complete the final install by running
+
+	make clean
+
+and then adjusting Makefile.defs to reflect the final installation prefix.
+Complete your installation by (again) running:
+
+	make
+	make install

@@ -1,0 +1,98 @@
+# This is the master profile for stage 2 - the final base system.
+
+name="Stage 2"
+version="0.2"
+homepage="http://developer.berlios.de/projects/lfs-prometheus/"
+log_install=no
+
+# Packages to install (in order).
+# FIXME: Names of packages, configuration stuff.  Only middle block is `final'.
+pkglist=(
+	rootfs
+	mountkernfs
+	essential_symlinks
+	passwd, group, utmp etc
+	populating dev
+
+	linux-libc-headers
+	man-pages
+	glibc
+	binutils
+	gcc
+	zlib
+	install-log
+	coreutils
+	mktemp
+	iana-etc
+	findutils
+	gawk
+	ncurses
+	readline
+	vim
+	m4
+	bison
+	less
+	groff
+	sed
+	flex
+	gettext
+	inetutils
+	iproute2
+	perl
+	texinfo
+	autoconf
+	automake
+	bash
+	file
+	libtool
+	bzip2
+	diffutils
+	kbd
+	e2fsprogs
+	pcre
+	grep
+	grub
+	gzip
+	hotplug
+	man
+	make
+	module-init-utils
+	ed
+	patch
+	procps
+	psmisc
+	shadow
+	tar
+	udev
+	util-linux
+	hdparm
+	ren
+	runit
+	socklog
+	bash-completion
+	prometheus
+	linux
+
+	configuration
+)
+
+function install_pkg
+{
+	# Sanity checks.
+	(( $(id -u) != 0 )) && error "${package}: must be installed as root"
+
+	# Configure install-log.
+	cat > /etc/install-log.rc <<- "EOF"
+		INCLUDE=/bin:/sbin:/lib:/usr:/opt
+		EXCLUDE=/lib/modules:/usr/src:/usr/local/src:/usr/etc:/usr/share/info/dir:/usr/local/share/info/dir:/usr/share/man/whatis:/usr/local/share/man/whatis
+		LOGDIR=/var/log/install-logs
+	EOF
+
+	# Install packages in pkglist.
+	local pkg
+	for pkg in "${pkglist[@]}"
+	do
+		pkgadd --config="${config}" --stage=2 "${pkg}" ||
+		error "${package}: cannot install \`${pkg}'"
+	done
+}

@@ -1,0 +1,36 @@
+name="install-log"
+version="1.9"
+homepage="http://install-log.sourceforge.net"
+
+archives=(
+	"http://surfnet.dl.sourceforge.net/sourceforge/install-log/install-log-${version}.tar.bz2"
+)
+
+function stage1_build_pkg {
+	sed -i 's|etc/install-log.rc|tools/&|' config.c
+	make CC='gcc -s'
+}
+
+function stage1_install_pkg {
+	cp install-log /tools/bin
+	cat > /tools/etc/install-log.rc <<-EOF
+		INCLUDE=/bin:/sbin:/lib:/usr:/opt
+		EXCLUDE=/lib/modules:/usr/src:/usr/local/src:/usr/local/etc:/usr/share/info/dir:/usr/share/man/whatis
+		LOGDIR=/var/lib/prometheus/installed
+	EOF
+}
+
+function build_pkg {
+	make CC='gcc -s'
+}
+
+function install_pkg {
+	install -m755 install-log /usr/bin
+	install -m644 install-log.1 /usr/share/man/man1
+
+	cat > /etc/install-log.rc <<-EOF
+		INCLUDE=/bin:/sbin:/lib:/usr:/opt
+		EXCLUDE=/lib/modules:/usr/src:/usr/local/src:/usr/local/etc:/usr/share/info/dir:/usr/share/man/whatis
+		LOGDIR=/var/lib/prometheus/installed
+	EOF
+}

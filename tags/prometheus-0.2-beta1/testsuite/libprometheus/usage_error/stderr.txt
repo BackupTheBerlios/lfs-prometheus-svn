@@ -1,0 +1,2 @@
+runtest: usage: function arg
+runtest: correct usage: function <arg1> <arg2>

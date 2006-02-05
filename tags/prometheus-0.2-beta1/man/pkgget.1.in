@@ -1,0 +1,99 @@
+.TH PKGGET 1 %RELEASE% "" "Linux User's Manual"
+
+.SH NAME
+
+pkgget \- Download files required to build and install packages.
+
+.SH SYNOPSIS
+
+.BI "pkgget [ " options " ] " package_list
+
+.SH DESCRIPTION
+
+.B pkgget
+checks that the archives and/or patches required to build and install each
+package are present on the system, and downloads any that are not.  Files are
+searched for in (subdirectories of) the source directory.  This is also where
+files are downloaded to.  If a file is missing and the package profile lacks a
+URL for the file, the user is warned and
+.B pkgget
+continues with the next file.
+
+Download ordering is optimized so that connections to servers may be reused for
+multiple files.
+.BR wget (1)
+is used for downloading.
+
+Compression suffixes (e.g.
+.IR ".gz" )
+are ignored, so if, for example, a
+.BR "gzip"ped
+file was recompressed with
+.B bzip2
+after downloading, pkgget will not try to download it again.
+
+Packages are specified by short name (without a version number), e.g. `bash',
+`gcc'.  Profiles have the same name suffixed by
+.I .pkg
+(`bash.pkg', `gcc.pkg'), and are searched for first in the current working
+directory, then in the profile directory.
+
+.SH OPTIONS
+
+All options must precede
+.IR "package_list".
+When options conflict or are repeated, the last on the commandline is used.
+
+.BR -c ", " --config
+.I config_file
+.RS
+Specify alternative configuration file.
+.RE
+
+.BR -l ", " --list
+.RS
+List download locations for missing files, but do not download them.
+.RE
+
+.BR -h ", " -? ", " --help
+.RS
+Display the help screen.
+.RE
+
+.BR -V ", " --version
+.RS
+Display version information.
+.RE
+
+.B --
+.RS
+Treat all remaining arguments as packages.
+.RE
+
+.SH FILES
+
+.I "%CONFDIR%/%CONFIG%"
+.RS
+The global prometheus configuration file.
+.RE
+
+.SH BUGS
+
+If you think you have found a bug or encounter any weird behaviour, please
+report it to the address below.
+
+.SH AUTHOR
+
+.RI "-- Gareth Jones <" gareth_jones@users.berlios.de >
+
+.SH SEE ALSO
+
+.BR pkgadd (8),
+.BR pkgbuild (1),
+.BR pkgcheck (1),
+.BR pkginfo (1),
+.BR pkginstall (8),
+.BR pkgrm (8),
+.BR pkgunpack (1),
+.BR prometheus.conf (5),
+.BR wget (1)

@@ -1,0 +1,11 @@
+# Test exit status of `source_file' for an invalid file.
+
+_testing="libprometheus/source_file"
+_description="status with invalid file"
+_expect=fail
+
+function _check {
+	source "$_lib" || exit 1
+
+	source_file invalid.txt "invalid file"
+}

@@ -1,0 +1,4 @@
+runtest: running logged command `output' failed
+runtest: exit status = 1
+runtest: full command line follows
+runtest: output tnlncf stderr 1

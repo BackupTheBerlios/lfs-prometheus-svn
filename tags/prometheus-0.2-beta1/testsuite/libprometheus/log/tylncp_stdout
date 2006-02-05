@@ -1,0 +1,18 @@
+# Test stdout of `log' when $terminal_output=yes, $logfile is unset, & logged
+# command passes.
+
+_testing="libprometheus/log"
+_description="stdout, terminal + no file, pass"
+_expect=pass
+
+function _check {
+	source "$_lib" || exit 1
+	source "output.bash" || exit 1
+
+	terminal_output=yes
+	logfile=
+	setup_logging
+
+	local out="$(log output "tylncp stdout" 0)"
+	[[ "$out" == "stdout: tylncp stdout" ]]
+}

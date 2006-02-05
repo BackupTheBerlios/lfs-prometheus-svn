@@ -1,0 +1,15 @@
+name="procps"
+version="3.2.6"
+homepage="http://procps.sourceforge.net"
+
+archives=(
+	"http://procps.sourceforge.net/procps-${version}.tar.gz"
+)
+
+function build_pkg {
+	make CC="gcc $CFLAGS"
+}
+
+function install_pkg {
+	make install
+}

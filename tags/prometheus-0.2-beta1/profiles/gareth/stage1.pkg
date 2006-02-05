@@ -1,0 +1,59 @@
+# This is the master profile for stage 1 - the tools used to build the final
+# system.
+
+name="Stage 1"
+version="0.2"
+homepage="http://developer.berlios.de/projects/lfs-prometheus/"
+log_install=no
+
+# Packages to install (in order).
+pkglist=(
+	linux-libc-headers
+	glibc
+	tcl
+	expect
+	dejagnu
+	gcc
+	binutils
+	gawk
+	coreutils
+	bzip2
+	gzip
+	diffutils
+	findutils
+	make
+	grep
+	sed
+	gettext
+	ncurses
+	patch
+	tar
+	texinfo
+	bash
+	m4
+	bison
+	flex
+	util-linux
+	perl
+)
+
+function install_pkg
+{
+	# Sanity checks.
+	(( $(id -u ) == 0 )) &&
+	error "${package}: should not be installed as root"
+
+	[[ -z "${root_fs}" ]] && error "${package}: root_fs not set"
+
+	# Make sure new tools are used straight away.
+	export PATH="/tools/bin:$PATH"
+
+	# Install packages in pkglist.
+	local pkg
+	for pkg in "${pkglist[@]}"
+	do
+		root_fs="${root_fs}" \
+		pkgadd --config="${config}" --stage=1 "${pkg}" ||
+		error "${package}: cannot install \`${pkg}'"
+	done
+}

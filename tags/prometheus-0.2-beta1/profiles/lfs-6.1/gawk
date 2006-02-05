@@ -1,0 +1,25 @@
+name="GNU awk"
+version="3.1.4"
+homepage="http://www.gnu.org/software/gawk/"
+
+archives=(
+	"ftp://ftp.cs.tu-berlin.de/gnu/gawk/gawk-${version}.tar.gz"
+)
+
+function stage1_build_pkg {
+	./configure --prefix=/tools
+	make
+}
+
+function build_pkg {
+	./configure --prefix=/usr --libexecdir=/usr/lib
+	make
+}
+
+function check_pkg {
+	make check
+}
+
+function install_pkg {
+	make install
+}

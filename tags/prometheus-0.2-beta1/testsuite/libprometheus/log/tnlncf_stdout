@@ -1,0 +1,18 @@
+# Test stdout of `log' when $terminal_output=no, $logfile is unset, & logged
+# command fails.
+
+_testing="libprometheus/log"
+_description="stdout, no terminal + no file, fail"
+_expect=pass
+
+function _check {
+	source "$_lib" || exit 1
+	source "output.bash" || exit 1
+
+	terminal_output=no
+	logfile=
+	setup_logging
+
+	local out="$(log output "tnlncf stdout" 1)"
+	[[ -z "$out" ]]
+}

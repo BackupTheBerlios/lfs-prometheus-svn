@@ -1,0 +1,12 @@
+# Test error message from `source_file' for an invalid file.
+
+_testing="libprometheus/source_file"
+_description="error message with invalid file"
+_expect=pass
+
+function _check {
+	source "$_lib" || exit 1
+
+	err="$(source_file invalid.txt "invalid file" 2>&1 | tail --lines=1)"
+	[[ "$err" == "runtest: cannot source invalid file: \`invalid.txt'" ]]
+}

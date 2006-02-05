@@ -1,0 +1,16 @@
+name="less"
+version="382"
+homepage="http://www.gnu.org/software/less/"
+
+archives=(
+	"ftp://ftp.cs.tu-berlin.de/pub/gnu/less/less-${version}.tar.gz"
+)
+
+function build_pkg {
+	./configure --prefix=/usr --bindir=/bin --sysconfdir=/etc
+	make
+}
+
+function install_pkg {
+	make install
+}
