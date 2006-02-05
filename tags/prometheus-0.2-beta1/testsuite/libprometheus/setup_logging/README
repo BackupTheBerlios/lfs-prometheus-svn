@@ -1,8 +1,0 @@
-The `setup_logging' test names follow the scheme `t<x>l<y>'.
-
-The `t<x>' component is determined by the value of the $terminal_output
-variable.  <x> is `y', `n', or `u' for $terminal_output `yes', `no', or unset,
-respectively.
-
-The `l<y>' component is determined by the value of the $logfile variable. <y> is
-`f', `n', or `u' for $logfile set to a file, null, or unset, respectively.
