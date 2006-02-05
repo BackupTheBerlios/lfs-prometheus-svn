@@ -1,3 +1,7 @@
+2006-02-05 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/absolute.cc: Implemented relative function.
+
 2006-02-04 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/libreroot/cstringptr.h: Added.
