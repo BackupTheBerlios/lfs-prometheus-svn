@@ -126,7 +126,7 @@ function finish_install {
 			error "running install-log failed"
 		fi
 
-		(( stage == 2 )) && sync_system
+		sync_system
 
 		# Release lock.
 		rm "$timestamp" || error "releasing lock failed"
@@ -224,7 +224,7 @@ if is_func install_pkg; then
 	# Ensure we the have necessary privileges, (optionally) remove any
 	# existing installation of $package & initialize install-log.
 	get_privileges $@
-	remove_installed
+	(( "$stage" == 2 )) && remove_installed
 
 	# Run the install commands from the package's profile. finish_install
 	# must be run even if we fail, so capture the return value for later.
