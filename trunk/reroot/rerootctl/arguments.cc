@@ -106,10 +106,10 @@ namespace
 		Arguments &args = *static_cast <Arguments *> (state->input);
 
 		// Recognize argument.
-		string str;	// Maybe used in argument processing.
+		string str;	// May be used in argument processing.
 		switch (key)
 		{
-		case 'i':	// --save-index FILE.
+		case 'i':	// --save-index=FILE.
 			absolute (str, arg);
 			args.append_action (Message (Message::save_index, str));
 			break;
@@ -128,7 +128,7 @@ namespace
 			args.set_message_queue (arg);
 			break;
 
-		case ARGP_KEY_SUCCESS:
+		case ARGP_KEY_SUCCESS:	// All arguments parsed, sanity check.
 			// Must have a queue name.
 			if (args.message_queue ().empty ())
 				argp_failure (state, EXIT_FAILURE, 0, no_queue);
@@ -138,7 +138,7 @@ namespace
 				argp_failure (state, EXIT_FAILURE, 0, unlink);
 			break;
 
-		default:
+		default:		// Unrecognized argument.
 			return ARGP_ERR_UNKNOWN;
 		}
 

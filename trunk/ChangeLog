@@ -1,9 +1,11 @@
 2006-02-05 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/libreroot/absolute.cc: Implemented relative function.
+	* reroot/libreroot/absolute.h: Added inline in-place conversion
+	  functions.
 
 	* reroot/rerootctl/arguments.cc: Made index filename absolute before
-	  sending it to rerootd.
+	  sending it to rerootd.  Comments ammended.
 
 2006-02-04 Gareth Jones <gareth_jones@users.berlios.de>
 

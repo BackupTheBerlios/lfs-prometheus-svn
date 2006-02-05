@@ -25,10 +25,29 @@
 
 namespace reroot
 {
+	// For getting absolute filenames.
+	shared void absolute (std::string &filename);
 	shared void absolute (std::string &abs, std::string const &orig);
+
+	// For getting relative filenames.
+	shared void relative (std::string &filename);
 	shared void relative (std::string &rel, std::string const &orig);
 	shared void relative (std::string &rel, std::string const &orig,
 		std::string const &dir);
+}
+
+// Convert filename to an absolute filename.  Don't resolve symbolic links or
+// check if the file exists.
+inline void reroot::absolute (std::string &filename)
+{
+	absolute (filename, filename);
+}
+
+// Convert filename to a filename relative to the current working directory.
+// Don't resolve symbolic links or check if the file exists.
+inline void reroot::relative (std::string &filename)
+{
+	relative (filename, filename);
 }
 
 #endif
