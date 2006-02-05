@@ -1,5 +1,5 @@
 # Prometheus version & release date.
-VERSION = 0.2-20060205
+VERSION = 0.2-beta1
 RELEASE = 2006-02-05
 
 # Which profile set to install (see contents of the profiles directory).
