@@ -19,3 +19,47 @@ Features:
 * simple package download facility
 * flexible tool to query package profiles and get information
   on installed packages
+
+
+First steps
+-----------
+
+To create a system that uses Prometheus from the beginning, follow these
+instructions:
+
+Install Prometheus as explained in the INSTALL file:
+
+	make user
+	make
+	make install
+	cp prometheus-0.2-beta1.tar.bz2 ~prometheus/sources
+
+If you already have the sources for LFS 6.1, copy them to ~prometheus/sources.
+Run
+
+	pkginfo -a | cut -f1 -d' ' | xargs pkgget
+
+to fetch any missing needed files.  To double-check, run the command again.
+If the prompt just returns, you have all needed files and are ready to go.
+
+Decide where you want your new LFS system (I suggest /mnt/lfs) and edit
+
+	~prometheus/profiles/lfs
+
+accordingly.  Look for the 'lfs=' and 'mount_lfs=' and 'lfs_device=' lines at
+the top of the file.
+
+You might also want to edit /etc/prometheus/prometheus.conf to change the
+logging options, CFLAGS etc.  (Note that those won't apply once the chroot
+environment of LFS chapter six is entered).
+
+Now, just simply type
+
+	pkgadd lfs
+
+sit back, and watch.  A complete build takes about four hours on my Athlon XP
+1700.
+
+
+In your new system, you surely want to add more packages.  Take a look at
+~prometheus/profiles/REFERENCE.pkg to see how a profile is written.

@@ -1,8 +1,12 @@
 Installation of prometheus is straightforward.
 
 Do NOT just copy the files to where you want them!  The scripts as well as some
-package profiles need pre-processing.  Take a look at Makefile.defs and adjust
-it to your liking, then simply type
+package profiles need pre-processing.  Also, as of version 0.2 Prometheus uses
+a user and group 'prometheus' and cannot work without it.  To create them, type
+
+	make user
+
+Then take a look at Makefile.defs and adjust it to your liking.  Then type
 
 	make
 
@@ -21,4 +25,4 @@ You /might/ want to reinstall prometheus right afterwards with
 to register prometheus with its own databases and log files.
 
 There is also an 'update' target that does not touch the config and profile
-files in /etc/prometheus/.
+files in /etc/prometheus/ and ~prometheus.
