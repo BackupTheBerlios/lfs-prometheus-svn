@@ -4,7 +4,7 @@ version="0.2-beta1"
 dep=( install-log )
 
 archives=(
-	"prometheus-${version}.tar.bz2"
+	"http://download.berlios.de/lfs-prometheus/prometheus-${version}.tar.bz2"
 )
 
 function stage1_build_pkg {
