@@ -1,19 +1,21 @@
 name=udev
-version="081"
+version="084"
 homepage="http://www.kernel.org/pub/linux/utils/kernel/hotplug/udev.html"
 
 archives=(
 	"http://www.de.kernel.org/pub/linux/utils/kernel/hotplug/udev-${version}.tar.bz2"
-	"http://lfs-prometheus.berlios.de/download/25-lfs.rules"
+	"http://downloads.linuxfromscratch.org/udev-config-5.rules"
 )
 
 archive_dirs=(
 	""
-	"@d"
+	":"
 )
 
 function build_pkg {
-	make EXTRAS=extras/run_directory
+	make EXTRAS="extras/ata_id extras/cdrom_id extras/edd_id \
+		extras/firmware extras/floppy extras/scsi_id extras/usb_id \
+		extras/volume_id"
 }
 
 function check_pkg {
@@ -21,9 +23,27 @@ function check_pkg {
 }
 
 function install_pkg {
-	make DESTDIR=/ EXTRAS=extras/run_directory install
+	make DESTDIR=/ EXTRAS="extras/ata_id extras/cdrom_id extras/edd_id \
+		extras/firmware extras/floppy extras/scsi_id +extras/usb_id \
+		extras/volume_id" install
+
+	install -d /lib/{firmware,udev/devices}
+
 	install -m644 -D docs/writing_udev_rules/index.html \
 		/usr/share/doc/udev-${version}/index.html
-	cp 25-lfs.rules /etc/udev/rules.d/
-	/sbin/udevstart
+
+	cat_file "$(location_of "${archives[1]}")" | sed 147,150d > \
+		/etc/udev/rules.d/25-lfs.rules
+
+	cat >> /etc/udev/rules.d/25-lfs.rules <<-"EOF"
+	# Rules to allow hotplugging of devices with modular drivers
+	ACTION=="add", SUBSYSTEM=="usb", MODALIAS=="*", RUN+="/sbin/modprobe $modalias"
+	ACTION=="add", SUBSYSTEM=="scsi", SYSFS{type}=="[07]", RUN+="/sbin/modprobe sd_mod"
+	EOF
+
+	ln -sf /proc/self/fd  /lib/udev/devices/fd
+	ln -sf /proc/self/fd0 /lib/udev/devices/stdin
+	ln -sf /proc/self/fd1 /lib/udev/devices/stdout
+	ln -sf /proc/self/fd2 /lib/udev/devices/stderr
+	ln -sf /proc/kcore    /lib/udev/devices/core
 }

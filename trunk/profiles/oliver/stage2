@@ -41,7 +41,6 @@ pkglist=(
 	groff
 	grub
 	gzip
-	hotplug
 	inetutils
 	install-log
 	iproute2

@@ -27,6 +27,7 @@ pkglist=(
 	grep
 	gzip
 	install-log
+	m4
 	make
 	patch
 	perl

@@ -1,5 +1,5 @@
 name="Manual pages"
-version="2.21"
+version="2.22"
 
 archives=(
     "http://www.de.kernel.org/pub/linux/docs/manpages/man-pages-${version}.tar.bz2"

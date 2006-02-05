@@ -12,7 +12,7 @@ function install_pkg {
 	install -d ${lfs}/{bin,boot,dev,etc/opt,home,lib,mnt,proc}
 	install -d ${lfs}/{sbin,sys,usr/local,var}
 	install -d ${lfs}/root -m 0750
-	install -d ${lfs}/tmp /var/tmp -m 1777
+	install -d ${lfs}/tmp ${lfs}/var/tmp -m 1777
 	install -d ${lfs}/usr/{bin,include,lib,sbin,share,src}
 	ln -s share/{man,doc,info} ${lfs}/usr
 	install -d ${lfs}/usr/share/{doc,info,locale,man}

@@ -123,9 +123,9 @@ function install_pkg {
 	error "${package}: could not build stage 2"
 
 	find ${lfs}/{,usr/}{bin,lib,sbin} -type f \
-		-exec strip --strip-debug '{}' ';'
+		-exec strip --strip-debug '{}' ';' >/dev/null 2>&1
 
-	#FIXME: Cleaning up - kernel, bootloader, pwconv, config...
+	#FIXME: Cleaning up - kernel, bootloader, config...
 
 	grep "${lfs}${srcdir}" /proc/mounts &> /dev/null && umount "${lfs}${srcdir}"
 	grep "${lfs}/dev/shm" /proc/mounts &> /dev/null && umount "${lfs}/dev/shm"
