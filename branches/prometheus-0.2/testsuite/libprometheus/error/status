@@ -1,0 +1,13 @@
+# Test that the `error' function causes immediate failure.
+
+_testing="libprometheus/error"
+_description="exit status after error"
+_expect=fail
+
+function _check {
+	source "$_lib" || exit 1
+	error "this is an error"
+
+	# We should never get here.
+	exit 0
+}

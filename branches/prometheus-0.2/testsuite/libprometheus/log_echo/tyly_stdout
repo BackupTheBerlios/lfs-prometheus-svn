@@ -1,0 +1,17 @@
+# Test stdout of `log_echo' when $terminal_output=yes & $logfile=output.log.
+
+_testing="libprometheus/log_echo"
+_description="stdout, terminal + file"
+_expect=pass
+
+function _check {
+	source "$_lib" || exit 1
+
+	terminal_output=yes
+	logfile="output.log"
+	> "$logfile"
+	setup_logging
+
+	log_echo "five     spaces" > output.txt
+	diff logfile.txt output.txt
+}

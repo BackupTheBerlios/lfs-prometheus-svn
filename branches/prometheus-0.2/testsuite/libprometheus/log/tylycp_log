@@ -1,0 +1,19 @@
+# Log output from `log' when $terminal_output=yes, $logfile=output.log, & logged
+# command passes.
+
+_testing="libprometheus/log"
+_description="log, terminal + file, pass"
+_expect=pass
+
+function _check {
+	source "$_lib" || exit 1
+	source "output.bash" || exit 1
+
+	terminal_output=yes
+	logfile="output.log"
+	> "$logfile"
+	setup_logging
+
+	log output "tylycp log" 0
+	diff "tylycp_log.txt" "$logfile"
+}

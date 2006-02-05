@@ -1,0 +1,26 @@
+name="bison"
+version="2.1"
+homepage="http://www.gnu.org/software/bison/"
+
+archives=(
+	"ftp://ftp.cs.tu-berlin.de/pub/gnu/bison/bison-${version}.tar.bz2"
+)
+
+function stage1_build_pkg {
+	./configure --prefix=/tools
+	make
+}
+
+function build_pkg {
+	./configure --prefix=/usr --disable-nls
+#	echo '#define YYENABLE_NLS 1' >> config.h
+	make
+}
+
+function check_pkg {
+	make check
+}
+
+function install_pkg {
+	make install
+}

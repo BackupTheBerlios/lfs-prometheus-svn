@@ -1,0 +1,25 @@
+name="man"
+version="1.6c"
+
+archives=(
+	"http://primates.ximian.com/~flucifredi/man/man-${version}.tar.gz"
+)
+
+function build_pkg {
+	cp configure{,.orig}
+	cp src/man.conf.in{,.orig}
+	cp src/Makefile.in{,.orig}
+	cp man2html/Makefile.in{,.orig}
+	sed -e 's/-is/&R/' configure.orig > configure
+	sed -e 's%MANPATH./usr/man%#&%' src/man.conf.in.orig > src/man.conf.in
+	sed -e 's/DEFS = /&-DNONLS /' src/Makefile.in.orig > src/Makefile.in
+	sed -e "s/CFLAGS = /& $cflags /" \
+		man2html/Makefile.in.orig > man2html/Makefile.in
+
+	./configure -confdir=/etc
+	make
+}
+
+function install_pkg {
+	make install
+}

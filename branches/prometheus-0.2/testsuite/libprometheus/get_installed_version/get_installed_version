@@ -1,0 +1,12 @@
+# Test `get_installed_version' reading from `vtab'.
+
+_testing="libprometheus/get_installed_version"
+_description="returned value"
+_expect=pass
+
+function _check {
+	source "$_lib" || exit 1
+	version_table=vtab
+
+	[[ "$(get_installed_version package3)" == "2.4.99.4-rc7" ]]
+}

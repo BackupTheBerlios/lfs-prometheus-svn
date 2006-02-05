@@ -1,0 +1,50 @@
+# Location of the package profiles.
+profiles="%PROFDIR%"
+
+# Where to find install-log.rc.
+install_log_rc="%INSTALL_LOG_RC%"
+
+# The following values may be overridden per package in package profiles.  All
+# can be further overridden by additional variables with the same names but
+# prefixed with `stage<n>_', where <n> is an integer.  For example, stage 1
+# should not be built as root, so `install_as_root=yes' is overridden by
+# `stage1_install_as_root=no'.
+
+# If this is set to a filename, builds & installs (both stdout & stderr) are
+# logged to the file.  The filename must include full directory specification.
+logfile=
+
+# Show stdout & stderr on the terminal?  Logging does not affect this.
+terminal_output=yes
+
+# Should install-log be run?
+log_install=yes
+stage0_log_install=no
+stage1_log_install=no
+
+# Should packages be *installed* as root?  (Build user not affected.)
+install_as_root=yes
+stage0_install_as_root=no
+stage1_install_as_root=no
+
+# This variable is used to keep the source files unpacked even after installing
+# packages.  Its use is analogous to the `--leave-files' switch to pkgadd.
+leavefiles=no
+
+# Should we run the packages' testsuites?
+check=no
+
+# Do we want to optimize builds?
+optimize=yes
+stage0_optimize=no
+stage1_optimize=no
+
+# Default build environment.  Null values are exported as null.  If you do not
+# want a variable exported, explicitly unset it.
+cc="gcc -s"
+cxx="g++ -s"
+cflags="-DHAVE_MKSTEMP -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -w -g0 -pipe -Os" #-march=i686"
+cxxflags="$cflags"
+ldflags="-Wl,-s"
+linguas="en"
+lc_all="POSIX"

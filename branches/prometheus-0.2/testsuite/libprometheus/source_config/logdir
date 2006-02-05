@@ -1,0 +1,13 @@
+# Check $logdir set correctly after `source_config'.
+
+_testing="libprometheus/source_config"
+_description='$logdir set correctly'
+_expect=pass
+
+function _check {
+	source "$_lib" || exit 1
+
+	config=prometheus.conf
+	source_config
+	[[ "$logdir" == "/var/log/install-log" ]]
+}

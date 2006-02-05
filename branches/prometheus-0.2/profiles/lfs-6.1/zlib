@@ -1,0 +1,30 @@
+name="zlib"
+version="1.2.2"
+homepage="http://www.gzip.org/zlib/"
+
+archives=(
+#	"ftp://ftp.info-zip.org/pub/infozip/zlib/zlib-${version}.tar.gz"
+	"ftp://ftp.linuxfromscratch.org/pub/lfs/conglomeration/zlib/zlib-${version}.tar.bz2"
+)
+
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/zlib/zlib-1.2.2-security_fix-1.patch"
+)
+
+function build_pkg {
+	# Note: as opposed to LFS, we do _not_ build the static zlib
+	# library.
+
+	./configure --prefix=/usr --shared --libdir=/lib
+	make
+}
+
+function check_pkg {
+	make check
+}
+
+function install_pkg {
+	make install
+	rm /lib/libz.so
+	ln -sf ../../lib/libz.so.${version} /usr/lib/libz.so
+}

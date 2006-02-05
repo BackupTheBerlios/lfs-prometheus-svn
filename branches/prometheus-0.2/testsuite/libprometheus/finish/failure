@@ -1,0 +1,11 @@
+# Test the `finish' function with a failure exit status.
+
+_testing="libprometheus/finish"
+_description="unsuccessful exit"
+_expect=fail
+
+function _check {
+	source "$_lib" || exit 1
+	(( ++failures ))
+	finish
+}

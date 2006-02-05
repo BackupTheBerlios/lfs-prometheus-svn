@@ -1,0 +1,16 @@
+# What function/script is being tested?
+_testing="libprometheus/warning"
+
+# A one-line description.
+_description="exit status after warning"
+
+# The expected exit status of the test is either `pass' or `fail'.
+_expect=pass
+
+# The test.  Will be run in a subshell.  $_lib expands to the location of
+# libprometheus, which may be sourced to test its functions.
+function _check {
+	source "$_lib" || exit 1
+	warning "this is a warning"
+	finish
+}

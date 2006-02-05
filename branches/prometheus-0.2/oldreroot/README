@@ -1,0 +1,101 @@
+Some ramblings about reroot follow.
+
+Should use __attribute__ ((visibility ("hidden/default"))) liberally.  Best wait
+for GCC 4.0 so can apply it to classes.  Also see -fvisibility.
+
+File types:
+	file/link
+	directory
+	symbolic link
+	pipe
+	socket
+	block device
+	character device
+
+Metadata that must be tracked:
+	real filename
+	rerooted filename - not needed, libreroot will map to real filename
+	inode/device numbers?
+	owner
+	group
+	permission bits including sticky, suid & sgid
+	ACL info?
+	Symbolic link destination
+	Device major & minor number
+	Dates & times - use filesystem for this
+
+Actions:
+	open
+	close
+	mmap
+	create
+	create link
+	unlink
+	read metadata
+	write metadata
+	read directory
+	clean up
+	write index
+	relocate database entries to false root
+
+User/group faking:
+	get effective/real user/group IDs
+	set effective/real user/group IDs
+	get login name
+	looking up users/groups
+	scanning user/group list
+	get group list for user
+	(adding user via libc is depricated)
+
+Open
+	If only opened for reading, pass straight to glibc.  Hope we have (real)
+	permissions to read file, because we cannot fake them.  Or could fake an
+	empty file, but seems a bit pointless.
+
+	If opened for writing, copy file to false root & open it.  Flag as
+	modified.
+
+Close
+	If opened for writing, unlink false root copy if unmodified.
+
+Mmap
+	Mark as modified etc.
+
+Create
+	Create in false root, flag modified.
+
+Create Link
+	Symbolic link created in false root but with pointed to filename
+	unmodified, simulate rerooted destination as necessary.
+
+	Hard link - simulate.  Commit to FS later.
+
+Unlink
+	Unlink false root version.  What about the original version in real root
+	if it exists?  Hopefully installs won't ever delete installed files.
+	Remember file is deleted.
+
+Read Metadata
+	Read false root metadata, or real if not in false root.
+
+Write Metadata
+	Remember changes, even for files not under false root.  Need to store
+	changes in index?
+
+Read Directory
+	Overlay false root hierarchy onto root.  This is the fun part.  Yay for
+	efficiency etc.  Read false root directory first, then real ommitting
+	duplicates.
+
+Clean Up
+	Remove files in false root marked unmodified or ignored (e.g.
+	/etc/passwed).  Commit hard links to false root filesystem.
+	Diff modified files, remove those that haven't actually changed.
+
+Write Index
+	Save file list for false root.  Also include metadata.  What about
+	deleted files or unmodified files with modified metadata?
+
+Relocate database entries to false root
+	Prefix false root to filenames of files in false root, remove other
+	entries.  This is in preparation for archiving false root.
