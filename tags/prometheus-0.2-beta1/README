@@ -1,0 +1,65 @@
+Prometheus 0.2
+
+ProMeTheuS is the Package Management Tool Set.
+
+It is intended for use by the LFS audience.  It grew from a simple LFS build
+script to a collection of tools that should cover most package management needs
+of the average LFS user.
+
+Prometheus uses install-log as backend and features very powerful package
+profiles that can even be used to build a complete LFS by issueing a single
+command.
+
+Features:
+* installation and removal of software packages
+* keeps track of installed files using install-log
+* keeps track of version information
+* simple dependency resolution method
+* powerful package profiles based on bash shell scripts
+* simple package download facility
+* flexible tool to query package profiles and get information
+  on installed packages
+
+
+First steps
+-----------
+
+To create a system that uses Prometheus from the beginning, follow these
+instructions:
+
+Install Prometheus as explained in the INSTALL file:
+
+	make user
+	make
+	make install
+	cp prometheus-0.2-beta1.tar.bz2 ~prometheus/sources
+
+If you already have the sources for LFS 6.1, copy them to ~prometheus/sources.
+Run
+
+	pkginfo -a | cut -f1 -d' ' | xargs pkgget
+
+to fetch any missing needed files.  To double-check, run the command again.
+If the prompt just returns, you have all needed files and are ready to go.
+
+Decide where you want your new LFS system (I suggest /mnt/lfs) and edit
+
+	~prometheus/profiles/lfs
+
+accordingly.  Look for the 'lfs=' and 'mount_lfs=' and 'lfs_device=' lines at
+the top of the file.
+
+You might also want to edit /etc/prometheus/prometheus.conf to change the
+logging options, CFLAGS etc.  (Note that those won't apply once the chroot
+environment of LFS chapter six is entered).
+
+Now, just simply type
+
+	pkgadd lfs
+
+sit back, and watch.  A complete build takes about four hours on my Athlon XP
+1700.
+
+
+In your new system, you surely want to add more packages.  Take a look at
+~prometheus/profiles/REFERENCE.pkg to see how a profile is written.

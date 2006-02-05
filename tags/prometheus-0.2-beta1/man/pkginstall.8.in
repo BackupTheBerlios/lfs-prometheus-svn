@@ -1,0 +1,151 @@
+.TH PKGINSTALL 8 %RELEASE% "" "System Administration Manual"
+
+.SH NAME
+
+pkginstall \- Install packages from their build directories.
+
+.SH SYNOPSIS
+
+.BI "pkginstall [ " options " ] " package_list
+
+.SH DESCRIPTION
+
+.B pkginstall
+installs packages from their build directories, in the order given on the
+commandline.  The built packages are expected to be in the build directory.
+
+Packages are specified by short name (without a version number), e.g. `bash',
+`gcc'.  Profiles have the same name suffixed by
+.I .pkg
+(`bash.pkg', `gcc.pkg'), and are searched for first in the current working
+directory, then in the profile directory.
+
+.BR pkgbuild (1)
+should be invoked to build the packages before running
+.BR "pkginstall".
+You may wish to invoke
+.BR pkgcheck (1)
+to run the packages' testsuites before installation too.
+
+.SH OPTIONS
+
+All options must precede
+.IR "package_list".
+When options conflict or are repeated, the last on the commandline is used.
+
+.BR -c ", " --config
+.I config_file
+.RS
+Specify alternative configuration file.
+.RE
+
+.BR -h ", " -? ", " --help
+.RS
+Display the help screen.
+.RE
+
+.BR -s ", " --stage
+.I stage_number
+.RS
+Specify the stage of a Linux From Scratch build.  Valid stage numbers are 0, 1
+or 2.  Stage 0 is building the initial toolchain; stage 1 is building the GNU C
+Library, rebuilding the toolchain, and building the remaining packages necessary
+to bootstrap an LFS system; stage 2 is building the final system.
+.RE
+
+.BR -V ", " --version
+.RS
+Display version information.
+.RE
+
+.B --
+.RS
+Treat all remaining arguments as packages.
+.RE
+
+The following options control what
+.B pkginstall
+does if told to install a package when a version of the package is already
+installed.  If such a situation arises and none of these options are specified,
+.B pkginstall
+will ask the user what to do.
+.BR pkgrm (8)
+is used if an existing installation is removed.
+
+.BR -b ", " --backup-installed
+.RS
+The existing installation is backed-up and removed before the conflicting
+package is installed.
+.RE
+
+.BR -l ", " --leave-installed
+.RS
+The existing installation is left alone and installation of the conflicting
+package is aborted.
+.RE
+
+.BR -o ", " --overwrite-installed
+.RS
+The existing installation is overwritten by the conflicting package's
+installation.
+.RE
+
+.BR -r ", " --remove-installed
+.RS
+The existing installation is removed before the conflicting package is
+installed.
+.RE
+
+The following options control what
+.B pkginstall
+does if installation of a package fails.  In this situation, depending on how
+far installation progressed before failing, some files may have been copied to
+the system.  These files constitute an incomplete installation that may conflict
+with future installations of the package.  If such a situation arises and none
+of these options are specified,
+.B pkginstall
+will ask the user what to do.
+.BR pkgrm (8)
+is used if a failed installation is removed.
+
+.BR -L ", " --leave-failed
+.RS
+The failed installation is left.  It may be removed with
+.BR pkgrm (8)
+later.
+.RE
+
+.BR -R ", " --remove-failed
+.RS
+The failed installation is removed, leaving the system in the state it was in
+before the installation was attempted.  If a previous installation was backed-up
+and removed prior to the failed installation, its files will be restored.
+.RE
+
+.SH FILES
+
+.I "%CONFDIR%/%CONFIG%"
+.RS
+The global prometheus configuration file.
+.RE
+
+.SH BUGS
+
+If you think you have found a bug or encounter any weird behaviour, please
+report it to the address below.
+
+.SH AUTHOR
+
+.RI "-- Gareth Jones <" gareth_jones@users.berlios.de >
+
+.SH SEE ALSO
+
+.BR install-log (1),
+.BR pkgadd (8),
+.BR pkgbuild (1),
+.BR pkgcheck (1),
+.BR pkgget (1),
+.BR pkginfo (1),
+.BR pkgrm (8),
+.BR pkgunpack (1),
+.BR prometheus.conf (5)

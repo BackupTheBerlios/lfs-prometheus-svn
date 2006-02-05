@@ -1,0 +1,223 @@
+#! /bin/bash
+
+# pkgrm package uninstaller
+# Copyright (C) 2003-2006 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
+# Gareth Jones <gareth_jones@users.berlios.de>
+#
+# This program is free software; you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation; either version 2 of the License, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+# details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+# Place, Suite 330, Boston, MA  02111-1307  USA
+
+# Global prometheus functions.
+source "%LIBPROMETHEUS%" || exit 1
+
+# Usage: usage
+# Print help text.
+function usage {
+	cat <<-EOF
+Usage:
+${0##*/} [<options>] <package_list>
+
+Remove an installed package from the system and create a backup if desired.
+
+Options (must precede package list):
+-c, --config <config_file>	Specify alternative configuration file
+-f, --force			Non-interactive mode. Do not prompt
+-b, --backup			Create a backup of the removed package
+-p, --purge			Remove config and variable data (/etc and /var)
+--				Treat remaining arguments as packages
+
+-h, -?, --help			Show this help screen
+-V, --version			Show version information
+
+	EOF
+	finish
+}
+
+# Usage: do_backup
+# Backup an installed package
+function do_backup {
+
+	[[ -d ~prometheus/backup ]] || 
+	install -d -g prometheus -o prometheus -m775 ~prometheus/backup
+
+	# xargs -r aborts if stdin is empty.
+	# tar -P does not strip leading slashes in filenames.
+	# tar --ignore-failed-read ignores non-existant files.
+	cut -f6 ~prometheus/installed/indices/"$pkg" | \
+	if [ -n "$purge" ]; then
+		egrep -v '^/(etc|var)'
+	else
+		cat
+	fi | \
+	xargs -r tar cjPf ~prometheus/backup/"$pkg".tar.bz2 \
+		--ignore-failed-read 2> /dev/null \
+		~/prometheus/installed/{profiles,indices}/"$pkg" &&
+	chown prometheus:prometheus ~prometheus/backup/"$pkg".tar.bz2 ||
+	error "backup failed"
+}
+
+# Usage: create_dep_list
+# Build a list of packages that depend on the one to be removed.
+function create_dep_list {
+
+	local p
+	unset dep_list
+
+	for p in $(pkginfo --query-installed 2> /dev/null | cut -f1 -d\ ); do
+		if pkginfo --dependencies "$p" 2> /dev/null |
+			grep "$pkg" > /dev/null; then
+			dep_list="${dep_list}\n$p"
+		fi
+	done
+
+	return 0
+}
+
+# Usage remove_empty_tree
+# Build a list of those directories that the current pkg stored files in
+# and remove all empty ones.
+function remove_empty_tree {
+
+	(( $(wc -c ~prometheus/installed/indices/"$pkg" | awk '{ print $1};') > 0 )) ||
+		return 1
+
+	local dir
+
+	cut -f6 ~prometheus/installed/indices/"$pkg" | \
+	while read dir; do
+		echo "${dir%/*}"
+	done | \
+	sort --unique | \
+	if [ -n "$purge" ]; then
+		egrep -v '^/(etc|var)'
+	else
+		cat
+	fi | \
+	xargs --no-run-if-empty  rmdir --parents --ignore-fail-on-non-empty
+}
+
+# Usage: remove_files
+# Remove the package and meta data
+function remove_files {
+
+	cut -f6 ~prometheus/installed/indices/"$pkg" | \
+	if [ -n "$purge" ]; then
+		egrep -v '^/(etc|var)'
+	else
+		cat
+	fi | xargs --no-run-if-empty rm -f ||
+        return 1
+
+	remove_empty_tree
+
+	if is_func pkg_post_remove; then
+		pkg_post_remove || \
+		{ echo "The package's post_remove script failed.";
+		  echo "You may have to clean up after it manually.";
+		  return 1; }
+	fi
+
+	rm -f ~prometheus/installed/{profiles,indices}/"$pkg"
+
+	return 0
+}
+
+# --------------------------- START EXECUTION HERE --------------------------- #
+
+unset backup force purge dep_list
+
+# Check for options.
+while [[ "$1" == -* ]]; do
+	case "$1" in
+		(-c|--config)			config="$2"
+						shift ;;
+
+		(--config=*)			config="${1#--config=}" ;;
+
+		(-h|-\?|--help)			usage ;;
+
+		(-b|--backup)			backup=backup ;;
+
+		(-f|--force)			force=force ;;
+
+		(-p|--purge)			purge=purge ;;
+
+		(-V|--version)			version ;;
+
+		(--)				shift
+						break ;;
+
+		(*)		script_usage_err "unrecognized option: $1"
+	esac
+	shift
+done
+
+# The remaining arguments should all be packages.
+(( $# == 0 )) && script_usage_err "no packages to remove"
+
+# Remove duplicate packages from parameter list.
+package_list=( "$@" )
+remove_dupes package_list
+
+source_config
+
+# If there is more than one package, remove each in its own instance.
+if (( ${#package_list[@]} > 1 )); then
+	for package in "${package_list[@]}"; do
+		"$0" --config="$config" ${backup:+--backup} \
+			${force:+--force} ${purge:+--purge} "$package" ||
+		error "removal of $package failed"
+	done
+	finish
+fi
+
+# There is only one package to remove.  Do so in this instance.
+pkg="${package_list[0]}"
+
+source_profile inst "$pkg"
+
+# Test whether the package is actually installed.
+# This also tests whether the logfile is readable, btw.
+if pkginfo "$pkg" | grep --invert-match "not installed" > /dev/null; then
+	get_privileges $@
+
+	name="${name:-$pkg}"
+	if [[ -z "$force" ]]; then
+		create_dep_list
+		if [[ -n "$dep_list" ]]; then
+			echo "The following packages depend on ${name}:"
+			echo -e $dep_list | sort
+			echo
+		fi
+		echo -n "Do you really want to remove ${name}? [y/n] "
+		choice || error "${name} has not been removed"
+
+		if [[ -z "$backup" ]]; then
+			echo -n "Do you want to create a backup prior to \
+removing ${name}? [y/n] "
+			choice && backup=backup || unset backup
+		fi
+	fi
+
+	[[ -n "$backup" ]] && do_backup
+
+	echo "Removing ${name}..."
+	remove_files ||
+	error "${name} could not be removed"
+	sync_system
+else
+	error "${pkg} is not installed"
+fi
+
+finish

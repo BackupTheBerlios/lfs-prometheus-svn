@@ -1,0 +1,12 @@
+# Test `echo_array' output.
+
+_testing="libprometheus/echo_array"
+_description="output"
+_expect=pass
+
+function _check {
+	source "$_lib" || exit 1
+
+	local array="$(echo_array "" word "" "one space" "")"
+	[[ "$array" == '( "" "word" "" "one space" "" )' ]]
+}

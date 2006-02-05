@@ -1,0 +1,16 @@
+name="LFS boot scripts"
+version="20051223"
+
+archives=(
+#	"http://downloads.linuxfromscratch.org/lfs-bootscripts-${version}.tar.bz2"
+	"http://www.linuxfromscratch.org/~dj/bootscripts/lfs-bootscripts-${version}.tar.bz2"
+)
+
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/lfs-bootscripts/lfs-bootscripts-${version}-recent_udev-1.patch"
+)
+
+function install_pkg {
+	sed -i '/hotplug/d' Makefile
+	make install
+}

@@ -1,0 +1,10 @@
+# Test the `pipestat' function with failure at start of pipeline.
+
+_testing="libprometheus/pipestat"
+_description="pipeline, failure at start"
+_expect=fail
+
+function _check {
+	source "$_lib" || exit 1
+	false | true | true && pipestat
+}

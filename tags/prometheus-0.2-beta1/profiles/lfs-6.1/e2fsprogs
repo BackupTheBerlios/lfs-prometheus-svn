@@ -1,0 +1,30 @@
+name="e2fsprogs"
+version="1.37"
+
+archives=(
+	"http://download.sourceforge.net/e2fsprogs/e2fsprogs-${version}.tar.gz"
+)
+
+function build_pkg {
+	sed -i 's/-DTEST/$(ALL_CFLAGS) &/' lib/e2p/Makefile.in
+
+	mkdir "$directory"/../e2fsprogs-build
+	cd "$directory"/../e2fsprogs-build
+	"$directory"/configure --prefix=/usr --with-root-prefix="" \
+			       --enable-elf-shlibs --disable-evms
+	make
+}
+
+function check_pkg {
+	cd "$directory"/../e2fsprogs-build
+	make check
+}
+
+function install_pkg {
+	cd "$directory"/../e2fsprogs-build
+	make install
+	make install-libs
+
+	cd "$directory"/..
+	rm -rf e2fsprogs-build
+}

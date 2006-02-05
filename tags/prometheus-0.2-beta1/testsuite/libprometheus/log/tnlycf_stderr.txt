@@ -1,0 +1,14 @@
+runtest: running logged command `output' failed
+runtest: exit status = 1
+runtest: full command line follows
+runtest: output tnlycf stderr 1
+runtest: see log file `output.log' for details
+runtest: tail of log follows
+
+** Command: output 'tnlycf stderr' 1
+** Command: echo 'stdout: tnlycf stderr'
+stdout: tnlycf stderr
+** Command: echo 'stderr: tnlycf stderr'
+stderr: tnlycf stderr
+** Command: return 1
+runtest: exit status = 1

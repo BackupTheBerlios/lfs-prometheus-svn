@@ -1,0 +1,28 @@
+Installation of prometheus is straightforward.
+
+Do NOT just copy the files to where you want them!  The scripts as well as some
+package profiles need pre-processing.  Also, as of version 0.2 Prometheus uses
+a user and group 'prometheus' and cannot work without it.  To create them, type
+
+	make user
+
+Then take a look at Makefile.defs and adjust it to your liking.  Then type
+
+	make
+
+followed by
+
+	make install
+
+(as root), and you're golden.  The Makefile honours the usual path definitions,
+such as DESTDIR, prefix, bindir and so on.  Have a look at Makefile.defs for a
+complete list.  You need to pass these path definitions to _both_ make calls.
+
+You /might/ want to reinstall prometheus right afterwards with
+
+	pkgadd prometheus
+
+to register prometheus with its own databases and log files.
+
+There is also an 'update' target that does not touch the config and profile
+files in /etc/prometheus/ and ~prometheus.

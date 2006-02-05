@@ -1,0 +1,31 @@
+# This is the master profile for stage 0 of pure_lfs.
+
+# Stage 0 is the static build of binutils & gcc in /tools.
+
+name="Stage 0"
+version="6.1"
+log_install=no
+
+# Packages to install in stage 0 (in order).
+pkglist=(binutils gcc)
+
+stage=0
+
+function install_pkg {
+
+	# Sanity checks.
+	(( $(id -u) == 0 )) &&
+	error "${package}: stage 0 should not be built as root"
+
+	[[ -z "$lfs" ]] && error "${package}: lfs not set"
+
+	export PATH="/tools/bin:$PATH"
+
+	# Install packages in pkglist.
+	local pkg
+	for pkg in "${pkglist[@]}"; do
+		lfs="$lfs" \
+		%PKGADD% --config "$config" --stage=0 "$pkg" ||
+		error "${package}: could not install $pkg"
+	done
+}

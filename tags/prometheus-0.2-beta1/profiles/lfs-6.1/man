@@ -1,0 +1,21 @@
+name="man"
+version="1.5p"
+
+archives=(
+	"http://www.de.kernel.org/pub/linux/utils/man/man-${version}.tar.bz2"
+)
+
+function build_pkg {
+	cp configure{,.orig}
+	cp src/man.conf.in{,.orig}
+	cp man2html/Makefile.in{,.orig}
+	sed -e 's/-is/&R/' configure.orig > configure
+	sed -e 's%MANPATH./usr/man%#&%' src/man.conf.in.orig > src/man.conf.in
+
+	./configure -confdir=/etc
+	make
+}
+
+function install_pkg {
+	make install
+}

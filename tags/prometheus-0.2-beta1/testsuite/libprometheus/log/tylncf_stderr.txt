@@ -1,0 +1,9 @@
+** Command: output 'tylncf stderr' 1
+** Command: echo 'stdout: tylncf stderr'
+** Command: echo 'stderr: tylncf stderr'
+stderr: tylncf stderr
+** Command: return 1
+runtest: running logged command `output' failed
+runtest: exit status = 1
+runtest: full command line follows
+runtest: output tylncf stderr 1

@@ -1,0 +1,1166 @@
+2006-02-06 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/lfs, profiles/lfs-6.1/stage2,
+	  profiles/lfs-6.1/rootfs: Fixed the last issues with the LFS profiles.
+	* scripts/libprometheus.bash.in: Fixed another bug that cripples the
+	  environment during LFS builds.
+	* scripts/pkginstall.in: Fixed checking for already installed packges
+	  when building LFS.
+
+2006-02-05 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/absolute.cc: Implemented relative function.
+	* reroot/libreroot/absolute.h: Added inline in-place conversion
+	  functions.
+
+	* reroot/rerootctl/arguments.cc: Made index filename absolute before
+	  sending it to rerootd.  Comments ammended.
+
+2006-02-04 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/cstringptr.h: Added.
+	* reroot/libreroot/absolute.cc: Use CStringPtr instead of char *, use
+	  empty instead of length, added new relative function.
+
+	* reroot/libreroot/message.cc, reroot/rerootctl/arguments.cc: Use empty
+	  instead of length.
+
+2006-02-03 Oliver Brakmann <olivebrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/*: Fixed another round of bugs in the profiles.
+	  LFS should compile now from start to finish.
+
+	* scripts/pkginstall.in: Fixed a sed that broke on files installed by
+	  glibc. Again.
+
+	* scripts/libprometheus.bash.in: Fixed rebuilding the 'info' directory.
+	  Made the rebuilding of info nodes quiet. Fixed PATH after dropping
+	  privileges in LFS builds. 
+
+2006-02-03 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/absolute.cc, reroot/libreroot/absolute.h,
+	  reroot/libreroot/stringlist.cc, reroot/libreroot/tokenizer.cc: Added.
+	* reroot/libreroot/stringlist.h: Simplified.
+
+2006-01-30 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/*: Fixed various bugs found in testing.
+
+2006-01-29 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* scripts/pkginstall.in: Don't run cleanup_failed on "virtual"
+	  packages.
+	* scripts/pkgadd.in: Fixed removal of build directories so that rm
+	  does not prompt anymore when it encounters r/o files.
+
+2006-01-28 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* scripts/libprometheus.bash.in: Fixed `drop_privileges' so that it
+	  only actually does something if the `su' command is available instead
+	  of failing. (This makes the build script work again)
+	* profiles/lfs-6.1/expect: Fixed wrong `directory' value.
+	* Makefile.defs: Fixed permissions of directories within the
+	  prometheus user's home directory.
+	* Makefile: Fixed some syntax errors.  Fixed useradd command for the
+	  promtheus user: the login shell has to be a real shell.
+	* profiles/lfs-6.1/man-pages: Added a missing quote.
+
+2006-01-28 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/stringlist.h, reroot/libreroot/tokenizer.h: Added.
+
+	* reroot/*: Removed `until' define, removed get_ prefix from function
+	  names.
+
+2006-01-23 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/glibc, profiles/lfs-6.1/flex, profiles/lfs-6.1/perl:
+	  Fixed profile errors.
+
+2006-01-22 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/message.cc, reroot/libreroot/packet.cc: Clarified
+	  meaning of sender PID field in describe functions.
+
+2006-01-21 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/ => oldreroot: Renamed to make room for new reroot.
+
+	* reroot/libreroot: Added reroot IPC library.
+	* reroot/reroot: Reserved for reroot.so, currently empty.
+	* reroot/rerootctl: Added reroot daemon control program.
+	* reroot/rerootd: Added simplified reroot daemon.
+
+2006-01-03 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* All files with copyright notices: Updated years to include 2006.
+
+	* scripts/pkginstall.in: Fixed a sed that broke when installing glibc
+	  (because of "@" characters in the file names).
+
+2005-12-28 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/*: Fixed all out-of-date download locations.
+
+2005-12-25 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* Makefile, profiles/Makefile, profiles/lfs-6.1/*,
+	  scripts/libprometheus.bash.in: Made many changes needed for the
+	  LFS build script to work.
+	* Makefile.defs, Makefile, profiles/Makefile: Finished `make install'
+	  target in the Makefile.
+
+2005-12-24 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* scripts/pkginfo.in: Found another one ;-).
+	* scripts/pkgrm.in: Fixed more bugs.
+
+2005-12-23 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/install-log: Resurrected install-log.
+	* scripts/pkgrm.in, scripts/pkginfo.in, scripts/pkginstall.in:
+	  Fixed various bugs.
+	* scripts/pkgadd.in: Fixed saying one thing and doing another. D'oh!
+	* scripts/pkgunpack.in, scripts/pkginstall.in: Moved `init_install'
+	  function from pkginstall to pkgunpack.
+
+2005-12-18 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/prometheus: Fixed a syntax error.
+	* scripts/pkgadd.in, scripts/pkginstall.in, scripts/pkginfo.in,
+	  scripts/libprometheus.bash.in: Fixed a lot of bugs, syntax errors
+	  and oversights.
+
+2005-12-17 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/libprometheus.bash.in: Fixed calls to `usage_error'.
+	* etc/REFERENCE.pkg: Corrected mention of default build dir.
+	* profiles/libprometheus.bash.in: Fixed setting `package_builddir'
+	  to a wrong value.
+	* profiles/libprometheus.bash.in: Fixed a call to `get_deps' with a
+	  missing "mode" parameter.
+	* profiles/libprometheus.bash.in: Fixed positional parameters in
+	  privilege handling functions.
+	* profiles/libprometheus.bash.in: `get_compression_suffix' is called
+	  `get_suffix' nowadays.
+	* profiles/lfs-6.1/expect: Added a missing quote.
+	* scripts/pkginfo.in: Fixed a bug in the `query_all' function.
+
+2005-12-16 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* etc/prometheus.conf.in: Removed unused config variables.
+	* scripts/pkgadd.in: Corrected call to `get_dependencies'.
+
+2005-12-14 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/*.pkg: Removed the .pkg extension from the profiles.
+
+2005-12-11 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* scripts/libprometheus.bash.in, scripts/pkgrm.in, scripts/pkgbuild.in,
+	  scripts/pkgcheck.in, scripts/pkgget.in, scripts/pkgunpack.in,
+	  scripts/pkginstall.in: Rewrote privilege handling.
+
+2005-12-10 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* scripts/pkginstall.in: Rewrote parts to use the new install-log/
+	  reroot setup.
+	* scripts/libprometheus.bash.in, scripts/pkgget.in, scripts/pkgrm.in:
+	  Cleaned up `source_profile' invocations, other cleanups.
+	* scripts/pkginfo.in: Removed occurences of .pkg extensions.
+
+2005-12-04 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/lfs.pkg: Simplified checks for existing lfs user and
+	  group.
+
+2005-12-03 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* scripts/libprometheus.bash.in: Removed dependency on `which'.
+	* scripts/pkgadd.in: Completed move of helper scripts to
+	  /usr/lib/prometheus.
+	* scripts/*: Removed obsolete profile_cwd variable.
+	* scripts/pkginfo.in, scripts/libprometheus.bash.in: Fixed a quoting
+	  bug.
+	* scripts/libprometheus.bash.in: Made libprometheus use the directories
+	  below ~prometheus (ie. ~prometheus/{sources,build}).
+
+2005-11-27 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* Makefile.defs, scripts/Makefile: moved the helper scripts
+	  out of /usr/bin and into /usr/lib/prometheus.
+
+2005-11-26 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* man/pkginfo.1.in: Updated pkginfo's man page.
+	* scripts/pkginfo.in: Updated help screen.
+
+2005-11-23 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* scripts/libprometheus.bash.in: Removed function
+	  `get_installed_version'.
+	* scripts/pkginfo.in: Re-wrote pkginfo.
+
+2005-09-11 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* scripts/libprometheus.bash.in: Changed source_profile and its callees
+	  to work with the new reroot setup.
+
+2005-09-04 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* scripts/libprometheus.bash.in: Made the sync_system a little bit more
+	  foolproof.
+
+2005-08-28 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* scripts/libprometheus.bash.in: Added sync_system function.
+	* scripts/pkgrm.in: Rewritten to work with the new rerootd concept,
+	  added "purge" feature.
+	* scripts/pkgrm.8.in: Updated to reflect the recent code changes.
+
+2005-07-28 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/message.h,
+	  reroot/shared_implementation.cc (reroot::message c'tor): Removed
+	  message type parameter.
+
+	* reroot/rerootd/rerootd.cc: Gathered error messages.  Corrected help
+	  text.  Added check for missing false root argument on command line.
+
+	* reroot/rerootd/file.cc: Renamed `file_db' operator << to `dump', made
+	  it flag stale entries rather than ignore them.
+
+	* reroot/rerootd/messageloop.cc (send_meta): Added.
+	* reroot/rerootd/messageloop.cc (message_loop): Can now reply to request
+	  from libreroot for file metadata.
+
+2005-07-26 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/packet.h (message_type): Removed `save_and_exit' &
+	  `cleanup_db'.  Added `cleanup_and_save' (SIGUSR1) & `dump_db'
+	  (SIGUSR2).
+	* reroot/rerootd/messageloop.cc: Added `signal_exit' to handle HUP, INT
+	  & TERM.
+	* reroot/rerootd/messageloop.cc (signal_handler): Used SIGUSR1 & SIGUSR2
+	  instead of HUP & USR1.
+	* reroot/rerootd/messageloop.cc (message_loop): Don't read index file
+	  on start.  Optimize loop for single call to `get_message_queue'.
+	  Recognize `cleanup_and_save' & `dump_db' messages instead of
+	  `save_and_exit' & `cleanup_db'.
+	* reroot/rerootd/rerootd.cc (main): Deferred creation of message queue
+	  until `message_loop'.  Registered handlers for SIGHUP, SIGINT,
+	  SIGTERM, SIGUSR1, & SIGUSR2.
+
+	* reroot/rerootd/file.cc: Removed code for reading index file.  Finished
+	  code for writing index file, but not yet for cleaning up.
+
+2005-07-25 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/rerootd/messagequeue.h: Added `get_message_queue'.  Removed
+	  `disown' & dependence on `false_root' argument for contructors.
+	* reroot/rerootd/messagequeue.cc: Used global `false_root' instead of
+	  `false_root' parameter in constructors.  Made << & >> operators retry
+	  automatically if interrupted by signal handling.
+	* reroot/rerootd/rerootd.cc (daemonize): Don't disown message queue.
+	* reroot/rerootd/rerootd.cc (main): Used `get_message_queue' instead of
+	  a variable.
+
+	* reroot/rerootd/messageloop.cc (signal_handler): Send messages
+	  directly instead of setting `signal_number'.  This is safe.
+	* reroot/rerootd/messageloop.cc (message_loop): Removed `signal_number'
+	  check.  Used `get_message_queue' instead of `queue' parameter.
+	* reroot/rerootd/messageloop.cc: Removed `signal_number' &
+	  `handle_signal'.
+
+2005-07-24 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/rerootd/rerootd.h: Added `signal_handler' declaration.
+	* reroot/rerootd/messagequeue.cc, reroot/rerootd/messagequeue.h: Removed
+	  `signal_handler'.  Added `inbox::send_self'.
+	* reroot/rerootd/messageloop.cc: Added `handle_signal' &
+	  `signal_handler'.
+	* reroot/rerootd/messageloop.cc (message_loop): Added conditional call
+	  to `handle_signal'.
+
+	* reroot/shared_implementation.cc, reroot/libreroot/messagequeue.cc,
+	  reroot/libreroot/messagequeue.h, reroot/rerootd/messagequeue.cc,
+	  reroot/rerootd/messagequeue.h, reroot/rerootd/messageloop.cc: Made
+	  error messages local to functions that use them.
+
+	* reroot/packet.h: Added message types for working with file metadata.
+	* reroot/messages.h: Added.
+	* reroot/rerootd/messageloop.cc (message_loop): Added new message types
+	  to switch statement.  Basic handling for `save_and_exit' &
+	  `cleanup_db'.
+	* reroot/rerootd/file.cc, reroot/rerootd/file.h: Added interface for
+	  reading/writing index file, & cleaning up database.
+
+	* reroot/rerootd/rerootd.cc (main), reroot/rerootd/rerootd.h: Set
+	  `index_file' global constant.
+
+2005-07-19 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/error.h: Added `catch_all' macro for simplifying
+	  exception handling.
+	* reroot/libreroot/cwd.cc: Uses `catch_all'.
+	* reroot/libreroot/filename.cc: Uses `catch_all'.
+
+	* reroot/shared_implementation.cc: Added `do_malloc' & `do_realloc' from
+	  reroot/rerootd/alloc.cc.  Ensure when receiving messages, packets from
+	  the same sender are assembled.
+	* reroot/libreroot/alloc.cc: Removed.
+	* reroot/rerootd/alloc.cc: Removed.
+
+	* reroot/rerootd/file.h: Added.  Tidied & added metadata handling.
+
+	* reroot/rerootd/messageloop.cc: Added.
+	* reroot/rerootd/rerootd.h: Added `message_loop' declaration.
+	* reroot/rerootd/rerootd.cc (main): Added call to `message_loop'.
+
+	* reroot/packet.h: Added message types `save_and_exit' & `cleanup_db'.
+	* reroot/rerootd/messagequeue.cc, reroot/rerootd/messagequeue.h: Added
+	  `signal_handler'.
+	* reroot/rerootd/rerootd.cc: Register signal handlers before entering
+	  message loop.
+
+2005-07-18 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/rerootd/shared.cc: Added.  Includes shared_implementation.cc.
+
+	* reroot/libreroot/alloc.h: Moved to reroot/alloc.h.
+	* reroot/libreroot/alloc.cc (do_realloc): Made sure `std::realloc' is
+	  called, not a recursive call to `reroot::realloc'.
+
+	* reroot/rerootd/alloc.cc: Copied from libreroot/alloc.cc, throws
+	  `std::bad_alloc' exception instead of calling `error' if allocation
+	  fails.
+
+	* reroot/message.h: Fixed including of libreroot/rerootd specific
+	  headers.  Removed non-inline functions.  Fixed friend declarations to
+	  use operators from namespace `reroot'.
+	* reroot/shared_implementation.cc: Added non-inline functions from
+	  message.h.  Removed packet metadata equality operator (inequality
+	  operator is sufficient).  Wrote message sending & receiving operators.
+	* reroot/libreroot/messagequeue.cc: Removed commented out `send' &
+	  `receive' functions.
+
+2005-07-12 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/alloc.cc, reroot/libreroot/alloc.h: Added.
+	* reroot/libreroot/libc.cc, reroot/libreroot/libc.h: Moved memory
+	  allocation functions to alloc.cc & alloc.h.
+
+	* reroot/shared_implementation.cc: Added.
+	* reroot/libreroot/shared.cc: Added.  Includes shared_implementation.cc.
+	* reroot/xmessage.h: `xmessage' c'tor moved to shared_implementation.cc.
+	* reroot/packet.h: Message metadata comparison operators moved to
+	  shared_implementation.cc.
+
+	* reroot/rerootd/messagequeue.cc: Commented out `send' & `receive'
+	  functions.
+
+	* reroot/message.h: Added, currently unused.
+
+	* reroot/TODO: Removed for stating the obvious & being in the way.
+
+2005-07-11 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/libc.cc: Tidied error messages.
+
+	* reroot/message.h: Renamed to packet.h.
+	* reroot/packet.h: Renamed `reroot::message' to `reroot::message_data'.
+	* reroot/libreroot/messagequeue.cc: Changed references to `message' into
+	  references to `message_data'.
+
+	* reroot/rerootd/messagequeue.cc, reroot/rerootd/messagequeue.h:
+	  Rewritten based on their libreroot counterparts.
+
+	* reroot/rerootd/rerootd.cc, reroot/rerootd/rerootd.h: Made aware of
+	  namespace `reroot'.  Use `canonize_file_name' instead of specially
+	  written function.  Improved error reporting.  rerootd actually
+	  compiles again.
+
+2005-07-10 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/message.h: Added `meta' for storing packet & message metadata.
+	  Separated `packet' & `message'.  Added `packet_meta_size'.  Added
+	  equality & inequality operators to simplify working with packet
+	  metadata.
+	* reroot/libreroot/messagequeue.cc (send, receive): Simplified & cleaned
+	  up given the above changes.
+
+	* reroot/message.h: Optimized `meta' inequality operator.
+
+	* reroot/libreroot/messagequeue.cc (send): Fixed bug, small
+	  optimization.
+
+	* reroot/libreroot/xmessage.cc: Removed.
+	* reroot/libreroot/xmessage.h: Moved to reroot/xmessage.h.
+	* reroot/xmessage.h: Added constructor from xmessage.c as inline.
+
+	* reroot/rerootd: Removed unneeded: absolute.cc, absolute.h, message.cc,
+	  message.h, xmessage.cc, & xmessage.h.
+
+2005-07-09 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/messagequeue.cc (message_queue_base c'tor): Added
+	  check for null false root, used `/' instead.
+
+	* reroot/libreroot/messagequeue.h: Added function for obtaining a
+	  message queue.
+
+	* reroot/libreroot/libc.cc, reroot/libreroot/libc.h: Added wrappers for
+	  `realloc'.  Restored __attribute__ ((malloc)).
+
+	* reroot/packet.h: Renamed to message.h.
+	* reroot/message.h: Added `reroot::message'.
+	* reroot/libreroot/messagequeue.cc: Added functions for splitting
+	  messages into packets & sending them, & receiving packets &
+	  concatenating them into messages.
+
+2005-07-08 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/xmessage.cc, reroot/libreroot/xmessage.h: Added.
+	* reroot/libreroot/messagequeue.cc, reroot/libreroot/messagequeue.h:
+	  Added.
+
+	* reroot/packet.h: Removed C compatibility code, moved into namespace
+	  `reroot'.  Currently this breaks rerootd build until I get round to
+	  updating it.  Minor bugs fixed.
+
+2005-07-07 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/Makefile: Defined LIBREROOT in CPPFLAGS.
+	* reroot/rerootd/Makefile: Defined REROOTD in CPPFLAGS.
+
+2005-07-06 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/filename.cc, reroot/libreroot/filename.h: Reorganized
+	  & improved interface to `filename' class.
+
+	* reroot/libreroot/filename.cc (add_working_directory): Use `getcwd'
+	  function.
+
+	* reroot/libreroot/libc.cc, reroot/libreroot/libc.h: Added `malloc'
+	  wrapper function.
+
+	* reroot/libreroot/libc.cc, reroot/libreroot/libc.h: Added current
+	  working directory functions.
+	* reroot/libreroot/filesystem.cc: Renamed to cwd.cc.
+	* reroot/libreroot/cwd.cc: Added overrides for getting current working
+	  directory, & place-holder stubs for setting it.
+
+2005-07-06 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/zlib.pkg: Added fix for recent zlib vulnerability.
+
+2005-07-05 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/filename.cc, reroot/libreroot/filename.h: Made
+	  several anonymous namespace members in to static members of
+	  `filename'.
+
+	* reroot/libreroot/persona.cc: Replaced `limited' variable & its
+	  constructor function with `is_limited' function.
+
+	* reroot/libreroot: More comments in headers.
+
+2005-07-03 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot: All files: converted to C++.  My reason for not
+	  using C++ turned out to be incorrect, while later directory overlaying
+	  functions may be made considerably easier by using the C++ STL.
+
+	* reroot/libreroot/error.cc, reroot/libreroot/error.h: Added exception
+	  handling support function.
+	* reroot/libreroot/filename.cc (init_reroot): Added exception handling.
+
+	* reroot/libreroot/filename.cc (init_false_root): Minor bug fixed.
+
+	* reroot/libreroot/filename.cc, reroot/libreroot/filename.h: Added
+	  ability to query whether filenames should be rerooted.
+
+	* reroot/libreroot/filesystem.cc: Added but empty.
+
+	* reroot/libreroot/persona.cc: Added overrides for `setreuid' &
+	  `setregid'.
+
+2005-07-02 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/libc.h: Fixed error in comment.
+
+	* reroot/libreroot/persona.c: Fixed use of uid_t when gid_t should have
+	  been used.
+
+	* reroot/libreroot/Makefile, reroot/rerootd/Makefile: Enabled -O2.
+
+2005-07-02 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/expect.pkg: Added --with-tclinclude to configure
+	  line.
+	* profiles/lfs-6.1/findutils.pkg: Upgraded to findutils 4.2.23.
+	* profiles/lfs-6.1/flex.pkg: Upraded to latest flex patch.
+	* profiles/lfs-6.1/grep.pkg: Removed --with-included-regex from stage1
+	  build.
+	* profiles/lfs-6.1/gzip.pkg: Added compress symlink to gzip.
+	* profiles/lfs-6.1/mktemp.pkg: Upgraded to latest mktemp patch.
+	* profiles/lfs-6.1/shadow.pkg: Upgraded to shadow 4.0.9, removed
+	  lastlog patch.
+
+2005-07-01 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/filesystem.c: Added.
+
+2005-06-30 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/libc.c, reroot/libreroot/libc.h: dlsymed more persona
+	  functions.
+	* reroot/libreroot/persona.c: Added more persona functions.
+
+2005-06-29 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/libreroot.c, reroot/libreroot/libreroot.h: Renamed to
+	  libc.*.
+	* reroot/libreroot/libc.c, reroot/libreroot/libc.h: Added.
+	* reroot/libreroot/reroot.h: Removed inclusion of libreroot.h.
+	* reroot/libreroot/open.c, reroot/libreroot/persona.c: Changed
+	  references to reroot.h to libc.h.
+
+	* reroot/libreroot/memory.c (reroot_stack_string): Minor optimization.
+
+2005-06-27 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/reroot.c: Flagged constructor & destructor for gcc.
+	* reroot/libreroot/reroot.h: Removed declarations of constructor &
+	  destructor.
+	* reroot/libreroot/persona.c: Flagged constructor for gcc.
+	* reroot/libreroot/persona.h: Removed.
+	* reroot/libreroot/libreroot.c: Removed calls to other initializers.
+
+	* reroot/libreroot/memory.c (reroot_stack_string): Used mempcpy instead
+	  of strcat (should be faster).
+
+2005-06-22 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/memory.c: Used memcpy instead of strcpy.
+	* reroot/libreroot/reroot.c: Used memcpy & mempcpy instead of strcat &
+	  strcpy.
+
+	* reroot/README: Some more planning.
+
+	* reroot/libreroot/libreroot.c, reroot/libreroot/libreroot.h: Added
+	  symbol loading support code & loaded `fopen'.
+	* reroot/libreroot/open.c: Added dummy override for `fopen'.
+
+	* reroot/libreroot/libreroot.c, reroot/libreroot/libreroot.h,
+	  reroot/libreroot/persona.c, reroot/libreroot/persona.h: Added
+	  preliminary optional support for faking root privileges.
+
+2005-06-21 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/Makefile, reroot/rerootd/Makefile: Trivial
+	  simplification.
+
+	* reroot/libreroot/memory.c (reroot_alloc): Used `error' instead of
+	  `fputs' & `exit'.
+
+	* reroot/libreroot/ipc.c, reroot/libreroot/ipc.h: Added.
+
+	* reroot/libreroot/libc_symbols.txt: Added & removed as unneeded.
+
+	* All files with copyright notices: Updated years to include 2005.
+
+	* reroot/libreroot/libreroot.c, reroot/libreroot/libreroot.h: Prepared
+	  for dlsym use.
+
+	* reroot/README: Added.
+
+2005-06-16 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/binutils.pkg: Added --disable-nls to stage1 build
+	  in order to remove a dependency on gettext.
+
+	* profiles/lfs-6.1/grep.pkg: Removed --with-included-regexp because
+	  those provided by grep itself are inferior to those from glibc.
+
+2005-06-15 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* x86stepping/Makefile: Added build flags.
+	* Makefile.defs: Removed x86stepping build flags.
+
+	* reroot/*: Added current libreroot & rerootd sources.
+
+2005-06-06 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/module-init-tools.pkg: Fixed instructions to ensure
+	  that the modprobe.conf man-page does not get rebuilt.
+
+2005-05-31 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/bzip2.pkg: Made use of the version variable.
+
+2005-05-29 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/*.pkg: Removed the (hopefully) last tracks of
+	  custom changes to the LFS instructions.
+
+	* profiles/lfs-6.1/linux.pkg: Upgraded to Linux 2.6.11.11.
+
+2005-05-22 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/*: Brought the remaining package profiles up to date
+	  wrt to LFS 6.1.
+
+	* profiles/lfs-6.1/linux.pkg: Upgraded to Linux 2.6.11.9.
+	* profiles/lfs-6.1/gzip.pkg: Added security fix.
+	* profiles/lfs-6.1/glibc.pkg: Added a patch that fixes test suite
+	  misbehaviour with Linux 2.6.11.
+	* profiles/lfs-6.1/hotplug.pkg: Updated instructions.
+	* profiles/lfs-6.1/iproute2.pkg: Replaced the patch with a sed.
+	* profiles/lfs-6.1/lfs-bootscripts.pkg: Added.
+
+2005-05-20 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* profiles/gareth: Added base_system.pkg, stage0.pkg, stage1.pkg &
+	  stage2.pkg.  Don't want to break lfs-6.1 profiles yet!
+
+	* TODO: Noted fakeroot.
+	* Makefile.defs: Consistancy fix (only spacing) & version number
+	  updated.
+
+2005-04-02 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/syslog-ng.pkg,
+	  profiles/lfs-6.1/sysklogd.pkg: Replaced syslog-ng with sysklogd.
+	* profiles/lfs-6.1/linux.pkg: Upgraded to Linux 2.6.11.6, updated
+	  patches.
+	* profiles/lfs-6.1/findutils.pkg: Upgraded to findutils 4.2.20.
+	* profiles/lfs-6.1/udev.pkg: Upgraded to udev 055.
+	* profiles/lfs-6.1/util-linux.pkg: Updated patches.
+	* profiles/lfs-6.1/bash.pkg: Updated patches.
+	* profiles/lfs-6.1/linux-libc-headers.pkg: Upgraded to
+	  linux-libc-headers 2.6.11.2.
+	* profiles/lfs-6.1/glibc.pkg: Upgraded to glibc 2.3.4.
+	* profiles/lfs-6.1/m4.pkg: Upgraded to m4 1.4.3.
+	* profiles/lfs-6.1/flex.pkg: Updated patches.
+	* profiles/lfs-6.1/coreutils.pkg: Updated patches.
+	* profiles/lfs-6.1/iproute2.pkg: Upgraded to iproute2-2.6.11-05030,
+	  updated patches.
+	* profiles/lfs-6.1/e2fsprogs.pkg: Upgraded to e2fsprogs 1.37.
+	* profiles/lfs-6.1/readline.pkg: Updated patches.
+	* profiles/lfs-6.1/gettext.pkg: Upgraded to gettext 0.14.3.
+	* profiles/lfs-6.1/shadow.pkg: Added patch that fixes lastlog breakage.
+	* profiles/lfs-6.1/tar.pkg: Added patch that fixes sparse file breakage.
+
+2005-03-11 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/psmisc.pkg: Upgraded to psmisc 21.6.
+	* profiles/lfs-6.1/findutils.pkg: Upgraded to findutils 4.2.19.
+
+2005-03-10 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/{binutils,gcc,glibc}.pkg: Finished toolchain
+	  profiles.
+	* profiles/lfs-6.1/e2fsprofs.pkg: Fixed check_pkg instructions.
+
+2005-02-27 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/*.pkg: Package and profile updates to the Linux
+	  kernel, findutils, udev, libtool, automake, m4, glibc, iana-etc,
+	  expect, file, readline, gettext, bzip2 and grub.
+
+2005-02-06 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/*.pkg: Added the remaining new packages since LFS 5.
+	  Upgraded glibc instructions.
+
+2005-02-04 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/*.pkg: Added most of the new packages since LFS 5.
+
+2005-01-30 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/*.pkg: Updated another batch of packages to LFS 6.1
+	  instructions.
+
+2005-01-15 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/*.pkg: Updated the first batch of profiles to
+	  LFS 6.1 (testing) instructions.
+
+2004-12-05 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* scripts/pkgrm.in: Optimized removal of empty directories.
+	* scripts/pkgrm.in: Changed backup file extension to "pkg.tar.bz2"
+	  instead of "bak.tar.bz2".
+
+2004-11-16 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* testsuite/libprometheus/source_config: Added install_log.conf, logdir
+	  & prometheus.conf.
+
+	* testsuite/libprometheus/STATUS: Added.
+
+2004-11-06 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* man/pkginfo.1.in: Written.
+
+2004-10-22 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* scripts/pkginfo.in: Written.
+
+2004-10-20 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* scripts/libprometheus.bash.in: Added quotes around echoed variables in
+	  logged_failure, source_file, source_config, source_profile, set_stage,
+	  unpack, cat_file & location_of.
+	* testsuite/libprometheus/log/tnlycf_stderr.txt: Error message updated.
+	* testsuite/libprometheus/source_file: Error message updated in
+	  invalid_error & none_error.
+
+	* scripts/compact.in: Added quotes around echoed variables.
+	* scripts/pkgadd.in: Added quotes around echoed variables.
+	* scripts/pkgbuild.in: Added quotes around echoed variables.
+	* scripts/pkgcheck.in: Added quotes around echoed variables.
+	* scripts/pkgget.in: Added quotes around echoed variables.
+	* scripts/pkginstall.in: Added quotes around echoed variables.
+	* scripts/pkunpack.in: Added quotes around echoed variables.
+
+2004-09-26 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* man/*, scripts/*: Changed the short option equivalent of
+	  --version to '-V' instead of '-v'.
+
+2004-09-23 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* testsuite/libprometheus/echo_array/echo_array: Added.
+
+	* testsuite/libprometheus/source_file: Added valid.txt, invalid.txt,
+	  valid_status, valid_sourced, invalid_status, invalid_error,
+	  none_status & none_error.
+
+2004-09-19 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* testsuite/libprometheus/get_installed_version: Added vtab &
+	  get_installed_version.
+
+	* testsuite/libprometheus/choice: Added yes & no.
+
+	* testsuite/runtest.in: Added `shopt -u sourcepath'.
+	* scripts/libprometheus.bash.in: Added `shopt -u sourcepath'.
+
+2004-09-18 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* scripts/libprometheus.bash.in: Re-ordered logging functions.
+
+	* testsuite/libprometheus/log_echo: Added README, tyly_stdout,
+	  tyly_stderr, logfile.txt, tyly_log, tyln_stdout, tyln_stderr,
+	  tnly_stdout, tnly_stderr, tnly_log, tnln_stdout & tnln_stderr.
+
+	* testsuite/libprometheus/log_warning: Added README, tyly_stdout,
+	  tyly_stderr, logfile.txt, tyly_log, tyln_stdout, tyln_stderr,
+	  tnly_stdout, tnly_stderr, tnly_log, tnln_stdout & tnln_stderr.
+
+	* testsuite/README: Added more detail.
+
+2004-09-16 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* scripts/libprometheus.bash.in (logged_failure): Added logging &
+	  reporting of exit status of failed commands.
+	* testsuite/libprometheus/log/*.txt: Updated expected output.
+
+	* scripts/libprometheus.bash.in (log): Added `set -e' to logged command
+	  subshell.
+	* etc/REFERENCE.pkg: Removed unneeded `&&'s from functions.
+
+2004-09-15 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* testsuite/libprometheus/log: Added tnlycp_status, tnlycp_stdout,
+	  tnlycp_stderr, tnlycp_log, tnlycp_log.txt, tnlncf_status,
+	  tnlncf_stdout, tnlncf_stderr, tnlncf_stderr.txt, tnlncp_status,
+	  tnlncp_stdout, tnlncp_stderr, tylycp_status, tylycp_stdout,
+	  tylycp_stderr, tylycp_log, tylycf_status, tylycf_stdout,
+	  tylycf_stdout.txt, tylycf_stderr, tylycf_log, tylycf_log.txt,
+	  tylncp_status, tylncp_stdout, tylncp_stderr, tylncp_stderr.txt,
+	  tylncf_status, tylncf_stdout, tylncf_stderr & tylncf_stderr.txt.
+
+2004-09-14 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* testsuite/libprometheus/log: Added tnlycf_status, tnlycf_stdout,
+	  tnlycf_stderr, tnlycf_stderr.txt, tnlycf_log & tnlycf_log.txt.
+
+2004-09-13 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* testsuite/libprometheus/log/output.bash: Added.
+
+2004-09-07 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* testsuite/libprometheus/Makefile: Removed unused variables $(PASS) &
+	  $(FAIL).
+
+	* testsuite/libprometheus/warning: Added stdout & stderr tests.
+	* testsuite/libprometheus/failure: Added stdout & stderr tests.
+	* testsuite/libprometheus/error: Added stdout & stderr tests.
+
+	* testsuite/libprometheus/finish/success: Fixed buglet.
+
+	* testsuite/libprometheus/setup_logging/README: Added.
+	* testsuite/libprometheus/log/README: Added.
+
+	* scripts/libprometheus.bash.in (setup_logging): Ensure $terminal_output
+	  is set.
+
+2004-08-29 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* scripts/pkgrm.in: Written.
+	* man/pkgrm.8.in: Written.
+
+	* man/pkgadd.8.in, man/pkginstall.8.in: Changed man page header to
+	  correctly reflect section 8 of the man pages.
+
+2004-08-17 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* testsuite/libprometheus/usage_error: Renamed usage_error.bash.in to
+	  stderr.bash.in.
+	* testsuite/libprometheus/usage_error: Added stdout.bash.in &
+	  status.bash.in.
+	* testsuite/libprometheus/script_usage_err: Renamed
+	  script_usage_err.bash.in to stderr.bash.in.
+	* testsuite/libprometheus/script_usage_err: Added stdout.bash.in &
+	  status.bash.in.
+
+	* testsuite/runtest: Removed.
+	* testsuite/runtest.in: Added.
+	* testsuite/TEMPLATE: Added.
+	* testsuite/*: Updated for new script.
+
+2004-08-16 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* testsuite/libprometheus/Makefile: Made test descriptions more useful.
+
+	* testsuite/libprometheus/setup_logging/*: Added.
+
+2004-08-15 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* Makefile: Added building testsuite & check target.
+	* testsuite/Makefile: Added.
+	* testsuite/README: Added.
+
+	* testsuite/runtest: Added.
+	* testsuite/runtest: Fixed to run in tests' own directories.
+	* testsuite/runtest: Added logging.
+
+	* testsuite/libprometheus/Makefile: Added.
+	* testsuite/libprometheus/finish/success.bash.in: Added.
+	* testsuite/libprometheus/finish/failure.bash.in: Added.
+	* testsuite/libprometheus/terminated/terminated.bash.in: Added.
+	* testsuite/libprometheus/pipestat/*: Added.
+	* testsuite/libprometheus/warning/*: Added.
+	* testsuite/libprometheus/failure/*: Added.
+	* testsuite/libprometheus/error/*: Added.
+	* testsuite/libprometheus/usage_error/*: Added.
+	* testsuite/libprometheus/script_usage_err/*: Added.
+
+2004-08-12 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* scripts/pkgunpack.in (unpack_archives): Make sure build directories
+	  exist.
+
+	* scripts/pkginstall.in (cleanup_failed): Added FIXME for restoring
+	  backups.
+
+2004-08-06 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* scripts/pkgadd.in: Added -f/--leave-files option.
+	* man/pkgadd.8.in: Documented -f/--leave-files option.
+
+	* All files: Changed Oliver's email address to
+	  <oliverbrakmann@users.berlios.de>.
+
+2004-08-05 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* scripts/pkgadd.in (get_package_list): Dependency checking is
+	  actually skipped if $stage < 2.
+
+	* man/pkginstall.8.in: Added note about restoring a backed-up package
+	  after a failed installation.
+
+	* man/pkgadd.8.in: Written.
+
+	* scripts/libprometheus.bash.in (set_directory): Build packages in
+	  $builddir/$package ($package_builddir) instead of $builddir.
+	* scripts/pkgunpack.in: Use $package_builddir where appropriate.
+	* scripts/pkgadd.in: Remove $package_builddir if installation
+	  successful.
+
+2004-08-04 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* scripts/pkgadd.in: Dependency checking implemented.
+
+	* scripts/libprometheus.bash.in (remove_dupes): Added.
+	* scripts/compact.in: Removes duplicate file/directory arguments.
+	* scripts/pkgget.in: Removes duplicate package arguments.
+	* scripts/pkgunpack.in: Removes duplicate package arguments.
+	* scripts/pkgbuild.in: Removes duplicate package arguments.
+	* scripts/pkgcheck.in: Removes duplicate package arguments.
+	* scripts/pkginstall.in: Removes duplicate package arguments.
+
+	* scripts/libprometheus.bash.in: Added get_deps, get_dependencies,
+	  get_profile_var, get_profile_array & echo_array.
+	* scripts/libprometheus.bash.in (override_array): Much simplified.
+
+2004-08-03 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* scripts/libprometheus.bash.in (source_profile, open_package): Takes
+	  package as argument instead of profile.  Searches current working
+	  directory before profile directory.
+	* scripts/libprometheus.bash.in: Removed find_profiles, add_profiles,
+	  $profile_list & $package_list.
+	* scripts/pkgget.in: Updated profile handling.
+	* scripts/pkgunpack.in: Updated profile handling.
+	* scripts/pkgbuild.in: Updated profile handling.
+	* scripts/pkgcheck.in: Updated profile handling.
+	* scripts/pkginstall.in: Updated profile handling.
+	* scripts/pkgadd.in: Updated profile handling.
+	* man/pkgget.1.in: Updated.
+	* man/pkgunpack.1.in: Updated.
+	* man/pkgbuild.1.in: Updated.
+	* man/pkgcheck.1.in: Updated.
+	* man/pkginstall.8.in: Updated.
+
+	* scripts/pkgget.in: Download files to $srcdir, not current working
+	  directory.
+	* scripts/libprometheus.bash.in (location_of): Only search $srcdir, not
+	  $builddir.
+
+	* scripts/libprometheus.bash.in (source_profile): Only search current
+	  working directory if $profiles_cwd is `yes'.
+	* scripts/pkgget.in: Updated profile handling.
+	* scripts/pkgunpack.in: Updated profile handling.
+	* scripts/pkgbuild.in: Updated profile handling.
+	* scripts/pkgcheck.in: Updated profile handling.
+	* scripts/pkginstall.in: Updated profile handling.
+	* scripts/pkgadd.in: Updated profile handling.
+
+	* etc/prometheus.conf: Added $backupdir.
+	* man/prometheus.conf.5.in: Documented $backupdir.
+	* scripts/pkginstall.in: Added add_version_entry.  Now restores backed
+	  up uninstalls if installation fails.
+
+2004-08-02 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* scripts/libprometheus.bash.in (add_profile): Fixed bug & added
+	  $package_list.
+
+	* scripts/libprometheus.bash.in: log_echo & log_warning now always
+	  output to the terminal as well as any log.
+
+	* scripts/pkgadd.in: Skeleton written.
+
+	* scripts/libprometheus.bash.in: Removed $temp_files, temp_file &
+	  remove_tempfiles.
+
+2004-08-01 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* man/pkgunpack.1.in: Written.
+
+	* man/prometheus.conf.5.in: Ammended for new logging options.
+
+	* scripts/pkgbuild.in: Written.
+	* man/pkgbuild.1.in: Written.
+
+	* scripts/libprometheus.bash.in: Added log_echo & log_warning.
+
+	* scripts/pkgcheck.in: Written.
+	* man/pkgcheck.1.in: Written.
+
+	* scripts/libprometheus.bash.in (choice): Added.
+
+	* scripts/libprometheus.bash.in: Move setting $name from open_package to
+	  source_profile.  Added $name_ver & get_installed_version.
+	* scripts/pkgcheck.in: $name => $name_ver.
+	* scripts/pkgbuild.in: $name => $name_ver.
+
+	* Makefile.defs: Added INSTALL_LOG_RC parameter.
+	* etc/Makefile: Added %INSTALL_LOG_RC% substitution for
+	  prometheus.conf.in.
+	* etc/prometheus.conf.in: Added install_log_rc parameter.
+	* man/prometheus.conf.5.in: Documented install_log_rc parameter.
+	* scripts/libprometheus.bash.in (source_config): Added setting $logdir,
+	  $version_table & $timestamp.
+
+	* scripts/pkginstall.in: Written.
+	* man/pkginstall.8.in: Written.
+
+2004-07-31 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* scripts/libprometheus.bash.in (log): Much simplified, nicer output.
+
+	* scripts/libprometheus.bash.in (pipestat): Added.
+	* scripts/pkgunpack.in (apply_patches): Added call to pipestat after
+	  `cat | patch' command.
+
+	* scripts/libprometheus.bash.in (setup_logging): Reverted to piping to
+	  tee instead of using process substitution, which is no longer needed.
+	* scripts/libprometheus.bash.in (log): Added call to pipestat.
+
+	* scripts/libprometheus.bash.in (logged_failure): Added.
+	* scripts/libprometheus.bash.in (log): Added call to logged_failure.
+
+2004-07-30 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* scripts/libprometheus.bash.in (list_files): Removed references to
+	  $stage2_{archives,patches}.
+
+	* scripts/libprometheus.bash.in (set_stage): Added.
+	* scripts/pkgunpack.in: Changed `stage="$val"' to `set_stage "$val"'.
+
+	* scripts/libprometheus.bash.in (unpack): Restored.
+	* scripts/pkgunpack.in (unpack_archives): Restored from pkgadd 0.1.
+
+	* scripts/libprometheus.bash.in (cat_file): Restored.
+	* scripts/pkgunpack.in (apply_patches): Restored from pkgadd 0.1.
+
+	* scripts/libprometheus.bash.in (override_var): Fixed quoting buglet.
+	* scripts/libprometheus.bash.in (override_array): Fixed quoting buglet.
+
+	* scripts/libprometheus.bash.in (setup_logging): Set $logfile to
+	  /dev/null if both logging & terminal output disabled.
+	* scripts/libprometheus.bash.in (log): Added.
+	* scripts/pkgunpack.in (apply_patches): Added logging to patch command.
+
+2004-07-29 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* scripts/libprometheus.bash.in (add_profile): Call error instead of
+	  failure if profile not found.
+
+	* All files: Changed Gareth Jones' email address to
+	  <gareth_jones@users.berlios.de>.
+
+2004-07-24 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* scripts/libprometheus.bash.in: Added setup_logging, called from
+	  open_package.
+	* etc/prometheus.conf.in: Added terminal_output.
+	* etc/REFERENCE.pkg: Added terminal_output.
+
+	* scripts/pkgunpack.in: Added option parsing loop & recursive calling.
+
+2004-07-23 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* scripts/pkgbuild.in: Added usage.
+
+	* scripts/pkgunpack.in: Touched.
+	* man/pkgunpack.1.in: Touched.
+	* Makefile.defs: Reference to pkgunpack added.
+
+	* scripts/libprometheus.bash.in: Sectioned into function groups.
+	  Restored is_set, is_func, override_var, override_array, override_func,
+	  stage_overrides, set_directory (formerly pkgdir), prepare_build_env
+	  & open_package.
+
+	* etc/prometheus.conf.in: Added logfile (replaces log_build) & check.
+	* etc/REFERENCE.pkg: Restored.  Changed dep variable into deps array.
+	  Added logfile, check & check_pkg.
+
+2004-07-21 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* scripts/libprometheus.bash.in: Added terminated function & trap for
+	  SIGHUP, SIGINT & SIGQUIT.
+
+2004-07-20 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* Makefile: Added GPL notice.
+	* etc/Makefile: Added GPL notice.
+	* man/Makefile: Added GPL notice.
+	* profiles/Makefile: Added GPL notice.
+	* scripts/Makefile: Added GPL notice.
+	* scripts/compact.in: Added GPL notice.
+	* scripts/pkgadd.in: Added GPL notice.
+	* scripts/pkgbuild.in: Added GPL notice.
+	* scripts/pkgcheck.in: Added GPL notice.
+	* scripts/pkgget.in: Added GPL notice.
+	* scripts/pkginfo.in: Added GPL notice.
+	* scripts/pkginstall.in: Added GPL notice.
+	* scripts/pkgrm.in: Added GPL notice.
+	* scripts/libprometheus.bash.in: Added GPL notice, also added brief
+	  note to version function output.
+	* x86stepping/Makefile: Added GPL notice.
+	* x86stepping/x86stepping.c: Added GPL notice.
+
+2004-07-08 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* TODO: Restored & updated.
+
+2004-07-04 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* scripts/libprometheus.bash.in: Restored temp_file & remove_temp_files.
+	  Added call to remove_temp_files to finish.
+
+	* man/Makefile: Fixed installation of prometheus.conf.5.
+	* man/prometheus.conf.5.in: Written.
+
+	* etc/prometheus.conf.in: Restored & cxx parameter added.
+
+	* INSTALL: Makefile => Makefile.defs & /etc/pkg => /etc/prometheus.
+
+2004-07-03 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* scripts/libprometheus.bash.in: Split find_profiles into find_profiles
+	  & add_profile.
+
+	* man/Makefile: Added support for prometheus.conf.5 man page.
+	* man/pkgget.1.in: Added reference to prometheus.conf.5.
+
+	* man/pkgget.1.in: Added note about where files are searched for &
+	  downloaded to.
+
+	* scripts/compact.in: Renamed option -r -> -R.  Added options: -b --bz2
+	  --bzip2 -g --gz --gzip -f --force -r --recompress.  Removed -k
+	  --keep.  Rewrote compact_file.
+	* man/compact.1.in: Updated to reflect above changes.
+
+2004-07-02 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* man/compact.1.in: Written.
+
+	* scripts/compact.in: Added support for `--' option.
+
+	* scripts/libprometheus.bash.in: Added failure & finish functions.
+	* scripts/compact.in: Use failure & finish.
+
+	* scripts/libprometheus.bash.in: Restored get_suffix, location_of,
+	  list_files, source_profile, remove_compression_suffix &
+	  source_config.  Added find_profiles.
+	* scripts/pkgget.in: Restored.
+	* man/pkgget.1.in: Written.
+
+2004-07-01 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* profiles/Makefile: Fixed naming of PROFILE_LIST.
+
+2004-06-30 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* scripts/Makefile: Separated rules for executables & library.
+
+	* scripts/compact.in: Written.
+	* scripts/libprometheus.bash.in: Restored warning, error, usage_error,
+	  script_usage_err & source_file.  Added version.
+
+	* Makefile.defs: Added VERSION & RELEASE variables.
+	* man/Makefile: Added preprocessing for man pages.
+	* scripts/Makefile: Added VERSION & RELEASE to preprocessing.
+
+2004-06-29 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* All files: Created new package layout & wrote Makefiles.
+	* INSTALL, README, x86stepping/x86stepping.c: Restored.
+	* AUTHORS, ChangeLog, COPYING: Added.
+
+Before 2004-06-29 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
+Gareth Jones <gareth_jones@users.berlios.de>
+
+	* All files: Created initial pkgtools, renamed to prometheus.  In
+	later entries, `restored' refers to files/functions restored to this
+	branch from the original prometheus codebase.

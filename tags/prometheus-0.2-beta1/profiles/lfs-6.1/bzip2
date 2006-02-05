@@ -1,0 +1,28 @@
+name="bzip2"
+version="1.0.3"
+homepage="http://www.bzip.org"
+
+archives=(
+	"http://www.bzip.org/${version}/bzip2-${version}.tar.gz"
+)
+
+function stage1_install_pkg {
+	make PREFIX=/tools install
+}
+
+function build_pkg {
+	make -f Makefile-libbz2_so
+	make clean
+	make
+}
+
+function install_pkg {
+	make install
+	cp bzip2-shared /bin/bzip2
+	cp -a libbz2.so* /lib
+	ln -sf ../../lib/libbz2.so.1.0 /usr/lib/libbz2.so
+	rm /usr/bin/{bunzip2,bzcat,bzip2}
+	mv /usr/bin/{bzip2recover,bzless,bzmore} /bin
+	ln -sf bzip2 /bin/bunzip2
+	ln -sf bzip2 /bin/bzcat
+}

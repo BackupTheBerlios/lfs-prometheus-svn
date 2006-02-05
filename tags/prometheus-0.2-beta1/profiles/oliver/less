@@ -1,0 +1,16 @@
+name="less"
+version="394"
+homepage="http://www.greenwoodsoftware.com/less/"
+
+archives=(
+	"http://www.greenwoodsoftware.com/less/less-${version}.tar.gz"
+)
+
+function build_pkg {
+	./configure --prefix=/usr --bindir=/bin --sysconfdir=/etc
+	make
+}
+
+function install_pkg {
+	make install
+}

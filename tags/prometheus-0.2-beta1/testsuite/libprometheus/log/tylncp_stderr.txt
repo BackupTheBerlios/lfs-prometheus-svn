@@ -1,0 +1,5 @@
+** Command: output 'tylncp stderr' 0
+** Command: echo 'stdout: tylncp stderr'
+** Command: echo 'stderr: tylncp stderr'
+stderr: tylncp stderr
+** Command: return 0

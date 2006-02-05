@@ -1,0 +1,20 @@
+name=mktemp
+version=1.5
+homepage="http://www.mktemp.org/mktemp/"
+
+archives=(
+	"ftp://ftp.mktemp.org/pub/mktemp/mktemp-${version}.tar.gz"
+)
+
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/mktemp/mktemp-${version}-add_tempfile-3.patch"
+)
+
+function build_pkg {
+	./configure --prefix=/usr --with-libc
+	make
+}
+
+function install_pkg {
+	make install install-tempfile
+}

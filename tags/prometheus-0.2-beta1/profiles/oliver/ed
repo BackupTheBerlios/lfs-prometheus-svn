@@ -1,0 +1,25 @@
+name="ed"
+version="0.2"
+
+archives=(
+	"ftp://ftp.cs.tu-berlin.de/pub/gnu/ed/ed-${version}.tar.gz"
+)
+
+patches=(
+	"http://www.linuxfromscratch.org/patches/downloads/ed/ed-0.2-mkstemp-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/ed/ed-0.2-direntry-2.patch"
+)
+
+function build_pkg {
+	./configure --prefix=/usr --exec-prefix=/
+	make
+}
+
+function check_pkg {
+	make check
+}
+
+function install_pkg {
+	make install
+}
+

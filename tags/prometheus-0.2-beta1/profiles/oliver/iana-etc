@@ -1,0 +1,15 @@
+name=iana-etc
+version="2.00"
+homepage="http://www.sethwklein.net/projects/iana-etc/"
+
+archives=(
+	"http://www.sethwklein.net/projects/iana-etc/downloads/iana-etc-${version}.tar.bz2"
+)
+
+function build_pkg {
+	make
+}
+
+function install_pkg {
+	make install
+}
