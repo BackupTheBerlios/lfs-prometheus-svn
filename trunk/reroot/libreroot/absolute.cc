@@ -15,8 +15,6 @@
 // this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place, Suite 330, Boston, MA  02111-1307  USA
 
-// FIXME: Throw exception if empty filename passed?
-
 #include <unistd.h>
 
 #include "absolute.h"
@@ -74,21 +72,17 @@ void reroot::relative (string &rel, string const &orig, string const &dir)
 	absolute_list (filename, orig);
 
 	{
-		typedef StringList::const_iterator Iterator;
-
 		// Get the reference directory's absolute name in a list, & an
 		// iterator pointing to the start.
 		StringList const directory;
 		absolute_list (const_cast <StringList &> (directory), dir);
-		Iterator i = directory.begin ();
+		StringList::const_iterator i = directory.begin ();
 
 		// Remove elements of the filename that are shared with the
 		// reference directory.
 		for (; i != directory.end (); ++i)
 		{
-			Iterator const elem = filename.begin ();
-
-			if (elem == filename.end () || *i != *elem)
+			if (filename.empty () || *i != *filename.begin ())
 				break;
 
 			filename.pop_front ();

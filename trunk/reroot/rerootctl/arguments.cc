@@ -18,6 +18,7 @@
 #include <argp.h>
 #include <cstdlib>
 
+#include "absolute.h"
 #include "arguments.h"
 #include "message.h"
 
@@ -105,11 +106,12 @@ namespace
 		Arguments &args = *static_cast <Arguments *> (state->input);
 
 		// Recognize argument.
+		string str;	// Maybe used in argument processing.
 		switch (key)
 		{
 		case 'i':	// --save-index FILE.
-			// FIXME: Canonicalize filename.
-			args.append_action (Message (Message::save_index, arg));
+			absolute (str, arg);
+			args.append_action (Message (Message::save_index, str));
 			break;
 
 		case 'q':	// --quit.

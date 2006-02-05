@@ -2,6 +2,9 @@
 
 	* reroot/libreroot/absolute.cc: Implemented relative function.
 
+	* reroot/rerootctl/arguments.cc: Made index filename absolute before
+	  sending it to rerootd.
+
 2006-02-04 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* reroot/libreroot/cstringptr.h: Added.
