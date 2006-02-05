@@ -1,5 +1,7 @@
 2006-02-06 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
+	* profiles/lfs-6.1/lfs, profiles/lfs-6.1/stage2,
+	  profiles/lfs-6.1/rootfs: Fixed the last issues with the LFS profiles.
 	* scripts/libprometheus.bash.in: Fixed another bug that cripples the
 	  environment during LFS builds.
 	* scripts/pkginstall.in: Fixed checking for already installed packges

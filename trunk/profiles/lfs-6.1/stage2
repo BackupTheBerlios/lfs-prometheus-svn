@@ -75,7 +75,7 @@ function install_pkg {
 	(( $(id -u) != 0 )) && error "${package}: stage 2 must be built as root"
 
 	chown -R 0:0 /
-	chown -R 15:15 /var/lib/prometheus
+	chown -R 15:15 /tools /var/lib/prometheus
 
 	# Critical symlinks
 	ln -s /tools/bin/{cat,pwd,stty} /bin
