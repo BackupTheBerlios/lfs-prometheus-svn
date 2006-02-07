@@ -1,6 +1,0 @@
-** Command: output 'tnlycp log' 0
-** Command: echo 'stdout: tnlycp log'
-stdout: tnlycp log
-** Command: echo 'stderr: tnlycp log'
-stderr: tnlycp log
-** Command: return 0

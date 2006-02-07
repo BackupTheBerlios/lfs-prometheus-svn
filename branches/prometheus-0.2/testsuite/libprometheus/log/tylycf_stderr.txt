@@ -1,3 +1,0 @@
-runtest: running logged command `output' failed
-runtest: full command line follows
-runtest: output tylycf stderr 1

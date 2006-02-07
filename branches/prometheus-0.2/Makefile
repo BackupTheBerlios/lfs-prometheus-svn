@@ -25,20 +25,12 @@ all:
 	$(MAKE) -C man
 	$(MAKE) -C profiles
 	$(MAKE) -C scripts
-	$(MAKE) -C testsuite
-#	$(MAKE) -C x86stepping
-
-check:
-	$(MAKE) -C testsuite check
-#	$(MAKE) -C x86stepping check
 
 clean:
 	$(MAKE) -C etc clean
 	$(MAKE) -C man clean
 	$(MAKE) -C profiles clean
 	$(MAKE) -C scripts clean
-	$(MAKE) -C testsuite clean
-#	$(MAKE) -C x86stepping clean
 
 user:
 	groupadd -f prometheus
@@ -65,4 +57,3 @@ install: all update
 update: all
 	$(MAKE) -C man install
 	$(MAKE) -C scripts install
-#	$(MAKE) -C x86stepping install

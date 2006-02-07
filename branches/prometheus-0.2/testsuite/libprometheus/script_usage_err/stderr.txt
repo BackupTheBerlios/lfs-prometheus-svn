@@ -1,4 +1,0 @@
-runtest: too many arguments
-runtest: help text follows
-
-Usage: script
