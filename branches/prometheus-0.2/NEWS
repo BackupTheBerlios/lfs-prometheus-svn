@@ -1,0 +1,39 @@
+User-visible changes between Prometheus 0.1 and 0.2:
+
+- Prometheus now requires a dedicated user and group, both called prometheus.
+  The home directory of said user is used to store all of Prometheus' data.
+  This includes:
+	- the package profiles
+	- the log files and profiles of installed packages
+	- all the source files
+	- the temporary build directories
+
+  You can add a normal, trusted, user to the promtheus group, who is then
+  allowed to download source files for packges and edit and add package
+  profiles.
+
+
+- Prometheus can also run the compilation process as user prometheus.  This
+  only works if pkgadd has been started by root. The details:
+
+	    pkgadd	|	compilation	 |	installation
+	  started by	|	 runs as	 |	  runs as
+	--------------------------------------------------------------
+	     $user	|	   $user	 |	   root
+	     root	|	prometheus	 |	   root
+
+  Note that if pkgadd has been started by an ordinary user, that user must
+  be part of the promtheus group, otherwise the build will fail due to
+  missing privileges.
+
+
+- The format of the profiles has changed slightly.
+  - It is now not necessary anymore to use bash's "and lists" ('&&').
+
+  - Another change concerns the listing of dependencies in profiles.  In 0.1,
+  a string variable called `dep' was used which contained a space-separated
+  list of packages.  In 0.2, this is a bash array called `deps'.
+
+  - There is also a new function available for use in profiles called
+  `post_remove_pkg', which is run after a package has been removed.  This
+  can be used to remove users or groups used by a package, for example.
