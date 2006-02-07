@@ -1,4 +1,10 @@
+2007-02-07 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* profiles/lfs-6.1/prometheus: Fixed wrong name for the deps array.
+
 2006-02-06 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* *: Tagged and released Prometheus 0.2-beta1
 
 	* profiles/lfs-6.1/lfs, profiles/lfs-6.1/stage2,
 	  profiles/lfs-6.1/rootfs: Fixed the last issues with the LFS profiles.
