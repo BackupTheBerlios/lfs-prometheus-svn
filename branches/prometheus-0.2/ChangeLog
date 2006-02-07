@@ -1,6 +1,6 @@
 2007-02-07 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
-	* NEWS: Documented the changes between Promtheus 0.1 and 0.2.
+	* NEWS: Documented the changes between Prometheus 0.1 and 0.2.
 
 	* scripts/pkgrm.in: Renamed `pkg_post_remove' to `post_remove_pkg'
 	  for consistency's sake.
