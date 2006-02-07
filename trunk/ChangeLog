@@ -1,5 +1,7 @@
 2007-02-07 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
+	* scripts/pkgrm.in: Renamed `pkg_post_remove' to `post_remove_pkg'
+	  for consistency's sake.
 	* profiles/lfs-6.1/prometheus: Fixed wrong name for the deps array.
 
 2006-02-06 Oliver Brakmann <oliverbrakmann@users.berlios.de>

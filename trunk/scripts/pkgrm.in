@@ -121,8 +121,8 @@ function remove_files {
 
 	remove_empty_tree
 
-	if is_func pkg_post_remove; then
-		pkg_post_remove || \
+	if is_func post_remove_pkg; then
+		post_remove_pkg || \
 		{ echo "The package's post_remove script failed.";
 		  echo "You may have to clean up after it manually.";
 		  return 1; }
