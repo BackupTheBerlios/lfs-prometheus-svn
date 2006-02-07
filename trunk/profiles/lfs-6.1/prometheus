@@ -1,7 +1,7 @@
 name="prometheus"
 version="0.2"
 
-dep=( install-log )
+deps=( install-log )
 
 archives=(
 	"prometheus-${version}.tar.bz2"
