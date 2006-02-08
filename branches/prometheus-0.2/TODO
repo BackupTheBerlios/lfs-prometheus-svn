@@ -1,17 +1,3 @@
-* Write and use libreroot/rerootd, which will use LD_PRELOAD to intercept glibc
-  calls.  It will do something cross between fakeroot and union mounts in order
-  to build installable binary tarballs.
-
-* compressdoc based on compact.
-
-* Option to cross-compile according to the cross-compilation hint (ie. using a
-  kernel module).  Make x86stepping support 2.6 kernels.  Is this still the best
-  way?
-
-* `lfs-install' script may return as a wrapper for `pkgget (all packages)',
-  optional pkgcompress, and finally `pkgadd lfs'.  Maybe a final run of Gerard's
-  `check-lfs' to give people a warm fuzzy feeling.
-
 * `make clean' currently doesn't sanitize the modified profiles (%PKGADD% in
   the LFS build scripts etc.)
 
