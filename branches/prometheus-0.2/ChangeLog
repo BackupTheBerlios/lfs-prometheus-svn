@@ -1,5 +1,8 @@
 2007-02-07 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
+	* etc/REFERENCE.pkg: Changed log_install from `yes' to `no' so that
+	  REFERENCE.pkg would no longer appear in the output of pkginfo -a.
+
 	* scripts/pkginfo.in: Fixed a bug where the verbose flag was ignored
 	  if more than one package was queried.
 
