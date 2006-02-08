@@ -1,5 +1,10 @@
 2007-02-07 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
+	* scripts/pkginfo.in: Fixed a bug where the verbose flag was ignored
+	  if more than one package was queried.
+
+2007-02-07 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
 	* NEWS: Documented the changes between Prometheus 0.1 and 0.2.
 
 	* scripts/pkgrm.in: Renamed `pkg_post_remove' to `post_remove_pkg'
@@ -73,7 +78,7 @@
 	* Makefile.defs: Fixed permissions of directories within the
 	  prometheus user's home directory.
 	* Makefile: Fixed some syntax errors.  Fixed useradd command for the
-	  promtheus user: the login shell has to be a real shell.
+	  prometheus user: the login shell has to be a real shell.
 	* profiles/lfs-6.1/man-pages: Added a missing quote.
 
 2006-01-28 Gareth Jones <gareth_jones@users.berlios.de>
