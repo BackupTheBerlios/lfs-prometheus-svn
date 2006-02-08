@@ -1,3 +1,9 @@
+2007-02-08 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* testsuite/libprometheus/get_installed_version/*,
+	  testsuite/libprometheus/source_config/logdir,
+	  testsuite/libprometheus/Makefile: Removed obsolete tests.
+
 2007-02-07 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* scripts/pkgrm.in: Renamed `pkg_post_remove' to `post_remove_pkg'

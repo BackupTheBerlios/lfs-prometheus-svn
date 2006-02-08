@@ -97,7 +97,6 @@ TESTS = finish/success \
 	log/tnlncf_status \
 	log/tnlncf_stdout \
 	log/tnlncf_stderr \
-	get_installed_version/get_installed_version \
 	choice/yes \
 	choice/no \
 	echo_array/echo_array \
@@ -106,8 +105,7 @@ TESTS = finish/success \
 	source_file/invalid_status \
 	source_file/invalid_error \
 	source_file/none_status \
-	source_file/none_error \
-	source_config/logdir
+	source_file/none_error
 
 LOGS = $(addsuffix .log, $(TESTS))
 
