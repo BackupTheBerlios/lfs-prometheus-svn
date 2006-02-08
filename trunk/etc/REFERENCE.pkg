@@ -30,7 +30,7 @@ logfile="$builddir/$package.log"
 terminal_output=yes
 
 # Should install-log be run?
-log_install=yes
+log_install=no
 
 # Should this package be *installed* as root?  (Build user not affected.)
 install_as_root=yes

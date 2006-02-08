@@ -135,7 +135,7 @@ The global prometheus configuration file.
 
 .I ~prometheus/profiles/*
 .br
-.I ~promtheus/installed/profiles/*
+.I ~prometheus/installed/profiles/*
 .br
 .I ~prometheus/installed/indices/*
 .RS

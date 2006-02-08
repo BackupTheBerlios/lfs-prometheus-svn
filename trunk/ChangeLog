@@ -1,5 +1,13 @@
 2007-02-08 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
+	* man/pkginfo.1.in: Fixed a typo.
+
+	* etc/REFERENCE.pkg: Changed log_install from `yes' to `no' so that
+	  REFERENCE.pkg would no longer appear in the output of pkginfo -a.
+
+	* scripts/pkginfo.in: Fixed a bug where the verbose flag was ignored
+	  if more than one package was queried.
+
 	* testsuite/libprometheus/get_installed_version/*,
 	  testsuite/libprometheus/source_config/logdir,
 	  testsuite/libprometheus/Makefile: Removed obsolete tests.
@@ -77,7 +85,7 @@
 	* Makefile.defs: Fixed permissions of directories within the
 	  prometheus user's home directory.
 	* Makefile: Fixed some syntax errors.  Fixed useradd command for the
-	  promtheus user: the login shell has to be a real shell.
+	  prometheus user: the login shell has to be a real shell.
 	* profiles/lfs-6.1/man-pages: Added a missing quote.
 
 2006-01-28 Gareth Jones <gareth_jones@users.berlios.de>

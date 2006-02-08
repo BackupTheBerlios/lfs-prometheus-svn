@@ -297,7 +297,8 @@ if [[ -z "$action" ]]; then
 		remove_dupes arg_list
 
        		for arg in "${arg_list[@]}"; do
-               		"$0" --config="$config" --query "$arg"
+               		"$0" --config="$config" ${verbose:+--verbose} \
+				--query "$arg"
 		done
 		finish
 	fi
