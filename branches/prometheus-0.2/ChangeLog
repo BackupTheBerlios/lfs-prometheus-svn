@@ -1,4 +1,6 @@
-2007-02-07 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+2007-02-08 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* NEWS, man/pkginfo.1.in: Fixed a couple of typos.
 
 	* etc/REFERENCE.pkg: Changed log_install from `yes' to `no' so that
 	  REFERENCE.pkg would no longer appear in the output of pkginfo -a.

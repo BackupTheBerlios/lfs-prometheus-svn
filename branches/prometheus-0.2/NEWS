@@ -7,9 +7,10 @@ User-visible changes between Prometheus 0.1 and 0.2:
 	- the log files and profiles of installed packages
 	- all the source files
 	- the temporary build directories
+	- backups of removed packages
 
-  You can add a normal, trusted, user to the promtheus group, who is then
-  allowed to download source files for packges and edit and add package
+  You can add a normal, trusted, user to the prometheus group, who is then
+  allowed to download source files for packages and edit and add package
   profiles.
 
 
@@ -23,12 +24,12 @@ User-visible changes between Prometheus 0.1 and 0.2:
 	     root	|	prometheus	 |	   root
 
   Note that if pkgadd has been started by an ordinary user, that user must
-  be part of the promtheus group, otherwise the build will fail due to
+  be part of the prometheus group, otherwise the build will fail due to
   missing privileges.
 
 
 - The format of the profiles has changed slightly.
-  - It is now not necessary anymore to use bash's "and lists" ('&&').
+  - It is no longer necessary to use bash's "and lists" ('&&').
 
   - Another change concerns the listing of dependencies in profiles.  In 0.1,
   a string variable called `dep' was used which contained a space-separated
