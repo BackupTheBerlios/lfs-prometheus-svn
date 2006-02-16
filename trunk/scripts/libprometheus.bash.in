@@ -544,6 +544,9 @@ function prepare_build_env {
 	unset LINGUAS LC_ALL
 	is_set linguas && export LINGUAS="$linguas"
 	is_set lc_all && export LC_ALL="$lc_all"
+
+	# Disable hashing.
+	set +h
 }
 
 # Usage: open_package <package>
