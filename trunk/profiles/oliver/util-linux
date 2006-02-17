@@ -6,8 +6,8 @@ archives=(
 )
 
 patches=(
-	"http://www.linuxfromscratch.org/patches/downloads/util-linux/util-linux-${version}-loop_AES-3.0c.patch"
-	"http://lfs-prometheus.berlios.de/patches/util-linux-${version}-mount_move-1.patch.gz"
+#	"http://www.linuxfromscratch.org/patches/downloads/util-linux/util-linux-${version}-loop_AES-3.1b.patch.gz"
+#	"http://lfs-prometheus.berlios.de/patches/util-linux-${version}-mount_move-1.patch.gz"
 	"http://www.linuxfromscratch.org/patches/downloads/util-linux/util-linux-${version}-cramfs-1.patch"
 	"http://www.linuxfromscratch.org/patches/downloads/util-linux/util-linux-${version}-nologin-1.patch"
 )

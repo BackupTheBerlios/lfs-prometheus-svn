@@ -15,56 +15,56 @@ pkglist=(
 	re-adjusting
 	binutils
 	gcc
+	install-log
 	coreutils
-	iana-etc
-	m4
-	ncurses
-	procps
-	perl
-	readline
-	sed
 	zlib
+	mktemp
+	iana-etc
+	findutils
+	gawk
+	ncurses
+	readline
+	vim
+	m4
+	bison
+	less
+	groff
+	sed
+	flex
+	gettext
+	inetutils
+	iproute2
+	net-tools
+	perl
+	texinfo
 	autoconf
 	automake
 	bash
-	bison
+	file
+	libtool
 	bzip2
 	diffutils
-	e2fsprogs
 	ed
-	file
-	findutils
-	flex
-	gawk
-	gettext
+	kbd
+	e2fsprogs
 	grep
-	groff
 	grub
 	gzip
-	inetutils
-	install-log
-	iproute2
-	kbd
-	less
-	libtool
-	make
 	man
-	mktemp
+	make
 	module-init-tools
-	net-tools
 	patch
 	procinfo
-	prometheus
+	procps
 	psmisc
 	shadow
 	sysklogd
 	sysvinit
 	tar
-	texinfo
 	udev
 	util-linux
-	vim
 	lfs-bootscripts
+	prometheus
 )
 
 stage=2
