@@ -77,6 +77,13 @@ Force removal of configuration files and variable data.  Normally, without this
 still might not remove all files.
 .RE
 
+.BR -s ", " --sources
+.RS
+Remove source files (tarballs and patches) that are not referenced from any
+package profiles and are thus not needed anymore. For any of these files, the
+user will be prompted whether to remove or to keep it.
+.RE
+
 .BR -h ", " -? ", " --help
 .RS
 Display the help screen.
