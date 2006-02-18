@@ -6,11 +6,11 @@ archives=(
 )
 
 patches=(
-	"http://www.linuxfromscratch.org/patches/downloads/patches/procinfo/procinfo-${version}-install-1.patch"
-	"http://www.linuxfromscratch.org/patches/downloads/patches/procinfo/procinfo-${version}-perl-1.patch"
-	"http://www.linuxfromscratch.org/patches/downloads/patches/procinfo/procinfo-${version}-uptime-1.patch"
-	"http://www.linuxfromscratch.org/patches/downloads/patches/procinfo/procinfo-${version}-maxdevs-1.patch"
-	"http://www.linuxfromscratch.org/patches/downloads/patches/procinfo/procinfo-${version}-use_sysconf-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/procinfo/procinfo-${version}-install-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/procinfo/procinfo-${version}-perl-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/procinfo/procinfo-${version}-uptime-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/procinfo/procinfo-${version}-maxdevs-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/procinfo/procinfo-${version}-use_sysconf-1.patch"
 )
 
 function build_pkg {

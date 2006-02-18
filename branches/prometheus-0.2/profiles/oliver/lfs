@@ -20,12 +20,12 @@ function install_pkg {
 	local lv=$(uname -r)
 	lv=${lv%%-*}
 
-	if [[ "${lv%.*}" == "2.6" ]]; then
-		(( "${lv##*.}" -lt 2 )) &&
-		error "$package: Minimum required kernel version to build LFS is 2.6.2."
-	else
-		error "$package: Minimum required kernel version to build LFS is 2.6.2."
-	fi
+#	if [[ "${lv%.*}" == "2.6" ]]; then
+#		(( "${lv##*.}" -lt 2 )) &&
+#		error "$package: Minimum required kernel version to build LFS is 2.6.2."
+#	else
+#		error "$package: Minimum required kernel version to build LFS is 2.6.2."
+#	fi
 
 	[[ $(sed 's/.*(gcc version \(.*\)).*/\1/' /proc/version) < 3 ]] &&
 		error "$package: Kernel needs to be compiled with gcc 3.0 or greater."

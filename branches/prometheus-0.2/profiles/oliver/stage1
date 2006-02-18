@@ -16,25 +16,27 @@ pkglist=(
 	dejagnu
 	gcc
 	binutils
-	ncurses
-	bash
-	bzip2
+	gawk
 	coreutils
+	bzip2
+	gzip
 	diffutils
 	findutils
-	gawk
-	gettext
-	grep
-	gzip
-	install-log
-	m4
 	make
-	patch
-	perl
+	grep
 	sed
+	gettext
+	ncurses
+	patch
 	tar
 	texinfo
+	bash
+	m4
+	bison
+	flex
 	util-linux
+	perl
+	install-log
 )
 
 stage=1
