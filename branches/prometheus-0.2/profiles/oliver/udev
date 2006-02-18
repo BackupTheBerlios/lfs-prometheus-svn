@@ -24,7 +24,7 @@ function check_pkg {
 
 function install_pkg {
 	make DESTDIR=/ EXTRAS="extras/ata_id extras/cdrom_id extras/edd_id \
-		extras/firmware extras/floppy extras/scsi_id +extras/usb_id \
+		extras/firmware extras/floppy extras/scsi_id extras/usb_id \
 		extras/volume_id" install
 
 	install -d /lib/{firmware,udev/devices}
