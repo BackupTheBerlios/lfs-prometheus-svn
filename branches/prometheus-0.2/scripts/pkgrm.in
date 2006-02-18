@@ -35,6 +35,7 @@ Options (must precede package list):
 -f, --force			Non-interactive mode. Do not prompt
 -b, --backup			Create a backup of the removed package
 -p, --purge			Remove config and variable data (/etc and /var)
+-s, --sources			Remove unneeded source files
 --				Treat remaining arguments as packages
 
 -h, -?, --help			Show this help screen
@@ -133,6 +134,50 @@ function remove_files {
 	return 0
 }
 
+# Usage: remove_orphaned_sources
+# Collect a list of all source files not referenced by any profiles and prompt
+# the user one by one whether or not to delete the files.
+function remove_orphaned_sources {
+
+	local tmpfile="$(mktemp)"
+
+	{
+		local p
+
+		grep -L "^[ 	]*log_install=no" ~prometheus/profiles/* | \
+		sed 's@.*/@@' | \
+		while read p; do
+			source_profile pool "$p"
+			list_files
+		done
+
+		ls ~prometheus/installed/profiles/* |
+		sed 's@.*/@@' | \
+		while read p; do
+			source_profile inst "$p"
+			list_files
+		done
+	} | sed 's@.*/@@' | sort -u > $tmpfile
+
+	echo "Listing any unneeded source files..."
+	echo "(press 'y' to remove, 'n' to skip and keep the file.)"
+	echo
+
+	local f
+	for f in $(find ~srcdir -type f); do
+
+		if ! grep "^$(basename "$f")$" "$tmpfile" >/dev/null; then
+			echo -n "${f/~srcdir\//}   [y/n]: "
+			choice && rm -f "$f"
+		fi
+	done
+
+	rm -f "$tmpfile"
+
+	return 0
+}
+
+
 # --------------------------- START EXECUTION HERE --------------------------- #
 
 unset backup force purge dep_list
@@ -152,6 +197,9 @@ while [[ "$1" == -* ]]; do
 		(-f|--force)			force=force ;;
 
 		(-p|--purge)			purge=purge ;;
+
+		(-s|--sources)			remove_orphaned_sources
+						finish ;;
 
 		(-V|--version)			version ;;
 

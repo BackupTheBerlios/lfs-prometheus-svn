@@ -1,3 +1,9 @@
+2006-02-17 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* man/pkgrm.8.in: Documented new `--sources' option.
+	* scripts/pkgrm.in: Added new `--sources' option to remove unneeded
+	  source files.
+
 2006-02-16 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* scripts/libprometheus.bash.in: Disabled command hashing while
