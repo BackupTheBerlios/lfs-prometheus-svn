@@ -22,8 +22,7 @@ homepage="http://www.package.org/"
 
 # If this is set to a filename, builds & installs (both stdout & stderr) are
 # logged to the file.  The filename must include full directory specification.
-# $package expands to the name of the current package profile, minus the `.pkg'
-# suffix.
+# $package expands to the name of the current package profile.
 logfile="$builddir/$package.log"
 
 # Show stdout & stderr on the terminal?  Logging does not affect this.
@@ -41,8 +40,8 @@ install_as_root=yes
 # packages are not detected (ie. postfix vs. exim).  Be careful not to create
 # cyclic dependencies, as this will result in an infinite loop during the
 # checks.  This may be resolved at a later date.  A dependency may occur more
-# than once, though.  Also, these checks are only available for builds on an
-# installed system, not during an LFS build.
+# than once, though.  Also, these checks are not available for stages 0 and 1
+# of LFS builds.
 deps=(
 	pkg1
 	pkg2
@@ -51,8 +50,8 @@ deps=(
 
 # Archives & patches needed by the package.  Download locations are optional but
 # allow the files to be downloaded if required.  The `main' archive should be
-# first, the rest following in the order they should be unpacked.  Patches
-# should be in the order they are applied.
+# listed first, the rest following in the order they should be unpacked.
+# Patches should be listed in the order they are supposed to be applied.
 archives=(
 	"http://www.package.org/package-${version}.tar.bz2"
 	"ftp://ftp.package.org/package-addons-${version}.tar.gz"
@@ -77,7 +76,8 @@ directory="package123"
 # not explicitly defined.  Use `:' to prevent an archive (& any following it in
 # the array) being unpacked automatically.  Note that as a special case, the
 # first element must either be null, or the absolute path of a directory that
-# overrides $builddir.  `@d' is not expanded in the first element.
+# is to be used instead of ~prometheus/build.  `@d' is not expanded in the
+# first element.
 archive_dirs=(
 	""
 	"@d/addons"
@@ -120,7 +120,7 @@ unset lc_all
 # Build & install instructions.  The variables above may be used.  Also note:
 # $directory - expands to the full path of the package directory, even if it is
 #	       not specified above.
-# $package - the name of the current package profile, minus the `.pkg' suffix.
+# $package - the name of the current package profile.
 #
 # Certain functions are also available to be used:
 # warning <message> - echo <message> to stderr.
@@ -150,4 +150,10 @@ function check_pkg {
 # Commands to install the package.
 function install_pkg {
 	make install
+}
+
+# Commands to run after the package has been removed.
+function post_remove_pkg {
+	userdel package_user
+	rm -rf /var/spool/package /var/log/package
 }

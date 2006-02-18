@@ -16,7 +16,7 @@ line.  If so desired, it also creates a backup of the removed package.
 
 .B pkgrm
 uses the
-.BR rerootd "(1) index files to determine which files have to be deleted."
+.BR Prometheus " index files to determine which files have to be deleted."
 It also creates a list of used directories and deletes them if they have
 become empty.
 
@@ -65,8 +65,6 @@ removed. This means the contents of the backup will change depending upon
 .RI "whether the " --purge " flag (see below) was specified or not.  Any"
 previous backups will be overwritten.  The backup will be a
 .BR bzip2 "(1)-compressed tarball named after the short name of the package."
-The backup follows the same format as a binary package tarball, so it can be
-.RB "restored using " pkgadd (8).
 .RE
 
 .BR -p ", " --purge
@@ -127,13 +125,8 @@ report it to the address below.
 
 .SH SEE ALSO
 
-.BR bzip2 (1),
+.BR install-log (1),
 .BR pkgadd (8),
-.BR pkgbuild (1),
-.BR pkgcheck (1),
 .BR pkgget (1),
 .BR pkginfo (1),
-.BR pkginstall (8),
-.BR pkgunpack (1),
-.BR prometheus.conf (5),
-.BR rerootd (1)
+.BR prometheus.conf (5)

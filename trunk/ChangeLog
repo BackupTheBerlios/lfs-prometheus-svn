@@ -1,3 +1,12 @@
+2006-02-18 Oliver Brakmann <oliverbrakmann@users.berlios.de>
+
+	* etc/REFERENCE.pkg: Updated.
+
+	* etc/prometheus.conf.in: Added warnings not to mess with "dangerous"
+	  settings, removed obsolete config variables.
+	* man/*: Cleaned up man pages, removed references to reroot, fixed
+	  some inaccuracies.
+
 2006-02-17 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* man/pkgrm.8.in: Documented new `--sources' option.
