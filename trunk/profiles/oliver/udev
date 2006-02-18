@@ -41,6 +41,7 @@ function install_pkg {
 	ACTION=="add", SUBSYSTEM=="scsi", SYSFS{type}=="[07]", RUN+="/sbin/modprobe sd_mod"
 	EOF
 
+	mkdir /lib/udev/devices/{pts,shm}
 	ln -sf /proc/self/fd  /lib/udev/devices/fd
 	ln -sf /proc/self/fd0 /lib/udev/devices/stdin
 	ln -sf /proc/self/fd1 /lib/udev/devices/stdout
