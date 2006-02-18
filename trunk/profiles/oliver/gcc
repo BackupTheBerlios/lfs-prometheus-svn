@@ -3,7 +3,7 @@ version="3.4.5"
 homepage="http://www.gnu.org/software/gcc/"
 
 archives=(
-	"ftp://ftp.cs.tu-berlin.de/pub/gnu/gcc/gcc-${version}/gcc-${version}.tar.gz"
+	"ftp://ftp.cs.tu-berlin.de/pub/gnu/gcc/gcc-${version}/gcc-${version}.tar.bz2"
 )
 
 patches=(
