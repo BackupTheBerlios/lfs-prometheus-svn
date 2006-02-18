@@ -156,10 +156,6 @@ report it to the address below.
 
 .BR install-log (1),
 .BR pkgadd (8),
-.BR pkgbuild (1),
-.BR pkgcheck (1),
 .BR pkgget (1),
-.BR pkginstall (8),
 .BR pkgrm (8),
-.BR pkgunpack (1),
 .BR prometheus.conf (5)

@@ -33,10 +33,9 @@ file was recompressed with
 after downloading, pkgget will not try to download it again.
 
 Packages are specified by short name (without a version number), e.g. `bash',
-`gcc'.  Profiles have the same name suffixed by
-.I .pkg
-(`bash.pkg', `gcc.pkg'), and are searched for first in the current working
-directory, then in the profile directory.
+`gcc'.  Profiles have the same name and are located in the
+.I profiles
+directory in the prometheus user's home directory.
 
 .SH OPTIONS
 
@@ -77,6 +76,11 @@ Treat all remaining arguments as packages.
 The global prometheus configuration file.
 .RE
 
+.I "~prometheus/profiles/*"
+.RS
+The package profiles.
+.RE
+
 .SH BUGS
 
 If you think you have found a bug or encounter any weird behaviour, please
@@ -89,11 +93,7 @@ report it to the address below.
 .SH SEE ALSO
 
 .BR pkgadd (8),
-.BR pkgbuild (1),
-.BR pkgcheck (1),
 .BR pkginfo (1),
-.BR pkginstall (8),
 .BR pkgrm (8),
-.BR pkgunpack (1),
 .BR prometheus.conf (5),
 .BR wget (1)

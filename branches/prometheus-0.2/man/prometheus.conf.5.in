@@ -30,43 +30,10 @@ Blank lines are ignored, as is anything after a hash (#) character.
 
 .SH PROMETHEUS CONFIGURATION PARAMTERS
 
-FIXME: Document minimum requirements.
-
-.BI "backupdir=" directory
-.RS
-The
-.IR "backup directory",
-where
-.BR pkgrm (8)
-will back up files it uninstalls if requested.  Such backups will be compressed
-tar archives based on the short name of the package, e.g. `bash.bak.tar.bz2'.
-.RE
-
-.BI "builddir=" directory
-.RS
-The
-.IR "build directory",
-where packages should be unpacked and built prior to installation.
-.RE
-
 .BI "install_log_rc=" install-log_configuration_file
 .RS
 The location of
 .BR "install-log.rc".
-.RE
-
-.BI "profiles=" directory
-.RS
-The
-.IR "profiles directory",
-where package profiles should be searched for.
-.RE
-
-.BI "srcdir=" directory
-.RS
-The
-.IR "source directory",
-where source archives and patches should be searched for.
 .RE
 
 .SH PACKAGE PARAMETER DEFAULTS
@@ -172,10 +139,6 @@ environment variable to use when building.
 
 .BR install-log (1),
 .BR pkgadd (8),
-.BR pkgbuild (1),
-.BR pkgcheck (1),
 .BR pkgget (1),
 .BR pkginfo (1),
-.BR pkginstall (8),
-.BR pkgrm (8),
-.BR pkgunpack (1)
+.BR pkgrm (8)

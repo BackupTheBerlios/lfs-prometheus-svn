@@ -18,10 +18,9 @@ should be invoked to prepare the source code before running
 .BR "pkgbuild".
 
 Packages are specified by short name (without a version number), e.g. `bash',
-`gcc'.  Profiles have the same name suffixed by
-.I .pkg
-(`bash.pkg', `gcc.pkg'), and are searched for first in the current working
-directory, then in the profile directory.
+`gcc'.  Profiles have the same name and are located in the
+.I profiles
+directory in the prometheus user's home directory.
 
 After running
 .BR "pkgbuild",
@@ -71,6 +70,11 @@ Treat all remaining arguments as packages.
 .I "%CONFDIR%/%CONFIG%"
 .RS
 The global prometheus configuration file.
+.RE
+
+.I "~prometheus/profiles/*"
+.RS
+The package profiles.
 .RE
 
 .SH BUGS
