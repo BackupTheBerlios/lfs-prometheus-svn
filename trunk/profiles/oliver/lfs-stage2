@@ -8,11 +8,11 @@ log_install=no
 
 # Packages to install in stage 2 (in order).
 pkglist=(
-	users
+	lfs-users
 	linux-libc-headers
 	man-pages
 	glibc
-	re-adjusting
+	lfs-readjusting
 	binutils
 	gcc
 	install-log

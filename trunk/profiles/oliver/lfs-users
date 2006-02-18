@@ -43,7 +43,7 @@ function install_pkg {
 	EOF
 
 	# /etc/passwd.
-	cat > ${lfs}/etc/passwd <<-"EOF"
+	cat > /etc/passwd <<-"EOF"
 		root:x:0:0:root:/root:/bin/bash
 		prometheus:x:15:15:Prometheus Package Manager:/var/lib/prometheus:/bin/sh
 	EOF
