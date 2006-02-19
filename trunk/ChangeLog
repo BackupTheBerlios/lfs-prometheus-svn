@@ -4,6 +4,9 @@
 	* Makefile: Removed references to x86stepping (they were already
 	  commented out).
 
+	* reroot/libreroot/cstringptr.h: Simplified & made more similar to
+	  std::auto_ptr.
+
 2006-02-18 Oliver Brakmann <oliverbrakmann@users.berlios.de>
 
 	* etc/REFERENCE.pkg: Updated.

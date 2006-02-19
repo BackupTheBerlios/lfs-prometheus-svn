@@ -37,103 +37,103 @@ class shared reroot::CStringPtr
 public:
 	// C'tors & d'tor.
 	CStringPtr (char *ptr = 0);
-	CStringPtr (CStringPtr const &ptr);
+	CStringPtr (CStringPtr &ptr);
 	~CStringPtr ();
 
-	// Memory control.
-	void free ();
-	void disown () const;
+	// Assignment operators.
+	CStringPtr &operator = (CStringPtr &ptr);
+	CStringPtr &operator = (char *ptr);
 
-	// Assingment operators.
-	CStringPtr const &operator = (char *ptr);
-	CStringPtr const &operator = (CStringPtr const &ptr);
-
-	// For accessing the string.
-	operator char * () const;
+	// Dereference & conversion operators.
 	char &operator * () const;
+	operator char * () const;
 	operator std::string () const;
 
+	// For accessing the string.
+	char *get () const;
+	char *release ();
+	void reset (char *ptr = 0);
+
 private:
-	// Data.
+	// The actual pointer.
 	char *pointer;
-	mutable bool own;
 };
 
 // Construct a CStringPtr that owns the addressed memory.
 inline reroot::CStringPtr::CStringPtr (char *const ptr):
-	pointer (ptr),
-	own (true)
+	pointer (ptr)
 {
 }
 
-// Construct a CStringPtr that takes ownership from ptr.
-inline reroot::CStringPtr::CStringPtr (CStringPtr const &ptr):
-	pointer (ptr.pointer),
-	own (ptr.own)
+// Construct a CStringPtr that takes ownership from ptr.  Ptr is becomes a null
+// pointer.
+inline reroot::CStringPtr::CStringPtr (CStringPtr &ptr):
+	pointer (ptr.release ())
 {
-	ptr.disown ();
 }
 
-// Free addressed memory if non-null & we own it.
+// Free addressed memory.
 inline reroot::CStringPtr::~CStringPtr ()
 {
-	if (pointer && own)
+	if (pointer)
 		std::free (pointer);
 }
 
-// Free addressed memory if non-null & we own it.
-inline void reroot::CStringPtr::free ()
+// Take ownership of addressed memory from ptr.  Ptr becomes a null pointer.
+inline reroot::CStringPtr &reroot::CStringPtr::operator = (CStringPtr &ptr)
 {
-	if (pointer && own)
-	{
-		std::free (pointer);
-		pointer = 0;
-	}
-}
-
-// Relinquish ownership of addressed memory.
-inline void reroot::CStringPtr::disown () const
-{
-	own = false;
+	reset (ptr.release ());
+	return *this;
 }
 
 // Take ownership of addressed memory.
-inline reroot::CStringPtr const &reroot::CStringPtr::operator =
-	(char *const ptr)
+inline reroot::CStringPtr &reroot::CStringPtr::operator = (char *const ptr)
 {
-	free ();
-	pointer = ptr;
-	own = true;
+	reset (ptr);
 	return *this;
 }
 
-// Take ownership of addressed memory from ptr.
-inline reroot::CStringPtr const &reroot::CStringPtr::operator =
-	(CStringPtr const &ptr)
-{
-	free ();
-	pointer = ptr.pointer;
-	own = ptr.own;
-	ptr.disown ();
-	return *this;
-}
-
-// Return the C string pointer.
-inline reroot::CStringPtr::operator char * () const
-{
-	return pointer;
-}
-
-// Dereference the C string pointer.
+// Dereference the C string pointer.  This will fail if the pointer is null.
 inline char &reroot::CStringPtr::operator * () const
 {
 	return *pointer;
 }
 
-// Return a C++ string.
+// Return the C string pointer.  Retain ownership.
+inline reroot::CStringPtr::operator char * () const
+{
+	return get ();
+}
+
+// Return a C++ string.  Retain ownership.
 inline reroot::CStringPtr::operator std::string () const
 {
+	return get ();
+}
+
+// Return the C string pointer.  Retain ownership.
+inline char *reroot::CStringPtr::get () const
+{
 	return pointer;
+}
+
+// Return the C string pointer.  Lose ownership & become a null pointer.
+inline char *reroot::CStringPtr::release ()
+{
+	char *const ptr = pointer;
+	pointer = 0;
+	return ptr;
+}
+
+// Take ownership of addressed memory.  Free existing pointer.
+inline void reroot::CStringPtr::reset (char *const ptr)
+{
+	if (ptr != pointer)
+	{
+		if (pointer)
+			std::free (pointer);
+		pointer = ptr;
+	}
 }
 
 #endif
