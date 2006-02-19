@@ -1,0 +1,77 @@
+name="binutils"
+version="2.16.1"
+homepage="http://www.gnu.org/software/binutils/"
+
+archives=(
+#	"http://www.de.kernel.org/pub/linux/devel/binutils/binutils-${version}.tar.bz2"
+	"ftp://ftp.cs.tu-berlin.de/pub/gnu/binutils/binutils-${version}.tar.gz"
+)
+
+stage0_check=no
+
+function stage0_build_pkg {
+	mkdir "$directory"/../binutils-build
+	cd "$directory"/../binutils-build
+
+	"$directory"/configure --prefix=/tools --disable-nls
+	make
+}
+
+function stage0_install_pkg {
+	cd "$directory"/../binutils-build
+
+	make install
+
+	make -C ld clean
+	make -C ld LIB_PATH=/tools/lib
+	cp ld/ld-new /tools/bin
+
+	rm -rf "${directory}"/../binutils-build
+}
+
+function stage1_build_pkg {
+	mkdir "$directory"/../binutils-build
+	cd "$directory"/../binutils-build
+
+	"$directory"/configure --prefix=/tools --with-lib-path=/tools/lib \
+		       		--disable-nls
+	make
+}
+
+function check_pkg {
+	cd "$directory"/../binutils-build
+	make check
+}
+
+function stage1_install_pkg {
+	cd "$directory"/../binutils-build
+
+	make install
+
+	make -C ld clean
+	make -C ld LIB_PATH=/usr/lib:/lib
+	cp ld/ld-new /tools/bin
+
+	rm -rf "${directory}"/../binutils-build
+}
+
+function build_pkg {
+	mkdir "$directory"/../binutils-build
+	cd "$directory"/../binutils-build
+
+	"$directory"/configure --prefix=/usr --enable-shared
+	make tooldir=/usr
+}
+
+function check_pkg {
+	make check
+}
+
+function install_pkg {
+	cd "$directory"/../binutils-build
+
+	make tooldir=/usr install
+	cp "$directory"/include/libiberty.h /usr/include
+
+	rm -rf "$directory"/../binutils-build
+}

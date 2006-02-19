@@ -1,0 +1,326 @@
+#! /bin/bash
+
+# pkginfo package information report generator
+# Copyright (C) 2003-2006 Oliver Brakmann <oliverbrakmann@users.berlios.de> &
+# Gareth Jones <gareth_jones@users.berlios.de>
+#
+# This program is free software; you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation; either version 2 of the License, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+# details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+# Place, Suite 330, Boston, MA  02111-1307  USA
+
+# Global prometheus functions.
+source "%LIBPROMETHEUS%" || exit 1
+
+# Usage: usage
+# Print help text.
+function usage {
+	cat <<-EOF
+Usage:
+${0##*/} [<options>] [pkg]
+
+Display information on installed and available software packages.
+
+Options:
+-c, --config <config_file>      Specify alternative configuration file
+-v, --verbose			Be verbose, where appropriate
+
+-q, --query <pkg>		Query a package
+-a, --query-all			List all packages
+-i, --query-installed		List all installed packages
+-d, --dependencies <pkg>	List dependencies of packages
+-D, --Dependencies <pkg>	List dependencies of packages
+-p, --patches <pkg>		List patches to be applied to packages
+-P, --Patches <pkg>		List patches to be applied to packages
+-s, --sources <pkg>		List the sources for packages
+-S, --Sources <pkg>		List the sources for packages
+-l, --list <pkg>		List all files installed by packages
+-w, --which <file>		List package a file belongs to
+--                              Treat remaining arguments as packages
+
+-h, -?, --help                  Show this help screen
+-V, --version                   Show version information
+
+Options which come in both upper and lower case variants work as follows:
+The lower case ones operate on installed packages if available, and on pool
+packages otherwise. The upper case ones work on pool packages only.
+	EOF
+	finish
+}
+
+
+# Usage: query_package
+# Gather and display information about a package
+function query_package {
+
+	local date size inst_ver
+
+	if [[ -f ~prometheus/installed/profiles/"${arg}" ]]; then
+		date="$(date -r ~prometheus/installed/profiles/"${arg}" \
+			"+%Y-%m-%d %H:%M (%a)")"
+		inst_ver="$(source_profile inst ${arg}; echo $version)"
+	else
+		date="not installed"
+	fi
+
+	[[ -n "$verbose" ]] &&
+	if [[ -r ~prometheus/installed/indices/"${arg}" ]]; then
+		local i
+		size=0
+
+		size=$(cut -f6 ~prometheus/installed/indices/"${arg}" | \
+		xargs -r du -bc | tail -1 | cut -f1)
+
+		size=$(( $size / 1024 ))
+	fi
+
+	[[ -f ~prometheus/profiles/"${arg}" ]] && \
+		source_profile pool "$arg"
+
+
+	if [[ -n "$verbose" ]]; then
+		echo
+		echo "Package  : ${name:-$arg}"
+		echo "Version  : ${version:-n/a} / ${inst_ver:-n/a}"
+		[[ -n "$homepage" ]] && echo "Homepage : $homepage"
+		echo "Installed: $date"
+		echo -n "Size     : "
+		[[ -n "$size" ]] && echo "$size kb" || echo "n/a"
+		echo
+	else
+		printf  "%-22.22s "  "$arg"
+		printf  "%-17.17s"   "$version"
+		printf  "%-17.17s"   "$inst_ver"
+		printf " %-22.22s\n" "$date"
+	fi
+
+	return 0
+}
+
+
+# Usage: query_installed
+# Run query_package on every installed package
+function query_installed {
+	ls -rt ~prometheus/installed/profiles/* 2> /dev/null | \
+	sed 's@.*/@@' | xargs -r $0 ${verbose:+--verbose}
+}
+
+
+# Usage: query_all
+# Run query_package on all packages that have `log_install=yes'
+# in their profile
+function query_all {
+
+	{
+		grep -L "^[ 	]*log_install=no" ~prometheus/profiles/* 2> /dev/null
+		ls ~/prometheus/installed/profiles/* 2> /dev/null
+	} | sed 's@.*/@@' | sort -u | xargs $0 ${verbose:+--verbose}
+}
+
+
+# Usage: print_deps
+# List dependencies of a package.
+function print_deps {
+	[[ "$action" == "dependencies" ]] &&
+		get_dependencies fallback "$arg" ||
+		get_dependencies pool "$arg"
+
+	local i
+	for (( i=0; i < ${#dependencies[@]}; i++ )); do
+		echo ${dependencies[$i]}
+		# FIXME: Do we need verbose output?
+	done
+}
+
+
+# Usage: print_patches
+# List patches in a package's profile. (Not for stage1/2)
+function print_patches {
+	[[ "$action" == "patches" ]] &&
+		source_profile fallback "$arg" ||
+		source_profile pool "$arg"
+
+	local i
+	for (( i=0; i < ${#patches[@]}; i++ )); do
+		echo "$(basename $(remove_compression_suffix "${patches[$i]}"))"
+
+		if [[ -n "$verbose" ]]; then
+			local patch
+			patch="$(location_of "${patches[$i]}")" &&
+			[[ -n "$patch" ]] &&
+			cat_file "$patch" | \
+				sed '/^+++/,$d; /^---/,$d; /^diff/,$d'
+		fi
+	done
+}
+
+
+# Usage: print_files
+# List all files installed by a package.
+function print_files {
+	[[ -f ~prometheus/installed/indices/"${arg}" ]] ||
+		error "$arg is not installed."
+
+	cut -f6 ~prometheus/installed/indices/"${arg}"
+}
+
+
+# Usage print_sources
+# List the source files needed for package.
+function print_sources {
+	[[ "$action" == "sources" ]] &&
+		source_profile fallback "$arg" ||
+		source_profile pool "$arg"
+
+	local i
+	for ((i=0 ; i<${#archives[@]} ; ++i )); do
+		echo "${archives[$i]}"
+	done
+	for ((i=0 ; i<${#patches[@]} ; ++i )); do
+		echo "${patches[$i]}"
+	done
+}
+
+# Usage: find_owner
+# Find the package that a file belongs to.
+function find_owner {
+	if [[ "${arg:0:1}" != / ]]; then
+		# $arg is not an absolute pathname. Prepend PWD and
+		# strip out any bla/../'s and ./'s
+		arg="$(echo $(pwd)/$arg | sed -e 's@[^/]*/\.\./@@g' -e 's@\./@@g')"
+	fi
+
+	[[ -e "$arg" ]] || error "${arg}: No such file or directory."
+
+	local pkg
+
+	grep -l "$arg" ~prometheus/installed/indices/* 2> /dev/null | \
+	sed 's@.*/@@' | while read pkg
+	do
+		#(( "x$verbose" == xverbose )) &&
+		#	{ arg="$pkg"; query_package; } ||
+			echo "$pkg"
+	done
+}
+
+# --------------------------- START EXECUTION HERE --------------------------- #
+
+unset verbose action arg_list arg
+
+# Check for options.
+while [[ "$1" == -* ]]; do
+	case "$1" in
+		(-c|--config)                   config="$2"
+                                                shift ;;
+
+		(--config=*)                    config="${1#--config=}" ;;
+
+		(-v|--verbose)			verbose=verbose ;;
+
+		(-q|--query)			action=query
+						shift
+						break ;;
+
+		(-a|--query-all)		action=query-all
+						shift
+						break ;;
+
+		(-i|--query-installed)		action=query-installed
+						shift
+						break ;;
+
+		(-d|--dependencies)		action=dependencies
+						shift
+						break ;;
+
+		(-D|--Dependencies)		action=Dependencies
+						shift
+						break ;;
+
+		(-p|--patches)			action=patches
+						shift
+						break ;;
+
+		(-P|--Patches)			action=Patches
+						shift
+						break ;;
+
+		(-s|--sources)			action=sources
+						shift
+						break ;;
+
+		(-S|--Sources)			action=Sources
+						shift
+						break ;;
+
+		(-l|--list)			action=list
+						shift
+						break ;;
+
+		(-w|--which)			action=which
+						shift
+						break ;;
+
+		(-h|-\?|--help)                 usage ;;
+
+		(-V|--version)                  version ;;
+
+		(--)                            shift
+						break ;;
+
+		(*)             script_usage_err "unrecognized option: $1"
+	esac
+	shift
+done
+
+# If no action has been specified, run a simple query on every argument.
+if [[ -z "$action" ]]; then
+	# "query" is the default action.
+	action=query
+
+	# The remaining arguments should all be packages.
+	(( $# == 0 )) && script_usage_err "missing argument"
+
+	arg_list=( "$@" )
+
+	# If there is more than one argument, handle each in its own instance.
+	if (( ${#arg_list[@]} > 1 )); then
+		remove_dupes arg_list
+
+       		for arg in "${arg_list[@]}"; do
+               		"$0" --config="$config" ${verbose:+--verbose} \
+				--query "$arg"
+		done
+		finish
+	fi
+fi
+
+if [[ "$action" != "query-installed" && "$action" != "query-all" ]]; then
+	arg="$1"
+	[[ x != x"$arg" ]] || script_usage_err "missing argument"
+fi
+
+source_config
+
+case "$action" in
+	(query)			query_package ;;
+	(query-all)		query_all ;;
+	(query-installed)	query_installed ;;
+	([dD]ependencies)	print_deps ;;
+	([pP]atches)		print_patches ;;
+	([sS]ources)		print_sources ;;
+	(list)			print_files ;;
+	(which)			find_owner ;;
+	(*)			query_package ;;# we should never get here ;-)
+esac
+
+finish

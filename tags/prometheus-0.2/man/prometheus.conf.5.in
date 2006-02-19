@@ -1,0 +1,144 @@
+.TH PROMETHEUS.CONF 5 %RELEASE% "" "Linux User's Manual"
+
+.SH NAME
+
+%CONFIG% \- Configuration file for the prometheus package management tools.
+
+.SH DESCRIPTION
+
+The prometheus configuration file is installed as
+.IR "%CONFDIR%/%CONFIG%".
+It tells prometheus where to find package profiles and source code, and where to
+build packages.  It also sets default preferences for whether installs should be
+logged or carried out with root privileges, whether builds should be optimized,
+and what the default optimization flags should be.
+
+.SH SYNTAX
+
+Each line in
+.B "%CONFIG%"
+consists of a parameter assignment in the form
+.BI parameter= "value".
+If
+.I value
+contains white space, it should be enclosed in either double quotes ("), or
+single quotes (').  Previously set parameters may be referred to as
+.IR "$parameter",
+except in single quotes.
+
+Blank lines are ignored, as is anything after a hash (#) character.
+
+.SH PROMETHEUS CONFIGURATION PARAMTERS
+
+.BI "install_log_rc=" install-log_configuration_file
+.RS
+The location of
+.BR "install-log.rc".
+.RE
+
+.SH PACKAGE PARAMETER DEFAULTS
+
+FIXME: Document minimum requirements.
+
+Prometheus may be used to build a complete self-hosted system from source code.
+In order to achieve a clean, self-hosted toolchain, three stages are required:
+stage 0 builds the initial toolchain; stage 1 builds glibc, rebuilds the
+toolchain, and builds a minimal system to
+.BR chroot (1)
+into; stage 2 builds the final system.  During stages 0 and 1, different values
+for these parameters may be required.  To support this, each parameter has
+associated parameters prefixed by
+.B stage0_
+and
+.BR "stage1_".
+For example, in stage 0, if set,
+.B stage0_optimize
+overrides the value of
+.BR "optimize".
+
+.B install_as_root={yes|no}
+.RS
+Controls whether packages should be installed as root.  This does not affect the
+build user.
+.RE
+
+.B log_install={yes|no}
+.RS
+Controls whether
+.BR install-log (1)
+is run to log the names of files installed by packages.  Install logging is
+required if the ability to uninstall using
+.BR pkgrm (8)
+is desired.
+.RE
+
+.BI "logfile=" file
+.RS
+If set, commands used to build and install packages, and any output from these
+commands, will be logged in the specified file.  This must include a full
+directory specification.
+.RE
+
+.B optimize={yes|no}
+.RS
+Controls whether package builds are optimized.  Use with caution.
+.RE
+
+.B terminal_output={yes|no}
+.RS
+Controls whether output from commands used to build and install packages is
+shown on the terminal.  This option is orthogonal to
+.BR "logfile".
+.RE
+
+The folowing parameters determine the build environment.  Their values are used
+to set the corresponding environment variables with capitalized names.
+
+.BI "cc=" C_compiler
+.RS
+The C compiler to use when building packages.
+.RE
+
+.BI "cflags=" flags
+.RS
+The flags to pass to the C compiler when building.  Only used when
+optimizations are enabled.
+.RE
+
+.BI "cxx=" C++_compiler
+.RS
+The C++ compiler to use when building packages.
+.RE
+
+.BI "cxxflags=" flags
+.RS
+The flags to pass to the C++ compiler when building.  Only used when
+optimizations are enabled.
+.RE
+
+.BI "ldflags=" flags
+.RS
+The flags to pass to the linker.  Only used when optimizations enabled.
+.RE
+
+.BI "lc_all=" locale
+.RS
+The value of the
+.B LC_ALL
+environment variable to use when building.
+.RE
+
+.BI "linguas=" language
+.RS
+The value of the
+.B LINGUAS
+environment variable to use when building.
+.RE
+
+.SH SEE ALSO
+
+.BR install-log (1),
+.BR pkgadd (8),
+.BR pkgget (1),
+.BR pkginfo (1),
+.BR pkgrm (8)

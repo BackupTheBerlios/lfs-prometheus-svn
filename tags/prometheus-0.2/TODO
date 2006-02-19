@@ -1,0 +1,11 @@
+* `make clean' currently doesn't sanitize the modified profiles (%PKGADD% in
+  the LFS build scripts etc.)
+
+* The LFS build script doesn't take off from where it left after it got inter-
+  rupted, but has to restart from the beginning. Re-add the stageX_pkg
+  files. Use these files for stages 0 and 1, pkginfo for stage 2, maybe?
+
+* While reroot is not yet ready for use, maybe make use of install-log's
+  "# Old #" and "# Del #" comments? Make install-log not write to a temp
+  file, sed out the comments before re-installing a package (lest they get
+  lost), etc.

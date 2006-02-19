@@ -1,0 +1,30 @@
+name="prometheus"
+version="0.2"
+homepage="http://lfs-prometheus.berlios.de"
+
+dep=( install-log )
+
+archives=(
+	"http://download.berlios.de/lfs-prometheus/prometheus-${version}.tar.bz2"
+)
+
+function stage1_build_pkg {
+	make PREFIX=/tools SBINDIR='$(BINDIR)' CONFDIR=/tools/etc \
+		HOMEDIR="/var/lib/prometheus" PROFILES=oliver \
+		INSTALL_LOG_RC=/tools/etc/install-log.rc
+}
+
+function stage1_install_pkg {
+	make PREFIX=/tools SBINDIR='$(BINDIR)' CONFDIR=/tools/etc \
+		HOMEDIR="${lfs}/var/lib/prometheus" PROFILES=oliver \
+		INSTALL_LOG_RC=/tools/etc/install-log.rc install
+}
+
+function build_pkg {
+	make PROFILES=oliver
+}
+
+function install_pkg {
+	make PROFILES=oliver install
+}
+

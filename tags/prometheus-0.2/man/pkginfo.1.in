@@ -1,0 +1,161 @@
+.TH PKGINFO 1 %RELEASE% "" "Linux User's Manual"
+
+.SH NAME
+
+pkginfo \- Display information on installed and available software packages
+
+.SH SYNOPSIS
+
+.BI "pkginfo [ " options " ] [ " package_list " ]"
+
+.SH DESCRIPTION
+
+.B pkginfo
+displays information on installed and available software packages. It gathers
+the information from the profiles and indices found within the prometheus
+user's home directory.
+
+Various switches exist with which you can control the kind of information that
+.BR pkginfo " presents. See below for details."
+
+.RB "If there is none of those switches specified, " pkginfo
+.RI "queries each package in " package_list " for the current version, the
+installed version and date of installation. This is called the default query.
+
+.SH OPTIONS
+
+All options must precede
+.IR package_list .
+When options conflict or are repeated, the last on the command line is used.
+
+Several options exist in both lower and uppercase variants. The lower case
+ones operate on installed packages, if available, and not installed packages
+otherwise. The upper case ones work on not installed packages only.
+
+.BR -c ", " --config
+.I config_file
+.RS
+Specify alternative configuration file.
+.RE
+
+.BR -v ", " --verbose
+.RS
+Be verbose where appropriate. Currently, the default query as well as the
+.IR --query ", " --query--all ", " --query-installed ", " --patches
+.RI " and " --Patches " switches provide verbose output if requested."
+.RE
+
+.BR -q ", " --query
+.I package
+.RS
+Run a default query on the specified package(s). In non-verbose mode, report
+the current version found in the pool, the installed version, as well as the
+date of installation. In verbose mode, using the
+.IR --verbose " switch, also print additional information such as homepage and"
+package size.
+.RE
+
+.BR -a ", " --query-all
+.RS
+List all, installed as well as available, packages. In verbose mode, using the
+.IR --verbose " switch, also print additional information such as homepage and"
+package size.
+.RE
+
+.BR -i ", " --query-installed
+.RS
+List only installed packages.  In verbose mode, using the
+.IR --verbose " switch, also print additional information such as homepage"
+and package size.
+.RE
+
+.BR -d ", " --dependencies
+.I package
+.br
+.BR -D ", " --Dependencies
+.I package
+.RS
+.RI "List all packages " package " depends on, one per line."
+.RE
+
+.BR -p ", " --patches
+.I package
+.br
+.BR -P ", " --Patches
+.I package
+.RS
+Show which patches have been (if already installed) or would be applied to
+.IR package " (if not installed). In verbose mode, using the"
+.IR --verbose " switch, print the patch header as well."
+.RE
+
+.BR -s ", " --sources
+.I package
+.br
+.BR -S ", " --Sources
+.I package
+.RS
+.RI "Print the list of files that are needed to build " package " from source."
+.RE
+
+.BR -l ", " --list
+.I package
+.RS
+.RI "List all files that belong to " package .
+.RE
+
+.BR -w ", " --which
+.I file
+.RS
+.RI "Print the name of the package that " file " belongs to. " file " may be"
+specified either relative or absolute.
+.RE
+
+.BR -h ", " -? ", " --help
+.RS
+Display the help screen.
+.RE
+
+.BR -V ", " --version
+.RS
+Display version information.
+.RE
+
+.B --
+.RS
+Treat all remaining arguments as packages.
+.RE
+
+.SH FILES
+
+.I "%CONFDIR%/%CONFIG%"
+.RS
+The global prometheus configuration file.
+.RE
+
+.I ~prometheus/profiles/*
+.br
+.I ~prometheus/installed/profiles/*
+.br
+.I ~prometheus/installed/indices/*
+.RS
+The package profiles and indices used to store information on packages and
+their installation.
+.RE
+
+.SH BUGS
+
+If you think you have found a bug or encounter any weird behaviour, please
+report it to the address below.
+
+.SH AUTHOR
+
+.RI "-- Oliver Brakmann <" oliverbrakmann@users.berlios.de >
+
+.SH SEE ALSO
+
+.BR install-log (1),
+.BR pkgadd (8),
+.BR pkgget (1),
+.BR pkgrm (8),
+.BR prometheus.conf (5)

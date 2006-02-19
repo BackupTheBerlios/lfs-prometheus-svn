@@ -1,0 +1,26 @@
+name="GNU findutils"
+version="4.2.23"
+homepage="http://www.gnu.org/software/findutils/"
+
+archives=(
+	"ftp://ftp.cs.tu-berlin.de/pub/gnu/findutils/findutils-${version}.tar.gz"
+)
+
+function stage1_build_pkg {
+	./configure --prefix=/tools
+	make
+}
+
+function build_pkg {
+	./configure --prefix=/usr --libexecdir=/usr/lib/locate \
+		    --localstatedir=/var/lib/locate
+	make
+}
+
+function check_pkg {
+	make check
+}
+
+function install_pkg {
+	make install
+}

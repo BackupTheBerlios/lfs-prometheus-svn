@@ -1,0 +1,50 @@
+# Prometheus version & release date.
+VERSION = 0.2
+RELEASE = 2006-02-19
+
+# Which profile set to install (see contents of the profiles directory).
+PROFILES = lfs-6.1
+
+# Installation prefix.
+PREFIX = /usr
+
+# Where to install executables.
+BINDIR = $(PREFIX)/bin
+SBINDIR = $(PREFIX)/sbin
+LIBDIR = $(PREFIX)/lib/prometheus
+
+# Where to install documentation.
+MANDIR = $(PREFIX)/share/man
+
+# Where to install configuration & profiles.
+CONFDIR = /etc/prometheus
+HOMEDIR = $(shell echo ~prometheus)
+ifeq ($(HOMEDIR),~prometheus)
+	HOMEDIR=/var/lib/prometheus
+endif
+PROFDIR = $(HOMEDIR)/profiles
+
+# Which programs to install.
+BINPROGS = pkgget pkginfo
+SBINPROGS = pkgadd pkgrm
+LIBPROGS = compact pkgbuild pkgcheck pkginstall pkgunpack
+PROGS = $(BINPROGS) $(SBINPROGS) $(LIBPROGS)
+LIB = libprometheus.bash
+
+# Configuration files.
+CONFIG = prometheus.conf
+REFERENCE_PROFILE = REFERENCE.pkg
+
+# Where to find install-log.rc.
+INSTALL_LOG_RC = /etc/install-log.rc
+
+# Install commands.
+INSTALL = install
+INSTALL_PROG = $(INSTALL) -m755
+INSTALL_DATA = $(INSTALL) -m644
+INSTALL_DATA_HOME = $(INSTALL) -m664 -g prometheus -o prometheus
+INSTALL_DIR = $(INSTALL) -d -m755
+INSTALL_DIR_HOME = $(INSTALL) -d -m2775 -g prometheus -o prometheus
+
+# Suppress output unless error.
+.SILENT:
