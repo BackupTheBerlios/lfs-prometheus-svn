@@ -23,6 +23,7 @@
 # include <unistd.h>
 
 // Make sure pointers are external declarations except in libc.cc.
+// FIXME: Use ifndef EXTERN; define EXTERN extern; & define EXTERN; in libc.cc
 # ifdef LIBC_CC
 #  define EXTERN
 # else
