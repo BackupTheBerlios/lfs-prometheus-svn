@@ -32,7 +32,7 @@ Install Prometheus as explained in the INSTALL file:
 	make user
 	make
 	make install
-	cp prometheus-0.2-beta1.tar.bz2 ~prometheus/sources
+	cp prometheus-0.2.tar.bz2 ~prometheus/sources
 
 If you already have the sources for LFS 6.1, copy them to ~prometheus/sources.
 Run

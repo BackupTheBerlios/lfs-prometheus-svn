@@ -1,5 +1,5 @@
 name="prometheus"
-version="0.2-beta1"
+version="0.2"
 
 deps=( install-log )
 

@@ -1,5 +1,5 @@
 name="prometheus"
-version="dev"
+version="0.2"
 homepage="http://lfs-prometheus.berlios.de"
 
 dep=( install-log )
