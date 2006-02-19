@@ -55,6 +55,9 @@ public:
 	void reset (char *ptr = 0);
 
 private:
+	// Memory control.
+	static void free (char *pointer);
+
 	// The actual pointer.
 	char *pointer;
 };
@@ -75,8 +78,7 @@ inline reroot::CStringPtr::CStringPtr (CStringPtr &ptr):
 // Free addressed memory.
 inline reroot::CStringPtr::~CStringPtr ()
 {
-	if (pointer)
-		std::free (pointer);
+	free (pointer);
 }
 
 // Take ownership of addressed memory from ptr.  Ptr becomes a null pointer.
@@ -130,10 +132,16 @@ inline void reroot::CStringPtr::reset (char *const ptr)
 {
 	if (ptr != pointer)
 	{
-		if (pointer)
-			std::free (pointer);
+		free (pointer);
 		pointer = ptr;
 	}
+}
+
+// Wrapper for std::free.
+inline void reroot::CStringPtr::free (char *const pointer)
+{
+	if (pointer)
+		std::free (pointer);
 }
 
 #endif
