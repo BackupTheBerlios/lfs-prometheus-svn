@@ -1,3 +1,8 @@
+2006-02-21 Gareth Jones <gareth_jones@users.berlios.de>
+
+	* reroot/libreroot/message.h, reroot/libreroot/packet.h: Changed
+	  includes of <iostream> to <ostream>.
+
 2006-02-19 Gareth Jones <gareth_jones@users.berlios.de>
 
 	* x86stepping: Removed.

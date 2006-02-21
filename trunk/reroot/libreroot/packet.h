@@ -23,7 +23,7 @@
 # define PACKET_H
 
 # include <cstddef>
-# include <iostream>
+# include <ostream>
 # include <sys/types.h>
 
 # include "libreroot.h"

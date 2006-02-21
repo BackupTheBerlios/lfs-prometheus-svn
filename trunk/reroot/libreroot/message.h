@@ -22,7 +22,7 @@
 # define MESSAGE_H
 
 # include <cstdlib>
-# include <iostream>
+# include <ostream>
 # include <string>
 # include <sys/types.h>
 
