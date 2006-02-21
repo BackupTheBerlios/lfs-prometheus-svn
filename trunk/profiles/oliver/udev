@@ -1,5 +1,5 @@
 name=udev
-version="084"
+version="085"
 homepage="http://www.kernel.org/pub/linux/utils/kernel/hotplug/udev.html"
 
 archives=(
@@ -37,7 +37,7 @@ function install_pkg {
 
 	cat >> /etc/udev/rules.d/25-lfs.rules <<-"EOF"
 	# Rules to allow hotplugging of devices with modular drivers
-	ACTION=="add", SUBSYSTEM=="usb", MODALIAS=="*", RUN+="/sbin/modprobe $modalias"
+	ACTION=="add", SUBSYSTEM=="?*", ENV{MODALIAS}=="?*", RUN+="/sbin/modprobe $env{MODALIAS}"
 	ACTION=="add", SUBSYSTEM=="scsi", SYSFS{type}=="[07]", RUN+="/sbin/modprobe sd_mod"
 	EOF
 

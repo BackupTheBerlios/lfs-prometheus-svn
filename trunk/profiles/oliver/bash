@@ -7,7 +7,7 @@ archives=(
 )
 
 patches=(
-	"http://www.linuxfromscratch.org/patches/downloads/bash/bash-${version}-fixes-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/bash/bash-${version}-fixes-3.patch"
 )
 
 function stage1_build_pkg {

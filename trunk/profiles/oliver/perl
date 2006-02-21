@@ -1,5 +1,5 @@
 name="Perl"
-version="5.8.7"
+version="5.8.8"
 
 homepage="http://www.perl.org/"
 
@@ -7,12 +7,8 @@ archives=(
 	"http://www.perl.com/CPAN/src/5.0/perl-${version}.tar.bz2"
 )
 
-patches=(
-	"http://www.linuxfromscratch.org/patches/downloads/perl/perl-5.8.7-sprintf_vulnerability-1.patch"
-)
-
 stage1_patches=(
-	"http://www.linuxfromscratch.org/patches/downloads/perl/perl-${version}-libc-1.patch"
+	"http://www.linuxfromscratch.org/patches/downloads/perl/perl-${version}-libc-2.patch"
 )
 
 function stage1_build_pkg {
